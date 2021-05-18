@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+  <base href="/">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Phone Directory</title>
+ 
+  <script src="node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="node_modules/bootstrap3/dist/js/bootstrap.min.js"></script>
+  <link href="node_modules/bootstrap3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="/node_modules/ngx-bootstrap/datepicker/bs-datepicker.css" rel="stylesheet">
+  <script src="node_modules/angular2-ie9-shims/shims_for_IE@2.1.2.js"></script>
+  <!-- <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+  <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/fixedcolumns/3.2.6/js/dataTables.fixedColumns.min.js"></script> -->
+  <link rel="stylesheet"  type="text/css" href="styles.css" />
+  <style>
+    .app-loader,
+    .root-loader{
+        position: fixed;
+         left: 0px;
+         top: 0px;
+         width: 100%;
+         height: 100%;
+         z-index: 9999;
+         background: url('./src/assets/loader.gif') 50% 50% no-repeat rgb(249,249,249);
+         opacity: .8;
+       }
+       .app-loader{
+         display: none;
+       }
+  </style>
+</head>
+<body>
+    <div class="app-loader"></div>
+      <app-root>
+          <div class="root-loader"></div>
+      </app-root>
+    
+  <script src="build/vendor.js"></script>
+  <script src="build/app.js"></script>
+</body>
+</html>
