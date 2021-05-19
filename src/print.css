@@ -1,0 +1,180 @@
+
+
+
+  .ie9up { 
+      margin: 0.75in;
+  }
+
+  @-moz-document url-prefix() {
+    body {
+      margin: 0.5in;
+    }
+}
+
+app-pabx-nav.userPopupPrintHidden1,
+app-footer,
+header,
+div.row.pabx-header.userPopupPrintHidden2,
+div.main.userPopupPrintHidden3 {
+  display: none;
+}
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none; /* If you want to remove the border as well */
+  background: none;
+  }
+
+.printWithPoTxt {
+  width: 33%;
+  float: left;
+}
+
+.printWithPoIp {
+  width: 66%;
+  float: left;
+}
+
+
+@media print and (orientation: landscape) {
+
+
+  div.hideItemsWoPo1 {
+    display: none;
+  }
+
+  div.hideItemsWoPo2 {
+    display: none;
+  }
+
+  header,
+  footer {
+    display: none;
+  }
+
+  body,
+  header,
+  footer {
+    background: none;
+    color: #000;
+    background-color: #fff;
+    margin: 10px;
+  }
+
+  #printItemsWoPo,
+  #printItemsWoPo * {
+    visibility: visible;
+  }
+
+  #printItemsWoPo {
+    position: absolute;
+    page-break-before: avoid;
+    page-break-after: avoid;
+  }
+
+  div.hideItemsWoPo {
+    display: none;
+  }
+
+
+
+  button {
+    display: none;
+  }
+
+  bs-modal-footer,
+  bs-modal-header {
+    display: none;
+  }
+
+  div.col-md-4 {
+    width: 33%;
+    float: left !important;
+  }
+
+  table {
+    page-break-inside: auto
+  }
+
+  tr,
+  td {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+
+  thead {
+    display: table-header-group
+  }
+
+  tfoot {
+    display: table-footer-group
+  }
+}
+
+@media print and (orientation: portrait) {
+
+  body,
+  header,
+  footer {
+    background: none;
+    color: #000;
+    background-color: #fff;
+    margin: 10px;
+  }
+
+  div.hideItemsWoPo1 {
+    display: none;
+  }
+
+  div.hideItemsWoPo2 {
+    display: none;
+  }
+
+  div.containerIssue {}
+
+
+
+  #printItemsWoPo,
+  #printItemsWoPo * {
+    visibility: visible;
+  }
+
+  #printItemsWoPo {
+    position: absolute;
+    page-break-before: avoid;
+    page-break-after: avoid;
+  }
+
+  button {
+    display: none;
+  }
+
+  div.col-md-4 {
+    width: 33%;
+    float: left !important;
+  }
+
+  bs-modal-footer,
+  bs-modal-header {
+    display: none;
+  }
+
+  table {
+    page-break-inside: auto
+  }
+
+  tr,
+  td {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+
+  thead {
+    display: table-header-group
+  }
+
+  tfoot {
+    display: table-footer-group
+  }
+}

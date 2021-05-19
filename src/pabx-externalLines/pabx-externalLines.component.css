@@ -1,0 +1,194 @@
+.extline .tbl-employee.table>tbody>tr>th {
+    border-top: none !important;
+}
+
+.container-fluid {
+    min-height: 100vh;
+}
+
+.extline {
+    margin-left: 2% !important;
+    margin-right: 2% !important;
+}
+
+.extline .card {
+    background-color: #fff;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    margin-bottom: 2%;
+}
+
+.extline .clr-anch {
+    margin-left: 2%;
+    cursor: pointer;
+}
+
+.extline .header {
+    margin-top: 0 !important;
+    margin-left: 0 !important;
+    width: 100% !important;
+    background-color: #f1efef;
+    padding-top: 2%;
+}
+
+.extline .srcrow {
+    margin-right: 0;
+    margin-left: 0;
+    margin-top: 2%;
+}
+
+.extline .wd-80 {
+    width: 90%;
+}
+
+.extline .wd-100 {
+    width: 100%;
+}
+
+.extline .drop-down {
+    border-radius: 5px;
+    height: 5vh;
+}
+
+.extline .modal-dialog
+{
+    width: 0 !important;
+    width: 90vw !important;
+}
+
+
+.extline .custom {
+    margin-top: 3%;
+    font-size: 2rem;
+    float: right;
+}
+
+.extline .vertical-line {
+    width: 2px;
+    border: 1px solid black;
+}
+
+.extline .add-anch {
+    margin-left: 4%;
+    margin-right: 2%;
+    cursor: pointer;
+}
+
+.extline .mt-3 {
+    margin-top: 2%;
+}
+
+.extline .primary {
+    color: #fff;
+    background-color: #76102B;
+    border: 0;
+    border-radius: 5px;
+    height: 5vh;
+    width: 35%;
+}
+
+.extline .Pagename {
+    background: transparent;
+    margin: 0;
+}
+
+.extline .ftrt {
+    text-align: right;
+}
+
+
+
+.extline .fix-top {
+    font-size: 1.2em !important;
+    height: 8vh;
+    line-height: 4.15em !important;
+}
+.extline .whtspc{
+   white-space: nowrap !important;
+}
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    .extline .fix-top {
+        font-size: 1.2em !important;
+        height: 8vh;
+        line-height: 2.8em !important;
+    }
+}
+
+.extline .ng2-pagination {
+    border-top: none !important;
+}
+.extline .arlt1{
+    left: 2% ;
+}
+.extline .enlt1{
+    left: 8% ;
+}
+.extline .fixed-1 {
+    /* left: 7% !important; */
+    min-width: 70px !important;
+    text-align: left;
+    font-weight: bolder;
+    padding: 5px 20px !important;
+    width: fit-content !important;
+    position: absolute;
+}
+.extline .arlt2{
+    left: 6% ;
+}
+.extline .enlt2{
+    left: 12% ;
+}
+.extline .fixed-2 {
+    position: absolute;
+    /* left: 12% !important; */
+    min-width: 70px !important;
+    text-align: left;
+    font-weight: bolder;
+    padding: 5px 20px !important;
+    width: fit-content !important;
+}
+@media only screen and (min-width: 1500px) {
+.extline #tableContainer {
+    margin-left: 14% !important;
+}
+}
+.extline .pr-7{
+    padding-right: 7px;
+}
+.extline .btn-primary {
+    color: #fff !important;
+    background-color: #76102B !important;
+}
+
+.extline #tableContainer {
+    margin-left: 18% ;
+}
+
+.extline .h-6 {
+    height: 6vh;
+}
+
+@media only screen and (max-height: 700px){
+    .extline .mt-6 {
+        margin-top: 1%;
+    }
+}
+@media only screen and (min-height: 850px) and (max-height: 700px){
+    .extline .mt-6 {
+        margin-top: 1%;
+    }
+}
+@media only screen and (min-height: 950px) and (max-height: 850px){
+    .extline .mt-6 {
+        margin-top: 4%;
+    }
+}
+@media only screen and (min-height: 1050px) and (max-height: 950px){
+    .extline .mt-6 {
+        margin-top: 6%;
+    }
+}
+@media only screen and (min-height: 1050px){
+    .extline .mt-6 {
+        margin-top: 3%;
+    }
+}

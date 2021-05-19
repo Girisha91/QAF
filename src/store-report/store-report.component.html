@@ -1,0 +1,375 @@
+<div class="store-report-main">
+  <div class="col-md-12 formPanelReporthead">
+    <div class="col-md-4">
+      <strong class="storeReportHead"> Store Report - {{StoreStockType}}</strong>
+    </div>
+    <div class="col-md-4">
+      <div class="col-md-6 reportType"> Select Report Type: </div>
+      <div class="col-md-6">
+        <!-- <div class="nav nav-bar" style="top: 6px;">
+          <li class="dropdown btn btn-form" style="position: unset;">
+            <a class="dropdown-toggle btn-form" data-toggle="dropdown" style="bottom: 4px;right: 13px;">Select by Stock
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" style="left: 14px">
+              <li>
+                <a class="btn-form" (click)="selectForm('1')">View By Material</a>
+              </li>
+              <li>
+                <a class="btn-form" (click)="selectForm('2')">View By Items</a>
+              </li>
+            </ul>
+          </li>
+        </div> -->
+        <div class="dropdown" style="padding-top: 0.5rem;">
+          <button style="width: 161px;" class="btn btn-color dropdown-toggle" type="button"
+            data-toggle="dropdown">{{dropDisplay}}
+            <span class="caret"></span></button>
+          <ul class="dropdown-menu pmb0">
+            <li><a class="btn-form" (click)="selectForm('1')">View By Material</a></li>
+            <li><a class="btn-form" (click)="selectForm('2')">View By Items</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4"></div>
+  </div>
+  <div *ngIf="showMaterialList" class="col-md-12 plr-0 mlr-0">
+    <div class="margin-bottom col-md-12 plr-0" style="display: inline-flex; top:10px;">
+      <div style="font-weight: 700;padding: 10px">{{StoreStockType}}</div>
+      <div class="nav nav-bar">
+      <ng-select id="materialList{{i}}" class="selectMaterialDD  form-control" style="padding: 0px;
+                  width: 215px !important;" id="material_id" [items]="this.materialList" bindLabel="label"
+        bindValue="material_id" [(ngModel)]="this.material" placeholder="Select by Material"
+        (change)="selectedMaterial(this.material)">
+      </ng-select></div>
+      <div class="nav nav-bar">
+      <ng-select id="DepartmentList{{i}}" class="selectMaterialDD  form-control" style="padding: 0px;
+                      width: 215px !important;" id="DepartmentList" [items]="this.DepartmentList" bindLabel="label"
+        bindValue="label" [(ngModel)]="this.department" placeholder="Select by Department"
+        (change)="selectedDepartment(this.department)">
+      </ng-select></div>
+        <!-- <label for="tglAvilchck" class="btn btn-sm btn-default">Available <input type="checkbox" id="tglAvilchck"
+            value="Available" (change)="onChange($event.target.value, $event.target.checked)" class="badgebox"><span
+            class="badge"></span></label>
+        <label for="tglReorderchck" class="btn btn-sm btn-default">ReOrder <input type="checkbox" id="tglReorderchck"
+            value="ReOrder" (change)="onChange($event.target.value, $event.target.checked)" class="badgebox"><span
+            class="badge"></span></label>
+        <label for="tglOutofStockchck" class="btn btn-sm btn-default">OutofStock <input type="checkbox"
+            id="tglOutofStockchck" value="OutofStock" (change)="onChange($event.target.value, $event.target.checked)"
+            class="badgebox"><span class="badge"></span></label>
+        <label for="tglIssuedchck" class="btn btn-sm btn-default">Issued <input type="checkbox" id="tglIssuedchck"
+            value="Issued" (change)="onChange($event.target.value, $event.target.checked)" class="badgebox"><span
+            class="badge"></span></label>
+        <label for="tglFaultychck" class="btn btn-sm btn-default">Faulty <input type="checkbox" id="tglFaultychck"
+            value="Faulty" (change)="onChange($event.target.value, $event.target.checked)" class="badgebox"><span
+            class="badge"></span></label>
+        <label for="tglRepairchck" class="btn btn-sm btn-default">Repair   <input type="checkbox" id="tglRepairchck"
+            value="Repair" (change)="onChange($event.target.value, $event.target.checked)" class="badgebox"><span
+            class="badge"></span></label>
+        <label for="tglLoanchck" class="btn btn-sm btn-default">Loan     <input type="checkbox" id="tglLoanchck"
+            value="Loan" (change)="onChange($event.target.value, $event.target.checked)" class="badgebox"><span
+            class="badge"></span></label> -->
+        <form class="padtopbgscrn" style="margin-top: 0.5rem;">
+          <label class="checkbox-inline spaceCheck1">
+            <input type="checkbox" id="tglAvilchck" value="Available"
+              (change)="onChange($event.target.value, $event.target.checked)">Available
+          </label>
+          <label class="checkbox-inline spaceCheck">
+            <input type="checkbox" id="tglReorderchck" value="ReOrder"
+              (change)="onChange($event.target.value, $event.target.checked)">ReOrder
+          </label>
+          <label class="checkbox-inline spaceCheck">
+            <input type="checkbox" id="tglOutofStockchck" value="OutofStock"
+              (change)="onChange($event.target.value, $event.target.checked)">OutofStock
+          </label>
+          <label class="checkbox-inline spaceCheck">
+            <input type="checkbox" id="tglIssuedchck" value="Issued"
+              (change)="onChange($event.target.value, $event.target.checked)">Issued
+          </label>
+          <label class="checkbox-inline spaceCheck">
+            <input type="checkbox" id="tglFaultychck" value="Faulty"
+              (change)="onChange($event.target.value, $event.target.checked)">Faulty
+          </label>
+          <label class="checkbox-inline spaceCheck" >
+            <input type="checkbox" id="tglRepairchck" value="Repair"
+              (change)="onChange($event.target.value, $event.target.checked)">Repair
+          </label>
+          <label class="checkbox-inline spaceCheck">
+            <input type="checkbox" id="tglLoanchck" value="Loan"
+              (change)="onChange($event.target.value, $event.target.checked)">Loan
+          </label>
+        </form>
+      
+
+
+      <div class="nav nav-bar btnpadleftMaterials " style="padding: 0px 5px;">
+        <button class="btn btn-sm pull-right btn-color" 
+        (click)="exportToExcelMaterial(StoreMaterialDetails)">Export</button>
+      </div>
+      <div class="nav nav-bar" style="padding: 0px 2px;">
+        <button class="btn btn-sm pull-right btn-color" 
+        (click)="clearStoreMaterialDetails()">Clear</button>
+      </div>
+      <div class="nav nav-bar" style="padding: 0px 2px;">
+        <button class="btn btn-sm btn-default" routerLink="/store-items">Back</button>
+      </div>
+    </div>
+    <div class="row col-md-12 plr-0 mlr-0" style="padding-top: 10px !important">
+      <div class="scroll-x" style="margin-left: 0px;">
+        <table class="store-report highLightTable table">
+          <tr class="tr-fonts">
+            <th (click)="sort('item_name')"> Item Name
+              <i class="fa" [ngClass]="{'fa-sort': column != 'item_name',
+                                              'fa-sort-asc': (column == 'item_name' && !isDesc),
+                                              'fa-sort-desc': (column == 'item_name' && isDesc) }" aria-hidden="true">
+              </i>
+            </th>
+            <th (click)="sort('item_no')"> Item Part No
+              <i class="fa" [ngClass]="{'fa-sort': column != 'item_no',
+                                                      'fa-sort-asc': (column == 'item_no' && !isDesc),
+                                                      'fa-sort-desc': (column == 'item_no' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th (click)="sort('department')"> Department
+              <i class="fa" [ngClass]="{'fa-sort': column != 'department',
+                                                      'fa-sort-asc': (column == 'department' && !isDesc),
+                                                      'fa-sort-desc': (column == 'department' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th *ngIf="(this.toggleAvil)" (click)="sort('Available')"> Available
+              <i class="fa" [ngClass]="{'fa-sort': column != 'Available',
+                                                  'fa-sort-asc': (column == 'Available' && !isDesc),
+                                                  'fa-sort-desc': (column == 'Available' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th *ngIf="(this.toggleReorder)" (click)="sort('ReOrder')"> Re Order
+              <i class="fa" [ngClass]="{'fa-sort': column != 'ReOrder',
+                                                      'fa-sort-asc': (column == 'ReOrder' && !isDesc),
+                                                      'fa-sort-desc': (column == 'ReOrder' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th *ngIf="(this.toggleOutofStck)" (click)="sort('OutofStock')"> Out of Stock
+              <i class="fa" [ngClass]="{'fa-sort': column != 'OutofStock',
+                                                          'fa-sort-asc': (column == 'OutofStock' && !isDesc),
+                                                          'fa-sort-desc': (column == 'OutofStock' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th *ngIf="(this.toggleIssued)" (click)="sort('Issued')"> Issued
+              <i class="fa" [ngClass]="{'fa-sort': column != 'Issued',
+                                            'fa-sort-asc': (column == 'Issued' && !isDesc),
+                                            'fa-sort-desc': (column == 'Issued' && isDesc) }" aria-hidden="true">
+              </i>
+            </th>
+            <th *ngIf="(this.toggleFaulty)" (click)="sort('Faulty')"> Faulty
+              <i class="fa" [ngClass]="{'fa-sort': column != 'Faulty',
+                                                      'fa-sort-asc': (column == 'Faulty' && !isDesc),
+                                                      'fa-sort-desc': (column == 'Faulty' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th *ngIf="(this.toggleRepair)" (click)="sort('Repair')"> Under Repair
+              <i class="fa" [ngClass]="{'fa-sort': column != 'Repair',
+                                                      'fa-sort-asc': (column == 'Repair' && !isDesc),
+                                                      'fa-sort-desc': (column == 'Repair' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th *ngIf="(this.toggleLoan)" (click)="sort('Loan')"> Loan
+              <i class="fa" [ngClass]="{'fa-sort': column != 'Loan',
+                                                                  'fa-sort-asc': (column == 'Loan' && !isDesc),
+                                                                  'fa-sort-desc': (column == 'Loan' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+          </tr>
+          <tbody
+            *ngFor="let storeitem of StoreMaterialDetails | orderBy: {property: column, direction: direction} | paginate: {itemsPerPage: 10, currentPage:page, id: '1'}  ; let i = index">
+            <tr (click)="setHighLightRow(storeitem)" [class.active]="storeitem.highLightRow">
+              <td>{{ storeitem.item_name}}</td>
+              <td>{{ storeitem.item_no}}</td>
+              <td>{{ storeitem.department}}</td>
+              <td *ngIf="(this.toggleAvil)">{{ storeitem.Available}}</td>
+              <td *ngIf="(this.toggleReorder)">{{ storeitem.ReOrder}}</td>
+              <td *ngIf="(this.toggleOutofStck)">{{ storeitem.OutofStock}}</td>
+              <td *ngIf="(this.toggleIssued)">{{ storeitem.Issued}}</td>
+              <td *ngIf="(this.toggleFaulty)">{{ storeitem.Faulty}}</td>
+              <td *ngIf="(this.toggleRepair)">{{ storeitem.Repair}}</td>
+              <td *ngIf="(this.toggleLoan)">{{ storeitem.Loan}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="showItemList" class="col-md-12 plr-0 mlr-0">
+    <div class="margin-bottom col-md-12" style="display: inline-flex; top:10px ">
+      <div class="col-md-1" style="font-weight: 700;padding: 10px">Items</div>
+      <div class="nav nav-bar">
+        <ng-select id="materialList{{i}}" class="selectMaterialDD  form-control" style="padding: 0px;
+              width: 215px !important;" id="material_id" [items]="this.materialControlList" bindLabel="label"
+          bindValue="material_id" [(ngModel)]="this.material" placeholder="Select by Material"
+          (change)="selectedItemsMaterial(this.material)">
+        </ng-select>
+      </div>
+      <div class="nav nav-bar">
+        <ng-select id="DepartmentList{{i}}" class="selectMaterialDD  form-control" style="padding: 0px;
+                  width: 215px !important;" id="DepartmentList" [items]="this.DepartmentList" bindLabel="label"
+          bindValue="label" [(ngModel)]="this.department" placeholder="Select by Department"
+          (change)="selectedItemsDepartment(this.department)">
+        </ng-select>
+      </div>
+      <form style="padding-top: 8px;">
+        <label class="checkbox-inline spaceCheck1">
+          <input type="checkbox" id="tglAvilchckItem" value="Available"
+            (change)="onChangeItems($event.target.value, $event.target.checked)">Available
+        </label>
+        <label class="checkbox-inline spaceCheck">
+          <input type="checkbox" id="tglIssuedchckItem" value="Issued"
+            (change)="onChangeItems($event.target.value, $event.target.checked)">Issued
+        </label>
+        <label class="checkbox-inline spaceCheck">
+          <input type="checkbox" id="tglFaultychckItem" value="Faulty"
+            (change)="onChangeItems($event.target.value, $event.target.checked)">Faulty
+        </label>
+        <label class="checkbox-inline spaceCheck">
+          <input type="checkbox" id="tglRepairchckItem" value="Repair"
+            (change)="onChangeItems($event.target.value, $event.target.checked)">Repair
+        </label>
+        <label class="checkbox-inline">
+          <input type="checkbox" id="tglLoanchckItem" value="Loan"
+            (change)="onChangeItems($event.target.value, $event.target.checked)">Loan
+        </label>
+      </form>
+      <div class="nav nav-bar btnpadleftItems" style="padding: 0px 5px;">
+        <button class="btn btn-sm btn-color" (click)="exportToExcelItems(StoreItemDetails)">Export</button>
+      </div>
+      <div class="nav nav-bar" style="padding: 0px 2px;">
+        <button class="btn btn-sm btn-color" (click)="clearStoreItemDetails()">Clear</button>
+      </div>
+      <div class="nav nav-bar" style="padding: 0px 2px;">
+        <button class="btn btn-sm btn-default" routerLink="/store-items">Back</button>
+      </div>
+    </div>
+    <div class="row col-md-12 plr-0 mlr-0" style="top: 6px">
+      <div class="scroll-x" style="margin-left: 0px;">
+        <table class="store-report-item highLightTable table ">
+          <tr class="tr-fonts">
+            <th (click)="sort('item_name')"> Item Name
+              <i class="fa" [ngClass]="{'fa-sort': column != 'item_name',
+                                            'fa-sort-asc': (column == 'item_name' && !isDesc),
+                                            'fa-sort-desc': (column == 'item_name' && isDesc) }" aria-hidden="true">
+              </i>
+            </th>
+            <th (click)="sort('item_part_no')"> Item Part No
+              <i class="fa" [ngClass]="{'fa-sort': column != 'item_part_no',
+                                                    'fa-sort-asc': (column == 'item_part_no' && !isDesc),
+                                                    'fa-sort-desc': (column == 'item_part_no' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th (click)="sort('department')"> Department
+              <i class="fa" [ngClass]="{'fa-sort': column != 'department',
+                                                    'fa-sort-asc': (column == 'department' && !isDesc),
+                                                    'fa-sort-desc': (column == 'department' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th (click)="sort('purchase_order_no')"> PO No
+              <i class="fa" [ngClass]="{'fa-sort': column != 'purchase_order_no',
+                                                'fa-sort-asc': (column == 'purchase_order_no' && !isDesc),
+                                                'fa-sort-desc': (column == 'purchase_order_no' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th (click)="sort('serial_no')"> Serial No
+              <i class="fa" [ngClass]="{'fa-sort': column != 'serial_no',
+                                          'fa-sort-asc': (column == 'serial_no' && !isDesc),
+                                          'fa-sort-desc': (column == 'serial_no' && isDesc) }" aria-hidden="true">
+              </i>
+            </th>
+            <th (click)="sort('location')"> Location
+              <i class="fa" [ngClass]="{'fa-sort': column != 'location',
+                                                    'fa-sort-asc': (column == 'location' && !isDesc),
+                                                    'fa-sort-desc': (column == 'location' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th (click)="sort('warranty')"> Warranty
+              <i class="fa" [ngClass]="{'fa-sort': column != 'warranty',
+                                                    'fa-sort-asc': (column == 'warranty' && !isDesc),
+                                                    'fa-sort-desc': (column == 'warranty' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th (click)="sort('site_name')">Site Name
+              <i class="fa" [ngClass]="{'fa-sort': column != 'site_name',
+                                                                'fa-sort-asc': (column == 'site_name' && !isDesc),
+                                                                'fa-sort-desc': (column == 'site_name' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th (click)="sort('issued_by')"> Issued By
+              <i class="fa" [ngClass]="{'fa-sort': column != 'issued_by',
+                                            'fa-sort-asc': (column == 'issued_by' && !isDesc),
+                                            'fa-sort-desc': (column == 'issued_by' && isDesc) }" aria-hidden="true">
+              </i>
+            </th>
+            <th (click)="sort('approved_by')"> Approved By
+              <i class="fa" [ngClass]="{'fa-sort': column != 'approved_by',
+                                                'fa-sort-asc': (column == 'approved_by' && !isDesc),
+                                                'fa-sort-desc': (column == 'approved_by' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th (click)="sort('received_by')">Received by
+              <i class="fa" [ngClass]="{'fa-sort': column != 'received_by',
+                                        'fa-sort-asc': (column == 'received_by' && !isDesc),
+                                        'fa-sort-desc': (column == 'received_by' && isDesc) }" aria-hidden="true">
+              </i>
+            </th>
+            <th (click)="sort('reported_by')">Reported by
+              <i class="fa" [ngClass]="{'fa-sort': column != 'reported_by',
+                                            'fa-sort-asc': (column == 'reported_by' && !isDesc),
+                                            'fa-sort-desc': (column == 'reported_by' && isDesc) }" aria-hidden="true">
+              </i>
+            </th>
+            <th (click)="sort('date_in')">Date
+              <i class="fa" [ngClass]="{'fa-sort': column != 'date_in',
+                                                'fa-sort-asc': (column == 'date_in' && !isDesc),
+                                                'fa-sort-desc': (column == 'date_in' && isDesc) }" aria-hidden="true">
+              </i>
+            </th>
+          </tr>
+          <tbody
+            *ngFor="let storeitem of StoreItemDetails | orderBy: {property: column, direction: direction} | paginate: {itemsPerPage: 12, currentPage:page, id: '1'}  ; let i = index">
+            <tr (click)="setHighLightRow(storeitem)" [class.active]="storeitem.highLightRow">
+              <td>{{ storeitem.item_name}}</td>
+              <td>{{ storeitem.item_no}}</td>
+              <td>{{ storeitem.department}}</td>
+              <td>{{ storeitem.purchase_order_no}}</td>
+              <td>{{ storeitem.serial_no}}</td>
+              <td>{{ storeitem.location}}</td>
+              <td>{{ storeitem.warranty}}</td>
+              <td>{{ storeitem.site_name}}</td>
+              <td>{{ storeitem.issued_by}}</td>
+              <td>{{ storeitem.approved_by}}</td>
+              <td>{{ storeitem.received_by}}</td>
+              <td>{{ storeitem.reported_by}}</td>
+              <td>{{ storeitem.date_in}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="right-align">
+    <pagination-controls (pageChange)="page = $event" id="1" maxSize="5" directionLinks="true" autoHide="true">
+    </pagination-controls>
+  </div>
+</div>

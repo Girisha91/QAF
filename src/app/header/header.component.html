@@ -1,0 +1,179 @@
+<div class="rowen header no-print" *ngIf="isUserLoggedIn" [ngClass]="getEnStyleClass()">
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="col-md-4 col-lg-4">
+            <div class="navbar-form navbar-right color-white right" hidden>
+                    <div class="ar-header" routerLink='{{dashboard}}'>
+                            <div class="form-group">
+                                    <div style="color:#E8E6E9" class="right-align">{{ 'Inventory' | translate }}</div>
+                                    <div class="headerStyle2">{{ 'Enterprise' | translate }}</div>
+                            </div>
+                        </div>
+            </div>
+            <div class="col-md-4">
+                       
+                        <img class="qaf-logo" src="../../assets/qatar-armed-forces.jpg">
+            </div>
+            <div class="col-md-4">
+                        
+                        <p class="phone-directory">Phone Directory</p>
+                <!-- <p class="url-text">{{headName}}</p> -->
+                <!-- <div class="ar-header home-icon" routerLink='{{dashboard}}'>
+                       
+                        <h1 class="fa fa-home">
+                        </h1>
+                    </div> -->
+           </div>
+           
+    </div>
+    <div class="col-md-4 col-lg-5 en padding-top">
+               
+            <!-- <div class="input-group">
+                    <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
+                    <input type="text" class="form-control" placeholder="{{ 'Search people and Inventory entries' | translate }}">
+            </div> -->
+    </div>
+    <div class="col-md-3 col-lg-2 en padding-top">
+        <div class="inline-display float-right">
+                <div class="inline-display en logout-icon" *ngIf="userName">
+                <button (click)="logout()" class="cursor-pointer btn-logout fa fa-power-off lnht"></button>
+              </div>
+              </div>
+                   <div class="inline-display username float-right">   <!--en padding-top -->
+                        <a class="user-profile-en" routerLink="/user-profile" [ngStyle]="{'line-height': lnht ? '2.4285' : '1.4285'}">
+                              <span class="user-profile-en">
+                                    {{ userName }}
+                              <i *ngIf="profile_pic == ''" class="glyphicon glyphicon-user"></i>
+                              <img *ngIf="profile_pic != ''" src="{{profile_pic}}" width="40" height="40" class="img-circle" />
+                              &nbsp; 
+                              </span>
+                        </a>
+                      </div>
+                      
+    </div>
+</nav>
+</div>
+
+    
+
+    <div class="row ar header no-print" *ngIf="isUserLoggedIn" [ngClass]="getArStyleClass()">
+            <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="col-md-4 ar padding-top">
+           
+        <div class="navbar-header">
+            <div class="inline-display ar logout-icon" *ngIf="userName">
+            <button (click)="logout()" class="cursor-pointer btn-logout fa fa-power-off"></button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </div>
+          </div>
+           <div class="inline-display username">   <!--ar padding-top -->
+                <a class="user-profile-ar" routerLink="/user-profile">
+                      <span>
+                      <i *ngIf="profile_pic == ''" class="glyphicon glyphicon-user"></i>
+                      <img *ngIf="profile_pic != ''" src="{{profile_pic}}" width="40" height="40" class="img-circle" />
+                      &nbsp; {{ userName }}
+                      </span>
+                </a>
+              </div>
+      </div>
+      <!-- <div class="col-md-4">
+                        
+                <p class="phone-directory"> Phone Directory</p>
+
+   </div> -->
+      <div class="col-md-2">
+                
+    </div>
+    <div class="col-md-2">
+              
+                
+            <!-- <div class="input-group">
+                    <input type="text" dir="rtl" class="form-control" placeholder="{{ 'Search people and Inventory entries' | translate }}">
+                <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
+            </div> -->
+    </div>
+    <div class="col-md-2">
+                <p class="phone-directory" style="float: right">Phone Directory</p>
+      </div>
+     
+    <div class="col-md-1" style="padding: 0">
+        <img class="qaf-logo" src="../../assets/qatar-armed-forces.jpg">
+    </div>
+    <div class="col-md-1"></div>
+    <!-- <div class="col-md-3">
+            <div class="navbar-form navbar-right color-white right" hidden>
+                    <div class="ar-header" routerLink='{{dashboard}}'>
+                            <div class="form-group">
+                                    <div style="color:#E8E6E9" class="right-align">{{ 'Inventory' | translate }}</div>
+                                    <div class="headerStyle2">{{ 'Enterprise' | translate }}</div>
+                            </div>
+                        </div>
+           </div>
+           <div class="col-md-3"></div>
+            <div class="col-md-4 color-white right">
+               
+           </div>
+    </div> -->
+</nav>
+        </div>
+
+    <!-- <div class="col-md-12 ar header" *ngIf="isUserLoggedIn" [ngClass]="getArStyleClass()">
+            <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+                    <div class="container">
+                      <div class="navbar-header">
+                          <div class="inline-display" *ngIf="userName">
+                          <button (click)="logout()" class="cursor-pointer btn-logout fa fa-power-off"></button>
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </div>
+                        <div class="inline-display username ar padding-top">
+                          <a class="user-profile-ar" routerLink="/user-profile">
+                                <span>
+                                <i *ngIf="profile_pic == ''" class="glyphicon glyphicon-user"></i>
+                                <img *ngIf="profile_pic != ''" src="{{profile_pic}}" width="40" height="40" class="img-circle" />
+                                &nbsp; {{ userName }}
+                                </span>
+                          </a>
+                        </div>
+                      </div>
+                            
+    
+                            <div id="Div1" class="navbar-collapse collapse">
+                                    <div class="col-md-10" style="margin-top:18px">
+                                            <div class="col-md-3"></div>
+                                            <div class="col-md-6 center-block" *ngIf="userName">
+                                                    <div class="input-group">
+                                                            <input type="text" dir="rtl" class="form-control" placeholder="{{ 'Search people and Inventory entries' | translate }}">
+                                                        <div class="input-group-addon"><i class="glyphicon glyphicon-search"></i></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3" style="margin-top: -30px">
+                                                        <form class="navbar-form navbar-right color-white right">
+                                                                <div class="ar-header" routerLink='{{dashboard}}'>
+                                                                        <div class="form-group">
+                                                                                <div style="color:#E8E6E9" class="right-align">{{ 'Inventory' | translate }}</div>
+                                                                                <div class="headerStyle2">{{ 'Enterprise' | translate }}</div>
+                                                                        </div>
+                                                                    </div>
+                                                        </form>
+                                                </div>
+                                    </div>
+                            </div>
+                    </div>
+            </nav>
+            </div> -->
+            
+            <nav class="navbar navbar-inverse navbar-fixed-top no-print" *ngIf="!isUserLoggedIn" role="navigation">
+                <div class="container" hidden>
+                    <div class="navbar-header" [ngClass]="!isLangArabic ? 'float-left':'float-right'">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <div class="eng-header" routerLink='/login'>
+                            
+                        </div>
+                    </div>
+                </div>
+            </nav>
+    

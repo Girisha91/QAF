@@ -1,0 +1,132 @@
+ .demandBook-container{
+    margin: 0%  2% 2% 2%;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26), 0 2px 10px 0 rgba(0,0,0,0.16);
+    background-color: #ffffff;
+    padding: 0;
+}
+  .formDemandListhead{
+    background-color: #eee;
+    line-height: 44px;
+    font-size: 16px;
+    color: #635353 !important;
+    height: 0%;
+  }
+  .btnright{
+    float: right !important;
+    margin: 5px;
+  }
+  .storeSearchhead{
+    color: #474748;	font-family: Roboto;	font-size: 14px;	line-height: 19px;
+}
+  .storeDemandHead{
+    /* height: 26px; */
+    opacity: 0.87;
+    color: #700909;
+    font-family: Roboto;
+    font-size: 20px;
+    line-height: 30px;
+    float: left;
+    padding-right: 15px;
+    padding-top: 10px;
+  }
+.demandBook-container th{
+  border-top: 0 !important;
+}
+  .pr-7{
+    padding-right: 7px;
+  }
+  /* .alignDemandHead{
+    font-size: 14px !important;padding-top: 1% !important;width: 7%;
+  } */
+
+  .storeDemandList-table tbody tr .fixed-column-1 {
+    left: 9%;
+    min-width: 1px !important;
+    text-align: left;
+    font-weight: bolder;
+    font-size: 12px;
+    padding: 0px !important;
+    padding-top: 7px !important;
+}
+
+
+.arfixcol{
+  left: 4% !important;
+}
+.storeDemandList-table .fixed-column-1, .storeDemandList-table .fixed-column-2, .storeDemandList-table .fixed-column-3 {
+    position: absolute;
+    border-top: none;
+    text-align: center;
+    background-color: #ffffff !important;
+}
+
+.storeDemandList-table td, .storeDemandList-table th {
+    white-space: unset !important;
+    padding: 5px 20px !important;
+    /* min-width: 5px !important; */
+}
+  .mlr-0{
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .mlr-110{
+    margin-right: 12%;
+    margin-left: 0%;
+  }
+
+  @media only screen and (min-width: 1824px) {
+    .mlr-110{
+      margin-left: 0%;
+      margin-right: 8%;
+    }
+  }
+
+
+  .txtrth{
+    text-align: right;
+  }
+
+  .demandBook-container .enrt{
+    right: 2%;
+    }
+    .demandBook-container .arrt{
+    right: 7%;
+    }
+
+    
+  .demandBook-container .enthrt{
+    right: 4%;
+    }
+    .demandBook-container .arthrt{
+    right: 9%;
+    }
+    .demandBook-container .fix-1 {
+    /* right: 2% !important; */
+    min-width: 50px !important;
+    text-align: right;
+    font-weight: bolder;
+    padding: 5px 20px !important;
+    width: fit-content !important;
+    position: absolute;
+    border-bottom: none !important;
+    
+}
+
+.fs{
+  line-height: 1.2 !important;
+  font-size: 14px !important;
+  min-width: 5px !important;
+}
+
+.mw195{
+  min-width: 195px !important;
+}
+.fth {
+  /* right: 4% !important; */
+  padding: 5px 20px !important;
+  line-height: 1.42857143 !important;
+  margin-top: 1rem !important;
+  font-family: Roboto;
+  font-size: 14px;
+}

@@ -1,0 +1,60 @@
+/* 
+
+.menu-icon {
+    position: absolute;
+    left: 10px;
+    top: 14px;
+    font-size: 30px;
+    z-index: 10000;
+    color: #fff;
+    cursor: pointer;
+}
+
+.extra-margin {
+   margin: 30px 0px 30px 0px;
+} */
+
+.topology {
+    margin-left: 2% !important;
+    margin-right: 2% !important;
+}
+
+.topology .card {
+    background-color: #fff;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    margin-bottom: 2%;
+}
+
+.topology .tbl-employee.table>tbody>tr>th {
+    border-top: none !important;
+    /* border-bottom: 2px solid #76102B; */
+}
+
+.topology .header {
+    margin-top: 0 !important;
+    margin-left: 0 !important;
+    width: 100% !important;
+    background-color: #f1efef;
+    padding-top: 2%;
+    margin-bottom: 2%;
+}
+
+.topology .Pagename {
+    background: transparent;
+    margin: 0;
+}
+.topology .ftrt {
+    text-align: right;
+}
+
+.topology .btn-primary {
+    color: #fff !important;
+    background-color: #76102B !important;
+    margin-bottom: 4%;
+}
+.topology .pr-7{
+    padding-right: 7px;
+}
+.topology #tableContainerPabx{
+    padding-bottom: 5px;
+}

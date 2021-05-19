@@ -1,0 +1,352 @@
+<div class="workgeneral">
+    <div class="card">
+        <!-- <div class="container ml-0"> -->
+            <!-- copy starts from here heading starts from here -->
+            <div class="row head plr-0">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 headcol">
+                        <!-- we dont need this back button  -->
+                            <button
+                            type="button"
+                            (click)="closeAndRedirect()" *ngIf="opr==2"
+                            class="btn btn-default pull-right mtb-1">
+                            Back
+                        </button>
+                        <b class="page-head  mtb-1 dpblk" *ngIf="opr==1">Update
+                                General Info </b>
+                        <b class="page-head  mtb-1 dpblk" *ngIf="opr==0">Add
+                                General Info </b>
+                        </div>
+                <!-- <button
+                    type="button"
+                    (click)="closeAndRedirect()"
+                    class="btn btn-default pull-right mt-1">
+                    Back
+                </button>
+                <button
+                    type="button"
+                    *ngIf="opr == 1"
+                    (click)="UpdateGeneralInfo(wo)"
+                    class="btn btn-default primary pull-right mt-1">
+                    Update General Info
+                </button>
+                <button
+                    type="button"
+                    *ngIf="opr == 0"
+                    (click)="AddGeneralInfo(wo)"
+                    class="btn btn-default primary pull-right mt-1">
+                    Add General Info
+                </button>
+                <b class="page-head table-header-margin" *ngIf="opr==0">Add
+                    General Info </b>
+                <b class="page-head table-header-margin" *ngIf="opr==1">Update
+                    General Info </b> -->
+                <br />
+            </div>
+            <!-- heading ends here  -->
+            <!-- copy ends here  -->
+            <div class="listgroup content-margin">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- <div class="col-md-12"> -->
+                        <div class="panel-group">
+                            <!-- <div class="panel panel-default"> -->
+                            <!-- <div class="panel-heading"> -->
+                            <!-- <div class="inline-display"> -->
+                            <!-- <h3 class="panel-title">
+                                        Add Work Order</h3> -->
+                            <!-- </div> -->
+                            <!-- <div style="float:right;" class="inline-display" >(<span class="error"> * </span>) Mandatory</div> -->
+                            <!-- </div> -->
+                            <div
+                                class="panel-body"
+                                style="padding:
+                                5px
+                                20px;">
+                                <div class="fluid-container">
+                                    <!-- copying form starts from here  -->
+                                    <form class="form-horizontal">
+                                        <div
+                                            class="form-group
+                                            form-group-sm">
+                                            <!-- left column -->
+                                            <div
+                                                class="col-md-12
+                                                distinctForm">
+                                                <div
+                                                    class="distinctFormHeading">
+                                                    <label>General Info</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label
+                                                            for="telephone_no"
+                                                            class="col-md-4
+                                                            control-label">Telephone
+                                                            #.</label>
+                                                        <div class="col-md-8">
+                                                            <input
+                                                                type="text"
+                                                                class="form-control"
+                                                                id="telephone_no"
+                                                                [disabled]="isUniqueValue"
+                                                                name="telephone_no"
+                                                                [(ngModel)]="wo.telephone_no"
+                                                                placeholder="Telephone No"
+                                                                />
+                                                            <div
+                                                                [hidden]="errorTelephone_no
+                                                                == ''"
+                                                                class="error">
+                                                                {{
+                                                                errorTelephone_no
+                                                                }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label
+                                                            for="request_from"
+                                                            class="col-md-4
+                                                            control-label">Request
+                                                            From.</label>
+                                                        <div class="col-md-8">
+                                                            <input
+                                                                type="text"
+                                                                class="form-control"
+                                                                id="request_from"
+                                                                [disabled]="isReadOnly"
+                                                                name="request_from"
+                                                                [(ngModel)]="wo.request_from"
+                                                                placeholder="Request From"
+                                                                />
+                                                            <div
+                                                                [hidden]="errorRequest_from
+                                                                == ''"
+                                                                class="error">
+                                                                {{
+                                                                errorRequest_from
+                                                                }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label
+                                                            for="request_to"
+                                                            class="col-md-4
+                                                            control-label">Request
+                                                            To.</label>
+                                                        <div class="col-md-8">
+                                                            <input
+                                                                type="text"
+                                                                class="form-control"
+                                                                id="request_to"
+                                                                [disabled]="isReadOnly"
+                                                                name="request_to"
+                                                                [(ngModel)]="wo.request_to"
+                                                                placeholder="Request To"
+                                                                />
+                                                            <div
+                                                                [hidden]="errorRequest_to
+                                                                == ''"
+                                                                class="error">
+                                                                {{
+                                                                errorRequest_to
+                                                                }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label
+                                                            for="requested_by"
+                                                            class="col-md-4
+                                                            control-label">Request
+                                                            By.</label>
+                                                        <div class="col-md-8">
+                                                            <input
+                                                                type="text"
+                                                                class="form-control"
+                                                                id="requested_by"
+                                                                [disabled]="isReadOnly"
+                                                                name="requested_by"
+                                                                [(ngModel)]="wo.requested_by"
+                                                                placeholder="Request By"
+                                                                />
+                                                            <div
+                                                                [hidden]="errorRequested_by
+                                                                == ''"
+                                                                class="error">
+                                                                {{
+                                                                errorRequested_by
+                                                                }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label
+                                                            for="approved_by"
+                                                            class="col-md-4
+                                                            control-label">Approved
+                                                            By.</label>
+                                                        <div class="col-md-8">
+                                                            <input
+                                                                type="text"
+                                                                class="form-control"
+                                                                id="approved_by"
+                                                                [disabled]="isReadOnly"
+                                                                name="approved_by"
+                                                                [(ngModel)]="wo.approved_by"
+                                                                placeholder="Approved By"
+                                                                />
+                                                            <div
+                                                                [hidden]="errorApproved_by
+                                                                == ''"
+                                                                class="error">
+                                                                {{
+                                                                errorApproved_by
+                                                                }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label
+                                                            for="store_demand_no"
+                                                            class="col-md-4
+                                                            control-label">Store
+                                                            Demand #.</label>
+                                                        <div class="col-md-8">
+                                                            <input
+                                                                type="text"
+                                                                class="form-control"
+                                                                id="store_demand_no"
+                                                                [disabled]="isReadOnly"
+                                                                name="store_demand_no"
+                                                                [(ngModel)]="wo.store_demand_no"
+                                                                placeholder="Store Demand No"
+                                                                />
+                                                            <div
+                                                                [hidden]="errorStore_demand_no
+                                                                == ''"
+                                                                class="error">
+                                                                {{
+                                                                errorStore_demand_no
+                                                                }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label
+                                                            for="record_file_no"
+                                                            class="col-md-4
+                                                            control-label">Record
+                                                            File #.</label>
+                                                        <div class="col-md-8">
+                                                            <input
+                                                                type="text"
+                                                                class="form-control"
+                                                                id="record_file_no"
+                                                                [disabled]="isReadOnly"
+                                                                name="record_file_no"
+                                                                [(ngModel)]="wo.record_file_no"
+                                                                placeholder="Record File Number"
+                                                                />
+                                                            <div
+                                                                [hidden]="errorRecord_file_no
+                                                                == ''"
+                                                                class="error">
+                                                                {{
+                                                                errorRecord_file_no
+                                                                }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label
+                                                            for="cable_no"
+                                                            class="col-md-4
+                                                            control-label">Cable
+                                                            #.</label>
+                                                        <div class="col-md-8">
+                                                            <input
+                                                                type="text"
+                                                                class="form-control"
+                                                                id="cable_no"
+                                                                [disabled]="isReadOnly"
+                                                                name="cable_no"
+                                                                [(ngModel)]="wo.cable_no"
+                                                                placeholder="Cable No"
+                                                                />
+                                                            <div
+                                                                [hidden]="errorCable_no
+                                                                == ''"
+                                                                class="error">
+                                                                {{ errorCable_no
+                                                                }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <!-- copying ends from here  -->
+                                </div>
+                            </div>
+                            <!-- </div> -->
+                        </div>
+                        <!-- </div> -->
+                    </div>
+                    <!-- <div class="col-md-12">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4 centerAlign">
+                            <button
+                                style="margin: 5px;"
+                                type="button"
+                                (click)="closeAndRedirect()"
+                                class="btn
+                                btn-default">
+                                Back
+                            </button>
+                            <button
+                                type="button"
+                                *ngIf="opr == 1"
+                                (click)="UpdateGeneralInfo(wo)"
+                                class="btn
+                                btn-default primary">
+                                Update General Info
+                            </button>
+                            <button
+                                type="button"
+                                *ngIf="opr == 0"
+                                (click)="AddGeneralInfo(wo)"
+                                class="btn
+                                btn-default primary">
+                                Add General Info
+                            </button>
+                            <br />
+                        </div>
+                        <div class="col-md-4"></div>
+                    </div> -->
+                </div>
+                <hr class="line" style="margin-top:0">
+                <div class="row mb-2">
+                        <div class="col-md-7">
+                                <button type="button"
+                                (click)="closeAndRedirect()" *ngIf="!(opr==2)" class="btn
+                                btn-default justify-content-center pull-right mb-1"> Back </button>
+                                <button type="button" *ngIf="opr == 1"
+                                (click)="UpdateGeneralInfo(wo)"
+                                class="btn
+                                btn-default primary justify-content-center pull-right mb-1">
+                                Update General Info</button>
+                            <button type="button" *ngIf="opr == 0"
+                            (click)="AddGeneralInfo(wo)" class="btn
+                                btn-default primary justify-content-center pull-right mb-1">
+                                Add General Info</button>
+                        </div>
+                      </div>
+            </div>
+        <!-- </div> -->
+    </div>
+</div>

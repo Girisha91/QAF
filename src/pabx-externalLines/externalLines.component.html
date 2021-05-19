@@ -1,0 +1,399 @@
+<style>
+.ht{
+    min-height: 11vh;
+}
+</style>
+
+<div class="externadd">
+    <div class="container">
+        <div class="listgroup content-margin">
+            <div class="row">
+                <div class="col-md-12" style="margin-top:0px;">
+                    <div class="col-md-12 plr-0">
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="col-md-12 whitebc">
+                                    <div>
+                                        <b class="page-head
+                                            table-header-margin" style="float: left"><span>{{title}}</span></b>
+                                            <b class="page-head
+                                            table-header-margin" *ngIf="!(opr==2)" style="float: right;">(<span class="error"> * </span>) إلزامي
+                                    </b>
+                                    <button *ngIf="opr==2" type="button"
+                                    (click)="closeAndRedirect()" class="btn
+                                    btn-default" style="float: right;">
+                                    الى الخلف </button>
+                                    </div>
+                                    <hr class="mtb-0 line dsclr" />                                    
+                                </div>
+                            <div class="panel-body">
+                                <div class="form-group col-md-12">
+                                    <div class="form-row">
+                                        <div class="form-group ht col-lg-4 col-md-4 col-sm-4">
+                                            <label for="category">
+                                                الخاصية</label>
+                                            <select class="form-control"
+                                                ngControl="st"
+                                                [disabled]="isReadOnly"
+                                                [(ngModel)]="el.category"
+                                                required>
+                                                <option *ngFor="let st of
+                                                    CatList" [value]="st.value">{{st.label}}</option>
+                                            </select>
+                                            <div [hidden]="errorCategory == ''"
+                                                class="error">{{errorCategory}}</div>
+                                        </div>
+                                        <div class="form-group ht col-lg-4 col-md-4 col-sm-4 plr-0 ">
+                                            <label for="account_no">
+                                                رقم الحساب</label>
+                                            <input type="text"
+                                                [disabled]="isReadOnly"
+                                                [(ngModel)]="el.account_no"
+                                                name="account_no"
+                                                class="form-control"
+                                                id="account_no"
+                                                placeholder="رقم الحساب" />
+                                            <div [hidden]="errorAccountNo==''"
+                                                class="error">{{errorAccountNo}}</div>
+                                        </div>
+                                        <div class="form-group ht col-lg-4 col-md-4 col-sm-4">
+                                            <label for="telephone_no">
+                                                رقم الهاتف<span class="error">*</span>
+                                            </label>
+                                            <input type="text"
+                                                [disabled]="isReadOnly"
+                                                [(ngModel)]="el.telephone_no"
+                                                name="telephone_no"
+                                                class="form-control"
+                                                id="telephone_no"
+                                                placeholder="رقم الهاتف" />
+                                            <div [hidden]="errorTelephone==''"
+                                                class="error">{{errorTelephone}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group ht col-lg-4 col-md-4 col-sm-4">
+                                            <label for="Ooredoo_Customer_no">
+                                                رقم هاتف عميل اوريدو</label>
+                                            <input type="text"
+                                                [disabled]="isReadOnly"
+                                                [(ngModel)]="el.Ooredoo_Customer_no"
+                                                name="Ooredoo_Customer_no"
+                                                class="form-control"
+                                                id="Ooredoo_Customer_no"
+                                                placeholder=" رقم هاتف عميل اوريدو" />
+                                            <div [hidden]="errorOreCuscNo==''"
+                                                class="error">{{errorOreCuscNo}}</div>
+                                        </div>
+                                        <div class="form-group ht col-lg-4 col-md-4 col-sm-4 plr-0">
+                                            <label for="authority">
+                                                الصلاحية</label>
+                                            <input type="text"
+                                                [disabled]="isReadOnly"
+                                                [(ngModel)]="el.authority"
+                                                name="authority"
+                                                class="form-control"
+                                                id="authority"
+                                                placeholder="الصلاحية" />
+                                            <div [hidden]="errorAuthority==''"
+                                                class="error">{{errorAuthority}}</div>
+                                        </div>
+                                        <div class="form-group ht col-lg-4 col-md-4 col-sm-4">
+                                            <label for="date_installation">
+                                                تاريخ التركيب</label>
+                                            <input type="text"
+                                                [disabled]="isReadOnly"
+                                                [(ngModel)]="el.date_installation"
+                                                name="date_installation"
+                                                bsDatepicker
+                                                class="form-control"
+                                                id="date_installation"
+                                                placeholder="تاريخ التركيب"
+                                                [bsConfig]="{ dateInputFormat:
+                                                'DD-MM-YYYY' }"
+                                                />
+                                            <div [hidden]="errorDateIns==''"
+                                                class="error">{{errorDateIns}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-lg-4 col-md-4 col-sm-4">
+                                            <label for="Distribution_Menu">
+                                                قائمة التوزيع</label>
+                                            <select class="form-control"
+                                                ngControl="rnk"
+                                                (change)="onChange($event.target.value,'ar')"
+                                                [disabled]="isReadOnly"
+                                                [(ngModel)]="el.Distribution_Menu">
+                                                <option value="">تحديد</option>
+                                                <option *ngFor="let rnk of
+                                                    distributionListArabic"
+                                                    [value]="rnk">{{rnk}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-4 plr-0">
+                                            <label for="Distribution_Unit">
+                                                وحدة التوزيع</label>
+                                            <select class="form-control"
+                                                ngControl="rnk"
+                                                [disabled]="isReadOnly"
+                                                [(ngModel)]="el.Distribution_Unit">
+                                                <option value="">تحديد</option>
+                                                <option *ngFor="let rnk of
+                                                    distributionUnitArabic"
+                                                    [value]="rnk">{{rnk}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group ht col-lg-4 col-md-4 col-sm-4">
+                                            <label for="location">موقعك
+                                            </label>
+                                            <input type="text"
+                                                [disabled]="isReadOnly"
+                                                [(ngModel)]="el.location"
+                                                name="location"
+                                                class="form-control"
+                                                id="location"
+                                                placeholder="الموقع"
+                                                />
+                                            <div [hidden]="errorLocation==''"
+                                                class="error">{{errorLocation}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group ht col-lg-4 col-md-4 col-sm-4">
+                                            <label for="request_refe_no">
+                                                طلب رقم المرجع</label>
+                                            <input type="text"
+                                                [disabled]="isReadOnly"
+                                                [(ngModel)]="el.request_refe_no"
+                                                name="request_refe_no"
+                                                class="form-control"
+                                                id="request_refe_no"
+                                                placeholder="طلب رقم المرجع" />
+                                            <div [hidden]="errorRef==''"
+                                                class="error">{{errorRef}}</div>
+                                        </div>
+                                        <div class="form-group ht col-lg-4 col-md-4 col-sm-4 plr-0">
+                                            <label for="username">
+                                                رقم المستخدم</label>
+                                            <input type="text"
+                                                [disabled]="isReadOnly"
+                                                [(ngModel)]="el.username"
+                                                name="username"
+                                                class="form-control"
+                                                id="username" placeholder="رقم المستخدم"/>
+                                            <div [hidden]="errorUsername==''"
+                                                class="error">{{errorUsername}}</div>
+                                        </div>
+                                        <div class="form-group ht col-lg-4 col-md-4 col-sm-4">
+                                            <label for="type_service">
+                                                نوع الخدمة
+                                            </label>
+                                            <select class="form-control"
+                                                ngControl="st"
+                                                [disabled]="isReadOnly"
+                                                [(ngModel)]="el.type_service"
+                                                required>
+                                                <option *ngFor="let st of
+                                                    ServiceList"
+                                                    [value]="st.value">{{st.label}}</option>
+                                            </select>
+                                            <div [hidden]="errorTypeService==''"
+                                                class="error">{{errorTypeService}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group ht col-lg-4 col-md-4 col-sm-4">
+                                            <label for="customer_name">
+                                                اسم الزبون</label>
+                                            <input type="text"
+                                                [disabled]="isReadOnly"
+                                                [(ngModel)]="el.customer_name"
+                                                name="customer_name"
+                                                class="form-control"
+                                                id="customer_name"
+                                                placeholder="اسم الزبون" />
+                                            <div
+                                                [hidden]="errorCustomerName==''"
+                                                class="error">{{errorCustomerName}}</div>
+                                        </div>
+                                        <div class="form-group ht col-lg-4 col-md-4 col-sm-4 plr-0">
+                                            <label for="did_number_range">
+                                                نطاق الأرقام</label>
+                                            <input type="text"
+                                                [disabled]="isReadOnly"
+                                                [(ngModel)]="el.did_number_range"
+                                                name="did_number_range"
+                                                class="form-control"
+                                                id="did_number_range"
+                                                placeholder="نطاق الأرقام DID"
+                                                />
+                                            <div
+                                                [hidden]="errorDidNumberRange==''"
+                                                class="error">{{errorDidNumberRange}}</div>
+                                        </div>
+                                        <div class="form-group ht col-lg-4 col-md-4 col-sm-4">
+                                            <label for="mdf_info">
+                                                معلومات</label>
+                                            <input type="text"
+                                                [disabled]="isReadOnly"
+                                                [(ngModel)]="el.mdf_info"
+                                                name="mdf_info"
+                                                class="form-control"
+                                                id="mdf_info"
+                                                placeholder="معلومات "
+                                                />
+                                            <div [hidden]="errorMdfInfo==''"
+                                                class="error">{{errorMdfInfo}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+
+                                        <div class="form-group ht col-lg-4 col-md-4 col-sm-4">
+                                            <label for="dp_info">
+                                                معلومات </label>
+                                            <input type="text"
+                                                [disabled]="isReadOnly"
+                                                [(ngModel)]="el.dp_info"
+                                                name="dp_info"
+                                                class="form-control"
+                                                id="dp_info" placeholder="معلومات"
+                                                />
+                                            <div [hidden]="errorDpInfo==''"
+                                                class="error">{{errorDpInfo}}</div>
+                                        </div>
+                                        <div class="form-group ht col-lg-4 col-md-4 col-sm-4 plr-0">
+                                            <label
+                                                for="connected_wall_socket_info">
+                                                معلومات مقبس الحائط</label>
+                                            <input type="text"
+                                                [disabled]="isReadOnly"
+                                                [(ngModel)]="el.connected_wall_socket_info"
+                                                name="connected_wall_socket_info"
+                                                class="form-control"
+                                                id="connected_wall_socket_info"
+                                                placeholder=" معلومات مقبس الحائط"
+                                                />
+                                            <div
+                                                [hidden]="errorConnectedWallSocketInfo==''"
+                                                class="error">{{errorConnectedWallSocketInfo}}</div>
+                                        </div>
+                                        <div class="form-group ht col-lg-4 col-md-4 col-sm-4">
+                                            <label for="package">
+                                                حزمة
+                                            </label>
+                                            <input type="text"
+                                                [disabled]="isReadOnly"
+                                                [(ngModel)]="el.package"
+                                                name="package"
+                                                class="form-control"
+                                                id="package" placeholder="حزمة"
+                                                />
+                                            <div [hidden]="errorPackage==''"
+                                                class="error">{{errorPackage}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+
+                                        <div class="form-group ht col-lg-4 col-md-4 col-sm-4">
+                                            <label for="status">
+                                                الحالة
+                                            </label>
+                                            <select class="form-control"
+                                                ngControl="st"
+                                                [disabled]="isReadOnly"
+                                                [(ngModel)]="el.status"
+                                                required>
+                                                <option *ngFor="let st of
+                                                    StatusList"
+                                                    [value]="st.value">{{st.label}}</option>
+                                            </select>
+                                            <div [hidden]="errorStatus==''"
+                                                class="error">{{errorStatus}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 center-align">
+                                    <button type="button" *ngIf="opr==1"
+                                        (click)="UpdateEL(el)" class="btn
+                                        btn-default primary">
+                                        {{title}}</button>
+                                    <button type="button" *ngIf="opr==0"
+                                        (click)="AddEL(el)" class="btn
+                                        btn-default primary">
+                                        {{title}}</button>
+                                    <button *ngIf="!(opr==2)" type="button"
+                                        (click)="closeAndRedirect()" class="btn
+                                        btn-default">
+                                        إلغاء </button>
+                                    <br/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="(opr==2) && (showtable)">
+                            <table>
+                                <tr rowspan="99" class="inner-tr">
+                                    <td></td>
+                                    <td class="bk-dark border-bottom"
+                                        colspan="99">
+                                        <table class="tbl-employee table"
+                                            style="width: 999px;">
+                                            <tr>
+                                                <th></th>
+                                                <th>تاريخ بدء الايجار
+                                                </th>
+                                                <th>تاريخ نهاية الايجار
+                                                </th>
+                                                <th>قيمة الايجار
+                                                </th>
+                                                <th> رقم الرصيد
+                                                </th>
+                                                <th>ملاحظات
+                                                </th>
+                                                <th>وأضاف في</th>
+                                                <th>تم التحديث في</th>
+                                            </tr>
+                                            <tbody *ngFor="let emp1 of
+                                                rent_items ; let i= index"
+                                                #someVar>
+                                                <tr>
+                                                    <td class="no-word-wrap">
+                                                        <a class="primary-color
+                                                            cursor-pointer
+                                                            table-action-icon fa
+                                                            fa-eye fa-lg"
+                                                            title="{{'View Store
+                                                            item'| translate}}"
+                                                            [routerLink]="['/pabx/external-lines-rent/view/',
+                                                            emp1.id]"></a>
+                                                        <a
+                                                            [routerLink]="['/pabx/external-lines-rent/edit',
+                                                            emp1.id]"
+                                                            class="primary-color
+                                                            table-action-icon fa
+                                                            fa-wrench fa-lg"
+                                                            title="{{'Edit Store
+                                                            Details'|
+                                                            translate}}"></a>
+                                                    </td>
+                                                    <td>{{emp1.rent_start_date}}</td>
+                                                    <td>{{emp1.rent_end_date}}</td>
+                                                    <td>{{emp1.rent_amount}}</td>
+                                                    <td>{{emp1.Bill_no}}</td>
+                                                    <td>{{emp1.remarks}}</td>
+                                                    <td>{{emp1.added_at}}</td>
+                                                    <td>{{emp1.updated_at}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

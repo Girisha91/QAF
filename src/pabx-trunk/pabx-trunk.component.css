@@ -1,0 +1,228 @@
+/* .tbl-employee.table>tbody>tr>th {
+    border-top: 2px solid #76102B;
+    border-bottom: 2px solid #76102B;
+}
+
+.menu-icon {
+    position: absolute;
+    left: 10px;
+    top: 14px;
+    font-size: 30px;
+    z-index: 10000;
+    color: #fff;
+    cursor: pointer;
+}
+
+.extra-margin {
+   margin: 30px 0px 30px 0px;
+} */
+
+
+.trunk .tbl-employee.table>tbody>tr>th {
+    border-top: none !important;
+}
+.container-fluid{
+    min-height: 100vh;
+}
+.trunk {
+    margin-left: 2% !important;
+    margin-right: 2% !important;
+}
+
+.trunk .card {
+    background-color: #fff;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    margin-bottom: 2%;
+}
+
+.trunk .clr-anch {
+    margin-left: 2%;
+    cursor: pointer;
+}
+
+.trunk .header {
+    margin-top: 0 !important;
+    margin-left: 0 !important;
+    width: 100% !important;
+    background-color: #f1efef;
+    padding-top: 2%;
+}
+
+.trunk .srcrow {
+    margin-right: 0;
+    margin-left: 0;
+    margin-top: 2%;
+}
+
+.trunk .wd-80 {
+    width: 80%
+}
+
+.trunk .wd-100 {
+    width: 100%;
+}
+
+.trunk .drop-down {
+    border-radius: 5px;
+    height: 6vh;
+}
+
+.trunk .custom {
+    margin-top: 3%;
+    font-size: 2rem;
+    float: right;
+}
+
+.trunk .vertical-line {
+    width: 2px;
+    border: 1px solid black;
+}
+
+.trunk .add-anch {
+    margin-left: 4%;
+    margin-right: 2%;
+    cursor: pointer;
+}
+
+.trunk .mt-3 {
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
+}
+
+.trunk .primary {
+    color: #fff;
+    background-color: #76102B;
+    border: 0;
+    border-radius: 5px;
+    height: 5vh;
+    width: 35%;
+}
+
+.trunk .Pagename {
+    background: transparent;
+    margin: 0;
+}
+.trunk .ftrt {
+    text-align: right;
+}
+.trunk .fixed-1 {
+    left: 7% !important;
+    min-width: 70px !important;
+    text-align: left;
+    font-weight: bolder;
+    padding: 5px 20px !important;
+    width: fit-content !important;
+    position: absolute;
+    
+}
+.fix-top{
+    font-size: 1.2em !important;
+    height: 8vh;
+    line-height: 4.15em !important;
+}
+ @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+.trunk .fix-top{
+    font-size: 1.2em !important;
+    height: 8vh;
+    line-height: 2.8em !important;
+}
+}
+
+.trunk .ng2-pagination{
+    border-top: none !important;
+}
+
+.trunk .fixed-2 {
+    position: absolute;
+    left: 12% !important;
+    min-width: 70px !important;
+    text-align: left;
+    font-weight: bolder;
+    padding: 5px 20px !important;
+    width: fit-content !important;
+}
+
+.trunk #tableContainer {
+    margin-left: 18% !important;
+}
+
+.trunk .h-6 {
+    height: 6vh;
+}
+
+@media only screen and (max-height: 700px){
+    .trunk .mt-6 {
+        margin-top: 3%;
+    }
+}
+@media only screen and (min-height: 850px) and (max-height: 700px){
+    .trunk .mt-6 {
+        margin-top: 3%;
+    }
+}
+@media only screen and (min-height: 950px) and (max-height: 850px){
+    .trunk .mt-6 {
+        margin-top: 4%;
+    }
+}
+@media only screen and (min-height: 1050px) and (max-height: 950px){
+    .trunk .mt-6 {
+        margin-top: 6%;
+    }
+}
+.trunk .btn-primary {
+    color: #fff !important;
+    background-color: #76102B !important;
+    height: 5vh;
+}
+
+
+@media only screen and (min-width: 1824px) {
+    .trunk .mt-6 {
+        margin-top: 6%;
+    }
+    .trunk #tableContainer {
+        margin-left: 15% !important;
+    }
+    .trunk .custom {
+        margin-top: 6%;
+    }
+    .trunk .wd-80 {
+        width: 87%;
+    }
+}
+.trunk .fixed-ar-1{
+    left: 2% !important;
+    min-width: 70px !important;
+    text-align: left;
+    font-weight: bolder;
+    padding: 5px 20px !important;
+    width: fit-content !important;
+    position: absolute;
+}
+
+.trunk .fixed-ar-2{
+    position: absolute;
+    left: 6% !important;
+    min-width: 70px !important;
+    text-align: left;
+    font-weight: bolder;
+    padding: 5px 20px !important;
+    width: fit-content !important;
+}
+
+@media only screen and (min-height: 1000px) and (max-height: 1200px){
+    .trunk .drop-down {
+        height: 4vh;
+    }
+    .trunk .primary {
+        height: 3.5vh;
+    }
+    .trunk .mt-3 {
+        margin-top: 0.25vh;
+        margin-bottom: 0.25vh;
+    }
+    .trunk .btn-primary {
+        height: 3.5vh;
+    }
+}

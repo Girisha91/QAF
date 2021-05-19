@@ -1,0 +1,275 @@
+<div class="configform">
+    <div class="container">
+        <div class="listgroup content-margin">
+            <!-- <div class="col-md-12 margin-bottom" [ngClass]="!isLangArabic? 'right-align':''">
+            <button type="button" (click)="AddCI(ci)" class="btn btn-default primary" *ngIf="opr==0">
+                {{title}}</button>
+            <button type="button" (click)="UpdateCI(ci)" class="btn btn-default primary" *ngIf="opr==1">
+                {{title}}</button>
+            <button type="button" (click)="closeAndRedirect()" class="btn btn-default">
+                Back </button>
+        </div> -->
+            <div class="row">
+                <div class="col-md-12" style="margin-top:0px;">
+                    <div class="col-md-12 plr-0">
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="col-md-12 whitebc"
+                                    [ngClass]="!isLangArabic?
+                                    'right-align':'left-align'">
+                                    <div style="display: flex;">
+                                        <b [ngClass]="!isLangArabic?
+                                            'ftlt':'ftrt'" class="page-head
+                                            table-header-margin">{{title}}</b>
+                                            <button *ngIf="opr==2" type="button"
+                                        (click)="closeAndRedirect()" class="btn
+                                        btn-default poabr0">
+                                        {{'Back' | translate}} </button>
+                                    </div>
+                                    
+                                    <hr class="mtb-0 line" />
+                                    <!-- <button *ngIf="opr==2" type="button"
+                                        (click)="closeAndRedirect()" class="btn
+                                        btn-default">
+                                        {{'Back' | translate}} </button> -->
+                                </div>
+                                <!-- <div class="panel-heading">
+                                <div class="inline-display">
+                                    <h3 class="panel-title">
+                                      {{title}}
+                                    </h3>
+                                </div>
+                                <div style="float:right;" class="inline-display">(
+                                    <span class="error"> * </span>) Mandatory</div>
+                            </div> -->
+                                <div class="panel-body">
+                                    <div class="form-group col-md-12">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-4">
+                                                <label for="site_name">
+                                                    Site name</label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="ci.site_name"
+                                                    name="site_name"
+                                                    class="form-control"
+                                                    id="site_name"
+                                                    placeholder="Site name"
+                                                    />
+                                                <div [hidden]="errorSiteName ==
+                                                    ''" class="error">{{errorSiteName}}</div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="location">
+                                                    Location</label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="ci.location"
+                                                    name="location"
+                                                    class="form-control"
+                                                    id="location"
+                                                    placeholder="Location"
+                                                    />
+                                                <div [hidden]="errorLocation ==
+                                                    ''" class="error">{{errorLocation}}</div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="host_name">
+                                                    Host name</label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="ci.host_name"
+                                                    name="host_name"
+                                                    class="form-control"
+                                                    id="host_name"
+                                                    placeholder="Host name"
+                                                    />
+                                                <div [hidden]="errorHostName ==
+                                                    ''" class="error">{{errorHostName}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-4">
+                                                <label for="vlan_id">
+                                                    Vlan id</label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="ci.vlan_id"
+                                                    name="vlan_id"
+                                                    class="form-control"
+                                                    id="vlan_id"
+                                                    placeholder="Vlan id"
+                                                    />
+                                                <div [hidden]="errorVlanId ==
+                                                    ''" class="error">{{errorVlanId}}</div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="vlan_name">
+                                                    Vlan name</label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="ci.vlan_name"
+                                                    name="vlan_name"
+                                                    class="form-control"
+                                                    id="vlan_name"
+                                                    placeholder="Vlan name"
+                                                    />
+                                                <div [hidden]="errorVlanName ==
+                                                    ''" class="error">{{errorVlanName}}</div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="ip_address">
+                                                    Ip address</label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="ci.ip_address"
+                                                    name="ip_address"
+                                                    class="form-control"
+                                                    id="ip_address"
+                                                    placeholder="Ip address"
+                                                    />
+                                                <div [hidden]="errorIpAddress ==
+                                                    ''" class="error">{{errorIpAddress}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-4">
+                                                <label for="subnet_mask">
+                                                    Subnet mask</label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="ci.subnet_mask"
+                                                    name="subnet_mask"
+                                                    class="form-control"
+                                                    id="subnet_mask"
+                                                    placeholder="Subnet mask"
+                                                    />
+                                                <div [hidden]="errorSubnetMask
+                                                    == ''" class="error">{{errorSubnetMask}}</div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="area_no">
+                                                    Area no</label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="ci.area_no"
+                                                    name="area_no"
+                                                    class="form-control"
+                                                    id="area_no"
+                                                    placeholder="Area no"
+                                                    />
+                                                <div [hidden]="errorAreaNo ==
+                                                    ''" class="error">{{errorAreaNo}}</div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="router_id">
+                                                    Router id</label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="ci.router_id"
+                                                    name="router_id"
+                                                    class="form-control"
+                                                    id="router_id"
+                                                    placeholder="Router id"
+                                                    />
+                                                <div [hidden]="errorRouterId ==
+                                                    ''" class="error">{{errorRouterId}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-4">
+                                                <label for="remarks">
+                                                    Remarks</label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="ci.remarks"
+                                                    name="remarks"
+                                                    class="form-control"
+                                                    id="remarks"
+                                                    placeholder="Remarks"
+                                                    />
+                                                <div [hidden]="errorRemarks ==
+                                                    ''" class="error">{{errorRemarks}}</div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="status">
+                                                    Status</label>
+                                                <select class="form-control"
+                                                    ngControl="st"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="ci.status"
+                                                    required>
+                                                    <option *ngFor="let st of
+                                                        StatusList"
+                                                        [value]="st.value">{{st.label}}</option>
+                                                </select>
+                                                <div [hidden]="errorStatus ==
+                                                    ''" class="error">{{errorStatus}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row" *ngIf="opr == 2">
+                                            <div class="form-group col-md-4">
+                                                <label for="added_at">
+                                                    Added at</label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="ci.added_at"
+                                                    name="added_at"
+                                                    class="form-control"
+                                                    id="added_at"
+                                                    placeholder="Added at"
+                                                    />
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="updated_at">
+                                                    Updated at</label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="ci.updated_at"
+                                                    name="updated_at"
+                                                    class="form-control"
+                                                    id="updated_at"
+                                                    placeholder="Updated at"
+                                                    />
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 center-align">
+                                        <button type="button"
+                                            (click)="AddCI(ci)" class="btn
+                                            btn-default primary" *ngIf="opr ==
+                                            0">
+                                            {{title}}</button>
+                                        <button type="button"
+                                            (click)="UpdateCI(ci)" class="btn
+                                            btn-default primary" *ngIf="opr ==
+                                            1">
+                                            {{title}}</button>
+                                        <button type="button"
+                                            (click)="closeAndRedirect()"
+                                            class="btn btn-default"
+                                            *ngIf="!(opr==2)">
+                                            Cancel </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="col-md-12 center-align">
+                    <button type="button" (click)="AddCI(ci)" class="btn btn-default primary" *ngIf="opr == 0">
+                        {{title}}</button>
+                    <button type="button" (click)="UpdateCI(ci)" class="btn btn-default primary" *ngIf="opr == 1">
+                        {{title}}</button>
+                    <button type="button" (click)="closeAndRedirect()" class="btn btn-default">
+                        Back </button>
+                    <br/>
+                </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="ar current-lang" [ngClass]="getArStyleClass()">
+    <app-nav ></app-nav>
+    </div> -->
+</div>

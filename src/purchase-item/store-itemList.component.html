@@ -1,0 +1,383 @@
+<div class="strmaterial">
+<div class="store-margin">
+  <div class="formPanelListhead">
+    <div class="col-md-4 pull-left"> <strong class="storeMaterialHead">Store Material DB</strong></div>
+  <div class="margin-bottom ptmr-h1" style="text-align: right;">
+    <a class="btn btn-color btn-sm import" routerLink='/StoreMaterialForm/add'>{{ 'Add' }}</a>
+    <a class="btn btn-color btn-sm import" (click)="showUploaPopUp()">{{ 'Import' }}</a>
+    <a class="btn btn-default btn-sm import" routerLink='/store-items'>{{ 'Back' }}</a>
+  </div>
+</div>
+  <div class="row">
+    <div [ngClass]="!showImage ? 'col-md-12':'col-md-10'">
+      <div class="scroll-x storeTableContainer SITM">
+        <table class=" store-table tbl-employee table highLightTable">
+          <tbody>
+            <tr class="tr-fonts">
+              <th class="fixed-1 fixth" > Action </th>
+              <th (click)="sort('item_name')">{{'Item Name' | translate}}
+                <i class="fa" [ngClass]="{'fa-sort': column != 'item_name',
+                                                    'fa-sort-asc': (column == 'item_name' && !isDesc),
+                                                    'fa-sort-desc': (column == 'item_name' && isDesc) }"
+                  aria-hidden="true">
+                </i>
+              </th>
+              <th (click)="sort('item_no')">{{'Item No' | translate}}
+                <i class="fa" [ngClass]="{'fa-sort': column != 'item_no',
+                                                      'fa-sort-asc': (column == 'item_no' && !isDesc),
+                                                      'fa-sort-desc': (column == 'item_no' && isDesc) }"
+                  aria-hidden="true">
+                </i>
+              </th>
+              <th (click)="sort('part_no')">{{'Part No'| translate}}
+                <i class="fa" [ngClass]="{'fa-sort': column != 'part_no',
+                                                    'fa-sort-asc': (column == 'part_no' && !isDesc),
+                                                    'fa-sort-desc': (column == 'part_no' && isDesc) }"
+                  aria-hidden="true">
+                </i>
+              </th>
+              <th (click)="sort('description')">{{'Description' | translate}}
+                <i class="fa" [ngClass]="{'fa-sort': column != 'description',
+                                                      'fa-sort-asc': (column == 'description' && !isDesc),
+                                                      'fa-sort-desc': (column == 'description' && isDesc) }"
+                  aria-hidden="true">
+                </i>
+              </th>
+              <th (click)="sort('category')">{{'Category' | translate}}
+                <i class="fa" [ngClass]="{'fa-sort': column != 'category',
+                                                          'fa-sort-asc': (column == 'category' && !isDesc),
+                                                          'fa-sort-desc': (column == 'category' && isDesc) }"
+                  aria-hidden="true">
+                </i>
+              </th>
+              <th (click)="sort('department')">{{'Department' | translate}}
+                <i class="fa" [ngClass]="{'fa-sort': column != 'department',
+                                                              'fa-sort-asc': (column == 'department' && !isDesc),
+                                                              'fa-sort-desc': (column == 'department' && isDesc) }"
+                  aria-hidden="true">
+                </i>
+              </th>
+              <th (click)="sort('manufacture')">{{'Manufacture' | translate}}
+                <i class="fa"
+                  [ngClass]="{'fa-sort': column != 'manufacture',
+                                                                  'fa-sort-asc': (column == 'manufacture' && !isDesc),
+                                                                  'fa-sort-desc': (column == 'manufacture' && isDesc) }"
+                  aria-hidden="true">
+                </i>
+              </th>
+              <th (click)="sort('vendor')">{{'Vendor' | translate}}
+                <i class="fa" [ngClass]="{'fa-sort': column != 'vendor',
+                                                                      'fa-sort-asc': (column == 'vendor' && !isDesc),
+                                                                      'fa-sort-desc': (column == 'vendor' && isDesc) }"
+                  aria-hidden="true">
+                </i>
+              </th>
+              <th (click)="sort('supplier_id')">{{'Supplier Name'| translate}}
+                <i class="fa" [ngClass]="{'fa-sort': column != 'supplier_id',
+                                                      'fa-sort-asc': (column == 'supplier_id' && !isDesc),
+                                                      'fa-sort-desc': (column == 'supplier_id' && isDesc) }"
+                  aria-hidden="true">
+                </i>
+              </th>
+              <th (click)="sort('warranty')">{{'Warranty'| translate}}
+                <i class="fa" [ngClass]="{'fa-sort': column != 'warranty',
+                                                          'fa-sort-asc': (column == 'warranty' && !isDesc),
+                                                          'fa-sort-desc': (column == 'warranty' && isDesc) }"
+                  aria-hidden="true">
+                </i>
+              </th>
+              <th (click)="sort('reorder_qty')">{{'Threshold qty'| translate}}
+                <i class="fa" [ngClass]="{'fa-sort': column != 'reorder_qty',
+                                                          'fa-sort-asc': (column == 'reorder_qty' && !isDesc),
+                                                          'fa-sort-desc': (column == 'reorder_qty' && isDesc) }"
+                  aria-hidden="true">
+                </i>
+              </th>
+            </tr>
+          </tbody>
+          <tbody class="searchBox">
+            <tr>
+              <td class="fixed-column-1 l-3" style="padding: 0 !important;"></td>
+              <td>
+                <input type="text" name="searchItemName" [(ngModel)]="searchItemName"
+                  class="searchItemName textbox-height form-control" placeholder="{{ 'Item Name' | translate }}" />
+              </td>
+              <td>
+                <input type="text" name="searchItemNo" [(ngModel)]="searchItemNo"
+                  class="searchItemNo textbox-height form-control" placeholder="{{ 'Item No' | translate }}" />
+              </td>
+              <td>
+                <input type="text" name="searchPartNo" [(ngModel)]="searchPartNo"
+                  class="searchPartNo textbox-height form-control" placeholder="{{ 'Part No' | translate }}" />
+              </td>
+              <td>
+                <input type="text" name="searchDescription" [(ngModel)]="searchDescription"
+                  class="searchDescription textbox-height form-control" placeholder="{{ 'Description' | translate }}" />
+              </td>
+              <td>
+                <input type="text" name="searchCategory" [(ngModel)]="searchCategory"
+                  class="searchCategory textbox-height form-control" placeholder="{{ 'Category' | translate }}" />
+              </td>
+              <td>
+                <select class="form-control searchDepartment textbox-height" [(ngModel)]="searchDepartment">
+                  <option class="searchAlign" value="">{{ 'Department' | translate }} </option>
+                  <option *ngFor="let dept of DepartmentList" [value]="dept.label">{{dept.label}}</option>
+                </select>
+              </td>
+              <td>
+                <input type="text" name="searchManufacture" [(ngModel)]="searchManufacture"
+                  class="searchManufacture textbox-height form-control" placeholder="{{ 'Manufacture' | translate }}" />
+              </td>
+              <td>
+                <input type="text" name="searchVendor" [(ngModel)]="searchVendor"
+                  class="searchVendor textbox-height form-control" placeholder="{{ 'Vendor' | translate }}" />
+              </td>
+              <td>
+                <input type="text" name="searchSupplierName" [(ngModel)]="searchSupplierName"
+                  class="searchSupplierName textbox-height form-control"
+                  placeholder="{{ 'Supplier Name' | translate }}" />
+              </td>
+              <td>
+                <input type="text" name="searchWarranty" [(ngModel)]="searchWarranty"
+                  class="searchWarranty textbox-height form-control"
+                  placeholder="{{ 'Warranty' | translate }}" />
+              </td>
+              <td>
+                <input type="text" name="searchThresholdqty" [(ngModel)]="searchThresholdqty"
+                  class="searchThresholdqty textbox-height form-control"
+                  placeholder="{{ 'Threshold qty' | translate }}" />
+              </td>
+
+            </tr>
+          </tbody>
+          <tr>
+
+          </tr>
+          <tbody *ngFor="let emp of EmployeeDetails | storeItemListSearch : searchItemName : searchItemNo : searchPartNo : searchDescription : searchCategory : searchDepartment : searchManufacture : searchVendor : searchSupplierName : searchWarranty : searchThresholdqty | orderBy: {property: column, direction: direction} | paginate: {itemsPerPage: 10, currentPage:page, id: '1'}  ; let i = index">
+            <tr *ngIf="EmployeeDetails?.length > 0" (click)="setHighLightRow(emp)" [class.active]="emp.highLightRow">
+              <td class="no-word-wrap fixed-1 fullsize">
+                <a class="primary-color cursor-pointer table-action-icon fa fa-eye fa-lg pr-7" title="View Materials"
+                  [routerLink]="['/StoreMaterialForm/view/', emp.id]"></a>
+                <a class="primary-color table-action-icon fa fa-wrench fa-lg pr-7"
+                  title="Edit Materials" [routerLink]="['/StoreMaterialForm/edit/', emp.id]"></a>
+                <a class="primary-color cursor-pointer table-action-icon fa fa-trash-o fa-lg"
+                  (click)="showDeleteMaterialPopup(emp)" title="Delete Materials"></a>
+              </td>
+              <td [class.active]="emp.highLightRow1" (click)="setClickedRowAndImage1(emp)">{{emp.item_name}}</td>
+              <td [class.active]="emp.highLightRow1" (click)="setClickedRowAndImage1(emp)">{{emp.item_no}}</td>
+              <td [class.active]="emp.highLightRow1" (click)="setClickedRowAndImage1(emp)">{{emp.part_no}}</td>
+              <td [class.active]="emp.highLightRow1" class="nowrap" (click)="setClickedRowAndImage1(emp)">{{emp.description}}</td>
+              <td [class.active]="emp.highLightRow1" (click)="setClickedRowAndImage1(emp)">{{emp.category}}</td>
+              <td [class.active]="emp.highLightRow1" (click)="setClickedRowAndImage1(emp)">{{emp.department}}</td>
+              <td [class.active]="emp.highLightRow1" (click)="setClickedRowAndImage1(emp)">{{emp.manufacture}}</td>
+              <td [class.active]="emp.highLightRow1" (click)="setClickedRowAndImage1(emp)">{{emp.vendor}}</td>
+              <td [class.active]="emp.highLightRow1" (click)="setClickedRowAndImage1(emp)">{{emp.supplier_id}}</td>
+              <td [class.active]="emp.highLightRow1" (click)="setClickedRowAndImage1(emp)">{{emp.warranty}}</td>
+              <td [class.active]="emp.highLightRow1" (click)="setClickedRowAndImage1(emp)">{{emp.reorder_qty}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div [ngClass]="!showImage ? '':'col-md-2'">
+      <div *ngIf='showImage' class="imageView">
+        <h4>
+          <strong>{{MaterialName}}</strong>
+        </h4>
+        <h5>{{MaterialNumber}}</h5>
+        <div>
+          <img src="{{MaterialImage}}" style="width:100px;height: 100px;">
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="right-align">
+  <pagination-controls (pageChange)="page = $event" id="1" maxSize="5" directionLinks="true" autoHide="true">
+  </pagination-controls>
+</div>
+</div>
+
+
+<div class="form-row" #StoreMaterial>
+  <bs-modal #modalListItem id="modalListItem" dir="{{!isLangArabic ?'ltr':'rtl'}}">
+    <bs-modal-header [showDismiss]="false">
+      <button type="button" class="close" [ngClass]="!isLangArabic? 'float-right':'float-left'" data-dismiss="modal">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only">Close</span>
+      </button>
+      <h4 class="modal-title">{{'Material DB'| translate }}</h4>
+    </bs-modal-header>
+    <bs-modal-body>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="SmsId">Item Name</label>
+            <input type="text" [disabled]="isReadOnly" *ngIf="opr==2" class="form-control" name="sm.item_name"
+              [(ngModel)]="PopupItemName" placeholder="{{PopupItemName}}" />
+            <input type="text" [disabled]="isReadOnly" *ngIf="opr==1" class="form-control" name="sm.item_name"
+              [(ngModel)]="sm.item_name" placeholder="{{PopupItemName}}" />
+            <input type="text" [disabled]="isReadOnly" *ngIf="opr==0" class="form-control" name="sm.item_name"
+              [(ngModel)]="StoreMaterial.item_name" placeholder="{{PopupItemName}}" />
+            <!-- <input type="text" [disabled]="isReadOnly" class="form-control" name="sm.item_name" [(ngModel)]="sm.item_name" placeholder="{{sm.item_name}}"/> -->
+            <div [hidden]="errorItemName == ''" class="error">{{errorItemName}}</div>
+          </div>
+          <div class="form-group">
+            <label for="SmsPosition">Item No</label>
+            <input type="text" [disabled]="isReadOnly" *ngIf="opr==2" class="form-control" name="sm.item_no"
+              [(ngModel)]="PopupItemNo" placeholder="{{PopupItemNo}}" />
+            <input type="text" [disabled]="isReadOnly" *ngIf="opr==1" class="form-control" name="sm.item_no"
+              [(ngModel)]="sm.item_no" placeholder="{{PopupItemNo}}" />
+            <input type="text" [disabled]="isReadOnly" *ngIf="opr==0" class="form-control" name="sm.item_no"
+              [(ngModel)]="StoreMaterial.item_no" placeholder="{{PopupItemNo}}" />
+            <div [hidden]="errorItemNo == ''" class="error">{{errorItemNo}}</div>
+          </div>
+          <div class="form-group">
+            <label for="SmsId">Part No</label>
+            <input type="text" [disabled]="isReadOnly" *ngIf="opr==2" class="form-control" name="sm.part_no"
+              [(ngModel)]="PopupPartNo" placeholder="{{PopupPartNo}}" />
+            <input type="text" [disabled]="isReadOnly" *ngIf="opr==1" class="form-control" name="sm.part_no"
+              [(ngModel)]="sm.part_no" placeholder="{{PopupPartNo}}" />
+            <input type="text" [disabled]="isReadOnly" *ngIf="opr==0" class="form-control" name="sm.part_no"
+              [(ngModel)]="StoreMaterial.part_no" placeholder="{{PopupPartNo}}" />
+            <div [hidden]="errorPartNo == ''" class="error">{{errorPartNo}}</div>
+          </div>
+
+          <div class="form-group">
+            <label for="SmsPosition">
+              Description </label>
+            <input type="text" [disabled]="isReadOnly" *ngIf="opr==2" class="form-control" name="sm.description"
+              [(ngModel)]="PopupDescription" placeholder="{{PopupDescription}}" />
+            <input type="text" [disabled]="isReadOnly" *ngIf="opr==1" class="form-control" name="sm.description"
+              [(ngModel)]="sm.description" placeholder="{{PopupDescription}}" />
+            <input type="text" [disabled]="isReadOnly" *ngIf="opr==0" class="form-control" name="sm.description"
+              [(ngModel)]="StoreMaterial.description" placeholder="{{PopupDescription}}" />
+            <div [hidden]="errorDescription == ''" class="error">{{errorDescription}}</div>
+          </div>
+          <div class="form-group">
+            <label for="SmsId">
+              Department</label>
+            <input type="text" [disabled]="isReadOnly" *ngIf="opr==2" class="form-control" name="sm.department"
+              [(ngModel)]="PopupDepartment" placeholder="{{PopupDepartment}}" />
+            <input type="text" [disabled]="isReadOnly" *ngIf="opr==1" class="form-control" name="sm.department"
+              [(ngModel)]="sm.department" placeholder="{{PopupDepartment}}" />
+            <input type="text" [disabled]="isReadOnly" *ngIf="opr==0" class="form-control" name="sm.department"
+              [(ngModel)]="StoreMaterial.department" placeholder="{{PopupDepartment}}" />
+            <div [hidden]="errorDept == ''" class="error">{{errorDept}}</div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="SmsPosition">
+              Manufature</label>
+            <input type="text" [disabled]="isReadOnly" *ngIf="opr==2" class="form-control" name="sm.manufacture"
+              [(ngModel)]="PopupManufature" placeholder="{{PopupManufature}}" />
+            <input type="text" [disabled]="isReadOnly" *ngIf="opr==1" class="form-control" name="sm.manufacture"
+              [(ngModel)]="sm.manufacture" placeholder="{{PopupManufature}}" />
+            <input type="text" [disabled]="isReadOnly" *ngIf="opr==0" class="form-control" name="sm.manufacture"
+              [(ngModel)]="StoreMaterial.manufacture" placeholder="{{PopupManufature}}" />
+            <div [hidden]="errorManuf == ''" class="error">{{errorManuf}}</div>
+          </div>
+          <div class="form-group">
+            <label for="SmsId">
+              Vendor</label>
+            <input type="text" [disabled]="isReadOnly" *ngIf="opr==2" class="form-control" name="sm.vendor"
+              [(ngModel)]="PopupVendor" placeholder="{{PopupVendor}}" />
+            <input type="text" [disabled]="isReadOnly" *ngIf="opr==1" class="form-control" name="sm.vendor"
+              [(ngModel)]="sm.vendor" placeholder="{{PopupVendor}}" />
+            <input type="text" [disabled]="isReadOnly" *ngIf="opr==0" class="form-control" name="sm.vendor"
+              [(ngModel)]="StoreMaterial.vendor" placeholder="{{PopupVendor}}" />
+            <div [hidden]="errorVendor == ''" class="error">{{errorVendor}}</div>
+          </div>
+
+          <div class="form-group">
+            <label for="SmsPosition">
+              Supplier</label>
+            <input type="text" [disabled]="isReadOnly" *ngIf="opr==2" class="form-control" name="sm.supplier_id"
+              [(ngModel)]="PopupSupplier" placeholder="{{PopupSupplier}}" />
+            <input type="text" [disabled]="isReadOnly" *ngIf="opr==1" class="form-control" name="sm.supplier_id"
+              [(ngModel)]="sm.supplier_id" placeholder="{{PopupSupplier}}" />
+            <input type="text" [disabled]="isReadOnly" *ngIf="opr==0" class="form-control" name="sm.supplier_id"
+              [(ngModel)]="StoreMaterial.supplier_id" placeholder="{{PopupSupplier}}" />
+            <div [hidden]="errorSupplierId == ''" class="error">{{errorSupplierId}}</div>
+          </div>
+          <div class="form-group">
+            <label for="SmsPosition">
+              Category </label>
+            <input type="text" [disabled]="isReadOnly" *ngIf="opr==2" class="form-control" name="sm.category"
+              [(ngModel)]="PopupCategory" placeholder="{{PopupCategory}}" />
+            <input type="text" [disabled]="isReadOnly" *ngIf="opr==1" class="form-control" name="sm.category"
+              [(ngModel)]="sm.category" placeholder="{{PopupCategory}}" />
+            <input type="text" [disabled]="isReadOnly" *ngIf="opr==0" class="form-control" name="sm.category"
+              [(ngModel)]="StoreMaterial.category" placeholder="{{PopupCategory}}" />
+            <div [hidden]="errorCategory == ''" class="error">{{errorCategory}}</div>
+          </div>
+          <div class="form-group">
+            <label for="SmsId">
+              Re-Order Qty</label>
+            <input type="text" [disabled]="isReadOnly" *ngIf="opr==2" class="form-control" name="sm.reorder_qty"
+              [(ngModel)]="PopupReOrderQuantity" placeholder="{{PopupReOrderQuantity}}" />
+            <input type="text" [disabled]="isReadOnly" *ngIf="opr==1" class="form-control" name="sm.reorder_qty"
+              [(ngModel)]="sm.reorder_qty" placeholder="{{PopupReOrderQuantity}}" />
+            <input type="text" [disabled]="isReadOnly" *ngIf="opr==0" class="form-control" name="sm.reorder_qty"
+              [(ngModel)]="StoreMaterial.reorder_qty" placeholder="{{PopupReOrderQuantity}}" />
+            <div [hidden]="errorReorderQty == ''" class="error">{{errorReorderQty}}</div>
+          </div>
+        </div>
+
+      </div>
+    </bs-modal-body>
+    <bs-modal-footer>
+      <div class="col-md-12">
+        <button type="button" class="btn btn-default"
+          (click)="hidePopUp('modalListItem')">{{ 'Cancel' | translate }}</button>
+        <button type="button" *ngIf="opr==1" (click)="updateMaterial(sm)" class="btn btn-default primary">
+          Update Material</button>
+        <button type="button" *ngIf="opr==0" (click)="addMaterial(StoreMaterial)" class="btn btn-default primary">
+          Add Material </button>
+        <br />
+      </div>
+    </bs-modal-footer>
+  </bs-modal>
+</div>
+<div class="form-row">
+    <bs-modal #modalImport id="modalImport" dir="{{!isLangArabic ?'ltr':'rtl'}}">
+        <bs-modal-header [showDismiss]="false">
+            <button type="button" class="close" data-dismiss="modal" [ngClass]="!isLangArabic? 'float-right':'float-left'">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <h4 class="modal-title">{{ 'Import Csv' | translate }}</h4>
+        </bs-modal-header>
+        <bs-modal-body>
+            {{'Upload Csv file' | translate }}
+            <input type="file" #fileImportInput name="csv_data" id="txtFileUpload" class="btn btn-primary" (change)="fileChangeListenerImport($event)"
+                accept=".csv" />
+        </bs-modal-body>
+        <bs-modal-footer>
+            <button type="button" class="btn btn-primary" (click)="import()">{{ 'Import' | translate }}</button>
+            <button type="button" class="btn btn-default" (click)="hidePopUp('modalImport')">{{ 'Cancel' | translate }}</button>
+        </bs-modal-footer>
+    </bs-modal>
+</div>
+<div class="form-row">
+  <bs-modal #modalDeactivate1 id="modalDeactivate1" dir="{{!isLangArabic ?'ltr':'rtl'}}">
+    <bs-modal-header [showDismiss]="false">
+      <button type="button" class="close" data-dismiss="modal" [ngClass]="!isLangArabic? 'float-right':'float-left'">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only">Close</span>
+      </button>
+      <h4 class="modal-title">{{ 'Deactivate material' | translate }}</h4>
+    </bs-modal-header>
+    <bs-modal-body>
+      {{'Are you sure you want to deactivate this material ' | translate }}
+    </bs-modal-body>
+    <bs-modal-footer>
+      <button type="button" class="btn btn-danger"
+        (click)="deleteMaterial()">{{ 'Deactivate' | translate }}</button>
+      <button type="button" class="btn btn-default"
+        (click)="hidePopUp('modalDeactivate')">{{ 'Cancel' | translate }}</button>
+    </bs-modal-footer>
+  </bs-modal>
+</div>
+</div>

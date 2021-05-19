@@ -1,0 +1,2150 @@
+<div class="pabxusersnodes">
+  <div class="pabxScreeen no-print">
+    <app-pabx-nav></app-pabx-nav>
+  </div>
+
+
+  <div class="card">
+    <!-- <div class="row pabx-header"> -->
+
+
+
+      <div class="header no-print">
+        
+        <div class="row Pagename">
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+            <b class="page-head">PABX - Users </b>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 ftrt" *ngIf="lastUpdatedDate">
+            Date Last Updated: {{lastUpdatedDate}}
+          </div>
+        </div>
+        <div class="row srcrow">
+          <div class="col-lg-9 col-md-9 col-sm-9">
+            <form [formGroup]="searchForm"
+              (ngSubmit)="OnSubmit(searchForm.value)">
+              <div class="search-form margin-bottom" formArrayName="items"
+                *ngFor="let item of items.controls; let i= index;">
+                <div class="position-relative form-id-{{i}}"
+                  [formGroupName]="i">
+                  <div class="row pos">
+                    <div class="col-lg-4 col-md-4
+                      col-sm-4">
+                      <label class="text-center">Search:</label>
+                      <select id="ddlselect{{i}}" class="drop-down
+                        form-control text-center wd-80 no-print
+                        inline-display" (change)="onChange($event)"
+                        formControlName="fieldName">
+                        <option value="">Select</option>
+                        <option *ngFor="let state of searchKeyArray"
+                          [value]="state.item">{{state.label}}</option>
+                      </select>
+                    </div>
+                    <div class="col-lg-4 col-sm-4
+                      col-md-4" style="padding-left: 0;">
+                      <input class="drop-down wd-100 form-control
+                        inline-display"
+                        type="text" formControlName="fieldValue"
+                        placeholder="value" />
+                    </div>
+                    <select class="hide drop-down form-control node-select no-print"
+                      formControlName="fieldValue">
+                      <option value="">Select</option>
+                      <option *ngFor="let state of nodeArray" [value]="state">{{state}}</option>
+                    </select>
+                    <div class="col-lg-3 col-md-3
+                      col-sm-3" style="padding: 0;">
+                      <button type="submit" class="primary mt-3">{{ 'Search' | translate}}</button>
+                      <a class="inline-display add-anch"
+                        (click)="addItem()">{{ 'Add More' | translate}}</a>
+                      <span class="vertical-line"></span>
+                      <a class="inline-display clr-anch"
+                        (click)="cancelSearch()">{{ 'Clear' | translate}}</a>
+                      <i class="fa fa-times custom primary-color cursor-pointer"
+                        *ngIf="!(i===0)" (click)="deleteAction(i)"
+                        aria-hidden="true"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-3 ftrt pl-0  h-6" *ngIf="userRoleId == '1'">
+            <button type="button" class="btn btn-primary import mt-3"
+              (click)='showUploaPopUp()'>{{ 'Import' | translate }}</button>
+            <button type="button" class="btn btn-primary import mt-3"
+              (click)='showMdfUploadPopUp()'>Import Mdf Details</button>
+            <button type="button" class="btn btn-primary import mt-3"
+              (click)='exportToExcel()'>{{ 'Export' | translate }}</button>
+          </div>
+        </div>
+      </div>
+
+
+
+
+      <!-- <div class="col-md-4 pabx-heading">PABX - Users </div>
+  <div class="col-md-4">
+    <label>Search:</label>
+    <form [formGroup]="searchForm" (ngSubmit)="OnSubmit(searchForm.value)">
+      <div class="search-form margin-bottom" formArrayName="items" *ngFor="let item of items.controls; let i = index;">
+        <div class="position-relative form-id-{{i}}" [formGroupName]="i">
+          <select id="ddlselect{{i}}" class="textbox-height form-control inline-display" (change)="onChange($event)"
+            formControlName="fieldName">
+            <option value="">Select</option>
+            <option *ngFor="let state of searchKeyArray" [value]="state.item">{{state.label}}</option>
+          </select>
+          <input class="textbox-height form-control inline-display" type="text" formControlName="fieldValue"
+            placeholder="value" />
+          <select class="hide textbox-height form-control node-select" formControlName="fieldValue">
+            <option value="">Select</option>
+            <option *ngFor="let state of nodeArray" [value]="state">{{state}}</option>
+          </select>
+
+          <span class="align-search-cross fa fa-remove cursor-pointer primary-color" (click)="deleteAction(i)"></span>
+
+        </div>
+      </div>
+      <button type="submit" class="primary btn btn-default">Search</button>
+      <button type="button" class="primary btn btn-default" (click)="addItem()">Add More</button>
+      <button type="button" class="btn btn-default" (click)="cancelSearch()">Clear</button>
+
+    </form>
+  </div>
+  <div class="col-md-4 update-info">{{lastUpdatedDate}}</div>
+</div> -->
+      <div class="main hideContent no-print">        
+        <!-- <div class="margin-bottom" *ngIf="userRoleId == '1'">
+    <button type="button" class="btn btn-primary import" (click)='showUploadPopUp()'>{{ 'Import' | translate }}</button>
+    <button type="button" class="btn btn-primary import" (click)='showMdfUploadPopUp()'>Import Mdf Details</button>
+    <button type="button" class="btn btn-primary import" (click)='exportToExcel()'>{{ 'Export' | translate }}</button>
+  </div> -->
+        <div id="tableContainer" class="div-users">
+          <table class="pabx-users pabx-table tbl-employee table
+            highLightTable">
+            <tr class="tr-fonts">
+              <th [ngClass]="!isLangArabic? 'fixed-1' : 'fixed-ar-1'" class="fix-top">Action</th>
+              <th [ngClass]="!isLangArabic? 'fixed-2' : 'fixed-ar-2'" class="fix-top" (click)="sort('Node')">Node
+                <i class="fa" [ngClass]="{'fa-sort': column != 'Node',
+                  'fa-sort-asc': (column == 'Node' && !isDesc),
+                  'fa-sort-desc': (column == 'Node' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th [ngClass]="!isLangArabic? 'fixed-3' : 'fixed-ar-3'" class="fix-top" (click)="sort('Directory_Number')">Directory
+                Number
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Directory_Number',
+                  'fa-sort-asc': (column == 'Directory_Number' && !isDesc),
+                  'fa-sort-desc': (column == 'Directory_Number' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Directory_name')"> Directory Name
+                <i class="fa" [ngClass]="{'fa-sort': column != 'Directory_name',
+                  'fa-sort-asc': (column == 'Directory_name' && !isDesc),
+                  'fa-sort-desc': (column == 'Directory_name' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Directory_First_Name')"> Directory First Name
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Directory_First_Name',
+                  'fa-sort-asc': (column == 'Directory_First_Name' && !isDesc),
+                  'fa-sort-desc': (column == 'Directory_First_Name' && isDesc)
+                  }" aria-hidden="true"> </i>
+              </th>
+              <th hidden (click)="sort('UTF_8_Directory_Name')">UTF 8 Directory
+                Name
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'UTF_8_Directory_Name',
+                  'fa-sort-asc': (column == 'UTF_8_Directory_Name' && !isDesc),
+                  'fa-sort-desc': (column == 'UTF_8_Directory_Name' && isDesc)
+                  }" aria-hidden="true"> </i>
+              </th>
+              <th hidden (click)="sort('UTF_8_Directory_First_Name')">UTF 8
+                Directory FirstName
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'UTF_8_Directory_First_Name',
+                  'fa-sort-asc': (column == 'UTF_8_Directory_First_Name' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'UTF_8_Directory_First_Name' &&
+                  isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Location_Node')">Location Node
+                <i class="fa" [ngClass]="{'fa-sort': column != 'Location_Node',
+                  'fa-sort-asc': (column == 'Location_Node' && !isDesc),
+                  'fa-sort-desc': (column == 'Location_Node' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Shelf_Address')">Shelf Address
+                <i class="fa" [ngClass]="{'fa-sort': column != 'Shelf_Address',
+                  'fa-sort-asc': (column == 'Shelf_Address' && !isDesc),
+                  'fa-sort-desc': (column == 'Shelf_Address' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Board_Address')">Board Address
+                <i class="fa" [ngClass]="{'fa-sort': column != 'Board_Address',
+                  'fa-sort-asc': (column == 'Board_Address' && !isDesc),
+                  'fa-sort-desc': (column == 'Board_Address' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Equipment_Address')">Equipment Address
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Equipment_Address',
+                  'fa-sort-asc': (column == 'Equipment_Address' && !isDesc),
+                  'fa-sort-desc': (column == 'Equipment_Address' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Set_Type')">Set Type
+                <i class="fa" [ngClass]="{'fa-sort': column != 'Set_Type',
+                  'fa-sort-asc': (column == 'Set_Type' && !isDesc),
+                  'fa-sort-desc': (column == 'Set_Type' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Entity_Number')">Entity Number
+                <i class="fa" [ngClass]="{'fa-sort': column != 'Entity_Number',
+                  'fa-sort-asc': (column == 'Entity_Number' && !isDesc),
+                  'fa-sort-desc': (column == 'Entity_Number' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th hidden (click)="sort('Set_Function')">Set Function
+                <i class="fa" [ngClass]="{'fa-sort': column != 'Set_Function',
+                  'fa-sort-asc': (column == 'Set_Function' && !isDesc),
+                  'fa-sort-desc': (column == 'Set_Function' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th hidden (click)="sort('Profile_Name')">Profile Name
+                <i class="fa" [ngClass]="{'fa-sort': column != 'Profile_Name',
+                  'fa-sort-asc': (column == 'Profile_Name' && !isDesc),
+                  'fa-sort-desc': (column == 'Profile_Name' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Key_Profiles')" hidden>Key Profiles
+                <i class="fa" [ngClass]="{'fa-sort': column != 'Key_Profiles',
+                  'fa-sort-asc': (column == 'Key_Profiles' && !isDesc),
+                  'fa-sort-desc': (column == 'Key_Profiles' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Domain_Identifier')" hidden>Domain Identifier
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Domain_Identifier',
+                  'fa-sort-asc': (column == 'Domain_Identifier' && !isDesc),
+                  'fa-sort-desc': (column == 'Domain_Identifier' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('URL_UserName')" hidden>URL UserName
+                <i class="fa" [ngClass]="{'fa-sort': column != 'URL_UserName',
+                  'fa-sort-asc': (column == 'URL_UserName' && !isDesc),
+                  'fa-sort-desc': (column == 'URL_UserName' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('URL_Domain')" hidden>URL Domain
+                <i class="fa" [ngClass]="{'fa-sort': column != 'URL_Domain',
+                  'fa-sort-asc': (column == 'URL_Domain' && !isDesc),
+                  'fa-sort-desc': (column == 'URL_Domain' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('SIP_Authentication')">SIP Authentication
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'SIP_Authentication',
+                  'fa-sort-asc': (column == 'SIP_Authentication' && !isDesc),
+                  'fa-sort-desc': (column == 'SIP_Authentication' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('SIP_Passwd ')">SIP Password
+                <i class="fa" [ngClass]="{'fa-sort': column != 'SIP_Passwd ',
+                  'fa-sort-asc': (column == 'SIP_Passwd ' && !isDesc),
+                  'fa-sort-desc': (column == 'SIP_Passwd ' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('External_Gateway_Number')">External Gateway
+                Number
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'External_Gateway_Number ',
+                  'fa-sort-asc': (column == 'External_Gateway_Number ' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'External_Gateway_Number ' &&
+                  isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Gateway_type')"> Gateway Type
+                <i class="fa" [ngClass]="{'fa-sort': column != 'Gateway_type',
+                  'fa-sort-asc': (column == 'Gateway_type' && !isDesc),
+                  'fa-sort-desc': (column == 'Gateway_type' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Add_On_Module_1 ')"> Add On Module 1
+                <i class="fa" [ngClass]="{'fa-sort': column != 'Add_On_Module_1
+                  ',
+                  'fa-sort-asc': (column == 'Add_On_Module_1 ' && !isDesc),
+                  'fa-sort-desc': (column == 'Add_On_Module_1 ' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Add_On_Module_2')">Add On Module 2
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Add_On_Module_2',
+                  'fa-sort-asc': (column == 'Add_On_Module_2' && !isDesc),
+                  'fa-sort-desc': (column == 'Add_On_Module_2' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Add_On_Module_3')">Add On Module 3
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Add_On_Module_3',
+                  'fa-sort-asc': (column == 'Add_On_Module_3' && !isDesc),
+                  'fa-sort-desc': (column == 'Add_On_Module_3' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('External_Alphanumeric_Keyboard')">External
+                Alphanumeric Keyboard
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'External_Alphanumeric_Keyboard',
+                  'fa-sort-asc': (column == 'External_Alphanumeric_Keyboard' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'External_Alphanumeric_Keyboard' &&
+                  isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Internal_AlphanumKeyboard')"> Internal
+                AlphanumKeyboard
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Internal_AlphanumKeyboard',
+                  'fa-sort-asc': (column == 'Internal_AlphanumKeyboard' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'Internal_AlphanumKeyboard' &&
+                  isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th hidden (click)="sort('V24_Extension')"> V24 Extension
+                <i class="fa" [ngClass]="{'fa-sort': column != 'V24_Extension',
+                  'fa-sort-asc': (column == 'V24_Extension' && !isDesc),
+                  'fa-sort-desc': (column == 'V24_Extension' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('S0_Extension')"> S0 Extension
+                <i class="fa" [ngClass]="{'fa-sort': column != 'S0_Extension',
+                  'fa-sort-asc': (column == 'S0_Extension' && !isDesc),
+                  'fa-sort-desc': (column == 'S0_Extension' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('MACPC')"> MACPC
+                <i class="fa" [ngClass]="{'fa-sort': column != 'MACPC',
+                  'fa-sort-asc': (column == 'MACPC' && !isDesc),
+                  'fa-sort-desc': (column == 'MACPC' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Z_Adapter')"> Z Adapter
+                <i class="fa" [ngClass]="{'fa-sort': column != 'Z_Adapter',
+                  'fa-sort-asc': (column == 'Z_Adapter' && !isDesc),
+                  'fa-sort-desc': (column == 'Z_Adapter' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Language_ID')">Language ID
+                <i class="fa" [ngClass]="{'fa-sort': column != 'Language_ID',
+                  'fa-sort-asc': (column == 'Language_ID' && !isDesc),
+                  'fa-sort-desc': (column == 'Language_ID' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th hidden (click)="sort('Secret_Code')">Secret Code
+                <i class="fa" [ngClass]="{'fa-sort': column != 'Secret_Code',
+                  'fa-sort-asc': (column == 'Secret_Code' && !isDesc),
+                  'fa-sort-desc': (column == 'Secret_Code' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Associated_Set_No')"> Associated SetNo
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Associated_Set_No',
+                  'fa-sort-asc': (column == 'Associated_Set_No' && !isDesc),
+                  'fa-sort-desc': (column == 'Associated_Set_No' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Cost_Center_ID')">Cost Center ID
+                <i class="fa" [ngClass]="{'fa-sort': column != 'Cost_Center_ID',
+                  'fa-sort-asc': (column == 'Cost_Center_ID' && !isDesc),
+                  'fa-sort-desc': (column == 'Cost_Center_ID' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Cost_Center_Name')">Cost Center Name
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Cost_Center_Name',
+                  'fa-sort-asc': (column == 'Cost_Center_Name' && !isDesc),
+                  'fa-sort-desc': (column == 'Cost_Center_Name' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th hidden (click)="sort('Charging_COS')">Charging COS
+                <i class="fa" [ngClass]="{'fa-sort': column != 'Charging_COS',
+                  'fa-sort-asc': (column == 'Charging_COS' && !isDesc),
+                  'fa-sort-desc': (column == 'Charging_COS' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Public_Network_COS')">Public Network COS
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Public_Network_COS',
+                  'fa-sort-asc': (column == 'Public_Network_COS' && !isDesc),
+                  'fa-sort-desc': (column == 'Public_Network_COS' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('External_Forwarding_COS')"> External Forwarding
+                COS
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'External_Forwarding_COS',
+                  'fa-sort-asc': (column == 'External_Forwarding_COS' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'External_Forwarding_COS' &&
+                  isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Phone_Features_COS')"> Phone Features COS
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Phone_Features_COS',
+                  'fa-sort-asc': (column == 'Phone_Features_COS' && !isDesc),
+                  'fa-sort-desc': (column == 'Phone_Features_COS' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Connection_COS')"> Connection COS
+                <i class="fa" [ngClass]="{'fa-sort': column != 'Connection_COS',
+                  'fa-sort-asc': (column == 'Connection_COS' && !isDesc),
+                  'fa-sort-desc': (column == 'Connection_COS' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Hunt_Group_Dir_No')"> Hunt Group DirNo
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Hunt_Group_Dir_No',
+                  'fa-sort-asc': (column == 'Hunt_Group_Dir_No' && !isDesc),
+                  'fa-sort-desc': (column == 'Hunt_Group_Dir_No' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th hidden (click)="sort('ACD_Group_Directory_No')">ACD Group
+                DirectoryNo
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'ACD_Group_Directory_No',
+                  'fa-sort-asc': (column == 'ACD_Group_Directory_No' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'ACD_Group_Directory_No' && isDesc)
+                  }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Pickup_Group_Name')"> Pickup GroupName
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Pickup_Group_Name',
+                  'fa-sort-asc': (column == 'Pickup_Group_Name' && !isDesc),
+                  'fa-sort-desc': (column == 'Pickup_Group_Name' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Reserved_Time_Slot')" hidden>Reserved TimeSlot
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Reserved_Time_Slot',
+                  'fa-sort-asc': (column == 'Reserved_Time_Slot' && !isDesc),
+                  'fa-sort-desc': (column == 'Reserved_Time_Slot' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Voice_Mail_DirNo')" hidden> Voice Mail DirNo
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Voice_Mail_DirNo',
+                  'fa-sort-asc': (column == 'Voice_Mail_DirNo' && !isDesc),
+                  'fa-sort-desc': (column == 'Voice_Mail_DirNo' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Voice_Mail_Type')" hidden>Voice Mail Type
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Voice_Mail_Type',
+                  'fa-sort-asc': (column == 'Voice_Mail_Type' && !isDesc),
+                  'fa-sort-desc': (column == 'Voice_Mail_Type' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('col4630_access_without_Code')" hidden>4630
+                Access Without Code
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'col4630_access_without_Code',
+                  'fa-sort-asc': (column == 'col4630_access_without_Code' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'col4630_access_without_Code' &&
+                  isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Paging_Trunk_Group')" hidden>Paging Trunk Group
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Paging_Trunk_Group',
+                  'fa-sort-asc': (column == 'Paging_Trunk_Group' && !isDesc),
+                  'fa-sort-desc': (column == 'Paging_Trunk_Group' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Paging_Beeper')" hidden>Paging Beeper
+                <i class="fa" [ngClass]="{'fa-sort': column != 'Paging_Beeper',
+                  'fa-sort-asc': (column == 'Paging_Beeper' && !isDesc),
+                  'fa-sort-desc': (column == 'Paging_Beeper' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Called_Associated_DECT_set')" hidden>Called
+                Associated DECT Set
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Called_Associated_DECT_set',
+                  'fa-sort-asc': (column == 'Called_Associated_DECT_set' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'Called_Associated_DECT_set' &&
+                  isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Tele_Marketing_Agent')">Tele Marketing Agent
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Tele_Marketing_Agent',
+                  'fa-sort-asc': (column == 'Tele_Marketing_Agent' && !isDesc),
+                  'fa-sort-desc': (column == 'Tele_Marketing_Agent' && isDesc)
+                  }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('ISDN_UserExternal')">ISDN UserExternal
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'ISDN_UserExternal',
+                  'fa-sort-asc': (column == 'ISDN_UserExternal' && !isDesc),
+                  'fa-sort-desc': (column == 'ISDN_UserExternal' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('ISDN_UserInternal')">ISDN UserInternal
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'ISDN_UserInternal',
+                  'fa-sort-asc': (column == 'ISDN_UserInternal' && !isDesc),
+                  'fa-sort-desc': (column == 'ISDN_UserInternal' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('ISDN_UserDisplay_ext_calling_number')">ISDN
+                UserDisplay Ext Calling Number
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'ISDN_UserDisplay_ext_calling_number',
+                  'fa-sort-asc': (column ==
+                  'ISDN_UserDisplay_ext_calling_number' && !isDesc),
+                  'fa-sort-desc': (column ==
+                  'ISDN_UserDisplay_ext_calling_number' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('ISDN_Teleservice')" hidden>ISDN Teleservice
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'ISDN_Teleservice',
+                  'fa-sort-asc': (column == 'ISDN_Teleservice' && !isDesc),
+                  'fa-sort-desc': (column == 'ISDN_Teleservice' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Hotel_Set_Operation')" hidden>Hotel Set
+                Operation
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Hotel_Set_Operation',
+                  'fa-sort-asc': (column == 'Hotel_Set_Operation' && !isDesc),
+                  'fa-sort-desc': (column == 'Hotel_Set_Operation' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Type_of_room')" hidden>Type of Room
+                <i class="fa" [ngClass]="{'fa-sort': column != 'Type_of_room',
+                  'fa-sort-asc': (column == 'Type_of_room' && !isDesc),
+                  'fa-sort-desc': (column == 'Type_of_room' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Use_Type_Of_Dir_No')" hidden>Use Type Of Dir No
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Use_Type_Of_Dir_No',
+                  'fa-sort-asc': (column == 'Use_Type_Of_Dir_No' && !isDesc),
+                  'fa-sort-desc': (column == 'Use_Type_Of_Dir_No' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Number_Of_Set_Users')" hidden>Number Of Set
+                Users
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Number_Of_Set_Users',
+                  'fa-sort-asc': (column == 'Number_Of_Set_Users' && !isDesc),
+                  'fa-sort-desc': (column == 'Number_Of_Set_Users' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Dial_by_name_and_text_msg')">Dial by Name and
+                Text MSG
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Dial_by_name_and_text_msg',
+                  'fa-sort-asc': (column == 'Dial_by_name_and_text_msg' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'Dial_by_name_and_text_msg' &&
+                  isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Text_msg_number')" hidden>Text MSG Number
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Text_msg_number',
+                  'fa-sort-asc': (column == 'Text_msg_number' && !isDesc),
+                  'fa-sort-desc': (column == 'Text_msg_number' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Multi_line_station')">Multi Line Station
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Multi_line_station',
+                  'fa-sort-asc': (column == 'Multi_line_station' && !isDesc),
+                  'fa-sort-desc': (column == 'Multi_line_station' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th
+                (click)="sort('Multi_Line_PropertiesAutomatic_Incoming_Seizure')">Multi
+                Line PropertiesAutomatic Incoming
+                Seizure
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Multi_Line_PropertiesAutomatic_Incoming_Seizure',
+                  'fa-sort-asc': (column ==
+                  'Multi_Line_PropertiesAutomatic_Incoming_Seizure' && !isDesc),
+                  'fa-sort-desc': (column ==
+                  'Multi_Line_PropertiesAutomatic_Incoming_Seizure' && isDesc)
+                  }" aria-hidden="true">
+                </i>
+              </th>
+              <th
+                (click)="sort('Multi_Line_PropertiesAutomatic_Outgoing_Seizure')">Multi
+                Line PropertiesAutomatic Outgoing
+                Seizure
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Multi_Line_PropertiesAutomatic_Outgoing_Seizure',
+                  'fa-sort-asc': (column ==
+                  'Multi_Line_PropertiesAutomatic_Outgoing_Seizure' && !isDesc),
+                  'fa-sort-desc': (column ==
+                  'Multi_Line_PropertiesAutomatic_Outgoing_Seizure' && isDesc)
+                  }"
+                  aria-hidden="true">
+                </i>
+              </th>
+              <th (click)="sort('Multi_Line_PropertiesSelective_Filtering')">Multi
+                Line PropertiesSelective Filtering
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Multi_Line_PropertiesSelective_Filtering',
+                  'fa-sort-asc': (column ==
+                  'Multi_Line_PropertiesSelective_Filtering' && !isDesc),
+                  'fa-sort-desc': (column ==
+                  'Multi_Line_PropertiesSelective_Filtering' && isDesc) }"
+                  aria-hidden="true">
+                </i>
+              </th>
+              <th (click)="sort('Multi_Line_PropertiesOverflow_on_no_answer')">Multi
+                Line PropertiesOverflow on no Answer
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Multi_Line_PropertiesOverflow_on_no_answer',
+                  'fa-sort-asc': (column ==
+                  'Multi_Line_PropertiesOverflow_on_no_answer' && !isDesc),
+                  'fa-sort-desc': (column ==
+                  'Multi_Line_PropertiesOverflow_on_no_answer' && isDesc) }"
+                  aria-hidden="true">
+                </i>
+              </th>
+              <th (click)="sort('Multi_Line_PropertiesOverflow_on_busy')">Multi
+                Line PropertiesOverflow on Busy
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Multi_Line_PropertiesOverflow_on_busy',
+                  'fa-sort-asc': (column ==
+                  'Multi_Line_PropertiesOverflow_on_busy' && !isDesc),
+                  'fa-sort-desc': (column ==
+                  'Multi_Line_PropertiesOverflow_on_busy' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th
+                (click)="sort('Multi_Line_PropertiesSupervision_at_off_hook')">Multi
+                Line PropertiesSupervision at off Hook
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Multi_Line_PropertiesSupervision_at_off_hook',
+                  'fa-sort-asc': (column ==
+                  'Multi_Line_PropertiesSupervision_at_off_hook' && !isDesc),
+                  'fa-sort-desc': (column ==
+                  'Multi_Line_PropertiesSupervision_at_off_hook' && isDesc) }"
+                  aria-hidden="true">
+                </i>
+              </th>
+              <th
+                (click)="sort('Multi_Line_PropertiesAutomatic_Outgoing_Seizure_for_MLA')">Multi
+                Line PropertiesAutomatic
+                Outgoing Seizure for MLA
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Multi_Line_PropertiesAutomatic_Outgoing_Seizure_for_MLA',
+                  'fa-sort-asc': (column ==
+                  'Multi_Line_PropertiesAutomatic_Outgoing_Seizure_for_MLA' &&
+                  !isDesc),
+                  'fa-sort-desc': (column ==
+                  'Multi_Line_PropertiesAutomatic_Outgoing_Seizure_for_MLA' &&
+                  isDesc) }"
+                  aria-hidden="true">
+                </i>
+              </th>
+              <th (click)="sort('S0_FeatureUser_By_Default')">S0 Feature User By
+                Default
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'S0_FeatureUser_By_Default',
+                  'fa-sort-asc': (column == 'S0_FeatureUser_By_Default' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'S0_FeatureUser_By_Default' &&
+                  isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('S0_FeatureSub_address_Use')">S0 Feature Sub
+                Address Use
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'S0_FeatureSub_address_Use',
+                  'fa-sort-asc': (column == 'S0_FeatureSub_address_Use' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'S0_FeatureSub_address_Use' &&
+                  isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Dialed_number_masked')" hidden>Dialed number
+                masked
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Dialed_number_masked',
+                  'fa-sort-asc': (column == 'Dialed_number_masked' && !isDesc),
+                  'fa-sort-desc': (column == 'Dialed_number_masked' && isDesc)
+                  }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Access_Code_to_UUS_messages')">Access Code to
+                UUS Messages
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Access_Code_to_UUS_messages',
+                  'fa-sort-asc': (column == 'Access_Code_to_UUS_messages' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'Access_Code_to_UUS_messages' &&
+                  isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Routing_Table')">Routing Table
+                <i class="fa" [ngClass]="{'fa-sort': column != 'Routing_Table',
+                  'fa-sort-asc': (column == 'Routing_Table' && !isDesc),
+                  'fa-sort-desc': (column == 'Routing_Table' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Associated_Videophone')" hidden>Associated
+                Videophone
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Associated_Videophone',
+                  'fa-sort-asc': (column == 'Associated_Videophone' && !isDesc),
+                  'fa-sort-desc': (column == 'Associated_Videophone' && isDesc)
+                  }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('VIP_Very_Important_Pers')" hidden>VIP Very
+                Important Pers
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'VIP_Very_Important_Pers',
+                  'fa-sort-asc': (column == 'VIP_Very_Important_Pers' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'VIP_Very_Important_Pers' &&
+                  isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Assistant_Directory_Number')">Assistant
+                Directory Number
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Assistant_Directory_Number',
+                  'fa-sort-asc': (column == 'Assistant_Directory_Number' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'Assistant_Directory_Number' &&
+                  isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Calls_Priority')" hidden>Calls Priority
+                <i class="fa" [ngClass]="{'fa-sort': column != 'Calls_Priority',
+                  'fa-sort-asc': (column == 'Calls_Priority' && !isDesc),
+                  'fa-sort-desc': (column == 'Calls_Priority' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('DATA_Connection_COS')">DATA Connection COS
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'DATA_Connection_COS',
+                  'fa-sort-asc': (column == 'DATA_Connection_COS' && !isDesc),
+                  'fa-sort-desc': (column == 'DATA_Connection_COS' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Message_LED')">Message LED
+                <i class="fa" [ngClass]="{'fa-sort': column != 'Message_LED',
+                  'fa-sort-asc': (column == 'Message_LED' && !isDesc),
+                  'fa-sort-desc': (column == 'Message_LED' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('PCBT_Associated')" hidden>PCBT Associated
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'PCBT_Associated',
+                  'fa-sort-asc': (column == 'PCBT_Associated' && !isDesc),
+                  'fa-sort-desc': (column == 'PCBT_Associated' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Urgent_Call')" hidden>Urgent Call
+                <i class="fa" [ngClass]="{'fa-sort': column != 'Urgent_Call',
+                  'fa-sort-asc': (column == 'Urgent_Call' && !isDesc),
+                  'fa-sort-desc': (column == 'Urgent_Call' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('ExtAlarm_Equipment')">ExtAlarm Equipment
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'ExtAlarm_Equipment',
+                  'fa-sort-asc': (column == 'ExtAlarm_Equipment' && !isDesc),
+                  'fa-sort-desc': (column == 'ExtAlarm_Equipment' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('col4630_Mail_Box4630_Voice_Mail_Type')" hidden>col4630
+                Mail Box4630 Voice Mail Type
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'col4630_Mail_Box4630_Voice_Mail_Type',
+                  'fa-sort-asc': (column ==
+                  'col4630_Mail_Box4630_Voice_Mail_Type' && !isDesc),
+                  'fa-sort-desc': (column ==
+                  'col4630_Mail_Box4630_Voice_Mail_Type' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th
+                (click)="sort('col4630_Mail_Box4630_COSNetwork_Prefixes_authorized')"
+                hidden>col4630 Mail Box4630 COSNetwork
+                Prefixes Authorized
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'col4630_Mail_Box4630_COSNetwork_Prefixes_authorized',
+                  'fa-sort-asc': (column ==
+                  'col4630_Mail_Box4630_COSNetwork_Prefixes_authorized' &&
+                  !isDesc),
+                  'fa-sort-desc': (column ==
+                  'col4630_Mail_Box4630_COSNetwork_Prefixes_authorized' &&
+                  isDesc) }" aria-hidden="true">
+                </i>
+              </th>
+              <th
+                (click)="sort('col4630_Mail_Box4630_COSPersonal_lists_authorized')"
+                hidden>col4630 Mail Box4630 COSPersonal
+                Lists Authorized
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'col4630_Mail_Box4630_COSPersonal_lists_authorized',
+                  'fa-sort-asc': (column ==
+                  'col4630_Mail_Box4630_COSPersonal_lists_authorized' &&
+                  !isDesc),
+                  'fa-sort-desc': (column ==
+                  'col4630_Mail_Box4630_COSPersonal_lists_authorized' && isDesc)
+                  }" aria-hidden="true">
+                </i>
+              </th>
+              <th
+                (click)="sort('col4630_Mail_Box4630_COSGeneral_Lists_authorized')"
+                hidden>Col 4630 Mail Box4630 COSGeneral
+                Lists Authorized
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'col4630_Mail_Box4630_COSGeneral_Lists_authorized',
+                  'fa-sort-asc': (column ==
+                  'col4630_Mail_Box4630_COSGeneral_Lists_authorized' &&
+                  !isDesc),
+                  'fa-sort-desc': (column ==
+                  'col4630_Mail_Box4630_COSGeneral_Lists_authorized' && isDesc)
+                  }" aria-hidden="true">
+                </i>
+              </th>
+              <th (click)="sort('col4630_Mail_Box4630_COSVoice_Mail_Manager')"
+                hidden>Col4630 Mail Box4630 COSVoice Mail
+                Manager
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'col4630_Mail_Box4630_COSVoice_Mail_Manager',
+                  'fa-sort-asc': (column ==
+                  'col4630_Mail_Box4630_COSVoice_Mail_Manager' && !isDesc),
+                  'fa-sort-desc': (column ==
+                  'col4630_Mail_Box4630_COSVoice_Mail_Manager' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th
+                (click)="sort('col4630_Mail_Box4630_COSDuration_of_RefGreeting')"
+                hidden>Col4630 Mail Box4630 COSDuration of
+                RefGreeting
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'col4630_Mail_Box4630_COSDuration_of_RefGreeting',
+                  'fa-sort-asc': (column ==
+                  'col4630_Mail_Box4630_COSDuration_of_RefGreeting' && !isDesc),
+                  'fa-sort-desc': (column ==
+                  'col4630_Mail_Box4630_COSDuration_of_RefGreeting' && isDesc)
+                  }" aria-hidden="true"> </i>
+              </th>
+              <th
+                (click)="sort('col4630_Mail_Box4630_COSConversation_authorized')"
+                hidden>Col4630 Mail Box4630
+                COSConversation Authorized
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'col4630_Mail_Box4630_COSConversation_authorized',
+                  'fa-sort-asc': (column ==
+                  'col4630_Mail_Box4630_COSConversation_authorized' && !isDesc),
+                  'fa-sort-desc': (column ==
+                  'col4630_Mail_Box4630_COSConversation_authorized' && isDesc)
+                  }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('col4630_Mail_Box4630_COSCOS_of_Greeting')"
+                hidden>Col4630 Mail Box4630 COSCOS of Greeting
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'col4630_Mail_Box4630_COSCOS_of_Greeting',
+                  'fa-sort-asc': (column ==
+                  'col4630_Mail_Box4630_COSCOS_of_Greeting' && !isDesc),
+                  'fa-sort-desc': (column ==
+                  'col4630_Mail_Box4630_COSCOS_of_Greeting' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('col4635_Mail_Box4635_Voice_Mail_Type')" hidden>Col4635
+                Mail Box4635 Voice Mail Type
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'col4635_Mail_Box4635_Voice_Mail_Type',
+                  'fa-sort-asc': (column ==
+                  'col4635_Mail_Box4635_Voice_Mail_Type' && !isDesc),
+                  'fa-sort-desc': (column ==
+                  'col4635_Mail_Box4635_Voice_Mail_Type' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('col4635_Mail_Box4635_COS')" hidden>Col4635 Mail
+                Box4635 COS
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'col4635_Mail_Box4635_COS',
+                  'fa-sort-asc': (column == 'col4635_Mail_Box4635_COS' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'col4635_Mail_Box4635_COS' &&
+                  isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('X25_DTE')" hidden>X25 DTE
+                <i class="fa" [ngClass]="{'fa-sort': column != 'X25_DTE',
+                  'fa-sort-asc': (column == 'X25_DTE' && !isDesc),
+                  'fa-sort-desc': (column == 'X25_DTE' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('PIN_Personal_IdentNoPIN_No')" hidden>PIN
+                Personal IdentNoPIN No
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'PIN_Personal_IdentNoPIN_No',
+                  'fa-sort-asc': (column == 'PIN_Personal_IdentNoPIN_No' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'PIN_Personal_IdentNoPIN_No' &&
+                  isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('PIN_Personal_IdentNoPIN_With_Secret_Code')"
+                hidden>PIN Personal IdentNoPIN With Secret Code
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'PIN_Personal_IdentNoPIN_With_Secret_Code',
+                  'fa-sort-asc': (column ==
+                  'PIN_Personal_IdentNoPIN_With_Secret_Code' && !isDesc),
+                  'fa-sort-desc': (column ==
+                  'PIN_Personal_IdentNoPIN_With_Secret_Code' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('PIN_Personal_IdentNoType_of_control')" hidden>PIN
+                Personal IdentNoType of control
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'PIN_Personal_IdentNoType_of_control',
+                  'fa-sort-asc': (column ==
+                  'PIN_Personal_IdentNoType_of_control' && !isDesc),
+                  'fa-sort-desc': (column ==
+                  'PIN_Personal_IdentNoType_of_control' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('PIN_Personal_IdentNoPIN_group_number ')"
+                hidden>PIN Personal IdentNo PIN group number
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'PIN_Personal_IdentNoPIN_group_number ',
+                  'fa-sort-asc': (column ==
+                  'PIN_Personal_IdentNoPIN_group_number ' && !isDesc),
+                  'fa-sort-desc': (column ==
+                  'PIN_Personal_IdentNoPIN_group_number ' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Can_be_CalledDialed_By_Name')">Can be
+                CalledDialed By Name
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Can_be_CalledDialed_By_Name',
+                  'fa-sort-asc': (column == 'Can_be_CalledDialed_By_Name' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'Can_be_CalledDialed_By_Name' &&
+                  isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Phone_book_Name_Dial_by_name')">Phone book Name
+                Dial by name
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Phone_book_Name_Dial_by_name',
+                  'fa-sort-asc': (column == 'Phone_book_Name_Dial_by_name' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'Phone_book_Name_Dial_by_name' &&
+                  isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Phone_book_First_Name')">Phone book First Name
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Phone_book_First_Name',
+                  'fa-sort-asc': (column == 'Phone_book_First_Name' && !isDesc),
+                  'fa-sort-desc': (column == 'Phone_book_First_Name' && isDesc)
+                  }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Displayed_Name')">Displayed Name
+                <i class="fa" [ngClass]="{'fa-sort': column != 'Displayed_Name',
+                  'fa-sort-asc': (column == 'Displayed_Name' && !isDesc),
+                  'fa-sort-desc': (column == 'Displayed_Name' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Modem_Trunk_Group_InfoTrunk_Group_ID')">Modem
+                Trunk Group InfoTrunk Group ID
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Modem_Trunk_Group_InfoTrunk_Group_ID',
+                  'fa-sort-asc': (column ==
+                  'Modem_Trunk_Group_InfoTrunk_Group_ID' && !isDesc),
+                  'fa-sort-desc': (column ==
+                  'Modem_Trunk_Group_InfoTrunk_Group_ID' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Modem_Trunk_Group_InfoTrunk_Number')">Modem
+                Trunk Group InfoTrunk Number
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Modem_Trunk_Group_InfoTrunk_Number',
+                  'fa-sort-asc': (column == 'Modem_Trunk_Group_InfoTrunk_Number'
+                  && !isDesc),
+                  'fa-sort-desc': (column ==
+                  'Modem_Trunk_Group_InfoTrunk_Number' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+
+              <th (click)="sort('Remote_UA')" hidden>Remote UA
+                <i class="fa" [ngClass]="{'fa-sort': column != 'Remote_UA',
+                  'fa-sort-asc': (column == 'Remote_UA' && !isDesc),
+                  'fa-sort-desc': (column == 'Remote_UA' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Errors_on_Secret_Code_Counter')" hidden>Errors
+                on Secret Code Counter
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Errors_on_Secret_Code_Counter',
+                  'fa-sort-asc': (column == 'Errors_on_Secret_Code_Counter' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'Errors_on_Secret_Code_Counter' &&
+                  isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('ACD_station')" hidden>ACD_station
+                <i class="fa" [ngClass]="{'fa-sort': column != 'ACD_station',
+                  'fa-sort-asc': (column == 'ACD_station' && !isDesc),
+                  'fa-sort-desc': (column == 'ACD_station' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('NS_Right_Notification_server')">NS Right
+                Notification Server
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'NS_Right_Notification_server',
+                  'fa-sort-asc': (column == 'NS_Right_Notification_server' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'NS_Right_Notification_server' &&
+                  isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Incidents_Teleservice')" hidden>Incidents Teleservice
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Incidents_Teleservice',
+                  'fa-sort-asc': (column == 'Incidents_Teleservice' && !isDesc),
+                  'fa-sort-desc': (column == 'Incidents_Teleservice' && isDesc)
+                  }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Ghost_Z')">Ghost Z
+                <i class="fa" [ngClass]="{'fa-sort': column != 'Ghost_Z',
+                  'fa-sort-asc': (column == 'Ghost_Z' && !isDesc),
+                  'fa-sort-desc': (column == 'Ghost_Z' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Ghost_Z_Feature')">Ghost Z Feature
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Ghost_Z_Feature',
+                  'fa-sort-asc': (column == 'Ghost_Z_Feature' && !isDesc),
+                  'fa-sort-desc': (column == 'Ghost_Z_Feature' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('VAD_use_for_Ghost_Z')">VAD use for Ghost Z
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'VAD_use_for_Ghost_Z',
+                  'fa-sort-asc': (column == 'VAD_use_for_Ghost_Z' && !isDesc),
+                  'fa-sort-desc': (column == 'VAD_use_for_Ghost_Z' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('CSTA_routing')" hidden>CSTA Routing
+                <i class="fa" [ngClass]="{'fa-sort': column != 'CSTA_routing',
+                  'fa-sort-asc': (column == 'CSTA_routing' && !isDesc),
+                  'fa-sort-desc': (column == 'CSTA_routing' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('CMF_4600_DTMF_frequencies')" hidden>CMF 4600 DTMF Frequencies
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'CMF_4600_DTMF_frequencies',
+                  'fa-sort-asc': (column == 'CMF_4600_DTMF_frequencies' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'CMF_4600_DTMF_frequencies' &&
+                  isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Voice_Guide_listening_Class')" hidden>Voice Guide Listening Class
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Voice_Guide_listening_Class',
+                  'fa-sort-asc': (column == 'Voice_Guide_listening_Class' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'Voice_Guide_listening_Class' &&
+                  isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Caller_COS')">Caller COS
+                <i class="fa" [ngClass]="{'fa-sort': column != 'Caller_COS',
+                  'fa-sort-asc': (column == 'Caller_COS' && !isDesc),
+                  'fa-sort-desc': (column == 'Caller_COS' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('VSI_Transparency')">VSI Transparency
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'VSI_Transparency',
+                  'fa-sort-asc': (column == 'VSI_Transparency' && !isDesc),
+                  'fa-sort-desc': (column == 'VSI_Transparency' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Type_of_Keyboard')" hidden>Type of Keyboard
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Type_of_Keyboard',
+                  'fa-sort-asc': (column == 'Type_of_Keyboard' && !isDesc),
+                  'fa-sort-desc': (column == 'Type_of_Keyboard' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Errors_on_Business_Code_Counter')" hidden>Errors
+                on Business Code Counter
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Errors_on_Business_Code_Counter',
+                  'fa-sort-asc': (column == 'Errors_on_Business_Code_Counter' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'Errors_on_Business_Code_Counter'
+                  && isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('STAP')" hidden>STAP
+                <i class="fa" [ngClass]="{'fa-sort': column != 'STAP',
+                  'fa-sort-asc': (column == 'STAP' && !isDesc),
+                  'fa-sort-desc': (column == 'STAP' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('TandemTandem_Directory_Number')">TandemTandem
+                Directory Number
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'TandemTandem_Directory_Number',
+                  'fa-sort-asc': (column == 'TandemTandem_Directory_Number' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'TandemTandem_Directory_Number' &&
+                  isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('TandemMain_set_in_the_tandem')">TandemMain Set
+                in the Tandem
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'TandemMain_set_in_the_tandem',
+                  'fa-sort-asc': (column == 'TandemMain_set_in_the_tandem' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'TandemMain_set_in_the_tandem' &&
+                  isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('TandemPartial_busy')">Tandem Partial busy
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'TandemPartial_busy',
+                  'fa-sort-asc': (column == 'TandemPartial_busy' && !isDesc),
+                  'fa-sort-desc': (column == 'TandemPartial_busy' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('TandemRinging_in_partial_busy')">Tandem Ringing
+                in Partial Busy
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'TandemRinging_in_partial_busy',
+                  'fa-sort-asc': (column == 'TandemRinging_in_partial_busy' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'TandemRinging_in_partial_busy' &&
+                  isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('TandemSpecific_supervision')">Tandem Specific
+                Supervision
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'TandemSpecific_supervision',
+                  'fa-sort-asc': (column == 'TandemSpecific_supervision' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'TandemSpecific_supervision' &&
+                  isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Use_Personal_Calling_Number')" hidden>Use
+                Personal Calling Number
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Use_Personal_Calling_Number',
+                  'fa-sort-asc': (column == 'Use_Personal_Calling_Number' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'Use_Personal_Calling_Number' &&
+                  isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Private_Calling_Number')" hidden>Private Calling Number
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Private_Calling_Number',
+                  'fa-sort-asc': (column == 'Private_Calling_Number' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'Private_Calling_Number' && isDesc)
+                  }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('UA_3G_featuresEmulation')">UA 3G
+                Features Emulation
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'UA_3G_featuresEmulation',
+                  'fa-sort-asc': (column == 'UA_3G_featuresEmulation' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'UA_3G_featuresEmulation' &&
+                  isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('col4035_FeaturesNavigator')">Col4035
+                Features Navigator
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'col4035_FeaturesNavigator',
+                  'fa-sort-asc': (column == 'col4035_FeaturesNavigator' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'col4035_FeaturesNavigator' &&
+                  isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Group_PIN_control')" hidden>Group PIN control
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Group_PIN_control',
+                  'fa-sort-asc': (column == 'Group_PIN_control' && !isDesc),
+                  'fa-sort-desc': (column == 'Group_PIN_control' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('User_group_by_PIN')" hidden>User Group by PIN
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'User_group_by_PIN',
+                  'fa-sort-asc': (column == 'User_group_by_PIN' && !isDesc),
+                  'fa-sort-desc': (column == 'User_group_by_PIN' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('CCA_Operations')" hidden>CCA Operations
+                <i class="fa" [ngClass]="{'fa-sort': column != 'CCA_Operations',
+                  'fa-sort-asc': (column == 'CCA_Operations' && !isDesc),
+                  'fa-sort-desc': (column == 'CCA_Operations' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('A4980')" hidden>A4980
+                <i class="fa" [ngClass]="{'fa-sort': column != 'A4980',
+                  'fa-sort-asc': (column == 'A4980' && !isDesc),
+                  'fa-sort-desc': (column == 'A4980' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Z_IVR')" hidden>Z IVR
+                <i class="fa" [ngClass]="{'fa-sort': column != 'Z_IVR',
+                  'fa-sort-asc': (column == 'Z_IVR' && !isDesc),
+                  'fa-sort-desc': (column == 'Z_IVR' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('NOMADIC')" hidden>NOMADIC
+                <i class="fa" [ngClass]="{'fa-sort': column != 'NOMADIC',
+                  'fa-sort-asc': (column == 'NOMADIC' && !isDesc),
+                  'fa-sort-desc': (column == 'NOMADIC' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('TAPI_premium_server')" hidden>TAPI Premium Server
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'TAPI_premium_server',
+                  'fa-sort-asc': (column == 'TAPI_premium_server' && !isDesc),
+                  'fa-sort-desc': (column == 'TAPI_premium_server' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('col4615_Mail_Box4615_Voice_Mail_Type')" hidden>Col4615 Mail Box4615 Voice Mail Type
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'col4615_Mail_Box4615_Voice_Mail_Type',
+                  'fa-sort-asc': (column ==
+                  'col4615_Mail_Box4615_Voice_Mail_Type' && !isDesc),
+                  'fa-sort-desc': (column ==
+                  'col4615_Mail_Box4615_Voice_Mail_Type' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('col4615_Mail_BoxNotification_Type')" hidden>Col4615 Mail BoxNotification Type
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'col4615_Mail_BoxNotification_Type',
+                  'fa-sort-asc': (column == 'col4615_Mail_BoxNotification_Type'
+                  && !isDesc),
+                  'fa-sort-desc': (column == 'col4615_Mail_BoxNotification_Type'
+                  && isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('col4645_Voice_Mail_Box4645_Voice_Mail_Type')"
+                hidden>
+                Col4645 Voice Mail Box4645 Voice Mail Type
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'col4645_Voice_Mail_Box4645_Voice_Mail_Type',
+                  'fa-sort-asc': (column ==
+                  'col4645_Voice_Mail_Box4645_Voice_Mail_Type' && !isDesc),
+                  'fa-sort-desc': (column ==
+                  'col4645_Voice_Mail_Box4645_Voice_Mail_Type' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('col4645_Voice_Mail_Box4645_Class_of_Service')"
+                hidden>
+                Col4645 Voice Mail Box4645 Class of Service
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'col4645_Voice_Mail_Box4645_Class_of_Service',
+                  'fa-sort-asc': (column ==
+                  'col4645_Voice_Mail_Box4645_Class_of_Service' && !isDesc),
+                  'fa-sort-desc': (column ==
+                  'col4645_Voice_Mail_Box4645_Class_of_Service' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Conference_group')" hidden>Conference Group
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Conference_group',
+                  'fa-sort-asc': (column == 'Conference_group' && !isDesc),
+                  'fa-sort-desc': (column == 'Conference_group' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Announcement_group')" hidden>Announcement Group
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Announcement_group',
+                  'fa-sort-asc': (column == 'Announcement_group' && !isDesc),
+                  'fa-sort-desc': (column == 'Announcement_group' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Call_Restriction_COS')" hidden>Call Restriction COS
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Call_Restriction_COS',
+                  'fa-sort-asc': (column == 'Call_Restriction_COS' && !isDesc),
+                  'fa-sort-desc': (column == 'Call_Restriction_COS' && isDesc)
+                  }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Applicable_Restriction_COS')" hidden>Applicable Restriction COS
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Applicable_Restriction_COS',
+                  'fa-sort-asc': (column == 'Applicable_Restriction_COS' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'Applicable_Restriction_COS' &&
+                  isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Implicit_PriorityActivation_mode')" hidden>Implicit PriorityActivation Mode
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Implicit_PriorityActivation_mode',
+                  'fa-sort-asc': (column == 'Implicit_PriorityActivation_mode'
+                  && !isDesc),
+                  'fa-sort-desc': (column == 'Implicit_PriorityActivation_mode'
+                  && isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Implicit_PriorityPriority_Level')" hidden>Implicit PriorityPriority Level
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Implicit_PriorityPriority_Level',
+                  'fa-sort-asc': (column == 'Implicit_PriorityPriority_Level' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'Implicit_PriorityPriority_Level'
+                  && isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Explicit_PriorityActivation_mode')" hidden>Explicit PriorityActivation mode
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Explicit_PriorityActivation_mode',
+                  'fa-sort-asc': (column == 'Explicit_PriorityActivation_mode'
+                  && !isDesc),
+                  'fa-sort-desc': (column == 'Explicit_PriorityActivation_mode'
+                  && isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Explicit_PriorityPriority_Level')" hidden>Explicit PriorityPriority Level
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Explicit_PriorityPriority_Level',
+                  'fa-sort-asc': (column == 'Explicit_PriorityPriority_Level' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'Explicit_PriorityPriority_Level'
+                  && isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Pre_emptable_Primary_Inc_Line')">Pre Emptable
+                Primary Inc Line
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Pre_emptable_Primary_Inc_Line',
+                  'fa-sort-asc': (column == 'Pre_emptable_Primary_Inc_Line' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'Pre_emptable_Primary_Inc_Line' &&
+                  isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Pre_emptable_Secondary_Inc_Line')">Pre Emptable
+                Secondary Inc Line
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Pre_emptable_Secondary_Inc_Line',
+                  'fa-sort-asc': (column == 'Pre_emptable_Secondary_Inc_Line' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'Pre_emptable_Secondary_Inc_Line'
+                  && isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Priority_Presentation')">Priority Presentation
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Priority_Presentation',
+                  'fa-sort-asc': (column == 'Priority_Presentation' && !isDesc),
+                  'fa-sort-desc': (column == 'Priority_Presentation' && isDesc)
+                  }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Ith_Service_type')" hidden>Ith Service type
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Ith_Service_type',
+                  'fa-sort-asc': (column == 'Ith_Service_type' && !isDesc),
+                  'fa-sort-desc': (column == 'Ith_Service_type' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Ith_Activation_mode')" hidden>Ith Activation
+                mode
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Ith_Activation_mode',
+                  'fa-sort-asc': (column == 'Ith_Activation_mode' && !isDesc),
+                  'fa-sort-desc': (column == 'Ith_Activation_mode' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Ith_Profile_list')" hidden>Ith Profile list
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Ith_Profile_list',
+                  'fa-sort-asc': (column == 'Ith_Profile_list' && !isDesc),
+                  'fa-sort-desc': (column == 'Ith_Profile_list' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Recorder_Directory_Number')" hidden>Recorder
+                Directory Number
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Recorder_Directory_Number',
+                  'fa-sort-asc': (column == 'Recorder_Directory_Number' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'Recorder_Directory_Number' &&
+                  isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('CUG_List_Number')" hidden>CUG List Number
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'CUG_List_Number',
+                  'fa-sort-asc': (column == 'CUG_List_Number' && !isDesc),
+                  'fa-sort-desc': (column == 'CUG_List_Number' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Preferential_CUG')" hidden>Preferential CUG
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Preferential_CUG',
+                  'fa-sort-asc': (column == 'Preferential_CUG' && !isDesc),
+                  'fa-sort-desc': (column == 'Preferential_CUG' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('CUG_Outgoing_Access')" hidden>CUG Outgoing
+                Access
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'CUG_Outgoing_Access',
+                  'fa-sort-asc': (column == 'CUG_Outgoing_Access' && !isDesc),
+                  'fa-sort-desc': (column == 'CUG_Outgoing_Access' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('CUG_Incoming_Access')" hidden>CUG Incoming
+                Access
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'CUG_Incoming_Access',
+                  'fa-sort-asc': (column == 'CUG_Incoming_Access' && !isDesc),
+                  'fa-sort-desc': (column == 'CUG_Incoming_Access' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Automatic_reconfiguration')" hidden>Automatic
+                Reconfiguration
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Automatic_reconfiguration',
+                  'fa-sort-asc': (column == 'Automatic_reconfiguration' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'Automatic_reconfiguration' &&
+                  isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Associated_RSI')" hidden>Associated RSI
+                <i class="fa" [ngClass]="{'fa-sort': column != 'Associated_RSI',
+                  'fa-sort-asc': (column == 'Associated_RSI' && !isDesc),
+                  'fa-sort-desc': (column == 'Associated_RSI' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('CLIP')">CLIP
+                <i class="fa" [ngClass]="{'fa-sort': column != 'CLIP',
+                  'fa-sort-asc': (column == 'CLIP' && !isDesc),
+                  'fa-sort-desc': (column == 'CLIP' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('CPC_Timer')">CPC Timer
+                <i class="fa" [ngClass]="{'fa-sort': column != 'CPC_Timer',
+                  'fa-sort-asc': (column == 'CPC_Timer' && !isDesc),
+                  'fa-sort-desc': (column == 'CPC_Timer' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Compatible_CLIP_display')">Compatible CLIP
+                display
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'Compatible_CLIP_display',
+                  'fa-sort-asc': (column == 'Compatible_CLIP_display' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'Compatible_CLIP_display' &&
+                  isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Analog_type')">Analog Type
+                <i class="fa" [ngClass]="{'fa-sort': column != 'Analog_type',
+                  'fa-sort-asc': (column == 'Analog_type' && !isDesc),
+                  'fa-sort-desc': (column == 'Analog_type' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('mdf_info')">MDF info
+                <i class="fa" [ngClass]="{'fa-sort': column != 'mdf_info',
+                  'fa-sort-asc': (column == 'mdf_info' && !isDesc),
+                  'fa-sort-desc': (column == 'mdf_info' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('dp_info')">Dp info
+                <i class="fa" [ngClass]="{'fa-sort': column != 'DP_Info',
+                  'fa-sort-asc': (column == 'DP_Info' && !isDesc),
+                  'fa-sort-desc': (column == 'DP_Info' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('connected_wall_socket_info')">Connected Wall
+                Socket Info
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'connected_wall_socket_info',
+                  'fa-sort-asc': (column == 'connected_wall_socket_info' &&
+                  !isDesc),
+                  'fa-sort-desc': (column == 'connected_wall_socket_info' &&
+                  isDesc) }" aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('access_swport_info')">Access Swport Info
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'access_swport_info',
+                  'fa-sort-asc': (column == 'access_swport_info' && !isDesc),
+                  'fa-sort-desc': (column == 'access_swport_info' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('dist_switch_info')">Dist Switch Info
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'dist_switch_info',
+                  'fa-sort-asc': (column == 'dist_switch_info' && !isDesc),
+                  'fa-sort-desc': (column == 'dist_switch_info' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('core_switch_info')">Core Switch Info
+                <i class="fa" [ngClass]="{'fa-sort': column !=
+                  'core_switch_info',
+                  'fa-sort-asc': (column == 'core_switch_info' && !isDesc),
+                  'fa-sort-desc': (column == 'core_switch_info' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('sdh_spo_info')">Sdh Spo Info
+                <i class="fa" [ngClass]="{'fa-sort': column != 'sdh_spo_info',
+                  'fa-sort-asc': (column == 'sdh_spo_info' && !isDesc),
+                  'fa-sort-desc': (column == 'sdh_spo_info' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+              <th (click)="sort('Remarks')">Remarks
+                <i class="fa" [ngClass]="{'fa-sort': column != 'Remarks',
+                  'fa-sort-asc': (column == 'Remarks' && !isDesc),
+                  'fa-sort-desc': (column == 'Remarks' && isDesc) }"
+                  aria-hidden="true"> </i>
+              </th>
+            </tr>
+            <tbody
+              *ngFor="let emp of EmployeeDetails |orderBy: {property: column,
+              direction: direction} | paginate: {itemsPerPage: 10,
+              currentPage:page, id: '1'} ; let i= index">
+              <tr (click)="setClickedRow(emp)"
+                [class.active]="emp.highLightRow">
+                <td [ngClass]="!isLangArabic? 'fixed-1' : 'fixed-ar-1'" class="no-word-wrap">
+                  <a class="primary-color cursor-pointer table-action-icon fa
+                    fa-eye fa-lg pr-7"
+                    title="{{'View Users'| translate}}"
+                    (click)="showViewPopup(emp)"></a>
+                  <a *ngIf="checkOperation('1','5')"
+                    class="primary-color cursor-pointer table-action-icon fa
+                    fa-envelope fa-lg pr-7"
+                    title="{{'Send Sms'| translate}}"
+                    (click)="showSMSPopup(emp)"></a>
+                </td>
+                <td [ngClass]="!isLangArabic? 'fixed-2' : 'fixed-ar-2'">{{emp.Node}}</td>
+                <td [ngClass]="!isLangArabic? 'fixed-3' : 'fixed-ar-3'">{{emp.Directory_Number}}</td>
+                <td class="word-break">{{emp.Directory_name}}</td>
+                <td>{{emp.Directory_First_Name}}</td>
+                <td hidden>{{emp.UTF_8_Directory_Name}}</td>
+                <td hidden>{{emp.UTF_8_Directory_First_Name}}</td>
+                <td>{{emp.Location_Node}}</td>
+                <td>{{emp.Shelf_Address}}</td>
+                <td>{{emp.Board_Address}}</td>
+                <td>{{emp.Equipment_Address}}</td>
+                <td>{{emp.Set_Type}}</td>
+                <td>{{emp.Entity_Number}}</td>
+                <td hidden>{{emp.Set_Function}}</td>
+                <td hidden>{{emp.Profile_Name}}</td>
+                <td hidden>{{emp.Key_Profiles}}</td>
+                <td hidden>{{emp.Domain_Identifier}}</td>
+                <td hidden>{{emp.URL_UserName}}</td>
+                <td hidden>{{emp.URL_Domain}}</td>
+                <td>{{emp.SIP_Authentication}}</td>
+                <td>{{emp.SIP_Passwd}}</td>
+                <td>{{emp.External_Gateway_Number}}</td>
+                <td>{{emp.Gateway_type}}</td>
+                <td>{{emp.Add_On_Module_1}}</td>
+                <td>{{emp.Add_On_Module_2}}</td>
+                <td>{{emp.Add_On_Module_3}}</td>
+                <td>{{emp.External_Alphanumeric_Keyboard}}</td>
+                <td>{{emp.Internal_AlphanumKeyboard}}</td>
+                <td hidden>{{emp.V24_Extension}}</td>
+                <td>{{emp.S0_Extension}}</td>
+                <td>{{emp.MACPC}}</td>
+                <td>{{emp.Z_Adapter}}</td>
+                <td>{{emp.Language_ID}}</td>
+                <td hidden>{{emp.Secret_Code}}</td>
+                <td>{{emp.Associated_Set_No}}</td>
+                <td>{{emp.Cost_Center_ID}}</td>
+                <td>{{emp.Cost_Center_Name}}</td>
+                <td hidden>{{emp.Charging_COS}}</td>
+                <td>{{emp.Public_Network_COS}}</td>
+                <td>{{emp.External_Forwarding_COS}}</td>
+                <td>{{emp.Phone_Features_COS}}</td>
+                <td>{{emp.Connection_COS}}</td>
+                <td>{{emp.Hunt_Group_Dir_No}}</td>
+                <td hidden>{{emp.ACD_Group_Directory_No}}</td>
+                <td>{{emp.Pickup_Group_Name}}</td>
+                <td hidden>{{emp.Reserved_Time_Slot}}</td>
+                <td hidden>{{emp.Voice_Mail_DirNo}}</td>
+                <td hidden>{{emp.Voice_Mail_Type}}</td>
+                <td hidden>{{emp.col4630_access_without_Code}}</td>
+                <td hidden>{{emp.Paging_Trunk_Group}}</td>
+                <td hidden>{{emp.Paging_Beeper}}</td>
+                <td hidden>{{emp.Called_Associated_DECT_set}}</td>
+                <td>{{emp.Tele_Marketing_Agent}}</td>
+                <td>{{emp.ISDN_UserExternal}}</td>
+                <td>{{emp.ISDN_UserInternal}}</td>
+                <td>{{emp.ISDN_UserDisplay_ext_calling_number}}</td>
+                <td hidden>{{emp.ISDN_Teleservice}}</td>
+                <td hidden>{{emp.Hotel_Set_Operation}}</td>
+                <td hidden>{{emp.Type_of_room}}</td>
+                <td hidden>{{emp.Use_Type_Of_Dir_No}}</td>
+                <td hidden>{{emp.Number_Of_Set_Users}}</td>
+                <td>{{emp.Dial_by_name_and_text_msg}}</td>
+                <td hidden>{{emp.Text_msg_number}}</td>
+                <td>{{emp.Multi_line_station}}</td>
+                <td>{{emp.Multi_Line_PropertiesAutomatic_Incoming_Seizure}}</td>
+                <td>{{emp.Multi_Line_PropertiesAutomatic_Outgoing_Seizure}}</td>
+                <td>{{emp.Multi_Line_PropertiesSelective_Filtering}}</td>
+                <td>{{emp.Multi_Line_PropertiesOverflow_on_no_answer}}</td>
+                <td>{{emp.Multi_Line_PropertiesOverflow_on_busy}}</td>
+                <td>{{emp.Multi_Line_PropertiesSupervision_at_off_hook}}</td>
+                <td>{{emp.Multi_Line_PropertiesAutomatic_Outgoing_Seizure_for_MLA
+                  }}</td>
+                <td>{{emp.S0_FeatureUser_By_Default}}</td>
+                <td>{{emp.S0_FeatureSub_address_Use}}</td>
+                <td hidden>{{emp.Dialed_number_masked}}</td>
+                <td>{{emp.Access_Code_to_UUS_messages}}</td>
+                <td>{{emp.Routing_Table}}</td>
+                <td hidden>{{emp.Associated_Videophone}}</td>
+                <td hidden>{{emp.VIP_Very_Important_Pers}}</td>
+                <td>{{emp.Assistant_Directory_Number}}</td>
+                <td hidden>{{emp.Calls_Priority}}</td>
+                <td>{{emp.DATA_Connection_COS}}</td>
+                <td>{{emp.Message_LED}}</td>
+                <td hidden>{{emp.PCBT_Associated}}</td>
+                <td hidden>{{emp.Urgent_Call}}</td>
+                <td>{{emp.ExtAlarm_Equipment}}</td>
+                <td hidden>{{emp.col4630_Mail_Box4630_Voice_Mail_Type}}</td>
+                <td hidden>{{emp.col4630_Mail_Box4630_COSNetwork_Prefixes_authorized
+                  }}</td>
+                <td hidden>{{emp.col4630_Mail_Box4630_COSPersonal_lists_authorized}}</td>
+                <td hidden>{{emp.col4630_Mail_Box4630_COSGeneral_Lists_authorized}}</td>
+                <td hidden>{{emp.col4630_Mail_Box4630_COSVoice_Mail_Manager}}</td>
+                <td hidden>{{emp.col4630_Mail_Box4630_COSDuration_of_RefGreeting}}</td>
+                <td hidden>{{emp.col4630_Mail_Box4630_COSConversation_authorized}}</td>
+                <td hidden>{{emp.col4630_Mail_Box4630_COSCOS_of_Greeting}}</td>
+                <td hidden>{{emp.col4635_Mail_Box4635_Voice_Mail_Type}}</td>
+                <td hidden>{{emp.col4635_Mail_Box4635_COS}}</td>
+                <td hidden>{{emp.X25_DTE}}</td>
+                <td hidden>{{emp.PIN_Personal_IdentNoPIN_No}}</td>
+                <td hidden>{{emp.PIN_Personal_IdentNoPIN_With_Secret_Code}}</td>
+                <td hidden>{{emp.PIN_Personal_IdentNoType_of_control}}</td>
+                <td hidden>{{emp.PIN_Personal_IdentNoPIN_group_number}}</td>
+                <td>{{emp.Can_be_CalledDialed_By_Name}}</td>
+                <td>{{emp.Phone_book_Name_Dial_by_name}}</td>
+                <td>{{emp.Phone_book_First_Name}}</td>
+                <td>{{emp.Displayed_Name}}</td>
+                <td>{{emp.Modem_Trunk_Group_InfoTrunk_Group_ID}}</td>
+                <td>{{emp.Modem_Trunk_Group_InfoTrunk_Number}}</td>
+                <td hidden>{{emp.Remote_UA}}</td>
+                <td hidden>{{emp.Errors_on_Secret_Code_Counter}}</td>
+                <td hidden>{{emp.ACD_station}}</td>
+                <td>{{emp.NS_Right_Notification_server}}</td>
+                <td hidden>{{emp.Incidents_Teleservice}}</td>
+                <td>{{emp.Ghost_Z}}</td>
+                <td>{{emp.Ghost_Z_Feature}}</td>
+                <td>{{emp.VAD_use_for_Ghost_Z}}</td>
+                <td hidden>{{emp.CSTA_routing}}</td>
+                <td hidden>{{emp.CMF_4600_DTMF_frequencies}}</td>
+                <td hidden>{{emp.Voice_Guide_listening_Class}}</td>
+                <td>{{emp.Caller_COS}}</td>
+                <td>{{emp.VSI_Transparency}}</td>
+                <td hidden>{{emp.Type_of_Keyboard}}</td>
+                <td hidden>{{emp.Errors_on_Business_Code_Counter}}</td>
+                <td hidden>{{emp.STAP}}</td>
+                <td>{{emp.TandemTandem_Directory_Number}}</td>
+                <td>{{emp.TandemMain_set_in_the_tandem}}</td>
+                <td>{{emp.TandemPartial_busy}}</td>
+                <td>{{emp.TandemRinging_in_partial_busy}}</td>
+                <td>{{emp.TandemSpecific_supervision}}</td>
+                <td hidden>{{emp.Use_Personal_Calling_Number}}</td>
+                <td hidden>{{emp.Private_Calling_Number}}</td>
+                <td>{{emp.UA_3G_featuresEmulation}}</td>
+                <td>{{emp.col4035_FeaturesNavigator}}</td>
+                <td hidden>{{emp.Group_PIN_control}}</td>
+                <td hidden>{{emp.User_group_by_PIN}}</td>
+                <td hidden>{{emp.CCA_Operations}}</td>
+                <td hidden>{{emp.A4980}}</td>
+                <td hidden>{{emp.Z_IVR}}</td>
+                <td hidden>{{emp.NOMADIC}}</td>
+                <td hidden>{{emp.TAPI_premium_server}}</td>
+                <td hidden>{{emp.col4615_Mail_Box4615_Voice_Mail_Type}}</td>
+                <td hidden>{{emp.col4615_Mail_BoxNotification_Type}}</td>
+                <td hidden>{{emp.col4645_Voice_Mail_Box4645_Voice_Mail_Type}}</td>
+                <td hidden>{{emp.col4645_Voice_Mail_Box4645_Class_of_Service}}</td>
+                <td hidden>{{emp.Conference_group}}</td>
+                <td hidden>{{emp.Announcement_group}}</td>
+                <td hidden>{{emp.Call_Restriction_COS}}</td>
+                <td hidden>{{emp.Applicable_Restriction_COS}}</td>
+                <td hidden>{{emp.Implicit_PriorityActivation_mode}}</td>
+                <td hidden>{{emp.Implicit_PriorityPriority_Level}}</td>
+                <td hidden>{{emp.Explicit_PriorityActivation_mode}}</td>
+                <td hidden>{{emp.Explicit_PriorityPriority_Level}}</td>
+                <td>{{emp.Pre_emptable_Primary_Inc_Line}}</td>
+                <td>{{emp.Pre_emptable_Secondary_Inc_Line}}</td>
+                <td>{{emp.Priority_Presentation}}</td>
+                <td hidden>{{emp.Ith_Service_type}}</td>
+                <td hidden>{{emp.Ith_Activation_mode}}</td>
+                <td hidden>{{emp.Ith_Profile_list}}</td>
+                <td hidden>{{emp.Recorder_Directory_Number}}</td>
+                <td hidden>{{emp.CUG_List_Number}}</td>
+                <td hidden>{{emp.Preferential_CUG}}</td>
+                <td hidden>{{emp.CUG_Outgoing_Access}}</td>
+                <td hidden>{{emp.CUG_Incoming_Access}}</td>
+                <td hidden>{{emp.Automatic_reconfiguration}}</td>
+                <td hidden>{{emp.Associated_RSI}}</td>
+                <td>{{emp.CLIP}}</td>
+                <td>{{emp.CPC_Timer}}</td>
+                <td>{{emp.Compatible_CLIP_display}}</td>
+                <td>{{emp.Analog_type}}</td>
+                <td>{{emp.mdf_info}}</td>
+                <td>{{emp.connected_wall_socket_info}}</td>
+                <td>{{emp.dp_info}}</td>
+                <td>{{emp.access_swport_info}}</td>
+                <td>{{emp.dist_switch_info}}</td>
+                <td>{{emp.core_switch_info}}</td>
+                <td>{{emp.sdh_spo_info}}</td>
+                <td>{{emp.Remarks}}</td>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="right-align">
+          <pagination-controls (pageChange)="page= $event" id="1" maxSize="5"
+            directionLinks="true" autoHide="true">
+          </pagination-controls>
+        </div>
+      </div>
+
+    <!-- </div> -->
+    <div class="form-row">
+      <bs-modal #modalSendSMS id="modalSendSMS" dir="{{!isLangArabic
+        ?'ltr':'rtl'}}" class="no-print">
+        <bs-modal-header [showDismiss]="false">
+          <button type="button" class="close" [ngClass]="!isLangArabic?
+            'float-right':'float-left'" data-dismiss="modal">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+          </button>
+          <h4 class="modal-title">{{'Send Sms'| translate }}</h4>
+          <br />
+          <div class="modal-title" id="SendsmsModalLabel">
+            <label>{{'TO'| translate }}</label>
+            <span>
+              <input type="text" class="form-control" [(ngModel)]="txtToNumber"
+                id="ToMobileNo."
+                placeholder="{{'Enter Contact No.'| translate }}"
+                name="ToMobileNo"
+                style="display: inline-block; width: 90%;" />
+            </span>
+          </div>
+        </bs-modal-header>
+        <bs-modal-body>
+          <div class="row no-print">
+            <div class="col-md-12">
+              <input type="checkbox" (click)=checkAllCheckbox() id="checkAllIds"
+                /> {{ 'Select/UnSelect All' | translate }}
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="SmsId">
+                  <input type="checkbox" class="checkDir_No"
+                    [(ngModel)]="checkDir_No" /> Directory
+                  Number</label>
+                <input type="text" class="form-control" [(ngModel)]="SmsDir_No"
+                  placeholder="Directory Number" />
+              </div>
+
+              <div class="form-group">
+                <label for="SmsPosition">
+                  <input type="checkbox" class="checkShelfAdd"
+                    [(ngModel)]="checkShelfAdd" /> Shelf_Address
+                </label>
+                <input type="text" class="form-control"
+                  [(ngModel)]="SmsShelfAdd" placeholder="Shelf Address" />
+              </div>
+
+              <div class="form-group">
+                <label for="SmsId">
+                  <input type="checkbox" class="checkSetType"
+                    [(ngModel)]="checkSetType" /> Set Type</label>
+                <input type="text" class="form-control" [(ngModel)]="SmsSetType"
+                  placeholder="Set Type" />
+              </div>
+
+              <div class="form-group">
+                <label for="SmsPosition">
+                  <input type="checkbox" class="checkAccessInfo"
+                    [(ngModel)]="checkAccessInfo" /> Access Swport
+                  Info</label>
+                <input type="text" class="form-control"
+                  [(ngModel)]="SmsAccessInfo" placeholder="Access Swport Info"
+                  />
+              </div>
+              <div class="form-group">
+                <label for="SmsId">
+                  <input type="checkbox" class="checkDistInfo"
+                    [(ngModel)]="checkDistInfo" /> Dist Switch
+                  Info</label>
+                <input type="text" class="form-control"
+                  [(ngModel)]="SmsDistInfo" placeholder="Dist Switch Info" />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="SmsPosition">
+                  <input type="checkbox" class="checkDirName"
+                    [(ngModel)]="checkDirName" /> Directory
+                  Name</label>
+                <input type="text" class="form-control" [(ngModel)]="SmsDirName"
+                  placeholder="Directory Name" />
+              </div>
+              <div class="form-group">
+                <label for="SmsId">
+                  <input type="checkbox" class="checkBAddress"
+                    [(ngModel)]="checkBAddress" /> Board
+                  Address</label>
+                <input type="text" class="form-control"
+                  [(ngModel)]="SmsBAddress" placeholder="Board Address" />
+              </div>
+
+              <div class="form-group">
+                <label for="SmsPosition">
+                  <input type="checkbox" class="checkMdfInfo"
+                    [(ngModel)]="checkMdfInfo" /> Mdf Info</label>
+                <input type="text" class="form-control" [(ngModel)]="SmsMdfInfo"
+                  placeholder="Mdf Info" />
+              </div>
+              <div class="form-group">
+                <label for="SmsId">
+                  <input type="checkbox" class="checkDpInfo"
+                    [(ngModel)]="checkDpInfo" /> Dp Info</label>
+                <input type="text" class="form-control" [(ngModel)]="SmsDpInfo"
+                  placeholder="Dp Info" />
+              </div>
+              <div class="form-group">
+                <label for="SmsPosition">
+                  <input type="checkbox" class="checkSdhInfo"
+                    [(ngModel)]="checkSdhInfo" /> Sdh Spo Info</label>
+                <input type="text" class="form-control" [(ngModel)]="SmsSdhInfo"
+                  placeholder="Sdh Spo Info" />
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="SmsId">
+                  <input type="checkbox" class="checkLoc" [(ngModel)]="checkLoc"
+                    /> Location Node</label>
+                <input type="text" class="form-control" [(ngModel)]="SmsLoc"
+                  placeholder="Location Node" />
+              </div>
+
+              <div class="form-group">
+                <label for="SmsPosition">
+                  <input type="checkbox" class="checkEquipAddress"
+                    [(ngModel)]="checkEquipAddress" /> Equipment
+                  Address</label>
+                <input type="text" class="form-control"
+                  [(ngModel)]="SmsEquipmentAdd" placeholder="Equipment Address"
+                  />
+              </div>
+              <div class="form-group">
+                <label for="SmsId">
+                  <input type="checkbox" class="checkConnectedWall"
+                    [(ngModel)]="checkConnectedWall" /> Connected
+                  Wall Info</label>
+                <input type="text" class="form-control"
+                  [(ngModel)]="SmsConnectedWall"
+                  placeholder="Connected Wall Socket Info" />
+              </div>
+              <div class="form-group">
+                <label for="SmsPosition">
+                  <input type="checkbox" class="checkCoreInfo"
+                    [(ngModel)]="checkCoreInfo" /> Core Switch
+                  Info</label>
+                <input type="text" class="form-control"
+                  [(ngModel)]="SmsCoreInfo" placeholder="Core Switch Info" />
+              </div>
+
+            </div>
+          </div>
+        </bs-modal-body>
+        <bs-modal-footer>
+          <button type="button" class="primary-button btn btn-default"
+            (click)='sendSMS()'>{{ 'Send' | translate }}</button>
+          <button type="button" class="btn btn-default"
+            (click)="hidePopUp('modalSendSMS')">{{ 'Cancel' | translate }}</button>
+        </bs-modal-footer>
+      </bs-modal>
+<div class="customcss">
+      <bs-modal #modalViewUser id="modalViewUser" dir="{{!isLangArabic
+        ?'ltr':'rtl'}}">
+        <h1 class="modal-title showheadprint">{{'View User'| translate }}</h1>
+        <bs-modal-header style="@media print{ visibility: display !important}">
+          <button type="button" class="close" [ngClass]="!isLangArabic?
+            'float-right':'float-left'" data-dismiss="modal">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+          </button>
+          <h4 class="modal-title">{{'View User'| translate }}</h4>
+        </bs-modal-header>
+        <bs-modal-body>
+          <div class="row" id="printContent">
+            <table class="print-margin">
+              <th>
+              <tr style="background-color: #fff !important;">
+              <td class="tabdata"><div class="form-group">
+                <label for="SmsId">
+                  Directory Number</label>
+                <input type="text" class="form-control" disabled [(ngModel)]="SmsDir_No"
+                  placeholder="Directory Number" />
+              </div></td>
+              <td class="tabdata"><div class="form-group">
+                <label for="SmsPosition">
+                  Directory Name</label>
+                <input type="text" class="form-control" disabled [(ngModel)]="SmsDirName"
+                  placeholder="Directory Name" />
+              </div></td>
+              <td class="tabdata"><div class="form-group">
+                <label for="SmsId">
+                  Location Node</label>
+                <input type="text" class="form-control" disabled [(ngModel)]="SmsLoc"
+                  placeholder="Location Node" />
+              </div></td>
+            </tr>
+            <tr style="background-color: #fff !important;">
+              <td class="tabdata"><div class="form-group">
+                <label for="SmsPosition">
+                  Shelf_Address
+                </label>
+                <input type="text" class="form-control"
+                  disabled [(ngModel)]="SmsShelfAdd" placeholder="Shelf Address" />
+              </div></td>
+              <td class="tabdata">
+                <div class="form-group">
+                  <label for="SmsId">
+                    Board Address</label>
+                  <input type="text" class="form-control"
+                    disabled [(ngModel)]="SmsBAddress" placeholder="Board Address" />
+                </div>
+              </td>
+              <td class="tabdata">
+                <div class="form-group">
+                  <label for="SmsPosition">
+                    Equipment Address</label>
+                  <input type="text" class="form-control"
+                    disabled [(ngModel)]="SmsEquipmentAdd" placeholder="Equipment Address"
+                    />
+                </div>
+              </td>
+            </tr>
+            <tr style="background-color: #fff !important;">
+              <td class="tabdata">
+                <div class="form-group">
+                  <label for="SmsId">
+                    Set Type</label>
+                  <input type="text" class="form-control" disabled [(ngModel)]="SmsSetType" disabled
+                    placeholder="Set Type" />
+                </div>
+              </td>
+              <td class="tabdata">
+                <div class="form-group">
+                  <label for="SmsPosition">
+                    Mdf Info</label>
+                  <input type="text" class="form-control" disabled [(ngModel)]="SmsMdfInfo"
+                    placeholder="Mdf Info" />
+                </div>
+              </td>
+              <td class="tabdata">
+                <div class="form-group">
+                  <label for="SmsId">
+                    Connected Wall Info</label>
+                  <input type="text" class="form-control"
+                    disabled [(ngModel)]="SmsConnectedWall"
+                    placeholder="Connected Wall Socket Info" />
+                </div>
+              </td>
+            </tr>
+            <tr style="background-color: #fff !important;">
+              <td class="tabdata"><div class="form-group">
+                <label for="SmsPosition">
+                  Access Swport Info</label>
+                <input type="text" class="form-control"
+                  disabled [(ngModel)]="SmsAccessInfo" placeholder="Access Swport Info"
+                  />
+              </div></td>
+              <td class="tabdata">
+                <div class="form-group">
+                  <label for="SmsId">
+                    Dp Info</label>
+                  <input type="text" class="form-control" disabled [(ngModel)]="SmsDpInfo"
+                    placeholder="Dp Info" />
+                </div>
+              </td>
+              <td class="tabdata">
+                <div class="form-group">
+                  <label for="SmsPosition">
+                    Core Switch Info</label>
+                  <input type="text" class="form-control"
+                    disabled [(ngModel)]="SmsCoreInfo" placeholder="Core Switch Info" />
+                </div>
+              </td>
+            </tr>
+            <tr style="background-color: #fff !important;">
+              <td class="tabdata"><div class="form-group">
+                <label for="SmsId">
+                  Dist Switch Info</label>
+                <input type="text" class="form-control"
+                  disabled [(ngModel)]="SmsDistInfo" placeholder="Dist Switch Info" />
+              </div></td>
+              <td class="tabdata">
+                <div class="form-group">
+                  <label for="SmsPosition">
+                    Sdh Spo Info</label>
+                  <input type="text" class="form-control" disabled [(ngModel)]="SmsSdhInfo"
+                    placeholder="Sdh Spo Info" />
+                </div>
+              </td>
+            </tr>
+          </th>
+
+            </table>
+            <!-- <div class="col-md-4">
+              <div class="form-group">
+                <label for="SmsId">
+                  Directory Number</label>
+                <input type="text" class="form-control" [(ngModel)]="SmsDir_No"
+                  placeholder="Directory Number" />
+              </div>
+
+              <div class="form-group">
+                <label for="SmsPosition">
+                  Shelf_Address
+                </label>
+                <input type="text" class="form-control"
+                  [(ngModel)]="SmsShelfAdd" placeholder="Shelf Address" />
+              </div>
+              <div class="form-group">
+                <label for="SmsId">
+                  Set Type</label>
+                <input type="text" class="form-control" [(ngModel)]="SmsSetType"
+                  placeholder="Set Type" />
+              </div>
+
+              <div class="form-group">
+                <label for="SmsPosition">
+                  Access Swport Info</label>
+                <input type="text" class="form-control"
+                  [(ngModel)]="SmsAccessInfo" placeholder="Access Swport Info"
+                  />
+              </div>
+
+              <div class="form-group">
+                <label for="SmsId">
+                  Dist Switch Info</label>
+                <input type="text" class="form-control"
+                  [(ngModel)]="SmsDistInfo" placeholder="Dist Switch Info" />
+              </div>
+            </div> -->
+            <!-- <div class="col-md-4">
+              <div class="form-group">
+                <label for="SmsPosition">
+                  Directory Name</label>
+                <input type="text" class="form-control" [(ngModel)]="SmsDirName"
+                  placeholder="Directory Name" />
+              </div>
+              <div class="form-group">
+                <label for="SmsId">
+                  Board Address</label>
+                <input type="text" class="form-control"
+                  [(ngModel)]="SmsBAddress" placeholder="Board Address" />
+              </div>
+
+              <div class="form-group">
+                <label for="SmsPosition">
+                  Mdf Info</label>
+                <input type="text" class="form-control" [(ngModel)]="SmsMdfInfo"
+                  placeholder="Mdf Info" />
+              </div>
+              <div class="form-group">
+                <label for="SmsId">
+                  Dp Info</label>
+                <input type="text" class="form-control" [(ngModel)]="SmsDpInfo"
+                  placeholder="Dp Info" />
+              </div>
+              <div class="form-group">
+                <label for="SmsPosition">
+                  Sdh Spo Info</label>
+                <input type="text" class="form-control" [(ngModel)]="SmsSdhInfo"
+                  placeholder="Sdh Spo Info" />
+              </div>
+            </div> -->
+            <!-- <div class="col-md-4">
+              <div class="form-group">
+                <label for="SmsId">
+                  Location Node</label>
+                <input type="text" class="form-control" [(ngModel)]="SmsLoc"
+                  placeholder="Location Node" />
+              </div>
+
+              <div class="form-group">
+                <label for="SmsPosition">
+                  Equipment Address</label>
+                <input type="text" class="form-control"
+                  [(ngModel)]="SmsEquipmentAdd" placeholder="Equipment Address"
+                  />
+              </div>
+              <div class="form-group">
+                <label for="SmsId">
+                  Connected Wall Info</label>
+                <input type="text" class="form-control"
+                  [(ngModel)]="SmsConnectedWall"
+                  placeholder="Connected Wall Socket Info" />
+              </div>
+              <div class="form-group">
+                <label for="SmsPosition">
+                  Core Switch Info</label>
+                <input type="text" class="form-control"
+                  [(ngModel)]="SmsCoreInfo" placeholder="Core Switch Info" />
+              </div>
+
+            </div> -->
+          </div>
+        </bs-modal-body>
+        <bs-modal-footer>
+          <button type="button" class="primary-button btn btn-default"
+            (click)="Print('printContent')">{{ 'Print' | translate }}</button>
+          <button type="button" class="btn btn-default"
+            (click)="hidePopUp('modalViewUser')">{{ 'Cancel' | translate }}</button>
+        </bs-modal-footer>
+      </bs-modal>
+    </div>
+      <bs-modal #modalImport id="modalImport">
+        <bs-modal-header [showDismiss]="false">
+          <button type="button" class="close" data-dismiss="modal"
+            [ngClass]="!isLangArabic? 'float-right':'float-left'">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+          </button>
+          <h4 class="modal-title">Import Users Csv</h4>
+        </bs-modal-header>
+        <bs-modal-body>
+          Upload Csv file
+          <input type="file" #fileImportInput name="csv_data" id="txtFileUpload"
+            class="btn btn-primary"
+            (change)="fileChangeListener($event,'users_all_node','modalImport')"
+            accept=".csv" />
+        </bs-modal-body>
+        <bs-modal-footer>
+          <button type="button" class="btn btn-primary" (click)="import()">{{
+            'Import' | translate }}</button>
+          <button type="button" class="btn btn-default"
+            (click)="hidePopUp('modalImport')">Cancel</button>
+        </bs-modal-footer>
+      </bs-modal>
+
+      <bs-modal #modalImport id="modalMdfImport">
+        <bs-modal-header [showDismiss]="false">
+          <button type="button" class="close" data-dismiss="modal"
+            [ngClass]="!isLangArabic? 'float-right':'float-left'">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+          </button>
+          <h4 class="modal-title">Import Mdf Csv</h4>
+        </bs-modal-header>
+        <bs-modal-body>
+          Upload Csv file
+          <input type="file" #fileImportInput name="csv_data" id="txtFileUpload"
+            class="btn btn-primary"
+            (change)="fileChangeListener($event,'mdf_details','modalMdfImport')"
+            accept=".csv" />
+        </bs-modal-body>
+        <bs-modal-footer>
+          <button type="button" class="btn btn-primary" (click)="importMdf()">{{
+            'Import' | translate }}</button>
+          <button type="button" class="btn btn-default"
+            (click)="hidePopUp('modalMdfImport')">Cancel</button>
+        </bs-modal-footer>
+      </bs-modal>
+    </div>
+  </div>
+  </div>

@@ -1,0 +1,1336 @@
+<div class="Work_order_exchange">
+  <div class="card">
+    <div class="row head plr-0">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 headcol">
+        <button
+          type="button"
+          *ngIf="opr == 2"
+          (click)="closeAndRedirect()"
+          class="btn btn-default pull-right mtb-1"
+        >
+          Back
+        </button>
+        <b class="page-head mtb-1 dpblk" *ngIf="opr == 0"
+          >Add Work Order Info
+        </b>
+        <b class="page-head mtb-1 dpblk" *ngIf="opr == 1"
+          >Update Work Order Info
+        </b>
+      </div>
+    </div>
+    <div class="listgroup content-margin">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel-group">
+            <div class="panel-body" style="padding: 5px 20px;">
+              <div class="fluid-container">
+                <form *ngIf="checkOperation('11', '9')" class="form-horizontal">
+                  <div class="form-group form-group-sm" style="margin-bottom: 0!important;">
+                    <!-- left column -->
+                    <div class="col-md-12 distinctForm">
+                      <div class="distinctFormHeading">
+                        <label>Exchange Info</label>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label
+                            for="telephone_no"
+                            class="col-md-5 control-label txtrt"
+                            >Telephone #.</label
+                          >
+                          <div class="col-md-7">
+                            <input
+                              id="teleno"
+                              tabindex="1"
+                              type="text"
+                              [disabled]="isReadOnly"
+                              [(ngModel)]="ex.telephone_no"
+                              name="extelephoneNo"
+                              class="form-control"
+                              placeholder="Telephone no"
+                              (focusout)="checktelephoneno(ex.telephone_no)"
+                            />
+                            <div
+                              [hidden]="errorTelephone_no == ''"
+                              class="error"
+                            >
+                              {{ errorTelephone_no }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label
+                            for="manual_workorder_no"
+                            class="col-md-5 control-label txtrt"
+                            >Manual Work Order #.</label
+                          >
+                          <div class="col-md-7">
+                            <input
+                              tabindex="4"
+                              type="text"
+                              [disabled]="isReadOnly"
+                              [(ngModel)]="ex.manual_workorder_no"
+                              name="manualWorkorderNo"
+                              class="form-control"
+                              id="manual_workorder_no"
+                              placeholder="Manual Workorder no"
+                            />
+                            <div
+                              [hidden]="errorManual_workorder_no == ''"
+                              class="error"
+                            >
+                              {{ errorManual_workorder_no }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="node_no" class="col-md-5 control-label txtrt"
+                            >Node #.</label
+                          >
+                          <div class="col-md-7">
+                            <select
+                              tabindex="7"
+                              class="form-control"
+                              id="node_no"
+                              [disabled]="isReadOnly"
+                              [(ngModel)]="ex.node_no"
+                              name="nodeno"
+                            >
+                              <!-- <option [value]=""> Select Node #</option> -->
+                              <option
+                                *ngFor="let ci of nodeArray"
+                                [value]="ci.node_no"
+                                >{{ ci.node_no }}</option
+                              >
+                              <option [value]="N / A">{{ "N/A" }}</option>
+                            </select>
+                            <!-- <select tabindex="7"
+                                                                    class="form-control"
+                                                                    [disabled]="isReadOnly"
+                                                                    id="node_no"
+                                                                    [(ngModel)]="ex.node_no"
+                                                                    name="NodeNo">
+                                                                    <option [value]="">Select Node #.</option>
+                                                                    <option
+                                                                        *ngFor="let
+                                                                        node
+                                                                        of
+                                                                        nodeArray"
+                                                                        [value]="node.value">{{node.label}}</option>
+                                                                      <option
+                                                                        [value]="N/A">{{"N/A"}}</option>  
+                                                                </select> -->
+                            <div [hidden]="errorNode_no == ''" class="error">
+                              {{ errorNode_no }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="campname" class="col-md-5 control-label txtrt"
+                            >CAMP Name.</label
+                          >
+                          <div class="col-md-7">
+                            <select
+                              tabindex="10"
+                              class="form-control"
+                              id="campname"
+                              [disabled]="isReadOnly"
+                              [(ngModel)]="ex.camp_name"
+                              name="campName"
+                            >
+                              <option [value]=""> Select Camp Name</option>
+                              <option
+                                *ngFor="let ci of CampInfo"
+                                [value]="ci.camp_name"
+                                >{{ ci.camp_name }}</option
+                              >
+                            </select>
+                            <div [hidden]="errorCamp_name == ''" class="error">
+                              {{ errorCamp_name }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="exposition" class="col-md-5 control-label txtrt"
+                            >Position.</label
+                          >
+                          <div class="col-md-7">
+                            <input
+                              tabindex="13"
+                              type="text"
+                              [disabled]="isReadOnly"
+                              [(ngModel)]="ex.position"
+                              name="position"
+                              class="form-control"
+                              id="exposition"
+                              placeholder="Position"
+                            />
+                            <div [hidden]="errorPosition == ''" class="error">
+                              {{ errorPosition }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="created_by" class="col-md-5 control-label txtrt"
+                            >Created By.</label
+                          >
+                          <div class="col-md-7">
+                            <input
+                              type="text"
+                              [disabled]="true"
+                              [(ngModel)]="ex.created_by"
+                              name="createdBy"
+                              class="form-control"
+                              id="created_by"
+                              placeholder="{{ ex.created_by }}"
+                            />
+                            <div [hidden]="errorCreated_by == ''" class="error">
+                              {{ errorCreated_by }}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="linkedno" class="col-md-5 control-label txtrt"
+                            >Linked #.</label
+                          >
+                          <div class="col-md-7">
+                            <input
+                              tabindex="2"
+                              type="text"
+                              [(ngModel)]="ex.linked"
+                              name="linked_no"
+                              class="form-control"
+                              id="linkedno"
+                              placeholder="Linked No"
+                            />
+                            <div [hidden]="errorLinked == ''" class="error">
+                              {{ errorLinked }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="set_type" class="col-md-5 control-label txtrt"
+                            >Set Type.</label
+                          >
+                          <div class="col-md-7">
+                            <select
+                              tabindex="5"
+                              class="form-control"
+                              [disabled]="isReadOnly"
+                              [(ngModel)]="ex.set_type"
+                              id="set_type"
+                              name="SetType"
+                            >
+                              <option [value]="">Select Set Type</option>
+                              <option
+                                *ngFor="let st of SetType"
+                                [value]="st.type"
+                                >{{ st.type }}</option
+                              >
+                            </select>
+                            <div [hidden]="errorSet_type == ''" class="error">
+                              {{ errorSet_type }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="actno" class="col-md-5 control-label txtrt"
+                            >Act #.</label
+                          >
+                          <div class="col-md-7">
+                            <select
+                              tabindex="8"
+                              class="form-control"
+                              [disabled]="isReadOnly"
+                              [(ngModel)]="ex.act_no"
+                              id="actno"
+                              name="actArray"
+                            >
+                              <option [value]="">Select Act</option>
+                              <option
+                                *ngFor="let act of this.actArray"
+                                [value]="act.act_value"
+                                >{{ act.label }}</option
+                              >
+                            </select>
+                            <div [hidden]="errorAct_no == ''" class="error">
+                              {{ errorAct_no }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="exunit" class="col-md-5 control-label txtrt"
+                            >Force/Unit.</label
+                          >
+                          <div class="col-md-7">
+                            <select
+                              tabindex="11"
+                              class="form-control"
+                              id="exunit"
+                              [disabled]="isReadOnly"
+                              [(ngModel)]="ex.unit"
+                              name="unit"
+                            >
+                              <option [value]=""> Select Camp Name</option>
+                              <option
+                                *ngFor="let ci of unitInfo"
+                                [value]="ci.unit"
+                                >{{ ci.unit }}</option
+                              >
+                            </select>
+                            <!-- <input
+                              tabindex="11"
+                              type="text"
+                              [disabled]="isReadOnly"
+                              [(ngModel)]="ex.unit"
+                              name="unit"
+                              class="form-control"
+                              id="exunit"
+                              placeholder="Unit"
+                            /> -->
+                            <div [hidden]="errorUnit == ''" class="error">
+                              {{ errorUnit }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="user_type" class="col-md-5 control-label txtrt"
+                            >User Type.</label
+                          >
+                          <div class="col-md-7">
+                            <select
+                              tabindex="14"
+                              class="form-control"
+                              [disabled]="isReadOnly"
+                              id="user_type"
+                              [(ngModel)]="ex.user_type"
+                              name="UserType"
+                            >
+                              <option
+                                *ngFor="let st of UserType"
+                                [value]="st.value"
+                                >{{ st.label }}</option
+                              >
+                            </select>
+                            <div [hidden]="errorUser_type == ''" class="error">
+                              {{ errorUser_type }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="created_by" class="col-md-5 control-label txtrt"
+                            >Exchange Status.</label
+                          >
+                          <div class="col-md-7">
+                            <select
+                              tabindex="16"
+                              class="form-control"
+                              [disabled]="isReadOnly"
+                              id="exchange_status"
+                              [(ngModel)]="ex.exchange_status"
+                              name="exchangestatus"
+                            >
+                              <option
+                                *ngFor="let st of exchangestatus"
+                                [value]="st.exchange_status"
+                                >{{ st.exchange_status }}</option
+                              >
+                            </select>
+                            <div
+                              [hidden]="errorExchange_Status == ''"
+                              class="error"
+                            >
+                              {{ errorExchange_Status }}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <!-- *ngIf="opr!=0" -->
+                        <div
+                          class="form-group"
+                          [ngStyle]="{
+                            visibility: opr === 0 ? 'hidden' : 'visible'
+                          }"
+                        >
+                          <label
+                            for="swWorkorderNo"
+                            class="col-md-5 control-label txtrt"
+                            >S/W Work Order #.</label
+                          >
+                          <div class="col-md-7">
+                            <input
+                              tabindex="3"
+                              type="text"
+                              [disabled]="true"
+                              [(ngModel)]="ex.sw_workorder_no"
+                              name="swWorkorderNo"
+                              class="form-control"
+                              id="sw_workorder_no"
+                              placeholder="S/W
+                                                                    Workorder
+                                                                    no"
+                            />
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="work_type" class="col-md-5 control-label txtrt"
+                            >Type of Work.</label
+                          >
+                          <div class="col-md-7">
+                            <select
+                              tabindex="6"
+                              class="form-control"
+                              [disabled]="isReadOnly"
+                              [(ngModel)]="ex.type_of_work"
+                              id="work_type"
+                              name="WorkType"
+                            >
+                              <option
+                                *ngFor="let wt of WorkType"
+                                [value]="wt.value"
+                                >{{ wt.value }}</option
+                              >
+                            </select>
+                            <div
+                              [hidden]="errorType_of_work == ''"
+                              class="error"
+                            >
+                              {{ errorType_of_work }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="cct_no" class="col-md-5 control-label txtrt"
+                            >CCT #.</label
+                          >
+                          <div class="col-md-7">
+                            <input
+                              tabindex="9"
+                              type="text"
+                              [disabled]="isReadOnly"
+                              [(ngModel)]="ex.cct_no"
+                              name="cctNo"
+                              class="form-control"
+                              id="cct_no"
+                              placeholder="Cct
+                                                                    No"
+                            />
+                            <div [hidden]="errorCct_no == ''" class="error">
+                              {{ errorCct_no }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="exchange" class="col-md-5 control-label txtrt"
+                            >Exchange.</label
+                          >
+                          <div class="col-md-7">
+                            <input
+                              tabindex="12"
+                              type="text"
+                              [(ngModel)]="ex.exchange"
+                              name="ex_exchange"
+                              class="form-control"
+                              id="exchange"
+                              placeholder="Exchange"
+                            />
+                            <div [hidden]="errorExchange == ''" class="error">
+                              {{ errorExchange }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group" >
+                          <label for="user_name" class="col-md-5 control-label txtrt"
+                            >User Name.</label
+                          >
+                          <div class="col-md-7">
+                            <input
+                              tabindex="15"
+                              type="text"
+                              [disabled]="isReadOnly"
+                              [(ngModel)]="ex.user_name"
+                              name="userName"
+                              class="form-control"
+                              id="user_name"
+                              placeholder="user
+                                                                    name"
+                            />
+                            <div [hidden]="errorUser_name == ''" class="error">
+                              {{ errorUser_name }}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+                <form
+                  *ngIf="checkOperation('11', '10')"
+                  class="form-horizontal"
+                >
+                  <div class="form-group form-group-sm">
+                    <!-- left column -->
+                    <div class="col-md-12 distinctForm">
+                      <div class="distinctFormHeading"  style="padding-top: 0!important">
+                        <label>DP Info</label>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="col-md-4">
+                          <div class="form-group" *ngIf="!checkOperation('11','9') && !checkOperation(11,11)">
+                            <label
+                              for="telephone_no"
+                              class="col-md-5 control-label txtrt"
+                              >Telephone #.</label
+                            >
+                            <div class="col-md-7">
+                              <input
+                              id="teleno"
+                                tabindex="1"
+                                type="text"
+                                [disabled]="isReadOnly"
+                                [(ngModel)]="dp.telephone_no"
+                                name="dptelephoneNo"
+                                class="form-control"
+                                placeholder="Telephone no"
+                                (focusout)="checktelephoneno(dp.telephone_no)"
+                              />
+                              <div
+                                [hidden]="errorTelephone_no == ''"
+                                class="error"
+                              >
+                                {{ errorTelephone_no }}
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label for="dpname" class="col-md-5 control-label txtrt"
+                              >DP Name.</label
+                            >
+                            <div class="col-md-7">
+                              <input
+                                type="text"
+                                tabindex="17"
+                                [disabled]="isReadOnly"
+                                [(ngModel)]="dp.dp_name"
+                                name="dna"
+                                class="form-control"
+                                id="dpname"
+                                placeholder="Dp Name"
+                              />
+                              <div [hidden]="errorDp_name == ''" class="error">
+                                {{ errorDp_name }}
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label for="dpno" class="col-md-5 control-label txtrt"
+                              >DP #.</label
+                            >
+                            <div class="col-md-7">
+                              <input
+                                type="text"
+                                tabindex="20"
+                                [disabled]="isReadOnly"
+                                [(ngModel)]="dp.dp_no"
+                                name="dp_no"
+                                class="form-control"
+                                id="dpno"
+                                placeholder="Dp no"
+                              />
+                              <div [hidden]="errorDp_no == ''" class="error">
+                                {{ errorDp_no }}
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label
+                              for="Ooredoodp"
+                              class="col-md-5 control-label txtrt"
+                              >Service Provider DP.</label
+                            >
+                            <div class="col-md-7">
+                              <input
+                                type="text"
+                                tabindex="23"
+                                [disabled]="isReadOnly"
+                                [(ngModel)]="dp.Ooredoo_dp"
+                                name="Oordp"
+                                class="form-control"
+                                id="Ooredoodp"
+                                placeholder="Service Provider DP"
+                              />
+                              <div
+                                [hidden]="errorOoredoo_dp == ''"
+                                class="error"
+                              >
+                                {{ errorOoredoo_dp }}
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label
+                              for="dp_created_by"
+                              class="col-md-5 control-label txtrt"
+                              >Created By.</label
+                            >
+                            <div class="col-md-7">
+                              <input
+                                type="text"
+                                [disabled]="true"
+                                [(ngModel)]="dp.created_by"
+                                name="dpcreatedBy"
+                                class="form-control"
+                                id="dp_created_by"
+                                placeholder="{{ dp.created_by }}"
+                              />
+                              <div
+                                [hidden]="errorCreated_by == ''"
+                                class="error"
+                              >
+                                {{ errorCreated_by }}
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label
+                              for="Installed_date"
+                              class="col-md-5 control-label txtrt"
+                              >Installed Date.</label
+                            >
+                            <div class="col-md-7">
+                              <input
+                                type="text"
+                                bsDatepicker
+                                tabindex="28"
+                                [disabled]="isReadOnly"
+                                [(ngModel)]="dp.installed_date"
+                                name="installedDate"
+                                class="form-control"
+                                id="Installed_date"
+                                placeholder="Installed Date"
+                                [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }"
+                              />
+                              <div
+                                [hidden]="errorInstalled_date == ''"
+                                class="error"
+                              >
+                                {{ errorInstalled_date }}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label
+                              for="Dp_location"
+                              class="col-md-5 control-label txtrt"
+                              >DP Location.</label
+                            >
+                            <div class="col-md-7">
+                             
+                              <input
+                              tabindex="18"
+                              type="text"
+                              [disabled]="isReadOnly"
+                              [(ngModel)]="dp.dp_location"
+                              name="DpLocation"
+                              class="form-control"
+                              id="Dp_location"
+                              placeholder="Dp Location"
+                            />
+                              <div
+                                [hidden]="errorDp_location == ''"
+                                class="error"
+                              >
+                                {{ errorDp_location }}
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label for="pairno" class="col-md-5 control-label txtrt">
+                              DP Pair #.</label
+                            >
+                            <div class="col-md-7">
+                              <input
+                                type="text"
+                                tabindex="21"
+                                [disabled]="isReadOnly"
+                                [(ngModel)]="dp.pair_no"
+                                name="pair_No"
+                                class="form-control"
+                                id="pairno"
+                                placeholder="Pair no"
+                              />
+                              <div [hidden]="errorPair_no == ''" class="error">
+                                {{ errorPair_no }}
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label
+                              for="Ooredoo_Pair"
+                              class="col-md-5 control-label txtrt"
+                              >Service Provider Pair#.</label
+                            >
+                            <div class="col-md-7">
+                              <input
+                                type="text"
+                                tabindex="24"
+                                [(ngModel)]="dp.Ooredoo_pair"
+                                name="ooredoopair"
+                                class="form-control"
+                                id="Ooredoo_Pair"
+                                placeholder="Service Pair"
+                              />
+                              <div
+                                [hidden]="errorOoredoo_pair == ''"
+                                class="error"
+                              >
+                                {{ errorOoredoo_pair }}
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label
+                              for="dp_remarks"
+                              class="col-md-5 control-label txtrt"
+                              >Remarks.</label
+                            >
+                            <div class="col-md-7">
+                              <input
+                                type="text"
+                                tabindex="26"
+                                [disabled]="isReadOnly"
+                                [(ngModel)]="dp.remarks"
+                                name="remarks"
+                                class="form-control"
+                                id="dp_remarks"
+                                placeholder="Remarks"
+                              />
+                              <div [hidden]="errorRemarks == ''" class="error">
+                                {{ errorRemarks }}
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label
+                              for="recorded_By"
+                              class="col-md-5 control-label txtrt"
+                              >Recorded By.</label
+                            >
+                            <div class="col-md-7">
+                               <select
+                                class="form-control"
+                                tabindex="29"
+                                [disabled]="isReadOnly"
+                                [(ngModel)]="dp.recorded_by"
+                                id="recorded_By"
+                                name="recordedBy"
+                                placeholder="Recorded By"
+                              >
+                                <option
+                                  *ngFor="let st of Recordby"
+                                  [value]="st.value"
+                                  >{{ st.label }}</option
+                                >
+                              </select>
+
+
+                              <div
+                                [hidden]="errorRecorded_by == ''"
+                                class="error"
+                              >
+                                {{ errorRecorded_by }}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label
+                              for="dp_capacity"
+                              class="col-md-5 control-label txtrt"
+                              >DP Capacity.</label
+                            >
+                            <div class="col-md-7">
+                              <input
+                                type="text"
+                                tabindex="19"
+                                [disabled]="isReadOnly"
+                                [(ngModel)]="dp.dp_capacity"
+                                name="dpCapacity"
+                                class="form-control"
+                                id="dp_capacity"
+                                placeholder="Dp capacity"
+                              />
+                              <div
+                                [hidden]="errorDp_capacity == ''"
+                                class="error"
+                              >
+                                {{ errorDp_capacity }}
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label
+                              for="dp_status"
+                              class="col-md-5 control-label txtrt"
+                              >DP Status.</label
+                            >
+                            <div class="col-md-7">
+                              <select
+                                class="form-control"
+                                tabindex="22"
+                                [disabled]="isReadOnly"
+                                [(ngModel)]="dp.dp_status"
+                                id="dp_status"
+                                name="dpStatus"
+                                placeholder="Dp status"
+                              >
+                                <option
+                                  *ngFor="let st of DPStatusvalue"
+                                  [value]="st.value"
+                                  >{{ st.label }}</option
+                                >
+                              </select>
+
+
+                              <div
+                                [hidden]="errorDp_status == ''"
+                                class="error"
+                              >
+                                {{ errorDp_status }}
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label for="dp_mdf" class="col-md-5 control-label txtrt"
+                              >Service Provider MDF.</label
+                            >
+                            <div class="col-md-7">
+                              <input
+                                type="text"
+                                tabindex="25"
+                                [disabled]="isReadOnly"
+                                [(ngModel)]="dp.Ooredoo_MDF"
+                                name="dpmdf"
+                                class="form-control"
+                                id="dp_mdf"
+                                placeholder="Service Provider MDF"
+                              />
+                              <div [hidden]="errorDp_mdf == ''" class="error">
+                                {{ errorDp_mdf }}
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label
+                              for="Installed_by"
+                              class="col-md-5 control-label txtrt"
+                              >Installed By.</label
+                            >
+                            <div class="col-md-7">
+                              <input
+                                type="text"
+                                tabindex="27"
+                                [disabled]="isReadOnly"
+                                [(ngModel)]="dp.installed_by"
+                                name="installedBy"
+                                class="form-control"
+                                id="Installed_by"
+                                placeholder="Installed By"
+                              />
+                              <div
+                                [hidden]="errorInstalled_by == ''"
+                                class="error"
+                              >
+                                {{ errorInstalled_by }}
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label
+                              for="Additional_info"
+                              class="col-md-5 control-label txtrt"
+                              >Additional Info.</label
+                            >
+                            <div class="col-md-7">
+                              <textarea id="w3review" tabindex="30" [disabled]="isReadOnly"
+                              [(ngModel)]="dp.Additional_info"
+                              name="Additionalinfo"
+                              class="form-control"
+                              id="Additional_info"
+                              placeholder="Additional Info"rows="2" cols="50">
+
+                              </textarea>
+                              <!-- <input
+                                type="text"
+                                tabindex="30"
+                                [disabled]="isReadOnly"
+                                [(ngModel)]="dp.Additional_info"
+                                name="Additionalinfo"
+                                class="form-control"
+                                id="Additional_info"
+                                placeholder="Additional Info"
+                              /> -->
+                              <div
+                                [hidden]="errorAdditional_info == ''"
+                                class="error"
+                              >
+                                {{ errorAdditional_info }}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="col-md-6 WoDpBox">
+                          <div style="text-align: center; padding: 10px;">
+                            <strong>From</strong>
+                          </div>
+                          <div class="form-group">
+                            <div class="col-md-1"></div>
+                            <label
+                              for="mdf_vertical_from"
+                              class="col-md-4 control-label txtrt"
+                              >MDF-Vertical From.</label
+                            >
+                            <div class="col-md-6" style="padding: 0;">
+                              <input
+                                type="text"
+                                tabindex="31"
+                                [disabled]="isReadOnly"
+                                [(ngModel)]="dp.mdf_vertical_from"
+                                name="mdfVerticalfrom"
+                                class="form-control"
+                                id="mdf_vertical_from"
+                                placeholder="Mdf Vertical"
+                              />
+                              <div
+                                [hidden]="errorMdf_vertical_from == ''"
+                                class="error"
+                              >
+                                {{ errorMdf_vertical_from }}
+                              </div>
+                            </div>
+                            <div class="col-md-1"></div>
+                          </div>
+                          <div class="form-group">
+                            <div class="col-md-1"></div>
+                            <label
+                              for="mdf_pair_from"
+                              class="col-md-4 control-label txtrt"
+                              >MDF-Pair # From.</label
+                            >
+                            <div class="col-md-6" style="padding: 0;">
+                              <input
+                                type="text"
+                                [disabled]="isReadOnly"
+                                tabindex="32"
+                                [(ngModel)]="dp.mdf_pair_no_from"
+                                name="mdfPairNofrom"
+                                class="form-control"
+                                id="mdf_pair_from"
+                                placeholder="Mdf Pair No"
+                              />
+                              <div
+                                [hidden]="errorMdf_pair_no_from == ''"
+                                class="error"
+                              >
+                                {{ errorMdf_pair_no_from }}
+                              </div>
+                            </div>
+                            <div class="col-md-1"></div>
+                          </div>
+                          <div class="form-group">
+                            <div class="col-md-1"></div>
+                            <label
+                              for="cable_no_from"
+                              class="col-md-4 control-label txtrt"
+                              >Cable Info From.</label
+                            >
+                            <div class="col-md-6" style="padding: 0;">
+                              <input
+                                type="text"
+                                [disabled]="isReadOnly"
+                                tabindex="33"
+                                [(ngModel)]="dp.cable_no_from"
+                                name="cableNofrom"
+                                class="form-control"
+                                id="cable_no_from"
+                                placeholder="Cable Info"
+                              />
+                              <div
+                                [hidden]="errorCable_no_from == ''"
+                                class="error"
+                              >
+                                {{ errorCable_no_from }}
+                              </div>
+                            </div>
+                            <div class="col-md-1"></div>
+                          </div>
+                        </div>
+                        <div class="col-md-6 WoDpBox">
+                          <div style="text-align: center; padding: 10px;">
+                            <strong>To</strong>
+                          </div>
+                          <div class="form-group">
+                            <div class="col-md-1"></div>
+                            <label
+                              for="mdf_vertical_to"
+                              class="col-md-4 control-label txtrt"
+                              >MDF-Vertical To.</label
+                            >
+                            <div class="col-md-6" style="padding: 0;">
+                              <input
+                                type="text"
+                                tabindex="34"
+                                [disabled]="isReadOnly"
+                                [(ngModel)]="dp.mdf_vertical_to"
+                                name="mdfVerticalto"
+                                class="form-control"
+                                id="mdf_vertical_to"
+                                placeholder="Mdf Vertical"
+                              />
+                              <div
+                                [hidden]="errorMdf_vertical_to == ''"
+                                class="error"
+                              >
+                                {{ errorMdf_vertical_to }}
+                              </div>
+                            </div>
+                            <div class="col-md-1"></div>
+                          </div>
+                          <div class="form-group">
+                            <div class="col-md-1"></div>
+                            <label
+                              for="mdf_pair_to"
+                              class="col-md-4 control-label txtrt"
+                              >MDF-Pair # To.</label
+                            >
+                            <div class="col-md-6" style="padding: 0;">
+                              <input
+                                type="text"
+                                [disabled]="isReadOnly"
+                                tabindex="35"
+                                [(ngModel)]="dp.mdf_pair_no_to"
+                                name="mdfPairNo"
+                                class="form-control"
+                                id="mdf_pair_to"
+                                placeholder="Mdf Pair No"
+                              />
+                              <div
+                                [hidden]="errorMdf_pair_no_to == ''"
+                                class="error"
+                              >
+                                {{ errorMdf_pair_no_to }}
+                              </div>
+                            </div>
+                            <div class="col-md-1"></div>
+                          </div>
+                          <div class="form-group">
+                            <div class="col-md-1"></div>
+                            <label
+                              for="cable_info_to"
+                              class="col-md-4 control-label txtrt"
+                              >Cable Info To.</label
+                            >
+                            <div class="col-md-6" style="padding: 0;">
+                              <input
+                                type="text"
+                                [disabled]="isReadOnly"
+                                tabindex="36"
+                                [(ngModel)]="dp.cable_no_to"
+                                name="cableNoto"
+                                class="form-control"
+                                id="cable_info_to"
+                                placeholder="Cable Info"
+                              />
+                              <div
+                                [hidden]="errorCable_no_to == ''"
+                                class="error"
+                              >
+                                {{ errorCable_no_to }}
+                              </div>
+                            </div>
+                            <div class="col-md-1"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+                <form
+                  *ngIf="checkOperation('11', '11')"
+                  class="form-horizontal"
+                >
+                  <div class="form-group form-group-sm">
+                    <!-- left column -->
+                    <div class="col-md-12 distinctForm">
+                      <div class="distinctFormHeading">
+                        <label>General Info</label>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group" *ngIf="!checkOperation('11','10')">
+                          <label
+                            for="telephone_no"
+                            class="col-md-4 control-label txtrt"
+                            >Telephone #. {{opr}}</label
+                          >
+                          <div class="col-md-8">
+                            <input
+                            id="teleno"
+                              tabindex="1"
+                              type="text"
+                              [disabled]="isReadOnly"
+                              [(ngModel)]="gn.telephone_no"
+                              name="gntelephoneNo"
+                              class="form-control"
+                              placeholder="Telephone no"
+                              (focusout)="checktelephoneno(gn.telephone_no)"
+                            />
+                            <div
+                              [hidden]="errorTelephone_no == ''"
+                              class="error"
+                            >
+                              {{ errorTelephone_no }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label
+                            for="requestfrom"
+                            class="col-md-4 control-label txtrt"
+                            >Request From.</label
+                          >
+                          <div class="col-md-8">
+                            <input
+                              tabindex="37"
+                              type="text"
+                              class="form-control"
+                              id="requestfrom"
+                              [disabled]="isReadOnly"
+                              name="request_from"
+                              [(ngModel)]="gn.request_from"
+                              placeholder="Request From"
+                            />
+                            <div
+                              [hidden]="errorRequest_from == ''"
+                              class="error"
+                            >
+                              {{ errorRequest_from }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label
+                            for="requestedby"
+                            class="col-md-4 control-label txtrt"
+                            >Request By.</label
+                          >
+                          <div class="col-md-8">
+                            <input
+                              tabindex="38"
+                              type="text"
+                              class="form-control"
+                              id="requestedby"
+                              [disabled]="isReadOnly"
+                              name="requested_by"
+                              [(ngModel)]="gn.requested_by"
+                              placeholder="Request By"
+                            />
+                            <div
+                              [hidden]="errorRequested_by == ''"
+                              class="error"
+                            >
+                              {{ errorRequested_by }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label
+                            for="storedemandno"
+                            class="col-md-4 control-label txtrt"
+                            >Store Demand #.</label
+                          >
+                          <div class="col-md-8">
+                            <input
+                              tabindex="39"
+                              type="text"
+                              class="form-control"
+                              id="storedemandno"
+                              [disabled]="isReadOnly"
+                              name="store_demand_no"
+                              [(ngModel)]="gn.store_demand_no"
+                              placeholder="Store Demand No"
+                            />
+                            <div
+                              [hidden]="errorStore_demand_no == ''"
+                              class="error"
+                            >
+                              {{ errorStore_demand_no }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="gn_cableno" class="col-md-4 control-label txtrt"
+                            >Cable #.</label
+                          >
+                          <div class="col-md-8">
+                            <input
+                              tabindex="40"
+                              type="text"
+                              class="form-control"
+                              id="gn_cableno"
+                              [disabled]="isReadOnly"
+                              name="gncable_no"
+                              [(ngModel)]="gn.cable_no"
+                              placeholder="Cable No"
+                            />
+                            <div [hidden]="errorCable_no == ''" class="error">
+                              {{ errorCable_no }}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="requestto" class="col-md-4 control-label txtrt"
+                            >Request To.</label
+                          >
+                          <div class="col-md-8">
+                            <input
+                              tabindex="41"
+                              type="text"
+                              class="form-control"
+                              id="requestto"
+                              [disabled]="isReadOnly"
+                              name="request_to"
+                              [(ngModel)]="gn.request_to"
+                              placeholder="Request To"
+                            />
+                            <div [hidden]="errorRequest_to == ''" class="error">
+                              {{ errorRequest_to }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="approvedby" class="col-md-4 control-label txtrt"
+                            >Approved By.</label
+                          >
+                          <div class="col-md-8">
+                            <input
+                              tabindex="42"
+                              type="text"
+                              class="form-control"
+                              id="approvedby"
+                              [disabled]="isReadOnly"
+                              name="approved_by"
+                              [(ngModel)]="gn.approved_by"
+                              placeholder="Approved By"
+                            />
+                            <div
+                              [hidden]="errorApproved_by == ''"
+                              class="error"
+                            >
+                              {{ errorApproved_by }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label
+                            for="recordfileno"
+                            class="col-md-4 control-label txtrt"
+                            >Record File #.</label
+                          >
+                          <div class="col-md-8">
+                            <input
+                              tabindex="43"
+                              type="text"
+                              class="form-control"
+                              id="recordfileno"
+                              [disabled]="isReadOnly"
+                              name="record_file_no"
+                              [(ngModel)]="gn.record_file_no"
+                              placeholder="Record File Number"
+                            />
+                            <div
+                              [hidden]="errorRecord_file_no == ''"
+                              class="error"
+                            >
+                              {{ errorRecord_file_no }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label
+                            for="cabledistance"
+                            class="col-md-4 control-label txtrt"
+                            >Cable Distance.</label
+                          >
+                          <div class="col-md-8">
+                            <input
+                              tabindex="44"
+                              type="text"
+                              class="form-control"
+                              id="cabledistance"
+                              [disabled]="isReadOnly"
+                              name="cable_distance"
+                              [(ngModel)]="gn.cable_distance"
+                              placeholder="Cable Distance"
+                            />
+                            <div
+                              [hidden]="errorcable_distance == ''"
+                              class="error"
+                            >
+                              {{ errorcable_distance }}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr class="line" style="margin-top: 0;" />
+      <div class="row mb-2">
+        <div class="col-md-7">
+          <button
+            type="button"
+            (click)="closeAndRedirect()"
+            *ngIf="!(opr == 2)"
+            class="btn btn-default justify-content-center pull-right mb-1"
+          >
+            Back
+          </button>
+          <button
+            type="button"
+            *ngIf="opr == 1"
+            [disabled]="checkPhoneNo"
+            (click)="UpdateWOExchange(ex, dp, gn)"
+            class="btn mb-1 btn-default primary justify-content-center pull-right"
+          >
+            Update Work Order Info
+          </button>
+          <button
+            type="button"
+            *ngIf="opr == 0"
+            [disabled]="checkPhoneNo"
+            (click)="AddExchange(ex, dp, gn)"
+            class="btn btn-default mb-1 primary justify-content-center pull-right"
+          >
+            Add Work Order Info
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- </div> -->
+  </div>
+</div>

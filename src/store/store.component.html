@@ -1,0 +1,363 @@
+<div class="storecomp">
+  <div class="store-margin">
+    <div class="row store-margin-header-bg mlr-0">
+      <div class="col-md-4 pull-left">
+        <strong class="storePOHead" style="margin-bottom: 10px;margin-top:
+          1rem">Store Purchase Order</strong>
+        <!-- <strong class="storePOHead"></strong> -->
+        <!-- <div class=" form-inline" >
+                <strong class="storeHead">Store Items</strong>
+                <input type="text" style="width: auto;" [(ngModel)]="serialNo" name="serial_no" class="form-control"
+                  id="serial_no" placeholder="Enter Serial Number :">
+                <button type="submit" class="btn btn-sm btn-color" (click)="searchSerialNum(this.serialNo)">Submit</button>
+                <button type="submit" class="btn btn-sm btn-color" (click)="clearSerialNoSearch()">Clear</button>
+              </div> -->
+      </div>
+      <div class="col-md-8 pull-right storesmbtn mt-1">
+        <div class="btn-group">
+          <button type="button" class="btn storesmbtn" (click)="showUploaPopUp()">{{ 'Import SerialNo' }}</button>
+          <button type="button" class="btn storesmbtn"
+            routerLink="/storewithoutPo"><i class="fa fa-plus"></i>Add items</button>
+          <button type="button" class="btn storesmbtn"
+            routerLink="/store/purchase-order/add"><i class="fa fa-plus"></i>Add
+            PO</button>
+          <button type="button" class="btn storesmbtn"
+            routerLink="/StoreItemList"><i class="fa fa-database"></i>Material
+            DB</button>
+          <button type="button" class="btn storesmbtn"
+            routerLink="/store/supplier"><i class="fa fa-database"></i>Supplier
+            DB</button>
+          <button type="button" class="btn storesmbtn"
+            routerLink="/store/demandBookList"><i class="fa fa-print"></i>Demand
+            Book</button>
+          <button type="button" class="btn storesmbtn"
+            routerLink="/storeReport"><i class="fa fa-file"></i>Report</button>
+        </div>
+        <!-- <ul class="nav nav-tabs">
+              <li> <a class="storenav storesmbtn" routerLink="/storewithoutPo"><i class="fa fa-plus"></i>Add items</a></li>
+              <li> <a class="storenav storesmbtn" routerLink="/store/purchase-order/add"><i class="fa fa-plus"></i>Add PO</a></li>
+              <li> <a class="storenav storesmbtn" routerLink="/StoreItemList"><i class="fa fa-database"></i>Material DB</a></li>
+              <li> <a class="storenav storesmbtn" routerLink="/store/supplier"><i class="fa fa-database"></i>Supplier DB</a></li>
+              <li> <a class="storenav storesmbtn" routerLink="/store/demandBookList"><i class="fa fa-print"></i>Demand Book</a></li>
+              <li> <a class="storenav storesmbtn" routerLink="/storeReport"><i class="fa fa-file"></i>Report</a></li>
+              <li> <a class="storenav storesmbtn" routerLink="/employee">Back</a></li>
+            </ul> -->
+      </div>
+    </div>
+    <div class="row plr-0 mlr-0 mb-1">
+      <div class="col-md-6 pull-left">
+        <ul class="nav nav-tabs">
+          <li> <a class="storenav" routerLink="/store-items">MATERIAL</a></li>
+          <li> <a class="storenav active" routerLink="/store">PURCHASE ORDER</a></li>
+          <li> <a class="storenav" routerLink="/store-transaction">HISTORY</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="scroll-x storeTableContainer">
+      <table dir="{{!isLangArabic ?'ltr':'rtl'}}" class="storePoList-table
+        tbl-employee table highLightTable"
+        [ngClass]="!isLangArabic ? 'en':'ar'">
+        <tr class="tr-fonts">
+          <th class="fixed-1 fixth" [ngClass]="!isLangArabic? 'enrt':'arrt'"> Action </th>
+          <th class="mw195" (click)="sort('purchase_order_no')">{{'Purchase order no' |
+            translate}}
+            <i class="fa" [ngClass]="{'fa-sort': column != 'purchase_order_no',
+              'fa-sort-asc': (column == 'purchase_order_no' && !isDesc),
+              'fa-sort-desc': (column == 'purchase_order_no' && isDesc) }"
+              aria-hidden="true">
+            </i>
+          </th>
+          <th class="mw195" (click)="sort('sup_ref_name')">{{'Supplier' | translate}}
+            <i class="fa" [ngClass]="{'fa-sort': column != 'sup_ref_name',
+              'fa-sort-asc': (column == 'sup_ref_name' && !isDesc),
+              'fa-sort-desc': (column == 'sup_ref_name' && isDesc) }"
+              aria-hidden="true"> </i>
+          </th>
+          <th class="mw195" (click)="sort('department')">{{'Department'| translate}}
+            <i class="fa" [ngClass]="{'fa-sort': column != 'department',
+              'fa-sort-asc': (column == 'department' && !isDesc),
+              'fa-sort-desc': (column == 'department' && isDesc) }"
+              aria-hidden="true"> </i>
+          </th>
+
+          <th class="mw195" (click)="sort('delivery_note_no')">{{'Delivery note no' |
+            translate}}
+            <i class="fa" [ngClass]="{'fa-sort': column != 'delivery_note_no',
+              'fa-sort-asc': (column == 'delivery_note_no' && !isDesc),
+              'fa-sort-desc': (column == 'delivery_note_no' && isDesc) }"
+              aria-hidden="true">
+            </i>
+          </th>
+          <th class="mw195" (click)="sort('sup_ord_ref_no')">{{'Supplier order ref no' |
+            translate}}
+            <i class="fa" [ngClass]="{'fa-sort': column != 'sup_ord_ref_no',
+              'fa-sort-asc': (column == 'sup_ord_ref_no' && !isDesc),
+              'fa-sort-desc': (column == 'sup_ord_ref_no' && isDesc) }"
+              aria-hidden="true">
+            </i>
+          </th>
+          <th class="mw195" (click)="sort('vendor_name')">{{'Vendor name' | translate}}
+            <i class="fa" [ngClass]="{'fa-sort': column != 'vendor_name',
+              'fa-sort-asc': (column == 'vendor_name' && !isDesc),
+              'fa-sort-desc': (column == 'vendor_name' && isDesc) }"
+              aria-hidden="true">
+            </i>
+          </th>
+          <th class="mw195" (click)="sort('QAF_ord_ref_no')">{{'QAF order Ref no' |
+            translate}}
+            <i class="fa" [ngClass]="{'fa-sort': column != 'QAF_ord_ref_no',
+              'fa-sort-asc': (column == 'QAF_ord_ref_no' && !isDesc),
+              'fa-sort-desc': (column == 'QAF_ord_ref_no' && isDesc) }"
+              aria-hidden="true">
+            </i>
+          </th>
+          <th class="mw195" (click)="sort('delivery_date')">{{'Delivery date' | translate}}
+            <i class="fa" [ngClass]="{'fa-sort': column != 'delivery_date',
+              'fa-sort-asc': (column == 'delivery_date' && !isDesc),
+              'fa-sort-desc': (column == 'delivery_date' && isDesc) }"
+              aria-hidden="true">
+            </i>
+          </th>
+          <th class="mw195" (click)="sort('description')">{{'Description of purchase'|
+            translate}}
+            <i class="fa" [ngClass]="{'fa-sort': column != 'description',
+              'fa-sort-asc': (column == 'description' && !isDesc),
+              'fa-sort-desc': (column == 'description' && isDesc) }"
+              aria-hidden="true"> </i>
+          </th>
+          <th class="mw195" (click)="sort('added_at')">{{'Added at'| translate}}
+            <i class="fa" [ngClass]="{'fa-sort': column != 'added_at',
+              'fa-sort-asc': (column == 'added_at' && !isDesc),
+              'fa-sort-desc': (column == 'added_at' && isDesc) }"
+              aria-hidden="true"> </i>
+          </th>
+        </tr>
+        <tbody class="searchBox" *ngIf="showAdvanceSearch"
+          [ngClass]="{'hidden-menu': !showMenu}">
+          <tr>
+            <td class="fixed-column-1"style="padding: 0 !important;"></td>
+            <td class="fixed-column-2 vertically-align-middle" style="padding: 0
+              !important;" (click)="closeandClearAdvanceSearch()">
+            </td>
+            <td class="mw195">
+              <input type="text" name="searchPurchaseOrderNo"
+                [(ngModel)]="searchPurchaseOrderNo"
+                class="searchPurchaseOrderNo textbox-height form-control"
+                placeholder="{{ 'Purchase Order No' | translate }}" />
+            </td>
+            <td class="mw195">
+              <input type="text" name="searchSupplier"
+                [(ngModel)]="searchSupplier"
+                class="searchSupplier textbox-height form-control"
+                placeholder="{{ 'Supplier' | translate }}" />
+            </td>
+            <td class="mw195">
+              <select class="form-control searchDepartment textbox-height"
+                [(ngModel)]="searchDepartment">
+                <option class="searchAlign" value="">{{ 'Department' | translate
+                  }} </option>
+                <option *ngFor="let dept of DepartmentList"
+                  [value]="dept.label">{{dept.label}}</option>
+              </select>
+            </td>
+            <td class="mw195">
+              <input type="text" name="searchDeliveryNoteNo"
+                [(ngModel)]="searchDeliveryNoteNo"
+                class="searchDeliveryNoteNo textbox-height form-control"
+                placeholder="{{ 'Delivery Note No' | translate }}" />
+            </td>
+            <td class="mw195">
+              <input type="text" name="searchSupplierOrderRefNo"
+                [(ngModel)]="searchSupplierOrderRefNo"
+                class="searchSupplierOrderRefNo textbox-height form-control"
+                placeholder="{{ 'Supplier Order Ref No' | translate }}" />
+            </td>
+            <td class="mw195">
+              <input type="text" name="searchVendorName"
+                [(ngModel)]="searchVendorName"
+                class="searchVendorName textbox-height form-control"
+                placeholder="{{ 'Vendor Name' | translate }}" />
+            </td>
+            <td class="mw195">
+              <input type="text" name="searchQAFOrderRefNo"
+                [(ngModel)]="searchQAFOrderRefNo"
+                class="searchQAFOrderRefNo textbox-height form-control"
+                placeholder="{{ 'QAF Order Ref No' | translate }}" />
+            </td>
+            <td class="mw195">
+              <input type="text" name="searchDeliveryDate"
+                [(ngModel)]="searchDeliveryDate"
+                class="searchDeliveryDate textbox-height form-control"
+                placeholder="{{ 'Delivery Date' | translate }}" />
+            </td>
+            <td class="mw195">
+              <input type="text" name="searchDescriptionOfPurchase"
+                [(ngModel)]="searchDescriptionOfPurchase"
+                class="searchDescriptionOfPurchase textbox-height form-control"
+                placeholder="{{ 'Description Of Purchase' | translate }}" />
+            </td>
+          </tr>
+        </tbody>
+        <tbody
+          *ngFor="let emp of EmployeeDetails | storeSearch
+          :searchPurchaseOrderNo: searchSupplier: searchDepartment:
+          searchDeliveryNoteNo: searchSupplierOrderRefNo: searchVendorName:
+          searchQAFOrderRefNo: searchDeliveryDate: searchDescriptionOfPurchase |
+          orderBy: {property: column, direction: direction} | FilterPipe:
+          queryString : searchableList | paginate: {itemsPerPage: 10,
+          currentPage:page, id: '1'}; let i= index"
+          [ngClass]="{'hidden-menu': !showMenu}" #someVar>
+          <tr (click)="setClickedRow(emp)" [class.active]="emp.highLightRow">
+            <td class="fixed-1 fullsize" [ngClass]="!isLangArabic? 'enrt':'arrt'">
+                <a class="primary-color cursor-pointer table-action-icon fa fa-eye
+                fa-lg pr-7" title="View Order Details"
+                [routerLink]="['/store/purchase-order/view',emp.id]"></a>&nbsp;&nbsp;
+              <span class="cursor-pointer fa"[ngClass]="(!emp?.hideInnerEmpRow)?'fa-expand':'fa-compress'"
+                (click)="toggleHiddenEmpRow(emp)"></span>
+              
+              
+              <!-- <a *ngIf="checkOperation('1','2')" [routerLink]="['/store/purchase-order/edit',emp.purchase_order_no]" class="primary-color table-action-icon fa fa-wrench fa-lg"
+                            title="Edit Order Details"></a>
+                        <a class="primary-color cursor-pointer table-action-icon fa fa-trash-o fa-lg" (click)="showDeactivatePurchaseOrderPopup(emp)"
+                            title="Delete Purchase Order "></a> -->
+            </td>
+            <td class="mw195">{{emp.purchase_order_no}}</td>
+            <td class="mw195">{{emp.sup_ref_name}}</td>
+            <td class="word-break mw195">{{emp.department}}</td>
+            <td class="mw195">{{emp.delivery_note_no}}</td>
+            <td class="mw195">{{emp.sup_ord_ref_no}}</td>
+            <td class="mw195">{{emp.vendor_name}}</td>
+            <td class="mw195">{{emp.QAF_ord_ref_no}}</td>
+            <td class="mw195">{{emp.delivery_date}}</td>
+            <td class="mw195">{{emp.description}}</td>
+            <td class="mw195">{{emp.added_at}}</td>
+          </tr>
+          <ng-container *ngIf="emp?.hideInnerEmpRow">
+            <tr rowspan="99" class="inner-tr" [ngClass]="emp.hideInnerEmpRow?
+              'display-block':'hidden-row'">
+
+              <td class="bk-dark border-bottom" colspan="99">
+                <div class="scrollInnerPo">
+                  <table class="tbl-employee table">
+                    <tr class="tr-fonts">
+                      <!-- <th>Action</th>
+                                    <th>Purchase order no</th> -->
+                      <th>Item name</th>
+                      <th>Descriptions</th>
+                      <th>Item no</th>
+                      <th>Item Part no</th>
+                      <th>Category</th>
+                      <th>Quantity</th>
+                    </tr>
+                    <tbody *ngFor="let emp1 of emp.store_item | FilterPipe:
+                      queryString : searchableList1; let i= index"
+                      #someVar>
+                      <tr [class.active]="emp.highLightRow">
+                        <!-- <td class="no-word-wrap">
+                                            <a class="primary-color cursor-pointer table-action-icon fa fa-eye fa-lg" title="{{'View Store item'| translate}}" [routerLink]="['/store/purchase-item/view/', emp1.id]"></a>
+                                            <a *ngIf="checkOperation('1','2')" [routerLink]="['/store/purchase-item/edit', emp1.id]" class="primary-color table-action-icon fa fa-wrench fa-lg"
+                                                title="{{'Edit Store Details'| translate}}"></a>
+                                            <a class="primary-color cursor-pointer table-action-icon fa fa-trash-o fa-lg" (click)="showDeactivateStoreItemPopup(emp1)"
+                                                title="Delete Store Item "></a>
+                                        </td>
+                                        <td>{{emp1.purchase_order_no}}</td> -->
+                        <td>{{emp1.item_name}}</td>
+                        <td>{{emp1.description}}</td>
+                        <td class="word-break">{{emp1.item_no}}</td>
+                        <td>{{emp1.part_no}}</td>
+                        <td>{{emp1.category}}</td>
+                        <td>{{emp1.quantity}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </td>
+              <!-- <td class="bk-dark border-bottom"></td> -->
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+    <div class="right-align">
+      <pagination-controls (pageChange)="page= $event" id="1" maxSize="5"
+        directionLinks="true" autoHide="true">
+      </pagination-controls>
+    </div>
+  </div>
+  <div class="ar current-lang" [ngClass]="isLangArabic?
+    'activate':'not-active'">
+    <span (click)="toggleMenu()" class="menu-icon fa fa-bars"
+      style="font-size:30px;">
+
+    </span>
+    <!-- <app-nav *ngIf="showMenu"></app-nav> -->
+    <!-- <app-nav ></app-nav> -->
+  </div>
+
+  <div class="form-row">
+    <bs-modal #modalDeactivate id="modalDeactivate" dir="{{!isLangArabic
+      ?'ltr':'rtl'}}">
+      <bs-modal-header [showDismiss]="false">
+        <button type="button" class="close" data-dismiss="modal"
+          [ngClass]="!isLangArabic? 'float-right':'float-left'">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+        <h4 class="modal-title">{{ 'Deactivate Purchase Order' | translate }}</h4>
+      </bs-modal-header>
+      <bs-modal-body>
+        {{'Are you sure you want to deactivate this Purchase Order' | translate
+        }}
+      </bs-modal-body>
+      <bs-modal-footer>
+        <button type="button" class="btn btn-danger"
+          (click)="deletePurchaseOrder()">{{ 'Deactivate' | translate }}</button>
+        <button type="button" class="btn btn-default"
+          (click)="hidePopUp('modalDeactivate')">{{ 'Cancel' | translate }}</button>
+      </bs-modal-footer>
+    </bs-modal>
+    <bs-modal #modalDeactivate1 id="modalDeactivate1" dir="{{!isLangArabic
+      ?'ltr':'rtl'}}">
+      <bs-modal-header [showDismiss]="false">
+        <button type="button" class="close" data-dismiss="modal"
+          [ngClass]="!isLangArabic? 'float-right':'float-left'">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+        <h4 class="modal-title">{{ 'Deactivate Store Item' | translate }}</h4>
+      </bs-modal-header>
+      <bs-modal-body>
+        {{'Are you sure you want to deactivate this Store Item' | translate }}
+      </bs-modal-body>
+      <bs-modal-footer>
+        <button type="button" class="btn btn-danger"
+          (click)="deleteStoreItem()">{{ 'Deactivate' | translate }}</button>
+        <button type="button" class="btn btn-default"
+          (click)="hidePopUp('modalDeactivate1')">{{ 'Cancel' | translate }}</button>
+      </bs-modal-footer>
+    </bs-modal>
+    <bs-modal #modalImport id="modalImport" dir="{{!isLangArabic
+      ?'ltr':'rtl'}}">
+      <bs-modal-header [showDismiss]="false">
+        <button type="button" class="close" data-dismiss="modal"
+          [ngClass]="!isLangArabic? 'float-right':'float-left'">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+        <h4 class="modal-title">{{ 'Import Csv' | translate }}</h4>
+      </bs-modal-header>
+      <bs-modal-body>
+        {{'Upload Csv file' | translate }}
+        <input type="file" #fileImportInput name="csv_data" id="txtFileUpload"
+          class="btn btn-primary" (change)="fileChangeListenerImport($event)"
+          accept=".csv" />
+      </bs-modal-body>
+      <bs-modal-footer>
+        <button type="button" class="btn btn-primary" (click)="import()">{{
+          'Import' | translate }}</button>
+        <button type="button" class="btn btn-default"
+          (click)="hidePopUp('modalImport')">{{ 'Cancel' | translate }}</button>
+      </bs-modal-footer>
+    </bs-modal>
+  </div>
+</div>

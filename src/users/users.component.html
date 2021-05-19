@@ -1,0 +1,164 @@
+<!-- <header></header> Css comement-->
+<div class="en current-lang" [ngClass]="!isLangArabic? 'activate':'not-active'">
+        <span (click)="toggleMenu()" class="menu-icon fa fa-bars" style="left:10px;right:auto; font-size:30px;">
+          </span>
+         <app-nav *ngIf="showMenu"></app-nav>
+            </div>
+    <!-- <div class="col-md-9 main" [ngClass]="!isLangArabic ? 'en-employee':'ar-employee'"> -->
+            <div class="main" [ngClass]="{'en-employee':!this.isLangArabic, 'ar-employee':this.isLangArabic,'col-md-12': showMenu, 'col-md-12': !showMenu}">
+            <div class="user-page-container">
+                    <!-- <b class="page-head table-header-margin">Phone Directory </b> -->
+                <div><b class="page-head table-header-margin" [ngClass]="!isLangArabic ? 'heading-ar':'heading-en'">{{'User' | translate}} </b></div>
+                
+                <div dir="{{!isLangArabic ?'ltr':'rtl'}}" [ngClass]="!isLangArabic ? 'ar deafault-search-ar':'en deafault-search-en'">
+        <!-- <label>{{ 'Search' | translate }}:</label> -->
+        <button type="button" class="btn btn-color import" style="float: left;margin-right:15px" routerLink='/users/add' >{{ 'Add' | translate }}</button>
+        <input type="text" [(ngModel)]="queryString" id="search" placeholder="{{ 'Search' | translate }}" class="search-textbox form-control">
+      </div>
+       <table class="tbl-employee table highLightTable">
+        <tr class="tr-fonts">
+
+            <th (click)="sort('MilitaryId')">{{ 'Military id' | translate }} <i class="fa"
+              [ngClass]="{'fa-sort': column != 'MilitaryId',
+                                  'fa-sort-asc': (column == 'MilitaryId' && !isDesc),
+                                  'fa-sort-desc': (column == 'MilitaryId' && isDesc) }"
+              aria-hidden="true"> </i></th>
+            <th (click)="sort('RoleId')">{{ 'Role Id' | translate  }} <i class="fa"
+              [ngClass]="{'fa-sort': column != 'RoleId',
+                                  'fa-sort-asc': (column == 'RoleId' && !isDesc),
+                                  'fa-sort-desc': (column == 'RoleId' && isDesc) }"
+              aria-hidden="true"> </i></th>
+            <th (click)="sort('username')">{{ 'User name' | translate }} <i class="fa"
+              [ngClass]="{'fa-sort': column != 'username',
+                                  'fa-sort-asc': (column == 'username' && !isDesc),
+                                  'fa-sort-desc': (column == 'username' && isDesc) }"
+              aria-hidden="true"> </i></th>
+            <th (click)="sort('primary_language')">{{ 'Primary language'| translate }} <i class="fa"
+              [ngClass]="{'fa-sort': column != 'primary_language',
+                                  'fa-sort-asc': (column == 'primary_language' && !isDesc),
+                                  'fa-sort-desc': (column == 'primary_language' && isDesc) }"
+              aria-hidden="true"> </i></th>
+              <th (click)="sort('reporting_to')">{{ 'Reporting to' | translate }} <i class="fa"
+                [ngClass]="{'fa-sort': column != 'reporting_to',
+                                    'fa-sort-asc': (column == 'reporting_to' && !isDesc),
+                                    'fa-sort-desc': (column == 'reporting_to' && isDesc) }"
+                aria-hidden="true"> </i></th>
+            <th (click)="sort('status')">{{ 'Status' | translate }} <i class="fa"
+              [ngClass]="{'fa-sort': column != 'status',
+                                  'fa-sort-asc': (column == 'status' && !isDesc),
+                                  'fa-sort-desc': (column == 'status' && isDesc) }"
+              aria-hidden="true"> </i></th>
+            <th></th>
+
+          </tr>
+        <tbody *ngFor="let emp of usersList | orderBy: {property: column, direction: direction} | FilterPipe: queryString : searchableList |paginate: {itemsPerPage: 15, currentPage:page, id: '1'}  ; let i = index">
+        <tr (click)="setClickedRow(emp)" [class.active]="emp.highLightRow">
+            <td>{{emp.MilitaryId}}</td>
+            <td class="word-break">{{emp.RoleId}}</td>
+            <td class="word-break">{{emp.username}}</td>
+            <td>{{emp.primary_language}}</td>
+            <td class="word-break">{{emp.reporting_to}}</td>
+            <td>{{emp.status == 1 ? 'Active':'Inactive'}}</td>
+            <td class="no-word-wrap">
+              <a [routerLink]="['/user/edit/', emp.id]" class="primary-color table-action-icon fa fa-wrench fa-lg pr-7" title="{{'Edit User'| translate}}"></a>
+              <a class="primary-color cursor-pointer table-action-icon fa fa-trash-o fa-lg" (click)="deleteUser(emp.id)" title="{{'Deactivate Users'| translate}}"></a>
+            </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="right-align">
+        <pagination-controls (pageChange)="page = $event" id="1"
+                          maxSize="5"
+                          directionLinks="true"
+                          autoHide="true">
+                    </pagination-controls>
+    </div>
+    </div>
+</div>
+    <div class="ar current-lang"  [ngClass]="isLangArabic? 'activate':'not-active'">
+            <span (click)="toggleMenu()" class="menu-icon fa fa-bars" style="font-size:30px;">
+                </span>
+               <app-nav *ngIf="showMenu"></app-nav>
+
+        </div>
+
+        <div class="form-row">
+
+                <bs-modal #modalUserDetailEdit id="modalUserDetailEdit" dir="{{!isLangArabic ?'ltr':'rtl'}}">
+                    <bs-modal-header [showDismiss]="false">
+                            <button type="button" class="close" [ngClass]="!isLangArabic? 'float-right':'float-left'" data-dismiss="modal">
+                                    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">{{'Edit User'| translate }}</h4>
+                        <br/>
+
+                    </bs-modal-header>
+                    <bs-modal-body>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="Id">
+                                        {{ 'ID' | translate }}</label>
+                                    <input type="text" class="form-control" [(ngModel)]="txtId" placeholder="{{ 'ID' | translate }}" name="Id" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Password">
+                                        {{ 'PASSWORD' | translate }}</label>
+                                    <input type="email" class="form-control" [(ngModel)]="txtPassword" placeholder="{{ 'PASSWORD' | translate }}" name="Password" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="FirstName">
+                                        {{ 'FIRSTNAME' | translate }}</label>
+
+                                        <input type="text" class="form-control textbox-with-checkBox" [(ngModel)]="txtFirstName" placeholder="{{ 'FIRSTNAME' | translate }}"
+                                            name="FirstName"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="ReportingTo">
+                                        {{ 'REPORTING TO' | translate }}</label>
+                                    <input type="text" class="form-control" [(ngModel)]="txtReportingTo" placeholder="{{ 'REPORTING TO' | translate }}" name="ReportingTo" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="UserName">
+                                        {{ 'USERNAME' | translate }}</label>
+                                    <input type="text" class="form-control" [(ngModel)]="txtUserName" placeholder="{{ 'USERNAME' | translate }}" name="UserName" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="Language">
+                                        {{ 'LANGUAGE' | translate }}</label>
+                                    <input type="Text" class="form-control" [(ngModel)]="txtLanguage" placeholder="{{ 'LANGUAGE' | translate }}" name="Language" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="LastName">
+                                        {{ 'LASTNAME' | translate }}</label>
+                                    <input type="text" class="form-control" [(ngModel)]="txtLastName" placeholder="{{ 'LASTNAME' | translate }}" name="LastName" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="Role">
+                                           {{ 'ROLE' | translate }}</label>
+                                    <div>
+                                        <input type="text" class="form-control" [(ngModel)]="txtRole" placeholder="{{ 'ROLE' | translate }}"
+                                            name="Role" />
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="Role">
+                                    {{ 'STATUS' | translate }}</label>
+                             <div>
+                                 <!-- <input type="checkbox" /> -->
+                                 <input type="text" class="form-control" [(ngModel)]="txtStatus" placeholder="{{ 'STATUS' | translate }}"
+                                     name="SmstelOffice" />
+                                 </div>
+                            </div>
+                        </div>
+                    </bs-modal-body>
+                    <bs-modal-footer >
+                            <button type="button" class="primary-button btn btn-default"  (click)='sendSMS()'>{{ 'Edit' | translate }}</button>
+                            <button type="button" class="btn btn-default" (click)="hidePopUp('modalUserDetailEdit')">{{ 'Cancel' | translate }}</button>
+
+                    </bs-modal-footer>
+                </bs-modal>
+        </div>

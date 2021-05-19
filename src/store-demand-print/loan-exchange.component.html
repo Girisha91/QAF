@@ -1,0 +1,114 @@
+<div class="demandBookPrint-Container">
+<div class="row" style="width: 100%; text-align: right;">
+  <!-- <button class="primary btn-sm btn-color"
+    (click)="Print('issue')">Print</button>
+  <button class="primary btn-sm " routerLink="/store/demandBookList">Back</button> -->
+</div>
+<p *ngIf="!LoanReturnForm">Loading data ...</p>
+<div *ngIf="LoanReturnForm" id="issue" class="container">
+  <div class="row print-100" style="border: black 2px solid;">
+    <div class="col-md-12">
+
+      <div class="card">
+        <div class="card-body">
+          <div class="row"
+            style="text-align: center;border: black 1px solid ;border-left: none;border-right:none;border-top: none;">
+            <h4> Loan Exchange Form</h4>
+          </div>
+          <div class="row topheightExchange"
+            style="border: black 1px solid ; border-top: none;border-left: none;border-right: none;">
+            <div class="col-md-4 col-sm-4 col-xs-4 text-left topheightExchange"
+              style="border: black 1px solid;border-bottom: none; border-top: none;border-left: none; ">
+              <div class="row rowheight" style="margin-top: 10px">
+                <div class="col-md-3 col-sm-3 col-xs-3 textHead"> <strong>Date </strong> </div>
+                <div class="col-md-7 col-sm-7 col-xs-7 textData"><strong>:</strong> {{LoanReturnForm?.date_issued}}</div>
+              </div>
+              <div class="row rowheight">
+                <div class="col-md-3 col-sm-3 col-xs-3 textHead"> <strong>Department </strong></div>
+                <div class="col-md-7 col-sm-7 col-xs-7 textData"> <strong>:</strong> {{LoanReturnForm?.department}}</div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4 ">
+              <div class="row center-align">
+                <h6> <strong> Qatar Armed forces </strong></h6>
+              </div>
+              <div class="row center-align">
+                <h6>
+                  <strong> (Main Technical Store - Signal force)</strong>
+                </h6>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4  text-left topheightExchange"
+              style="border: black 1px solid; border-bottom: none; border-top: none;border-right: none;">
+              <div class="row rowheight" style="margin-top: 10px">
+                <div class="col-md-5 col-sm-5 col-xs-5 textHead"> <strong>Generated Demand No </strong> </div>
+                <div class="col-md-7 col-sm-7 col-xs-7 textData"><strong>:</strong> {{LoanReturnForm?.material_demand_no}}</div>
+              </div>
+              <div class="row rowheight">
+                <div class="col-md-5 col-sm-5 col-xs-5 textHead"> <strong>Manual Demand No </strong> </div>
+                <div class="col-md-7 col-sm-7 col-xs-7 textData"> <strong>:</strong> {{LoanReturnForm?.manual_demand_no}}</div>
+              </div>
+            </div>
+          </div>
+          <div class="row ">
+            <div class="col-md-12">
+              <div class="well well-sm DeviceTypeLable" style="border: black 1px solid;margin-top: 10px;"><strong>
+                  Controllable Devices </strong></div>
+              <table class="table table-bordered" style="table-layout: fixed;
+              width: 100%;">
+                <thead>
+                  <tr>
+                    <th class="text-uppercase small font-weight-bold" style="border: black 1px solid !important;">Item
+                      Name</th>
+                    <th class="text-uppercase small font-weight-bold" style="border: black 1px solid !important;">Item
+                      Part No</th>
+                    <th class="text-uppercase small font-weight-bold" style="border: black 1px solid !important;">Serial
+                      No</th>
+                    <th class="text-uppercase small font-weight-bold" style="border: black 1px solid !important;">Site
+                      Name</th>
+                    <th class="text-uppercase small font-weight-bold" style="border: black 1px solid !important;">
+                      Remarks</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let loanReturnField of LoanReturnArray;let i = index;">
+                    <td style="word-wrap: break-word;border: black 1px solid !important;">{{loanReturnField.item_name}}</td>
+                    <td style="word-wrap: break-word;border: black 1px solid !important;">{{loanReturnField.item_part_no}}
+                    </td>
+                    <td style="word-wrap: break-word;border: black 1px solid !important;">{{loanReturnField.serial_no}}</td>
+                    <td style="word-wrap: break-word;border: black 1px solid !important;">{{loanReturnField.site_name}}</td>
+                    <td style="word-wrap: break-word;border: black 1px solid !important;">{{loanReturnField.remarks}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="row printBottomContent btmheightExchange"
+            style="border: black 1px solid; margin-top: 10px;border-bottom: none;border-left: none;border-right: none;">
+            <div class="col-md-4 col-sm-4 col-xs-4 text-left btmheightExchange"
+              style="border: black 1px solid;  border-bottom: none;border-left: none;border-top: none ;">
+              <div class="row rowheight" style="margin-top: 10px">
+                <div class="col-md-3 col-sm-3 col-xs-3 textHead "> <strong>Recipient</strong> </div>
+                <div class="col-md-7 col-sm-7 col-xs-7 textData"><strong>:</strong> {{LoanReturnForm?.recipient}}</div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4 ">
+              <div class="row center-align">
+                <div class="formBigTextValue">General Command approval</div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4  text-left btmheightExchange"
+              style="border: black 1px solid;  border-bottom: none; border-top: none; border-right:none; ">
+              <div class="row rowheight" style="margin-top: 10px">
+                <div class="col-md-5 col-sm-5 col-xs-5 textHead"> <strong>Applicant  </strong></div>
+                <div class="col-md-7 col-sm-7 col-xs-7 textData"><strong>:</strong> {{LoanReturnForm?.applicant}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="btmmargin" style="text-align: center;margin-top: 20px;"><button class="primary btn-sm btn-color" (click)="Print('issue')">Print</button>
+    <button class="primary btn-sm " routerLink="/store/demandBookList">Back</button></div></div>

@@ -1,0 +1,16 @@
+.storesupplierform-container{
+    border-radius: 3px;
+    background-color: #FFFFFF;
+    margin-left: 8%;
+    margin-right: 8%;
+    margin-bottom: 2%;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26), 0 2px 10px 0 rgba(0,0,0,0.16);
+    padding-bottom: 3%;
+  }
+  .formPanelhead{
+    line-height: 40px;
+    opacity: 0.87;
+    color: #700909;
+    font-size: 20px;
+    font-family: Roboto;
+  }

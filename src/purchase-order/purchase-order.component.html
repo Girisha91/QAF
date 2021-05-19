@@ -1,0 +1,200 @@
+<div class="purchaseorder-container">
+    <div class="col-md-12 formPanelhead">
+        <div class="row">
+            <div class="col-md-8 pull-left"><Strong>Store Purchase Order</Strong></div>
+            <div class="col-md-4 pull-left">
+                    <span class="errortitle" *ngIf="!(opr==2)" style="float:right">(<span class="error">*</span> Mandatory)</span>
+                <!-- <button style="float: right;margin: 5px;" type="button" *ngIf="title == 'Add Order'" (click)="AddPO(po)" class="btn btn-default primary">
+                    {{title}}</button> -->
+                <button style="float: right;margin: 5px;" *ngIf="opr==2" type="button" (click)="closeAndRedirect()" class="btn btn-default">
+                    Cancel </button>
+            </div>
+        </div>
+    </div>
+    <hr class="line" style="margin-top:0 ">
+    <div class="col-md-12">
+                        <div class="form-group col-md-4 inputHeight">
+                            <label for="txtId">
+                                Supplier Reference Name
+                                <span class="error">*</span>
+                            </label>
+                            <div class="col-md-10" style="width: 89%; padding-right: 0;">
+                                <ng-select id="supplier txtId" class="selectDD selectxlDD" [disabled]="itemIsReadOnly"
+                                    [items]="this.suprefnameList" bindLabel="label" bindValue="label"
+                                    [(ngModel)]="po.sup_ref_name">
+                                    <i class="fa-caret-down"></i>
+                                </ng-select>
+                                <div [hidden]="errorSup_ref_name == ''" class="error">{{errorSup_ref_name}}
+                                </div>
+                            </div>
+                            <div class="supplybtn">
+                                <button class="btn btn-default fs-16" [disabled]="itemIsReadOnly" type="button"
+                                    (click)="addSupplier('redirectToPo')">
+                                    <span class="fa fa-plus"></span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-4 inputHeight">
+                            <label for="txtId">
+                                Purchase Order No
+                                <span class="error">*</span>
+                            </label>
+                            <input type="text" [(ngModel)]="po.purchase_order_no" [disabled]="isReadOnly" name="txtid"
+                                class="form-control" placeholder="Purchase Order No" required />
+                            <div [hidden]="errorPurchase_order_no == ''" class="error">
+                                {{errorPurchase_order_no}}</div>
+                        </div>
+
+                        <div class="form-group col-md-4 inputHeight">
+                            <label for="txtId">
+                                Department
+                                <span class="error">*</span>
+                            </label>
+                            <select class="form-control" ngControl="st" [disabled]="isReadOnly" placeholder="Department"
+                                [(ngModel)]="po.department">
+                                <option selected="selected">Select Department</option>
+                                <option *ngFor="let st of DepartmentList" [value]="st.label">{{st.label}}
+                                </option>
+                            </select>
+                            <div [hidden]="errorDepartment == ''" class="error">{{errorDepartment}}</div>
+                        </div>
+                        <div class="form-group col-md-4 inputHeight">
+                            <label for="txtId">
+                                Delivery Note No
+                                <span class="error">*</span>
+                            </label>
+                            <input type="text" [(ngModel)]="po.delivery_note_no" [disabled]="isReadOnly" name="txtid"
+                                class="form-control" placeholder="Delivery Note No" required />
+                            <div [hidden]="errorDelivery_note_no == ''" class="error">{{errorDelivery_note_no}}
+                            </div>
+                        </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-4 inputHeight">
+                            <label for="txtId">
+                                Supplier Order Reference No
+                            </label>
+                            <input type="text" [(ngModel)]="po.sup_ord_ref_no" [disabled]="isReadOnly" name="txtid"
+                                class="form-control" placeholder="Supplier Order Reference No" required />
+                            <div [hidden]="errorSup_ord_ref_no == ''" class="error">{{errorSup_ord_ref_no}}
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-4 inputHeight">
+                            <label for="txtId">
+                                Vendor Name
+                            </label>
+                            <input type="text" [(ngModel)]="po.vendor_name" [disabled]="isReadOnly" name="txtid"
+                                class="form-control" placeholder="Vendor Name" required />
+                            <div [hidden]="errorVendor_name == ''" class="error">{{errorVendor_name}}</div>
+                        </div>
+                        <div class="form-group col-md-4 inputHeight">
+                            <label for="txtId">
+                                QAF Order Reference No
+                            </label>
+                            <input type="text" [(ngModel)]="po.QAF_ord_ref_no" [disabled]="isReadOnly" name="txtid"
+                                class="form-control" placeholder="QAF Order Reference No" required />
+                            <div [hidden]="errorQAF_ord_ref_no == ''" class="error">{{errorQAF_ord_ref_no}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-4 inputHeight">
+                            <label for="txtId">
+                                Delivery date
+                            </label>
+                            <input type="text" bsDatepicker [(ngModel)]="po.delivery_date" [disabled]="isReadOnly"
+                                name="txtid" class="form-control" id="delivery_date" placeholder="Delivery date"
+                                [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" required />
+                            <div [hidden]="errorDelivery_date == ''" class="error">{{errorDelivery_date}}</div>
+                        </div>
+                        <div class="form-group col-md-4 inputHeight">
+                            <label for="txtId">
+                                Requested by
+                            </label>
+                            <input type="text" [(ngModel)]="po.requested_by" [disabled]="isReadOnly" name="txtid"
+                                class="form-control" placeholder="Requested by" required />
+                            <div [hidden]="errorRequested_by == ''" class="error">{{errorRequested_by}}</div>
+                        </div>
+
+                        <div class="form-group col-md-8 inputHeight">
+                            <label for="txtId">
+                                Description of purchase
+                            </label>
+                            <textarea [disabled]="isReadOnly" [(ngModel)]="po.description" name="txtid"
+                                class="form-control" placeholder="Description of Purchase"></textarea>
+                            <div [hidden]="errorDescription == ''" class="error">{{errorDescription}}</div>
+                        </div>
+                    </div>
+                </div>
+        <button class="btn btn-default" [disabled]="isReadOnly" type="button" (click)="addFieldValue()">
+            <i class="fa fa-plus"></i>
+        </button>
+        <button class="btn btn-color btn-xl" [disabled]="isReadOnly" type="button"
+            (click)="addMaterial('redirectToPo')">Add New Material
+        </button>
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th class="text-center">Item Name <span class="error">*</span> </th>
+                    <th class="text-center">Item Description</th>
+                    <th class="text-center">Item No</th>
+                    <th class="text-center">Item Part No</th>
+                    <th class="text-center">Category</th>
+                    <th class="text-center">Warranty</th>
+                    <th class="text-center">Quantity</th>
+                    <th class="text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let field of fieldArray; let i = index">
+                    <td>
+                        <ng-select id="supplier txtId" class="selectMaterialDD" [disabled]="itemIsReadOnly"
+                            [items]="this.materialList" bindLabel="Material Name" [(ngModel)]="field.label"
+                            (change)="changeItemList(field,i)">
+                        </ng-select>
+                    </td>
+                    <td>
+                        <input [(ngModel)]="field.description" [disabled]="true" class="form-control" type="text"
+                            name="{{field.description}}" placeholder="{{field.description}}" />
+                    </td>
+                    <td>
+                        <input [(ngModel)]="field.item_no" [disabled]="true" class="form-control" type="text"
+                            name="{{field.item_no}}" placeholder="{{field.item_no}}" />
+                    </td>
+                    <td>
+                        <input [(ngModel)]="field.part_no" [disabled]="true" class="form-control" type="text"
+                            name="{{field.part_no}}" placeholder="{{field.part_no}}" />
+                    </td>
+                    <td>
+                        <input [(ngModel)]="field.category" [disabled]="true" class="form-control" type="text"
+                            name="{{field.category}}" placeholder="{{field.category}}" />
+                    </td>
+                    <td>
+                        <input [(ngModel)]="field.expireDate" [disabled]="true" class="form-control" type="text"
+                            name="{{field.expireDate}}" placeholder="{{field.expireDate}}" />
+                    </td>
+                    <td>
+                        <input [(ngModel)]="field.quantity" [disabled]="itemIsReadOnly" class="form-control" type="text"
+                            name="{{field.quantity}}" />
+                    </td>
+                    <td>
+                        <button class="btn btn-default" [disabled]="isReadOnly" type="button"
+                            (click)="deleteFieldValue(i)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <hr class="line" style="margin-top:0 ">
+    <div class="col-md-12 center-align">
+        <button type="button" *ngIf="title == 'Add Order'" (click)="AddPO(po)" class="btn btn-default primary">
+            {{title}}</button>
+        <button type="button" *ngIf="title == 'Update Order'" (click)="UpdatePO(po)" class="btn btn-default primary">
+            {{title}}</button>
+        <button type="button" *ngIf="!(opr==2)" (click)="closeAndRedirect()" class="btn btn-default">
+            Cancel </button>
+        <br />
+    </div>
+</div>

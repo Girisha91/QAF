@@ -1,0 +1,30 @@
+.purchaseorder-container {
+    margin: 0%  2% 2% 2%;
+    border-radius: 3px;
+    background-color: #FFFFFF;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26), 0 2px 10px 0 rgba(0,0,0,0.16);
+    padding-bottom: 3%;
+  }
+.formPanelhead{ 
+line-height: 40px;
+height: 50px;
+opacity: 0.87;
+color: #700909;
+font-size: 20px;
+font-family: Roboto;
+}
+.supplybtn{
+  
+}
+
+  .fs-16{
+    font-size: 1.51rem !important;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+  }
+
+  .ng-select-container{
+border-top-right-radius: 0 !important;
+border-bottom-right-radius: 0 !important;
+border-right: 0 !important;
+  }

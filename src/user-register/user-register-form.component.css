@@ -1,0 +1,11 @@
+.container-fluid{
+  min-height: 100vh;
+}
+
+.register .mb-10{
+  margin-bottom: 10px !important;
+}
+.register .plr-0{
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}

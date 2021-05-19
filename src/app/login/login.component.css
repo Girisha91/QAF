@@ -1,0 +1,45 @@
+.logincomponent{
+    position: fixed; 
+    background: #ffffff !important;
+left: 32% !important;
+width: 30%;
+/* right: 32% !important; */
+}
+
+.logincomponent .container{
+    width: 100%;
+}
+
+.logincomponent .textadj{
+    margin-left: 15vh;
+    width: 90% !important;
+}
+.logincomponent input[type="text"]::after
+{
+background-color: #ffffff !important;
+}
+.logincomponent .bgtp{
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid #dddddd;
+    box-shadow: none;
+}
+
+.logincomponent .pen{
+    padding: 0;
+    padding-right: 8px !important;
+    padding-left: 8px !important;
+}
+
+.logincomponent .par{
+    padding: 0;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+}
+
+.logincomponent input:-webkit-autofill,
+.logincomponent input:-webkit-autofill:hover,
+.logincomponent input:-webkit-autofill:focus,
+.logincomponent input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+}

@@ -1,0 +1,90 @@
+
+<div class="en current-lang" [ngClass]="!isLangArabic? 'activate':'not-active'">
+  <span (click)="toggleMenu()" class="menu-icon fa fa-bars"
+    style="left:10px;right:auto; font-size:30px;">
+  </span>
+</div>
+<!-- <div class="col-md-9 main" [ngClass]="!isLangArabic ? 'en-employee':'ar-employee'"> -->
+<div class="main"
+  [ngClass]="{'en-employee':!this.isLangArabic,
+  'ar-employee':this.isLangArabic,'col-md-9 ': showMenu, 'col-md-12':
+  !showMenu}">
+  <!-- <div class="tableHeading "><b>{{'Userrole' | translate}} </b></div> -->
+  <div class="user-role-page-container">
+    <div>
+      <b class="page-head table-header-margin" [ngClass]="!isLangArabic ?
+        'heading-ar':'heading-en'">{{'Userrole' | translate}} </b>
+      </div>
+    <div class="deafault-search" dir="{{!isLangArabic ?'ltr':'rtl'}}"
+      [ngClass]="!isLangArabic ? 'en':'ar'">
+      <div dir="{{!isLangArabic ?'ltr':'rtl'}}" [ngClass]="!isLangArabic ? 'ar
+        deafault-search-ar':'en deafault-search-en'">
+        <!-- <label>{{ 'Search' | translate }}:</label> -->
+        <button type="button" class="btn btn-color import" style="float:
+          left;margin-right:15px" routerLink='/user-role/add'>{{ 'Add' |
+          translate }}</button>
+        <input type="text" [(ngModel)]="queryString" id="search" placeholder="{{
+          'Search' | translate }}"
+          class="search-textbox form-control">
+      </div>
+      </div>
+      <table class="tbl-employee table highLightTable">
+        <tr class="tr-fonts">
+          <th (click)="sort('RoleId')">Id
+            <i class="fa" [ngClass]="{'fa-sort': column != 'RoleId',
+              'fa-sort-asc': (column == 'RoleId' && !isDesc),
+              'fa-sort-desc': (column == 'RoleId' && isDesc) }"
+              aria-hidden="true">
+            </i>
+          </th>
+          <th (click)="sort('RoleName')">{{ 'Role name' | translate }}
+            <i class="fa" [ngClass]="{'fa-sort': column != 'RoleName',
+              'fa-sort-asc': (column == 'RoleName' && !isDesc),
+              'fa-sort-desc': (column == 'RoleName' && isDesc) }"
+              aria-hidden="true">
+            </i>
+          </th>
+          <th (click)="sort('Description')">{{ 'Description' | translate }}
+            <i class="fa" [ngClass]="{'fa-sort': column != 'Description',
+              'fa-sort-asc': (column == 'Description' && !isDesc),
+              'fa-sort-desc': (column == 'Description' && isDesc) }"
+              aria-hidden="true">
+            </i>
+          </th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+
+        <tbody
+          *ngFor="let role of RolesDetails | orderBy: {property: column,
+          direction: direction} | FilterPipe: queryString : searchableList
+          |paginate: {itemsPerPage: 15, currentPage:page, id: '1'}; let i=
+          index">
+          <tr (click)="setClickedRow(role)" [class.active]="role.highLightRow">
+            <td class="word-break">{{role.RoleId}}</td>
+            <td>{{role.RoleName}}</td>
+            <td>{{role.Description}}</td>
+            <td>{{role.Status}}</td>
+            <td class="no-word-wrap">
+              <a [routerLink]="['/user-role/edit/', role.RoleId]"
+                *ngIf="(role.RoleId != 1 && role.RoleId !=2) || MyRoleId==1"
+                class="primary-color table-action-icon fa fa-wrench fa-lg"
+                title="{{'View or Edit Employee Details'| translate}}"></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="right-align">
+        <pagination-controls (pageChange)="page= $event" id="1" maxSize="5"
+          directionLinks="true" autoHide="true">
+        </pagination-controls>
+      </div>
+    <!-- </div> -->
+  </div>
+  <div class="ar current-lang" [ngClass]="isLangArabic?
+    'activate':'not-active'">
+    <span (click)="toggleMenu()" class="menu-icon fa fa-bars"
+      style="font-size:30px;">
+    </span>
+    <app-nav *ngIf="showMenu"></app-nav>
+  </div>

@@ -1,0 +1,1458 @@
+<div class="stritm">
+<div class="store-margin">
+    <div class="col-md-12 pd0">
+        <strong class="storeHead plt-21" style="margin-bottom: 25px">Store Items</strong>
+    </div>
+    <div class="row store-header-bg plr-0 mlr-0">
+        <div class="col-md-4 pull-left">
+            <!-- <strong class="storeSearchhead">Serial No:</strong> -->
+            <!-- <strong class="storeSearchhead">Serial No</strong> -->
+            <div class=" form-inline" >
+                <strong class="storeSearchhead pl-h">Serial No :</strong>
+                <input type="text" style="font-size: 13px !important;" [(ngModel)]="serialNo" name="serial_no" class="form-control"
+                  id="serial_no" placeholder="Enter Serial Number">
+                <button type="submit" class="btn btn-sm btn-color" (click)="searchSerialNum(this.serialNo)">Submit</button>
+                <button type="submit" class="btn btn-sm btn-color" (click)="clearSerialNoSearch()">Clear</button>
+              </div>
+          </div>
+        <div class="col-md-8 pull-right storesmbtn">
+          <div class="btn-group">
+            <button type="button" class="btn storesmbtn" (click)="showUploaPopUp()">{{ 'Import SerialNo' }}</button>
+            <button type="button" class="btn storesmbtn" routerLink="/storewithoutPo"><i class="fa fa-plus" ></i>Add items</button>
+            <button type="button" class="btn storesmbtn" routerLink="/store/purchase-order/add"><i class="fa fa-plus" ></i>Add PO</button>
+            <button type="button" class="btn storesmbtn" routerLink="/StoreItemList"><i class="fa fa-database" ></i>Material DB</button>
+            <button type="button" class="btn storesmbtn" routerLink="/store/supplier"><i class="fa fa-database" ></i>Supplier DB</button>
+            <button type="button" class="btn storesmbtn" routerLink="/store/demandBookList"><i class="fa fa-print" ></i>Demand Book</button>
+            <button type="button" class="btn storesmbtn" routerLink="/storeReport"><i class="fa fa-file" ></i>Report</button>
+          </div>
+            <!-- <ul class="nav nav-tabs">
+              <li> <a class="storenav storesmbtn" routerLink="/storewithoutPo"><i class="fa fa-plus"></i>Add items</a></li>
+              <li> <a class="storenav storesmbtn" routerLink="/store/purchase-order/add"><i class="fa fa-plus"></i>Add PO</a></li>
+              <li> <a class="storenav storesmbtn" routerLink="/StoreItemList"><i class="fa fa-database"></i>Material DB</a></li>
+              <li> <a class="storenav storesmbtn" routerLink="/store/supplier"><i class="fa fa-database"></i>Supplier DB</a></li>
+              <li> <a class="storenav storesmbtn" routerLink="/store/demandBookList"><i class="fa fa-print"></i>Demand Book</a></li>
+              <li> <a class="storenav storesmbtn" routerLink="/storeReport"><i class="fa fa-file"></i>Report</a></li>
+              <li> <a class="storenav storesmbtn" routerLink="/employee">Back</a></li>
+            </ul> -->
+          </div>
+    </div>
+    <div class="row  plr-0 mlr-0 mb-1">
+        <div class="col-md-6 pull-left">
+            <ul class="nav nav-tabs">
+              <li> <a class="storenav active" routerLink="/store-items">MATERIAL</a></li>
+              <li> <a class="storenav" routerLink="/store">PURCHASE ORDER</a></li>
+              <li> <a class="storenav" routerLink="/store-transaction">HISTORY</a></li>
+            </ul>
+          </div>
+    </div>
+    
+  <div class="row mlr-0">
+      <div [ngClass]="!showImage ? 'col-md-12':'col-md-10'" class="pr-0">
+        <div class=" storeTableContainer">
+          <table dir="{{!isLangArabic ?'ltr':'rtl'}}" class=" store-table tbl-employee table highLightTable"
+            [ngClass]="!isLangArabic ? 'en':'ar'">
+            <tr class="tr-fonts">
+              <th (click)="sort('order')" class="fixed-column-1 fixcol-th"> Stock Status
+                <i class="fa" [ngClass]="{'fa-sort': column != 'order',
+                                  'fa-sort-asc': (column == 'order' && !isDesc),
+                                  'fa-sort-desc': (column == 'order' && isDesc) }" aria-hidden="true">
+                </i>
+              </th>
+              <th (click)="sort('item_name')">{{'Item name'| translate | titlecase}}
+                <i class="fa" [ngClass]="{'fa-sort': column != 'item_name',
+                                                  'fa-sort-asc': (column == 'item_name' && !isDesc),
+                                                  'fa-sort-desc': (column == 'item_name' && isDesc) }"
+                  aria-hidden="true">
+                </i>
+              </th>
+              <th (click)="sort('item_no')">{{'Item no' | translate | titlecase}}
+                <i class="fa" [ngClass]="{'fa-sort': column != 'item_no',
+                                                        'fa-sort-asc': (column == 'item_no' && !isDesc),
+                                                        'fa-sort-desc': (column == 'item_no' && isDesc) }"
+                  aria-hidden="true">
+                </i>
+              </th>
+              <th>{{'Quantity' | translate | titlecase}}
+              </th>
+              <th (click)="sort('description')">{{'Descriptions'| translate | titlecase}}
+                <i class="fa" [ngClass]="{'fa-sort': column != 'description',
+                                                            'fa-sort-asc': (column == 'description' && !isDesc),
+                                                            'fa-sort-desc': (column == 'description' && isDesc) }"
+                  aria-hidden="true">
+                </i>
+              </th>
+              <th (click)="sort('category')">{{'Category' | translate | titlecase}}
+                <i class="fa" [ngClass]="{'fa-sort': column != 'category',
+                                                                'fa-sort-asc': (column == 'category' && !isDesc),
+                                                                'fa-sort-desc': (column == 'category' && isDesc) }"
+                  aria-hidden="true">
+                </i>
+              </th>
+              <th (click)="sort('part_no')">{{'Item part no' | translate | titlecase}}
+                <i class="fa" [ngClass]="{'fa-sort': column != 'part_no',
+                                                                'fa-sort-asc': (column == 'part_no' && !isDesc),
+                                                                'fa-sort-desc': (column == 'part_no' && isDesc) }"
+                  aria-hidden="true">
+                </i>
+              </th>
+  
+              <th (click)="sort('department')">{{'Department '| translate | titlecase}}
+                <i class="fa" [ngClass]="{'fa-sort': column != 'department',
+                                                        'fa-sort-asc': (column == 'department' && !isDesc),
+                                                        'fa-sort-desc': (column == 'department' && isDesc) }"
+                  aria-hidden="true">
+                </i>
+              </th>
+              <th (click)="sort('vendor')">{{'Vendor name '| translate | titlecase}}
+                <i class="fa" [ngClass]="{'fa-sort': column != 'vendor',
+                                                            'fa-sort-asc': (column == 'vendor' && !isDesc),
+                                                            'fa-sort-desc': (column == 'vendor' && isDesc) }"
+                  aria-hidden="true">
+                </i>
+              </th>
+            </tr>
+            <tbody class="searchBox" *ngIf="showAdvanceSearch" [ngClass]="{'hidden-menu': !showMenu}">
+              <tr>
+                <td class="fixed-column-1" style="left: 8px;top: 50px;">
+                  <select class="searchStatus textbox-height form-control"
+                    style="text-align-last: center;font-weight: bolder;" ngControl="status" [(ngModel)]="searchStatus">
+                    <option value="">
+                      {{ 'Select Status' | translate }}
+                    </option>
+                    <option #searchFilterStatus *ngFor="let status of ItemStatusList" [value]="status.label">
+                      <strong>{{status.label}}</strong>
+                    </option>
+                  </select>
+                </td>
+                <td>
+                  <input type="text" name="searchItemName" [(ngModel)]="searchItemName"
+                    class="searchItemName textbox-height form-control" placeholder="{{ 'Item name' | translate }}" />
+                </td>
+  
+                <td>
+                  <input type="text" name="searchItemNo" [(ngModel)]="searchItemNo"
+                    class="searchItemNo textbox-height form-control" placeholder="{{ 'Item no' | translate }}" />
+                </td>
+                <td>
+                  <input type="text" name="searchQuantity" [(ngModel)]="searchQuantity" [disabled]="true"
+                    class="searchQuantity textbox-height form-control" placeholder="{{ 'Quantity' | translate }}" />
+                </td>
+                <td>
+                  <input type="text" name="searchDescriptions" [(ngModel)]="searchDescriptions"
+                    class="searchDescriptions textbox-height form-control"
+                    placeholder="{{ 'Descriptions' | translate }}" />
+                </td>
+                <td>
+                  <input type="text" name="searchCategory" [(ngModel)]="searchCategory"
+                    class="searchCategory textbox-height form-control" placeholder="{{ 'Category' | translate }}" />
+                </td>
+                <td>
+                  <input type="text" name="searchItemPartNo" [(ngModel)]="searchItemPartNo"
+                    class="searchItemPartNo textbox-height form-control" placeholder="{{ 'Item part no' | translate }}" />
+                </td>
+                <td>
+                  <select class="form-control searchDepartment textbox-height" [(ngModel)]="searchDepartment">
+                    <option class="searchAlign" value="">{{ 'Department' | translate }} </option>
+                    <option *ngFor="let dept of DepartmentList" [value]="dept.label">{{dept.label}}</option>
+                  </select>
+                </td>
+                <td>
+                  <input type="text" name="searchVendorName" [(ngModel)]="searchVendorName"
+                    class="searchVendorName textbox-height form-control" placeholder="{{ 'Vendor name' | translate }}" />
+                </td>
+              </tr>
+            </tbody>
+            <tbody 
+              *ngFor="let storematerial of EmployeeDetails | storeItemSearch : searchStatus : searchItemName : searchItemNo : searchItemPartNo : searchCategory : searchQuantity : searchVendorName : searchDescriptions : searchDepartment | FilterPipe: queryString : searchableList |orderBy: {property: column, direction: direction} | paginate: {itemsPerPage: 10, currentPage:page, id: '1'}; let i = index "
+              [ngClass]="{'hidden-menu': !showMenu}" #someVar>
+              <tr 
+                *ngIf="((storematerial.Materialstatus == 'Available') || (storematerial.Materialstatus == 'ReOrder') || (storematerial.Materialstatus == 'Out of Stock'))"
+                [class.active]="storematerial.highLightRow" (click)="setClickedRow(storematerial)">
+                <td dir="ltr" class="fixed-column-1">
+                  <strong>
+                    <span *ngIf="(storematerial.category == 'Controllable')" class="cursor-pointer  fa "
+                      [ngClass]="(!storematerial?.hideInnerRowAvilable)?'fa-expand':'fa-compress'" 
+                      (click)="toggleHiddenRowAvilable(storematerial)"></span>
+                      <span *ngIf="(storematerial.category == 'Non-Controllable')" [ngClass]="(!isLangArabic)?'applyEn':'applyAr'" ></span>
+      <!-- <span ></span> -->
+                    &nbsp;&nbsp; {{ storematerial.Materialstatus }}
+                  </strong>
+                  <i *ngIf="((storematerial.reorder_qty) > (storematerial.QuantAvailable)) && (storematerial.QuantAvailable != 0)"
+                    class="fa fa-bell fa-lg" style="color:#76102B " aria-hidden="true"></i>
+                  <i *ngIf="storematerial.QuantAvailable == 0" class="fa fa-cart-plus fa-lg" style="color:#76102B "
+                    aria-hidden="true"></i>
+                </td>
+                <td class="word-break">{{storematerial.item_name}}</td>
+                <td>{{storematerial.item_no}}</td>
+                <td>{{storematerial.QuantAvailable}}</td>
+                <td>{{storematerial.description}}</td>
+                <td>{{storematerial.category}}</td>
+                <td>{{storematerial.part_no}}</td>
+                <td>{{storematerial.department}}</td>
+                <td>{{storematerial.vendor}}</td>
+              </tr>
+              <ng-container *ngIf="((storematerial?.hideInnerRowAvilable) && (storematerial.category == 'Controllable'))">
+                <tr rowspan="99" class="inner-tr"
+                  [ngClass]="storematerial.hideInnerRowAvilable? 'display-block':'hidden-row'">
+                  <td class="bk-dark border-bottom" colspan="99">                    
+                    <div class="scrollInnerStore innerstorewidth">
+                      
+                      <table class="tbl-employee table" style="width: 999px;">
+                        <tr class="tr-fonts">
+                          <th>Action</th>
+                          <th>Item Name</th>
+                          <th>Item No</th>
+                          <th>Serial No</th>
+                          <th>PO No</th>
+                          <th>Item Part No</th>
+                          <th>Location</th>
+                          <th>Remarks</th>
+                          <th (click)="sort('warranty')">{{'Warranty(Expiry Date)'| translate | titlecase}}
+                            <i class=""
+                              [ngClass]="{'fa-sort': column != 'warranty',
+                                                                          '': (column == 'warranty' && !isDesc),
+                                                                          '': (column == 'warranty' && isDesc) }"
+                              aria-hidden="true">
+                            </i>
+                          </th>
+                          <th>Date In</th>
+                        </tr>
+                        <tbody
+                          *ngFor="let storeitem of storematerial.store_item | orderBy: {property: column, direction: direction} ; let i = index">
+                          <tr class="item-{{storeitem.id}}"
+                            *ngIf="((storeitem.status == 1) && (storematerial.category == 'Controllable'))">
+                            <td>
+                              <a class="primary-color cursor-pointer table-action-icon fa fa-eye fa-lg"
+                                title="View Item Details" [routerLink]="['purchase-item/view',storeitem.id]"></a>
+                              <a *ngIf="checkOperation('1','2')" [routerLink]="['purchase-item/edit',storeitem.id]"
+                                class="primary-color table-action-icon fa fa-wrench fa-lg" title="Edit Item Details"></a>
+                              <a class="primary-color cursor-pointer table-action-icon fa fa-trash-o fa-lg"
+                                (click)="showDeleteItemPopup(storeitem)" title="Delete Item "></a>
+                            </td>
+                            <td>{{ storematerial.item_name}}</td>
+                            <td>{{ storematerial.item_no}}</td>
+                            <td>{{ storeitem.serial_no}}</td>
+                            <td>{{ storeitem.purchase_order_no}}</td>
+                            <td>{{ storematerial.part_no}}</td>
+                            <td>{{ storeitem.location}}</td>
+                            <td>{{ storeitem.remarks}}</td>
+                            <td>{{ storeitem.warranty}}</td>
+                            <td>{{ storeitem.date_in}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </td>
+                </tr>
+              </ng-container>
+              <tr *ngIf="((storematerial.Materialstatus == 'Faulty'))" [class.active]="storematerial.highLightRow"
+                (click)="setClickedRow(storematerial)">
+                <td dir="ltr" class="fixed-column-1">
+                  <strong>
+                    <span class="cursor-pointer  fa "
+                      [ngClass]="(!storematerial?.hideInnerRowFaulty)?'fa-expand':'fa-compress'"
+                      (click)="toggleHiddenEmpRowFaulty(storematerial)"></span>
+                    &nbsp;&nbsp; {{ storematerial.Materialstatus }}
+                  </strong>
+                </td>
+                <td class="word-break">{{storematerial.item_name}}</td>
+                <td>{{storematerial.item_no}}</td>
+                <td>{{storematerial.QuantFaulty}}</td>
+                <td>{{storematerial.description}}</td>
+                <td>{{storematerial.category}}</td>
+                <td>{{storematerial.part_no}}</td>
+                <td>{{storematerial.department}}</td>
+                <td>{{storematerial.vendor}}</td>
+              </tr>
+              <ng-container *ngIf="(storematerial?.hideInnerRowFaulty)">
+                <tr rowspan="99" class="inner-tr"
+                  [ngClass]="storematerial.hideInnerRowFaulty? 'display-block':'hidden-row'">
+                  <td class="bk-dark border-bottom" colspan="99">
+                    <div class="scrollInnerStore innerstorewidth">
+                      <table class="tbl-employee table" style="width: 999px;">
+                        <tr class="tr-fonts">
+                          <th>Action</th>
+                          <th>Item Name</th>
+                          <th>Item No</th>
+                          <th>Serial No</th>
+                          <th>PO No</th>
+                          <th>Item Part No</th>
+                          <th>Location</th>
+                          <th (click)="sort('warranty')">{{'Warranty'| translate | titlecase}}
+                              <i class=""
+                                [ngClass]="{'fa-sort': column != 'warranty',
+                                                                            '': (column == 'warranty' && !isDesc),
+                                                                            '': (column == 'warranty' && isDesc) }"
+                                aria-hidden="true">
+                              </i>
+                            </th>
+                          <th>Reported By</th>
+                          <!-- <th>Category</th> -->
+                          <th>Remarks</th>
+                          <th>Date In</th>
+                        </tr>
+                        <tbody *ngFor="let storeitem of storematerial.store_item |orderBy: {property: column, direction: direction} ; let i = index">
+                          <tr class="item-{{storeitem.id}}" *ngIf="(storeitem.status == 3)">
+                            <td>
+                              <a class="primary-color cursor-pointer table-action-icon fa fa-eye fa-lg"
+                                title="View Item Details" [routerLink]="['purchase-item/view',storeitem.id]"></a>
+                              <a *ngIf="checkOperation('1','2')" [routerLink]="['purchase-item/edit',storeitem.id]"
+                                class="primary-color table-action-icon fa fa-wrench fa-lg" title="Edit Item Details"></a>
+                              <a class="primary-color cursor-pointer table-action-icon fa fa-trash-o fa-lg"
+                                (click)="showDeleteItemPopup(storeitem)" title="Delete Item "></a>
+                            </td>
+                            <td>{{ storematerial.item_name}}</td>
+                            <td>{{ storematerial.item_no}}</td>
+                            <td>{{ storeitem.serial_no}}</td>
+                            <td>{{ storeitem.purchase_order_no}}</td>
+                            <td>{{ storematerial.part_no}}</td>
+                            <td>{{ storeitem.location}}</td>
+                            <td>{{ storeitem.warranty}}</td>
+                            <td>{{ storeitem.reported_by}}</td>
+                            <!-- <td>{{storeitem.category}}</td> -->
+                            <td>{{ storeitem.remarks}}</td>
+                            <td>{{ storeitem.date_in}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </td>
+                </tr>
+              </ng-container>
+              <tr *ngIf="((storematerial.Materialstatus == 'Under Repair'))" [class.active]="storematerial.highLightRow"
+                (click)="setClickedRow(storematerial)">
+                <td dir="ltr" class="fixed-column-1">
+                  <strong>
+                    <span class="cursor-pointer  fa "
+                      [ngClass]="(!storematerial?.hideInnerRowUnderRepair)?'fa-expand':'fa-compress'"
+                      (click)="toggleHiddenEmpRowUnderRepair(storematerial)"></span>
+                    &nbsp;&nbsp; {{ storematerial.Materialstatus }}
+                  </strong>
+                </td>
+                <td class="word-break">{{storematerial.item_name}}</td>
+                <td>{{storematerial.item_no}}</td>
+                <td>{{storematerial.QuantRepair}}</td>
+                <td>{{storematerial.description}}</td>
+                <td>{{storematerial.category}}</td>
+                <td>{{storematerial.part_no}}</td>
+                <td>{{storematerial.department}}</td>
+                <td>{{storematerial.vendor}}</td>
+  
+              </tr>
+              <ng-container *ngIf="(storematerial?.hideInnerRowUnderRepair)">
+                <tr rowspan="99" class="inner-tr"
+                  [ngClass]="storematerial.hideInnerRowUnderRepair? 'display-block':'hidden-row'">
+                  <td class="bk-dark border-bottom" colspan="99">
+                    <div class="scrollInnerStore innerstorewidth">
+                      <table class="tbl-employee table" style="width: 999px;">
+                        <tr class="tr-fonts">
+                          <th>Action</th>
+                          <th>Item Name</th>
+                          <th>Item No</th>
+                          <th>Serial No</th>
+                          <th>PO No</th>
+                          <th>Supplier</th>
+                          <th>Item Part No</th>
+                          <th>Location</th>
+                          <th (click)="sort('warranty')">{{'Warranty'| translate | titlecase}}
+                              <i class=""
+                                [ngClass]="{'fa-sort': column != 'warranty',
+                                                                            '': (column == 'warranty' && !isDesc),
+                                                                            '': (column == 'warranty' && isDesc) }"
+                                aria-hidden="true">
+                              </i>
+                            </th>
+                          <th>Issued By</th>
+                          <th>Reported By</th>
+                          <th>Received By</th>
+                          <th>Remarks</th>
+                          <th>Date Out</th>
+                        </tr>
+                        <tbody *ngFor="let storeitem of storematerial.store_item |orderBy: {property: column, direction: direction} ; let i = index">
+                          <tr class="item-{{storeitem.id}}" *ngIf="(storeitem.status == 4)">
+                            <td>
+                              <a class="primary-color cursor-pointer table-action-icon fa fa-eye fa-lg"
+                                title="View Item Details" [routerLink]="['purchase-item/view',storeitem.id]"></a>
+                              <a *ngIf="checkOperation('1','2')" [routerLink]="['purchase-item/edit',storeitem.id]"
+                                class="primary-color table-action-icon fa fa-wrench fa-lg" title="Edit Item Details"></a>
+                              <a class="primary-color cursor-pointer table-action-icon fa fa-trash-o fa-lg"
+                                (click)="showDeleteItemPopup(storeitem)" title="Delete Item "></a>
+                            </td>
+                            <td>{{ storematerial.item_name}}</td>
+                            <td>{{ storematerial.item_no}}</td>
+                            <td>{{ storeitem.serial_no | orderBy}}</td>
+                            <td>{{ storeitem.purchase_order_no}}</td>
+                            <td>{{ storeitem.supplier}}</td>
+                            <td>{{ storematerial.part_no }}</td>
+                            <td>{{ storeitem.location}}</td>
+                            <td>{{ storeitem.warranty}}</td>
+                            <td>{{ storeitem.issued_by}}</td>
+                            <td>{{ storeitem.reported_by}}</td>
+                            <td>{{ storeitem.received_by}}</td>
+                            <td>{{ storeitem.remarks}}</td>
+                            <td>{{ storeitem.date_in}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </td>
+                </tr>
+              </ng-container>
+              <tr *ngIf="((storematerial.Materialstatus == 'Issued')&&(storematerial.category == 'Controllable'))"
+                [class.active]="storematerial.highLightRow" (click)="setClickedRow(storematerial)">
+                <td dir="ltr" class="fixed-column-1">
+                  <strong>
+                    <span class="cursor-pointer  fa "
+                      [ngClass]="(!storematerial?.hideInnerRowIssued)?'fa-expand':'fa-compress'"
+                      (click)="toggleHiddenEmpRowIssued(storematerial)"></span>
+                    &nbsp;&nbsp; {{ storematerial.Materialstatus }}
+                  </strong>
+                </td>
+                <td class="word-break">{{storematerial.item_name}}</td>
+                <td>{{storematerial.item_no}}</td>
+                <td>{{storematerial.QuantIssued}}</td>
+                <td>{{storematerial.description}}</td>
+                <td>{{storematerial.category}}</td>
+                <td>{{storematerial.part_no}}</td>
+                <td>{{storematerial.department}}</td>
+                <td>{{storematerial.vendor}}</td>
+  
+              </tr>
+              <ng-container *ngIf="(storematerial?.hideInnerRowIssued)">
+                <tr rowspan="99" class="inner-tr"
+                  [ngClass]="storematerial.hideInnerRowIssued? 'display-block':'hidden-row'">
+                  <td class="bk-dark border-bottom" colspan="99">
+                    <div class="scrollInnerStore innerstorewidth">
+                      <table class="tbl-employee table" style="width: 999px;">
+                        <tr class="tr-fonts">
+                          <th>Action</th>
+                          <th>Item Name</th>
+                          <th>Item No</th>
+                          <th>Serial No</th>
+                          <th>PO No</th>
+                          <th>Item Part No</th>
+                          <th>Issued By</th>
+                          <th>Received By</th>
+                          <th>Approved By</th>
+                          <th>Site Name</th>
+                          <th>Remarks</th>
+                          <th (click)="sort('warranty')">{{'Warranty'| translate | titlecase}}
+                              <i class=""
+                                [ngClass]="{'fa-sort': column != 'warranty',
+                                                                            '': (column == 'warranty' && !isDesc),
+                                                                            '': (column == 'warranty' && isDesc) }"
+                                aria-hidden="true">
+                              </i>
+                            </th>
+  
+                          <th>Date In</th>
+                        </tr>
+                        <tbody *ngFor="let storeitem of storematerial.store_item |orderBy: {property: column, direction: direction} ; let i = index">
+                          <tr class="item-{{storeitem.id}}" *ngIf="(storeitem.status == 5)">
+                            <td>
+                              <a class="primary-color cursor-pointer table-action-icon fa fa-eye fa-lg"
+                                title="View Item Details" [routerLink]="['purchase-item/view',storeitem.id]"></a>
+                              <a *ngIf="checkOperation('1','2')" [routerLink]="['purchase-item/edit',storeitem.id]"
+                                class="primary-color table-action-icon fa fa-wrench fa-lg" title="Edit Item Details"></a>
+                              <a class="primary-color cursor-pointer table-action-icon fa fa-trash-o fa-lg"
+                                (click)="showDeleteItemPopup(storeitem)" title="Delete Item "></a>
+                            </td>
+                            <td>{{ storematerial.item_name}}</td>
+                            <td>{{ storematerial.item_no}}</td>
+                            <td>{{ storeitem.serial_no}}</td>
+                            <td>{{ storeitem.purchase_order_no}}</td>
+                            <td>{{ storematerial.part_no}}</td>
+                            <td>{{ storeitem.issued_by}}</td>
+                            <td>{{ storeitem.received_by}}</td>
+                            <td>{{ storeitem.approved_by}}</td>
+                            <td>{{ storeitem.site_name}}</td>
+                            <td>{{ storeitem.remarks}}</td>
+                            <td>{{ storeitem.warranty }}</td>
+                            <td>{{ storeitem.date_in}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </td>
+                </tr>
+              </ng-container>
+              <tr *ngIf="(( storematerial.Materialstatus == 'Loan'))" [class.active]="storematerial.highLightRow"
+                (click)="setClickedRow(storematerial)">
+                <td dir="ltr" class="fixed-column-1">
+                  <strong>
+                    <span class="cursor-pointer  fa "
+                      [ngClass]="(!storematerial?.hideInnerRowLoan)?'fa-expand':'fa-compress'"
+                      (click)="toggleHiddenEmpRowLoan(storematerial)"></span>
+                    &nbsp;&nbsp; {{ storematerial.Materialstatus }}
+                  </strong>
+                </td>
+                <td class="word-break">{{storematerial.item_name}}</td>
+                <td>{{storematerial.item_no}}</td>
+                <td>{{storematerial.QuantLoan}}</td>
+                <td>{{storematerial.description}}</td>
+                <td>{{storematerial.category}}</td>
+                <td>{{storematerial.part_no}}</td>
+                <td>{{storematerial.department}}</td>
+                <td>{{storematerial.vendor}}</td>
+  
+              </tr>
+              <ng-container *ngIf="(storematerial?.hideInnerRowLoan)">
+                <tr rowspan="99" class="inner-tr"
+                  [ngClass]="storematerial.hideInnerRowLoan? 'display-block':'hidden-row'">
+                  <td class="bk-dark border-bottom" colspan="99">
+                    <div class="scrollInnerStore innerstorewidth">
+                      <table class="tbl-employee table" style="width: 999px;">
+                        <tr class="tr-fonts">
+                          <th >Action</th>
+                          <th>Item Name</th>
+                          <th>Item No</th>
+                          <th>Serial No</th>
+                          <th>PO No</th>
+                          <th>Item Part No</th>
+                          <th>Issued By</th>
+                          <th>Approved By</th>
+                          <th>Received By</th>
+                          <th>Site Name</th>
+                          <th>Remarks</th>
+                          <th>Date Out</th>
+                        </tr>
+                        <tbody *ngFor="let storeitem of storematerial.store_item ; let i = index">
+                          <tr class="item-{{storeitem.id}}" *ngIf="(storeitem.status == 6)">
+                            <td>
+                              <a class="primary-color cursor-pointer table-action-icon fa fa-eye fa-lg"
+                                title="View Item Details" [routerLink]="['purchase-item/view',storeitem.id]"></a>
+                              <a *ngIf="checkOperation('1','2')" [routerLink]="['purchase-item/edit',storeitem.id]"
+                                class="primary-color table-action-icon fa fa-wrench fa-lg" title="Edit Item Details"></a>
+                              <a class="primary-color cursor-pointer table-action-icon fa fa-trash-o fa-lg"
+                                (click)="showDeleteItemPopup(storeitem)" title="Delete Item "></a>
+                            </td>
+                            <td>{{ storematerial.item_name}}</td>
+                            <td>{{ storematerial.item_no}}</td>
+                            <td>{{ storeitem.serial_no}}</td>
+                            <td>{{ storeitem.purchase_order_no}}</td>
+                            <td>{{ storematerial.part_no}}</td>
+                            <td>{{ storeitem.issued_by}}</td>
+                            <td>{{ storeitem.approved_by}}</td>
+                            <td>{{ storeitem.received_by}}</td>
+                            <td>{{ storeitem.site_name}}</td>
+                            <td>{{ storeitem.remarks}}</td>
+                            <td>{{ storeitem.date_in}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </td>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div [ngClass]="!showImage ? '':'col-md-2'">
+        <div *ngIf='showImage' class="imageView">
+          <h4>
+            <strong>{{MaterialName}}</strong>
+          </h4>
+          <h5>{{MaterialNumber}}</h5>
+          <div>
+            <img src="{{MaterialImage}}" style="width:100px;height: 100px;">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="right-align">
+      <pagination-controls (pageChange)="page = $event" id="1" maxSize="5" directionLinks="true" autoHide="true">
+      </pagination-controls>
+    </div>
+  </div>
+  <div class="form-row">
+    <bs-modal #modalListItem id="modalListItem" dir="{{!isLangArabic ?'ltr':'rtl'}}">
+      <bs-modal-header [showDismiss]="false">
+        <button type="button" class="close" [ngClass]="!isLangArabic? 'float-right':'float-left'" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+        <h4 class="modal-title">{{'Store Item'| translate }}</h4>
+  
+      </bs-modal-header>
+      <bs-modal-body>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="txtId">
+                Material
+                <span class="error">*</span>
+              </label>
+              <select class="form-control" ngControl="mt" [disabled]="isReadOnly" [(ngModel)]="StoreItem.material_id">
+                <option *ngFor="let mt of materialList" [value]="mt.value">{{mt.label}}</option>
+              </select>
+              <div [hidden]="errorRequested_by == ''" class="error">{{errorRequested_by}}</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="SmsId">
+                Status</label>
+              <select class="form-control" ngControl="st" [disabled]="isReadOnly" [(ngModel)]="StoreItem.status">
+                <option *ngFor="let st of ItemStatusList" [value]="st.value">{{st.label}}</option>
+              </select>
+              <div [hidden]="errorStatus == ''" class="error">{{errorStatus}}</div>
+            </div>
+          </div>
+  
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="SmsPosition">Item No</label>
+              <input type="text" class="form-control" [(ngModel)]="StoreItem.item_no" placeholder="Item No" />
+              <div [hidden]="errorItemNo == ''" class="error">{{errorItemNo}}</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="SmsId">Item Part No</label>
+              <input type="text" class="form-control" [(ngModel)]="StoreItem.part_no" placeholder="Part No" />
+              <div [hidden]="errorPartNo == ''" class="error">{{errorPartNo}}</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="SmsId">Serial No</label>
+              <input type="text" class="form-control" [(ngModel)]="StoreItem.serial_no" placeholder="Serial No" />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="SmsPosition">
+                Location </label>
+              <input type="text" class="form-control" [(ngModel)]="StoreItem.location" placeholder="Location" />
+              <div [hidden]="errorLoc == ''" class="error">{{errorLoc}}</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="SmsId">
+                Warranty</label>
+              <input type="text" class="form-control" [(ngModel)]="StoreItem.warranty" placeholder="Warranty" />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="SmsPosition">
+                Site Name</label>
+              <input type="text" class="form-control" [(ngModel)]="StoreItem.site_name" placeholder="Site Name" />
+              <div [hidden]="errorSiteName == ''" class="error">{{errorSiteName}}</div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="SmsId">
+                Loan Duration</label>
+              <input type="text" class="form-control" [(ngModel)]="StoreItem.loan_duration" placeholder="Loan Duration" />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="SmsId">
+                Problem Reported</label>
+              <input type="text" class="form-control" [(ngModel)]="StoreItem.problem_reported"
+                placeholder="Problem Reported" />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="SmsPosition">
+                Date In</label>
+              <input type="text" bsDatepicker class="form-control" [(ngModel)]="StoreItem.date_in" placeholder="Date In"
+                [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="SmsPosition">
+                Date Out </label>
+              <input type="text" bsDatepicker class="form-control" [(ngModel)]="StoreItem.date_out" placeholder="Date Out"
+                [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" />
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="SmsId">
+                Descriptions</label>
+              <textarea name="Descriptions" class="form-control" [(ngModel)]="StoreItem.descriptions"></textarea>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label for="SmsPosition">
+                Remarks</label>
+              <textarea name="Remarks" class="form-control" [(ngModel)]="StoreItem.remarks"></textarea>
+            </div>
+          </div>
+        </div>
+      </bs-modal-body>
+      <bs-modal-footer>
+        <button type="button" class="btn btn-default"
+          (click)="hidePopUp('modalListItem')">{{ 'Cancel' | translate }}</button>
+        <button type="button" class="btn btn-default" (click)="AddStoreItem(StoreItem)">{{ 'Add' | translate }}</button>
+      </bs-modal-footer>
+    </bs-modal>
+  </div>
+  <div class="form-row">
+    <bs-modal #modalDeactivate1 id="modalDeactivate1" dir="{{!isLangArabic ?'ltr':'rtl'}}">
+      <bs-modal-header [showDismiss]="false">
+        <button type="button" class="close" data-dismiss="modal" [ngClass]="!isLangArabic? 'float-right':'float-left'">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+        <h4 class="modal-title">{{ 'Delete Store Item' | translate }}</h4>
+      </bs-modal-header>
+      <bs-modal-body>
+        {{'Are you sure you want to delete this Store Item' | translate }}
+      </bs-modal-body>
+      <bs-modal-footer>
+        <button type="button" class="btn btn-danger" (click)="deleteStoreItem()">{{ 'delete' | translate }}</button>
+        <button type="button" class="btn btn-default"
+          (click)="hidePopUp('modalDeactivate1')">{{ 'Cancel' | translate }}</button>
+  
+      </bs-modal-footer>
+    </bs-modal>
+  </div> 
+
+<!-- <div class="main">
+  <div class="storePurchase col-md-12">
+    <div class="col-md-2 pabx-heading" style="right: 28px;">Store Items </div>
+    <div class="col-md-4 BigScrnBoxSrch form-inline issueAddBox" style="bottom: 3px;">
+      <input type="text" style="width: auto;" [(ngModel)]="serialNo" name="serial_no" class="form-control"
+        id="serial_no" placeholder="Enter Serial Number :">
+      <button type="submit" class="btn btn-sm btn-color" (click)="searchSerialNum(this.serialNo)">Submit</button>
+      <button type="submit" class="btn btn-sm btn-color" (click)="clearSerialNoSearch()">Clear</button>
+    </div>
+    <div class="col-md-6 BigScrnBoxBtn" style="padding: 0px;left: 24px;">
+      <a class="btn btn-color btn-sm import " routerLink="/storewithoutPo">{{ 'Add items' }}</a>
+      <a class="btn btn-color btn-sm import " routerLink="/store/purchase-order/add">{{ 'Add PO' }}</a>
+      <a class="btn  btn-color btn-sm import" routerLink="/StoreItemList">{{ 'Material DB' }}</a>
+      <a class="btn  btn-color btn-sm import" routerLink="/store/supplier">{{ 'Supplier DB' }}</a>
+      <a class="btn  btn-color btn-sm import" routerLink="/store/demandBookList">{{ 'Demand Book' }}</a>
+      <a class="btn  btn-color btn-sm import" routerLink="/storeReport">{{'Report'}}</a>
+      <a class="btn btn-default btn-sm import" routerLink="/employee">{{ 'Back' }}</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="storePurchase" [ngClass]="!isLangArabic ? 'float-left':'float-right'">
+      <div class="col-md-12">
+        <ul class="pabx-nav nav nav-tabs faq-cat-tabs">
+          <li routerLinkActive="active">
+            <a class="btn btn-xs import" routerLink="/store-items">
+              <strong>{{ 'View By Material' }}</strong>
+            </a>
+          </li>
+          <li routerLinkActive="active">
+            <a class="btn btn-xs import" routerLink="/store">
+              <strong>{{ 'View By Purchase Order' }}</strong>
+            </a>
+          </li>
+          <li routerLinkActive="active">
+            <a class="btn btn-xs import" routerLink="/store-transaction">
+              <strong>{{ 'View Transaction History' }}</strong>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div [ngClass]="!showImage ? 'col-md-12':'col-md-10'">
+      <div class=" storeTableContainer">
+        <table dir="{{!isLangArabic ?'ltr':'rtl'}}" class=" store-table tbl-employee table highLightTable"
+          [ngClass]="!isLangArabic ? 'en':'ar'">
+          <tr>
+            <th (click)="sort('order')" class="fixed-column-1"> Stock Status
+              <i class="fa" [ngClass]="{'fa-sort': column != 'order',
+                                'fa-sort-asc': (column == 'order' && !isDesc),
+                                'fa-sort-desc': (column == 'order' && isDesc) }" aria-hidden="true">
+              </i>
+            </th>
+            <th (click)="sort('item_name')">{{'Item name'| translate | titlecase}}
+              <i class="fa" [ngClass]="{'fa-sort': column != 'item_name',
+                                                'fa-sort-asc': (column == 'item_name' && !isDesc),
+                                                'fa-sort-desc': (column == 'item_name' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th (click)="sort('item_no')">{{'Item no' | translate | titlecase}}
+              <i class="fa" [ngClass]="{'fa-sort': column != 'item_no',
+                                                      'fa-sort-asc': (column == 'item_no' && !isDesc),
+                                                      'fa-sort-desc': (column == 'item_no' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th>{{'Quantity' | translate | titlecase}}
+            </th>
+            <th (click)="sort('description')">{{'Descriptions'| translate | titlecase}}
+              <i class="fa" [ngClass]="{'fa-sort': column != 'description',
+                                                          'fa-sort-asc': (column == 'description' && !isDesc),
+                                                          'fa-sort-desc': (column == 'description' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th (click)="sort('category')">{{'Category' | translate | titlecase}}
+              <i class="fa" [ngClass]="{'fa-sort': column != 'category',
+                                                              'fa-sort-asc': (column == 'category' && !isDesc),
+                                                              'fa-sort-desc': (column == 'category' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th (click)="sort('part_no')">{{'Item part no' | translate | titlecase}}
+              <i class="fa" [ngClass]="{'fa-sort': column != 'part_no',
+                                                              'fa-sort-asc': (column == 'part_no' && !isDesc),
+                                                              'fa-sort-desc': (column == 'part_no' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+
+            <th (click)="sort('department')">{{'Department '| translate | titlecase}}
+              <i class="fa" [ngClass]="{'fa-sort': column != 'department',
+                                                      'fa-sort-asc': (column == 'department' && !isDesc),
+                                                      'fa-sort-desc': (column == 'department' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th (click)="sort('vendor')">{{'Vendor name '| translate | titlecase}}
+              <i class="fa" [ngClass]="{'fa-sort': column != 'vendor',
+                                                          'fa-sort-asc': (column == 'vendor' && !isDesc),
+                                                          'fa-sort-desc': (column == 'vendor' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+          </tr>
+          <tbody class="searchBox" *ngIf="showAdvanceSearch" [ngClass]="{'hidden-menu': !showMenu}">
+            <tr>
+              <td class="fixed-column-1">
+                <select class="searchStatus textbox-height form-control"
+                  style="text-align-last: center;font-weight: bolder;" ngControl="status" [(ngModel)]="searchStatus">
+                  <option value="">
+                    {{ 'Select Status' | translate }}
+                  </option>
+                  <option #searchFilterStatus *ngFor="let status of ItemStatusList" [value]="status.label">
+                    <strong>{{status.label}}</strong>
+                  </option>
+                </select>
+              </td>
+              <td>
+                <input type="text" name="searchItemName" [(ngModel)]="searchItemName"
+                  class="searchItemName textbox-height form-control" placeholder="{{ 'Item name' | translate }}" />
+              </td>
+
+              <td>
+                <input type="text" name="searchItemNo" [(ngModel)]="searchItemNo"
+                  class="searchItemNo textbox-height form-control" placeholder="{{ 'Item no' | translate }}" />
+              </td>
+              <td>
+                <input type="text" name="searchQuantity" [(ngModel)]="searchQuantity" [disabled]="true"
+                  class="searchQuantity textbox-height form-control" placeholder="{{ 'Quantity' | translate }}" />
+              </td>
+              <td>
+                <input type="text" name="searchDescriptions" [(ngModel)]="searchDescriptions"
+                  class="searchDescriptions textbox-height form-control"
+                  placeholder="{{ 'Descriptions' | translate }}" />
+              </td>
+              <td>
+                <input type="text" name="searchCategory" [(ngModel)]="searchCategory"
+                  class="searchCategory textbox-height form-control" placeholder="{{ 'Category' | translate }}" />
+              </td>
+              <td>
+                <input type="text" name="searchItemPartNo" [(ngModel)]="searchItemPartNo"
+                  class="searchItemPartNo textbox-height form-control" placeholder="{{ 'Item part no' | translate }}" />
+              </td>
+              <td>
+                <select class="form-control searchDepartment textbox-height" [(ngModel)]="searchDepartment">
+                  <option class="searchAlign" value="">{{ 'Department' | translate }} </option>
+                  <option *ngFor="let dept of DepartmentList" [value]="dept.label">{{dept.label}}</option>
+                </select>
+              </td>
+              <td>
+                <input type="text" name="searchVendorName" [(ngModel)]="searchVendorName"
+                  class="searchVendorName textbox-height form-control" placeholder="{{ 'Vendor name' | translate }}" />
+              </td>
+            </tr>
+          </tbody>
+          <tbody
+            *ngFor="let storematerial of EmployeeDetails | storeItemSearch : searchStatus : searchItemName : searchItemNo : searchItemPartNo : searchCategory : searchQuantity : searchVendorName : searchDescriptions : searchDepartment | FilterPipe: queryString : searchableList |orderBy: {property: column, direction: direction} | paginate: {itemsPerPage: 10, currentPage:page, id: '1'}; let i = index "
+            [ngClass]="{'hidden-menu': !showMenu}" #someVar>
+            <tr
+              *ngIf="((storematerial.Materialstatus == 'Available') || (storematerial.Materialstatus == 'ReOrder') || (storematerial.Materialstatus == 'Out of Stock'))"
+              [class.active]="storematerial.highLightRow" (click)="setClickedRow(storematerial)">
+              <td class="fixed-column-1">
+                <strong>
+                  <span *ngIf="(storematerial.category == 'Controllable')" class="cursor-pointer  fa "
+                    [ngClass]="(!storematerial?.hideInnerRowAvilable)?'fa-expand':'fa-compress'"
+                    (click)="toggleHiddenRowAvilable(storematerial)"></span>
+                  <span
+                    [ngStyle]="{'padding-left':(storematerial.category == 'Controllable')? '14px !important' : '14px'}"></span>
+                  &nbsp;&nbsp; {{ storematerial.Materialstatus }}
+                </strong>
+                <i *ngIf="((storematerial.reorder_qty) > (storematerial.QuantAvailable)) && (storematerial.QuantAvailable != 0)"
+                  class="fa fa-bell fa-lg" style="color:#76102B " aria-hidden="true"></i>
+                <i *ngIf="storematerial.QuantAvailable == 0" class="fa fa-cart-plus fa-lg" style="color:#76102B "
+                  aria-hidden="true"></i>
+              </td>
+              <td class="word-break">{{storematerial.item_name}}</td>
+              <td>{{storematerial.item_no}}</td>
+              <td>{{storematerial.QuantAvailable}}</td>
+              <td>{{storematerial.description}}</td>
+              <td>{{storematerial.category}}</td>
+              <td>{{storematerial.part_no}}</td>
+              <td>{{storematerial.department}}</td>
+              <td>{{storematerial.vendor}}</td>
+            </tr>
+            <ng-container *ngIf="((storematerial?.hideInnerRowAvilable) && (storematerial.category == 'Controllable'))">
+              <tr rowspan="99" class="inner-tr"
+                [ngClass]="storematerial.hideInnerRowAvilable? 'display-block':'hidden-row'">
+                <td class="bk-dark border-bottom" colspan="99">
+                  <div class="scrollInnerStore">
+                    <table class="tbl-employee table" style="width: 999px;">
+                      <tr>
+                        <th>Action</th>
+                        <th>Item Name</th>
+                        <th>Item No</th>
+                        <th>Serial No</th>
+                        <th>PO No</th>
+                        <th>Part No</th>
+                        <th>Location</th>
+                        <th>Remarks</th>
+                        <th (click)="sort('warranty')">{{'Warranty(Expiry Date)'| translate | titlecase}}
+                          <i class=""
+                            [ngClass]="{'fa-sort': column != 'warranty',
+                                                                        '': (column == 'warranty' && !isDesc),
+                                                                        '': (column == 'warranty' && isDesc) }"
+                            aria-hidden="true">
+                          </i>
+                        </th>
+                        <th>Date In</th>
+                      </tr>
+                      <tbody
+                        *ngFor="let storeitem of storematerial.store_item | orderBy: {property: column, direction: direction} ; let i = index">
+                        <tr class="item-{{storeitem.id}}"
+                          *ngIf="((storeitem.status == 1) && (storematerial.category == 'Controllable'))">
+                          <td>
+                            <a class="primary-color cursor-pointer table-action-icon fa fa-eye fa-lg"
+                              title="View Item Details" [routerLink]="['purchase-item/view',storeitem.id]"></a>
+                            <a *ngIf="checkOperation('1','2')" [routerLink]="['purchase-item/edit',storeitem.id]"
+                              class="primary-color table-action-icon fa fa-wrench fa-lg" title="Edit Item Details"></a>
+                            <a class="primary-color cursor-pointer table-action-icon fa fa-trash-o fa-lg"
+                              (click)="showDeleteItemPopup(storeitem)" title="Delete Item "></a>
+                          </td>
+                          <td>{{ storematerial.item_name}}</td>
+                          <td>{{ storematerial.item_no}}</td>
+                          <td>{{ storeitem.serial_no}}</td>
+                          <td>{{ storeitem.purchase_order_no}}</td>
+                          <td>{{ storematerial.part_no}}</td>
+                          <td>{{ storeitem.location}}</td>
+                          <td>{{ storeitem.remarks}}</td>
+                          <td>{{ storeitem.warranty}}</td>
+                          <td>{{ storeitem.date_in}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+            <tr *ngIf="((storematerial.Materialstatus == 'Faulty'))" [class.active]="storematerial.highLightRow"
+              (click)="setClickedRow(storematerial)">
+              <td class="fixed-column-1">
+                <strong>
+                  <span class="cursor-pointer  fa "
+                    [ngClass]="(!storematerial?.hideInnerRowFaulty)?'fa-expand':'fa-compress'"
+                    (click)="toggleHiddenEmpRowFaulty(storematerial)"></span>
+                  &nbsp;&nbsp; {{ storematerial.Materialstatus }}
+                </strong>
+              </td>
+              <td class="word-break">{{storematerial.item_name}}</td>
+              <td>{{storematerial.item_no}}</td>
+              <td>{{storematerial.QuantFaulty}}</td>
+              <td>{{storematerial.description}}</td>
+              <td>{{storematerial.category}}</td>
+              <td>{{storematerial.part_no}}</td>
+              <td>{{storematerial.department}}</td>
+              <td>{{storematerial.vendor}}</td>
+            </tr>
+            <ng-container *ngIf="(storematerial?.hideInnerRowFaulty)">
+              <tr rowspan="99" class="inner-tr"
+                [ngClass]="storematerial.hideInnerRowFaulty? 'display-block':'hidden-row'">
+                <td class="bk-dark border-bottom" colspan="99">
+                  <div class="scrollInnerStore">
+                    <table class="tbl-employee table" style="width: 999px;">
+                      <tr>
+                        <th>Action</th>
+                        <th>Item Name</th>
+                        <th>Item No</th>
+                        <th>Serial No</th>
+                        <th>PO No</th>
+                        <th>Part No</th>
+                        <th>Location</th>
+                        <th (click)="sort('warranty')">{{'Warranty'| translate | titlecase}}
+                            <i class=""
+                              [ngClass]="{'fa-sort': column != 'warranty',
+                                                                          '': (column == 'warranty' && !isDesc),
+                                                                          '': (column == 'warranty' && isDesc) }"
+                              aria-hidden="true">
+                            </i>
+                          </th>
+                        <th>Reported By</th>
+                        <th>Remarks</th>
+                        <th>Date In</th>
+                      </tr>
+                      <tbody *ngFor="let storeitem of storematerial.store_item |orderBy: {property: column, direction: direction} ; let i = index">
+                        <tr class="item-{{storeitem.id}}" *ngIf="(storeitem.status == 3)">
+                          <td>
+                            <a class="primary-color cursor-pointer table-action-icon fa fa-eye fa-lg"
+                              title="View Item Details" [routerLink]="['purchase-item/view',storeitem.id]"></a>
+                            <a *ngIf="checkOperation('1','2')" [routerLink]="['purchase-item/edit',storeitem.id]"
+                              class="primary-color table-action-icon fa fa-wrench fa-lg" title="Edit Item Details"></a>
+                            <a class="primary-color cursor-pointer table-action-icon fa fa-trash-o fa-lg"
+                              (click)="showDeleteItemPopup(storeitem)" title="Delete Item "></a>
+                          </td>
+                          <td>{{ storematerial.item_name}}</td>
+                          <td>{{ storematerial.item_no}}</td>
+                          <td>{{ storeitem.serial_no}}</td>
+                          <td>{{ storeitem.purchase_order_no}}</td>
+                          <td>{{ storematerial.part_no}}</td>
+                          <td>{{ storeitem.location}}</td>
+                          <td>{{ storeitem.warranty}}</td>
+                          <td>{{ storeitem.reported_by}}</td>
+                          <td>{{ storeitem.remarks}}</td>
+                          <td>{{ storeitem.date_in}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+            <tr *ngIf="((storematerial.Materialstatus == 'Under Repair'))" [class.active]="storematerial.highLightRow"
+              (click)="setClickedRow(storematerial)">
+              <td class="fixed-column-1">
+                <strong>
+                  <span class="cursor-pointer  fa "
+                    [ngClass]="(!storematerial?.hideInnerRowUnderRepair)?'fa-expand':'fa-compress'"
+                    (click)="toggleHiddenEmpRowUnderRepair(storematerial)"></span>
+                  &nbsp;&nbsp; {{ storematerial.Materialstatus }}
+                </strong>
+              </td>
+              <td class="word-break">{{storematerial.item_name}}</td>
+              <td>{{storematerial.item_no}}</td>
+              <td>{{storematerial.QuantRepair}}</td>
+              <td>{{storematerial.description}}</td>
+              <td>{{storematerial.category}}</td>
+              <td>{{storematerial.part_no}}</td>
+              <td>{{storematerial.department}}</td>
+              <td>{{storematerial.vendor}}</td>
+
+            </tr>
+            <ng-container *ngIf="(storematerial?.hideInnerRowUnderRepair)">
+              <tr rowspan="99" class="inner-tr"
+                [ngClass]="storematerial.hideInnerRowUnderRepair? 'display-block':'hidden-row'">
+                <td class="bk-dark border-bottom" colspan="99">
+                  <div class="scrollInnerStore">
+                    <table class="tbl-employee table" style="width: 999px;">
+                      <tr>
+                        <th>Action</th>
+                        <th>Item Name</th>
+                        <th>Item No</th>
+                        <th>Serial No</th>
+                        <th>PO No</th>
+                        <th>Supplier</th>
+                        <th>Part No</th>
+                        <th>Location</th>
+                        <th (click)="sort('warranty')">{{'Warranty'| translate | titlecase}}
+                            <i class=""
+                              [ngClass]="{'fa-sort': column != 'warranty',
+                                                                          '': (column == 'warranty' && !isDesc),
+                                                                          '': (column == 'warranty' && isDesc) }"
+                              aria-hidden="true">
+                            </i>
+                          </th>
+                        <th>Issued By</th>
+                        <th>Reported By</th>
+                        <th>Received By</th>
+                        <th>Remarks</th>
+                        <th>Date Out</th>
+                      </tr>
+                      <tbody *ngFor="let storeitem of storematerial.store_item |orderBy: {property: column, direction: direction} ; let i = index">
+                        <tr class="item-{{storeitem.id}}" *ngIf="(storeitem.status == 4)">
+                          <td>
+                            <a class="primary-color cursor-pointer table-action-icon fa fa-eye fa-lg"
+                              title="View Item Details" [routerLink]="['purchase-item/view',storeitem.id]"></a>
+                            <a *ngIf="checkOperation('1','2')" [routerLink]="['purchase-item/edit',storeitem.id]"
+                              class="primary-color table-action-icon fa fa-wrench fa-lg" title="Edit Item Details"></a>
+                            <a class="primary-color cursor-pointer table-action-icon fa fa-trash-o fa-lg"
+                              (click)="showDeleteItemPopup(storeitem)" title="Delete Item "></a>
+                          </td>
+                          <td>{{ storematerial.item_name}}</td>
+                          <td>{{ storematerial.item_no}}</td>
+                          <td>{{ storeitem.serial_no | orderBy}}</td>
+                          <td>{{ storeitem.purchase_order_no}}</td>
+                          <td>{{ storeitem.supplier}}</td>
+                          <td>{{ storematerial.part_no }}</td>
+                          <td>{{ storeitem.location}}</td>
+                          <td>{{ storeitem.warranty}}</td>
+                          <td>{{ storeitem.issued_by}}</td>
+                          <td>{{ storeitem.reported_by}}</td>
+                          <td>{{ storeitem.received_by}}</td>
+                          <td>{{ storeitem.remarks}}</td>
+                          <td>{{ storeitem.date_in}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+            <tr *ngIf="((storematerial.Materialstatus == 'Issued')&&(storematerial.category == 'Controllable'))"
+              [class.active]="storematerial.highLightRow" (click)="setClickedRow(storematerial)">
+              <td class="fixed-column-1">
+                <strong>
+                  <span class="cursor-pointer  fa "
+                    [ngClass]="(!storematerial?.hideInnerRowIssued)?'fa-expand':'fa-compress'"
+                    (click)="toggleHiddenEmpRowIssued(storematerial)"></span>
+                  &nbsp;&nbsp; {{ storematerial.Materialstatus }}
+                </strong>
+              </td>
+              <td class="word-break">{{storematerial.item_name}}</td>
+              <td>{{storematerial.item_no}}</td>
+              <td>{{storematerial.QuantIssued}}</td>
+              <td>{{storematerial.description}}</td>
+              <td>{{storematerial.category}}</td>
+              <td>{{storematerial.part_no}}</td>
+              <td>{{storematerial.department}}</td>
+              <td>{{storematerial.vendor}}</td>
+
+            </tr>
+            <ng-container *ngIf="(storematerial?.hideInnerRowIssued)">
+              <tr rowspan="99" class="inner-tr"
+                [ngClass]="storematerial.hideInnerRowIssued? 'display-block':'hidden-row'">
+                <td class="bk-dark border-bottom" colspan="99">
+                  <div class="scrollInnerStore">
+                    <table class="tbl-employee table" style="width: 999px;">
+                      <tr>
+                        <th>Action</th>
+                        <th>Item Name</th>
+                        <th>Item No</th>
+                        <th>Serial No</th>
+                        <th>PO No</th>
+                        <th>Part No</th>
+                        <th>Issued By</th>
+                        <th>Received By</th>
+                        <th>Approved By</th>
+                        <th>Site Name</th>
+                        <th>Remarks</th>
+                        <th (click)="sort('warranty')">{{'Warranty'| translate | titlecase}}
+                            <i class=""
+                              [ngClass]="{'fa-sort': column != 'warranty',
+                                                                          '': (column == 'warranty' && !isDesc),
+                                                                          '': (column == 'warranty' && isDesc) }"
+                              aria-hidden="true">
+                            </i>
+                          </th>
+
+                        <th>Date In</th>
+                      </tr>
+                      <tbody *ngFor="let storeitem of storematerial.store_item |orderBy: {property: column, direction: direction} ; let i = index">
+                        <tr class="item-{{storeitem.id}}" *ngIf="(storeitem.status == 5)">
+                          <td>
+                            <a class="primary-color cursor-pointer table-action-icon fa fa-eye fa-lg"
+                              title="View Item Details" [routerLink]="['purchase-item/view',storeitem.id]"></a>
+                            <a *ngIf="checkOperation('1','2')" [routerLink]="['purchase-item/edit',storeitem.id]"
+                              class="primary-color table-action-icon fa fa-wrench fa-lg" title="Edit Item Details"></a>
+                            <a class="primary-color cursor-pointer table-action-icon fa fa-trash-o fa-lg"
+                              (click)="showDeleteItemPopup(storeitem)" title="Delete Item "></a>
+                          </td>
+                          <td>{{ storematerial.item_name}}</td>
+                          <td>{{ storematerial.item_no}}</td>
+                          <td>{{ storeitem.serial_no}}</td>
+                          <td>{{ storeitem.purchase_order_no}}</td>
+                          <td>{{ storematerial.part_no}}</td>
+                          <td>{{ storeitem.issued_by}}</td>
+                          <td>{{ storeitem.received_by}}</td>
+                          <td>{{ storeitem.approved_by}}</td>
+                          <td>{{ storeitem.site_name}}</td>
+                          <td>{{ storeitem.remarks}}</td>
+                          <td>{{ storeitem.warranty }}</td>
+                          <td>{{ storeitem.date_in}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+            <tr *ngIf="(( storematerial.Materialstatus == 'Loan'))" [class.active]="storematerial.highLightRow"
+              (click)="setClickedRow(storematerial)">
+              <td class="fixed-column-1">
+                <strong>
+                  <span class="cursor-pointer  fa "
+                    [ngClass]="(!storematerial?.hideInnerRowLoan)?'fa-expand':'fa-compress'"
+                    (click)="toggleHiddenEmpRowLoan(storematerial)"></span>
+                  &nbsp;&nbsp; {{ storematerial.Materialstatus }}
+                </strong>
+              </td>
+              <td class="word-break">{{storematerial.item_name}}</td>
+              <td>{{storematerial.item_no}}</td>
+              <td>{{storematerial.QuantLoan}}</td>
+              <td>{{storematerial.description}}</td>
+              <td>{{storematerial.category}}</td>
+              <td>{{storematerial.part_no}}</td>
+              <td>{{storematerial.department}}</td>
+              <td>{{storematerial.vendor}}</td>
+
+            </tr>
+            <ng-container *ngIf="(storematerial?.hideInnerRowLoan)">
+              <tr rowspan="99" class="inner-tr"
+                [ngClass]="storematerial.hideInnerRowLoan? 'display-block':'hidden-row'">
+                <td class="bk-dark border-bottom" colspan="99">
+                  <div class="scrollInnerStore">
+                    <table class="tbl-employee table" style="width: 999px;">
+                      <tr>
+                        <th>Action</th>
+                        <th>Item Name</th>
+                        <th>Item No</th>
+                        <th>Serial No</th>
+                        <th>PO No</th>
+                        <th>Part No</th>
+                        <th>Issued By</th>
+                        <th>Approved By</th>
+                        <th>Received By</th>
+                        <th>Site Name</th>
+                        <th>Remarks</th>
+                        <th>Date Out</th>
+                      </tr>
+                      <tbody *ngFor="let storeitem of storematerial.store_item ; let i = index">
+                        <tr class="item-{{storeitem.id}}" *ngIf="(storeitem.status == 6)">
+                          <td>
+                            <a class="primary-color cursor-pointer table-action-icon fa fa-eye fa-lg"
+                              title="View Item Details" [routerLink]="['purchase-item/view',storeitem.id]"></a>
+                            <a *ngIf="checkOperation('1','2')" [routerLink]="['purchase-item/edit',storeitem.id]"
+                              class="primary-color table-action-icon fa fa-wrench fa-lg" title="Edit Item Details"></a>
+                            <a class="primary-color cursor-pointer table-action-icon fa fa-trash-o fa-lg"
+                              (click)="showDeleteItemPopup(storeitem)" title="Delete Item "></a>
+                          </td>
+                          <td>{{ storematerial.item_name}}</td>
+                          <td>{{ storematerial.item_no}}</td>
+                          <td>{{ storeitem.serial_no}}</td>
+                          <td>{{ storeitem.purchase_order_no}}</td>
+                          <td>{{ storematerial.part_no}}</td>
+                          <td>{{ storeitem.issued_by}}</td>
+                          <td>{{ storeitem.approved_by}}</td>
+                          <td>{{ storeitem.received_by}}</td>
+                          <td>{{ storeitem.site_name}}</td>
+                          <td>{{ storeitem.remarks}}</td>
+                          <td>{{ storeitem.date_in}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div [ngClass]="!showImage ? '':'col-md-2'">
+      <div *ngIf='showImage' class="imageView">
+        <h4>
+          <strong>{{MaterialName}}</strong>
+        </h4>
+        <h5>{{MaterialNumber}}</h5>
+        <div>
+          <img src="{{MaterialImage}}" style="width:100px;height: 100px;">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="right-align">
+    <pagination-controls (pageChange)="page = $event" id="1" maxSize="5" directionLinks="true" autoHide="true">
+    </pagination-controls>
+  </div>
+</div>
+<div class="form-row">
+  <bs-modal #modalListItem id="modalListItem" dir="{{!isLangArabic ?'ltr':'rtl'}}">
+    <bs-modal-header [showDismiss]="false">
+      <button type="button" class="close" [ngClass]="!isLangArabic? 'float-right':'float-left'" data-dismiss="modal">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only">Close</span>
+      </button>
+      <h4 class="modal-title">{{'Store Item'| translate }}</h4>
+
+    </bs-modal-header>
+    <bs-modal-body>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="txtId">
+              Material
+              <span class="error">*</span>
+            </label>
+            <select class="form-control" ngControl="mt" [disabled]="isReadOnly" [(ngModel)]="StoreItem.material_id">
+              <option *ngFor="let mt of materialList" [value]="mt.value">{{mt.label}}</option>
+            </select>
+            <div [hidden]="errorRequested_by == ''" class="error">{{errorRequested_by}}</div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="SmsId">
+              Status</label>
+            <select class="form-control" ngControl="st" [disabled]="isReadOnly" [(ngModel)]="StoreItem.status">
+              <option *ngFor="let st of ItemStatusList" [value]="st.value">{{st.label}}</option>
+            </select>
+            <div [hidden]="errorStatus == ''" class="error">{{errorStatus}}</div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="SmsPosition">Item No</label>
+            <input type="text" class="form-control" [(ngModel)]="StoreItem.item_no" placeholder="Item No" />
+            <div [hidden]="errorItemNo == ''" class="error">{{errorItemNo}}</div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="SmsId">Part No</label>
+            <input type="text" class="form-control" [(ngModel)]="StoreItem.part_no" placeholder="Part No" />
+            <div [hidden]="errorPartNo == ''" class="error">{{errorPartNo}}</div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="SmsId">Serial No</label>
+            <input type="text" class="form-control" [(ngModel)]="StoreItem.serial_no" placeholder="Serial No" />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="SmsPosition">
+              Location </label>
+            <input type="text" class="form-control" [(ngModel)]="StoreItem.location" placeholder="Location" />
+            <div [hidden]="errorLoc == ''" class="error">{{errorLoc}}</div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="SmsId">
+              Warranty</label>
+            <input type="text" class="form-control" [(ngModel)]="StoreItem.warranty" placeholder="Warranty" />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="SmsPosition">
+              Site Name</label>
+            <input type="text" class="form-control" [(ngModel)]="StoreItem.site_name" placeholder="Site Name" />
+            <div [hidden]="errorSiteName == ''" class="error">{{errorSiteName}}</div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="SmsId">
+              Loan Duration</label>
+            <input type="text" class="form-control" [(ngModel)]="StoreItem.loan_duration" placeholder="Loan Duration" />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="SmsId">
+              Problem Reported</label>
+            <input type="text" class="form-control" [(ngModel)]="StoreItem.problem_reported"
+              placeholder="Problem Reported" />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="SmsPosition">
+              Date In</label>
+            <input type="text" bsDatepicker class="form-control" [(ngModel)]="StoreItem.date_in" placeholder="Date In"
+              [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="SmsPosition">
+              Date Out </label>
+            <input type="text" bsDatepicker class="form-control" [(ngModel)]="StoreItem.date_out" placeholder="Date Out"
+              [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="SmsId">
+              Descriptions</label>
+            <textarea name="Descriptions" class="form-control" [(ngModel)]="StoreItem.descriptions"></textarea>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="SmsPosition">
+              Remarks</label>
+            <textarea name="Remarks" class="form-control" [(ngModel)]="StoreItem.remarks"></textarea>
+          </div>
+        </div>
+      </div>
+    </bs-modal-body>
+    <bs-modal-footer>
+      <button type="button" class="btn btn-default"
+        (click)="hidePopUp('modalListItem')">{{ 'Cancel' | translate }}</button>
+      <button type="button" class="btn btn-default" (click)="AddStoreItem(StoreItem)">{{ 'Add' | translate }}</button>
+    </bs-modal-footer>
+  </bs-modal>
+</div>
+<div class="form-row">
+  <bs-modal #modalDeactivate1 id="modalDeactivate1" dir="{{!isLangArabic ?'ltr':'rtl'}}">
+    <bs-modal-header [showDismiss]="false">
+      <button type="button" class="close" data-dismiss="modal" [ngClass]="!isLangArabic? 'float-right':'float-left'">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only">Close</span>
+      </button>
+      <h4 class="modal-title">{{ 'Delete Store Item' | translate }}</h4>
+    </bs-modal-header>
+    <bs-modal-body>
+      {{'Are you sure you want to delete this Store Item' | translate }}
+    </bs-modal-body>
+    <bs-modal-footer>
+      <button type="button" class="btn btn-danger" (click)="deleteStoreItem()">{{ 'delete' | translate }}</button>
+      <button type="button" class="btn btn-default"
+        (click)="hidePopUp('modalDeactivate1')">{{ 'Cancel' | translate }}</button>
+
+    </bs-modal-footer>
+  </bs-modal>
+</div> -->
+
+ <div class="form-row">
+<bs-modal #modalImport id="modalImport" dir="{{!isLangArabic
+  ?'ltr':'rtl'}}">
+  <bs-modal-header [showDismiss]="false">
+    <button type="button" class="close" data-dismiss="modal"
+      [ngClass]="!isLangArabic? 'float-right':'float-left'">
+      <span aria-hidden="true">&times;</span>
+      <span class="sr-only">Close</span>
+    </button>
+    <h4 class="modal-title">{{ 'Import Csv' | translate }}</h4>
+  </bs-modal-header>
+  <bs-modal-body>
+    {{'Upload Csv file' | translate }}
+    <input type="file" #fileImportInput name="csv_data" id="txtFileUpload"
+      class="btn btn-primary" (change)="fileChangeListenerImport($event)"
+      accept=".csv" />
+  </bs-modal-body>
+  <bs-modal-footer>
+    <button type="button" class="btn btn-primary" (click)="import()">{{
+      'Import' | translate }}</button>
+    <button type="button" class="btn btn-default"
+      (click)="hidePopUp('modalImport')">{{ 'Cancel' | translate }}</button>
+  </bs-modal-footer>
+</bs-modal>
+</div>
+
+</div>

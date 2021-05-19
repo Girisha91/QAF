@@ -1,0 +1,349 @@
+<div class="dpinfo">
+  <div class="card">
+    <!-- copy of heading starts from here  -->
+    <div class="row plr-0">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 headcol">
+        <!-- we dont need this back button  -->
+        <button
+          type="button"
+          *ngIf="opr == 2"
+          (click)="closeAndRedirect()"
+          class="btn btn-default pull-right mt-1"
+        >
+          Back
+        </button>
+        <button
+          *ngIf="opr == 2"
+          type="button"
+          class="btn btn-primary pull-right mt-1"
+          (click)="Print()"
+        >
+          {{ "Print" }}
+        </button>
+        <b class="page-head mb-1" *ngIf="opr == 0">Add History </b>
+        <b class="page-head mb-1" *ngIf="opr == 1">Update History </b>
+      </div>
+    </div>
+    <!-- copy of heading ends from here  -->
+    <div class="listgroup content-margin">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel-group">
+            <div class="panel-body" style="padding: 5px 20px;">
+              <div class="fluid-container">
+                <!-- form starts from here  -->
+                <form class="form-horizontal">
+                  <div class="form-group form-group-sm">
+                    <!-- left column -->
+                    <div class="col-md-12 distinctForm">
+                      <div class="distinctFormHeading">
+                        <label>History</label>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label
+                              for="telephoneno"
+                              class="col-md-5 control-label"
+                              >Telephone #.</label
+                            >
+                            <div class="col-md-7">
+                              <input
+                                type="text"
+                                [disabled]="isUniqueValue"
+                                [(ngModel)]="wo.telephone_no"
+                                name="telephone_no"
+                                class="form-control"
+                                id="telephoneno"
+                                placeholder="Telephone no"
+                              />
+                              <div
+                                [hidden]="errorTelephone_no == ''"
+                                class="error"
+                              >
+                                {{ errorTelephone_no }}
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label for="H_cause" class="col-md-5 control-label"
+                              >Cause.</label
+                            >
+                            <div class="col-md-7">
+                              <input
+                                type="text"
+                                [disabled]="isReadOnly"
+                                [(ngModel)]="wo.cause"
+                                name="cause"
+                                class="form-control"
+                                id="H_cause"
+                                placeholder="Cause"
+                              />
+                              <div [hidden]="errorCause == ''" class="error">
+                                {{ errorCause }}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label
+                              for="ReportedDate"
+                              class="col-md-5 control-label"
+                              >Reported Date.</label
+                            >
+                            <div class="col-md-7">
+                              <input
+                                type="text"
+                                bsDatepicker
+                                [disabled]="isReadOnly"
+                                [(ngModel)]="wo.reported_date"
+                                name="ReportedDate"
+                                class="form-control"
+                                id="ReportedDate"
+                                placeholder="Reported Date"
+                                [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
+                              />
+                              <div
+                                [hidden]="errorreported_date == ''"
+                                class="error"
+                              >
+                                {{ errorreported_date }}
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label
+                              for="clear_of_fault"
+                              class="col-md-5 control-label"
+                              >Clear of Fault.</label
+                            >
+                            <div class="col-md-7">
+                              <input
+                                type="text"
+                                [disabled]="isReadOnly"
+                                [(ngModel)]="wo.clear_of_fault"
+                                name="clearoffault"
+                                class="form-control"
+                                id="clear_of_fault"
+                                placeholder="Clear of Fault"
+                              />
+                              <div
+                                [hidden]="errorclear_of_fault == ''"
+                                class="error"
+                              >
+                                {{ errorclear_of_fault }}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label
+                              for="fault_man"
+                              class="col-md-5 control-label"
+                              >Fault Man.</label
+                            >
+                            <div class="col-md-7">
+                              <input
+                                type="text"
+                                [disabled]="isReadOnly"
+                                [(ngModel)]="wo.fault_man"
+                                name="faultman"
+                                class="form-control"
+                                id="fault_man"
+                                placeholder="Fault Man"
+                              />
+                              <div [hidden]="errorFaultMan == ''" class="error">
+                                {{ errorFaultMan }}
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label
+                              for="Cleared_Date"
+                              class="col-md-5 control-label"
+                              >Cleared Date.</label
+                            >
+                            <div class="col-md-7">
+                              <input
+                                type="text"
+                                bsDatepicker
+                                [disabled]="isReadOnly"
+                                [(ngModel)]="wo.cleared_date"
+                                name="ClearedDate"
+                                class="form-control"
+                                id="Cleared_Date"
+                                placeholder="Cleared Date"
+                                [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
+                              />
+                              <div
+                                [hidden]="errorCleared_date == ''"
+                                class="error"
+                              >
+                                {{ errorCleared_date }}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+                <!-- copy of form ends here  -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr class="line" style="margin-top: 0;" />
+      <div class="row mb-2">
+        <div class="col-md-7">
+          <button
+            type="button"
+            *ngIf="!(opr == 2)"
+            (click)="closeAndRedirect()"
+            class="btn btn-default justify-content-center pull-right mb-1"
+          >
+            Back
+          </button>
+          <button
+            type="button"
+            *ngIf="opr == 1"
+            (click)="UpdateWODPInfo(wo)"
+            class="btn btn-default primary justify-content-center pull-right mb-1"
+          >
+            Update History
+          </button>
+          <button
+            type="button"
+            *ngIf="opr == 0"
+            (click)="AddDPInfo(wo)"
+            class="btn btn-default primary justify-content-center pull-right mb-1"
+          >
+            Add History
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="print">
+    <!-- <table width="100%">
+      <tr>
+        <td colspan="6">
+          <div class="distinctForm">
+            <div class="distinctFormHeading">
+              <label>History</label>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td style="word-break: keep-all !important;">
+          <label class="control-label" style="word-break: keep-all !important;"
+            >Telephone #.</label
+          >
+        </td>
+        <td>
+          <input
+            type="text"
+            [disabled]="isUniqueValue"
+            [(ngModel)]="wo.telephone_no"
+            name="telephone_no"
+            class="form-control"
+            id="telephoneno"
+            placeholder="Telephone no"
+          />
+        </td>
+        <td><label class="control-label">Reported Date.</label></td>
+        <td>
+          <input
+            type="text"
+            bsDatepicker
+            [disabled]="isReadOnly"
+            [(ngModel)]="wo.reported_date"
+            name="ReportedDate"
+            class="form-control"
+            id="ReportedDate"
+            placeholder="Reported Date"
+            [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
+          />
+        </td>
+        <td><label class="control-label">Fault Man.</label></td>
+        <td>
+          <input
+            type="text"
+            [disabled]="isReadOnly"
+            [(ngModel)]="wo.fault_man"
+            name="faultman"
+            class="form-control"
+            id="fault_man"
+            placeholder="Fault Man"
+          />
+        </td>
+      </tr>
+      <tr>
+        <td><label class="control-label">Cause.</label></td>
+        <td>
+          <input
+            type="text"
+            [disabled]="isReadOnly"
+            [(ngModel)]="wo.cause"
+            name="cause"
+            class="form-control"
+            id="H_cause"
+            placeholder="Cause"
+          />
+        </td>
+        <td><label class="control-label">Clear of Fault.</label></td>
+        <td>
+          <input
+            type="text"
+            [disabled]="isReadOnly"
+            [(ngModel)]="wo.clear_of_fault"
+            name="clearoffault"
+            class="form-control"
+            id="clear_of_fault"
+            placeholder="Clear of Fault"
+          />
+        </td>
+        <td><label class="control-label">Cleared Date.</label></td>
+        <td>
+          <input
+            type="text"
+            bsDatepicker
+            [disabled]="isReadOnly"
+            [(ngModel)]="wo.cleared_date"
+            name="ClearedDate"
+            class="form-control"
+            id="Cleared_Date"
+            placeholder="Cleared Date"
+            [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
+          />
+        </td>
+      </tr>
+    </table> -->
+<table>
+  <thead>
+    <tr>
+      <th>Telephone #.</th>
+      <th>Reported Date.</th>
+      <th>Fault Man.</th>
+      <th>Cause.</th>
+      <th>Clear of Fault.</th>
+      <th>Cleared Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{{wo.telephone_no}}</td>
+      <td>{{wo.reported_date}}</td>
+      <td>{{wo.fault_man}}</td>
+      <td>{{wo.cause}}</td>
+      <td>{{wo.clear_of_fault}}</td>
+      <td>{{wo.cleared_date}}</td>
+    </tr>
+  </tbody>
+</table>
+  </div>
+</div>

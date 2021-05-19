@@ -1,0 +1,106 @@
+<div class="container">
+  <div class="listgroup content-margin">
+    <div class="row">
+      <div class="col-md-12" style="margin-top:0px;">
+        <div class="col-md-1"></div>
+        <div class="col-md-10 user-profile-container pd0">
+          <div class="panel-group">
+            <div class="formPanelhead" style="padding-left: 1%;">
+                  <strong> USER PROFILE </strong>
+            </div>
+              <hr class="line" style="margin-top:0 ">
+              <div class="panel-body">
+                <div class="col-md-12 center-align">
+                  <img class="img-height img-circle" *ngIf="userProfile.profile_pic != ''" src="{{userProfile.profile_pic}}" style="height: 100px;">
+                  <img class="img-height img-circle" *ngIf="userProfile.profile_pic == ''" src="./../assets/defaultprofile.png"style="height: 100px;">
+                  <input type="file" (change)="fileChangeListener($event)" [(ngModel)]="userProfile.image" accept="image/*" #file class="hide">
+                  <div class="img-picker cursor-pointer primary-color">
+                    <i class="fa fa-pencil"></i>
+                    <span  (click)="file.click()">Change Image</span>
+                  </div>
+                </div>
+                <br/>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="txtId">
+                        Military Id<span class="error">*</span></label>
+                    <input type="text" [readonly]="true" [(ngModel)]="userProfile.MilitaryId" name="MilitaryId" class="form-control"  placeholder="Id" required/>
+                    <div *ngIf="errorId" class="error">Required</div>
+                    <div *ngIf="invalidMobile" class="error">Invalid Id</div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="UserName">
+                        UserName<span class="error">*</span></label>
+                    <input type="text" [readonly]="true" [(ngModel)]="userProfile.username" name="username" class="form-control" id="txtUserName" placeholder="User Name" />
+                    <div *ngIf="errorUName" class="error">Required</div> 
+                  </div>
+                </div>  
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label for="txtFirstName">
+                        Role<span class="error">*</span></label>
+                    <input type="text"  [(ngModel)]="userProfile.RoleName" [readonly]="true" name="RoleName" class="form-control"  placeholder="Role" />
+                    <div *ngIf="errorFName" class="error">Required</div>
+                  </div>
+                  <div class="form-group col-md-4" *ngIf="userProfile.reporting_to != 0">
+                    <label for="txtMiddleName">
+                        Reporting Manager<span class="error">*</span></label>
+                    <input type="text"  [(ngModel)]="userProfile.reporting_to" [readonly]="true" name="txtReportingManager" class="form-control"  placeholder="Reporting Manager" />
+                    <div *ngIf="errorMName" class="error">Required</div>
+                  </div>
+                  <div class="form-group col-md-4">
+                      <label for="txtLastName">
+                          Mobile<span class="error">*</span></label>
+                      <input type="text" [readonly]="true" [(ngModel)]="userProfile.mobile" name="mobile" class="form-control" placeholder="Mobile" />
+                      <div *ngIf="errorLName" class="error">Required</div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div class="panel panel-default">
+                  <div class="panel-heading" data-toggle="collapse" data-target="#changePassword">
+                    <h3 class="panel-title cursor-pointer"> CHANGE PASSWORD</h3>
+                  </div>
+                  <div class="panel-body collapse in" id="changePassword">
+                    <div class="col-md-12">
+                      <div class="form-group col-md-4">
+                        <label for="txtOfficetelePhone1">Old Password</label>
+                        <input type="password" [(ngModel)]="userProfile.txtOldPassword" name="txtOldPassword" class="form-control"  placeholder="Old Password" />
+                        <div *ngIf="errorOldPassword" class="error">Required</div>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group col-md-4">
+                        <label for="txtOfficetelePhone1">New Password</label>
+                        <input type="password" [(ngModel)]="userProfile.txtNewPassword" name="txtNewPassword" class="form-control"  placeholder="New Password" />
+                        <div *ngIf="errorOldPassword" class="error">Required</div>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group col-md-4">
+                        <label for="txtOfficetelePhone1">Confirm Password</label>
+                        <input type="password" [(ngModel)]="userProfile.txtConfirmPassword" name="txtConfirmPassword" class="form-control"  placeholder="Confirm Password" />
+                        <div *ngIf="errorOldPassword" class="error">Required</div>
+                      </div>
+                    </div>
+                    <hr class="line" style="margin-top:0 ">
+                    <div class="col-md-12 center-align">
+                      <button type="button" (click)="saveProfile()" class="primary btn btn-default primary">
+                              {{'UPDATE'| translate}}</button>
+                      <button type="button" (click)="closeAndRedirect()" class="btn btn-default">
+                                  {{'Cancel'| translate}} </button> 
+                      <br/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <div class="col-md-1"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <div class="ar current-lang" [ngClass]="getArStyleClass()">
+  <app-nav ></app-nav>
+  </div> --> 

@@ -1,0 +1,190 @@
+<div class="navbackground no-print" style="height: 100vh" *ngIf="router.url != '/'">
+  <div class="nav-align-center">
+     
+     
+
+    <div class="nav-iconmenu" style="margin-top: 12px;margin-bottom:15px" *ngIf="checkUserPermission('1')">
+      <a class="nav-icon-color fa fa-address-book" style="margin-bottom: 3px" routerLink='/employee'
+        (click)="removeClass()" routerLinkActive="active">
+
+      </a>
+      <p class="icontext" style="margin-bottom: 5px">{{
+                'EMPLOYEE DIRECTORY' | translate }}</p>
+    </div>
+    <div class="nav-iconmenu" style="margin-bottom:15px" *ngIf="checkUserPermission('13')">
+      <a class="nav-icon-color fa fa-briefcase" style="margin-bottom:3px" routerLink='/pabx/external-lines'
+        (click)="removeClass()" routerLinkActive="active">
+
+      </a>
+      <p class="icontext" style="margin-bottom: 5px">
+        <!-- {{'EXTERNAL LINES' | translate }} -->
+                {{'External lines' | translate | uppercase }}
+              </p>
+    </div>
+    <div class="nav-iconmenu" style="margin-bottom:15px" *ngIf="userPermission.RoleInfo.RoleId == 1 
+        || userPermission.RoleInfo.RoleId == 2">
+      <a class="nav-icon-color fa fa-user-secret" style="margin-bottom:3px" routerLink='/user-role'
+        (click)="removeClass()" routerLinkActive="active">
+
+      </a>
+      <p class="icontext" style="margin-bottom: 5px">{{
+                'Userrole' | translate}}</p>
+    </div>
+    <div class="nav-iconmenu" style="margin-bottom:15px" *ngIf="userPermission.RoleInfo.RoleId == 1 
+        || userPermission.RoleInfo.RoleId == 2">
+      <a class="nav-icon-color fa fa-user" style="margin-bottom:3px" routerLink='/users' (click)="removeClass()"
+        routerLinkActive="active">
+
+      </a>
+      <p class="icontext" style="margin-bottom: 5px">{{
+              'User' | translate }}</p>
+    </div>
+    <div class="nav-iconmenu" style="margin-bottom:15px" *ngIf="checkUserPermission('12') ">
+      <a class="nav-icon-color fa fa-envira" style="margin-bottom:3px" routerLink='/user-requests'
+        (click)="removeClass()" routerLinkActive="active">
+
+      </a>
+      <p class="icontext" style="margin-bottom: 5px">{{
+              'UserRequest' | translate }}</p>
+    </div>
+    <div class="nav-iconmenu" style="margin-bottom:15px" *ngIf="checkUserPermission('3')">
+      <a class="nav-icon-color fa fa-arrows" style="margin-bottom:3px" routerLink='/blockWiringList'
+        (click)="removeClass()" routerLinkActive="active">
+
+      </a>
+      <p class="icontext" style="margin-bottom: 5px">{{
+              'BLOCK WIRING' | translate }}</p>
+    </div>
+    <div class="nav-iconmenu" style="margin-bottom:15px" *ngIf="checkUserPermission('7')">
+      <a class="nav-icon-color fa fa-bug" style="margin-bottom:3px" routerLink='/pabx/entities' (click)="removeClass()"
+        routerLinkActive="active">
+
+      </a>
+      <p class="icontext" style="margin-bottom: 5px">{{
+              'PABX' | translate }}</p>
+    </div>
+    <div class="nav-iconmenu" style="margin-bottom:15px" *ngIf="checkUserPermission('9')">
+      <a class="nav-icon-color fa fa-cubes" style="margin-bottom:3px" routerLink='/store-items' (click)="removeClass()"
+        routerLinkActive="active">
+
+      </a>
+      <p class="icontext" style="margin-bottom: 5px">{{
+              'Store' | translate }}</p>
+    </div>
+    <div class="nav-iconmenu" style="margin-bottom:15px" *ngIf="checkUserPermission('11')">
+      <a class="nav-icon-color fa fa-gears" style="margin-bottom:3px" routerLink='/workOrder' (click)="removeClass()"
+        routerLinkActive="active">
+
+      </a>
+      <p class="icontext" style="margin-bottom: 5px">
+        <!-- {{'COMPLAINTS / FAULTS' | translate }} -->
+                  {{'Work Order' | translate }}
+                </p>
+    </div>
+    <div class="nav-iconmenu" style="margin-bottom:15px" *ngIf="checkUserPermission('15')">
+      <a class="nav-icon-color fa fa-support" style="margin-bottom:3px" routerLink='/faultIssueManagement'
+        (click)="removeClass()" routerLinkActive="active">
+
+      </a>
+      <p class="icontext" style="margin-bottom: 5px">
+                      <!-- {{'FAULTS / ISSUE MANAGEMENT' | translate }} -->
+                      {{'FAULTS / ISSUE MANAGEMENT' | translate }}
+                    </p>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+<!-- <div class="navbackground" style="height: 100vh">
+   <div class="nav-align-center">
+
+        <div class="nav-iconmenu" *ngIf="checkUserPermission('1')">
+          <a class="nav-icon-color fa fa-home" routerLink='/employee' (click)="removeClass()" routerLinkActive="active" class="list-group-item text-uppercase">{{
+            'EMPLOYEE DIRECTORY' | translate }}
+          </a>
+        
+        </div>
+  
+        <div class="nav-iconmenu" *ngIf="checkUserPermission('13')">
+          <a class="nav-icon-color fa fa-home" routerLink='/pabx/external-lines' (click)="removeClass()" routerLinkActive="active" class="list-group-item text-uppercase">{{
+            'External lines' | translate }}
+           
+          </a>
+        </div>
+  
+        <div class="nav-iconmenu" *ngIf="userPermission.RoleInfo.RoleId == 1 
+        || userPermission.RoleInfo.RoleId == 2">
+          <a class="nav-icon-color fa fa-home" routerLink='/user-role' (click)="removeClass()" routerLinkActive="active" class="list-group-item text-uppercase">{{
+            'Userrole' | translate }}
+           
+          </a>
+          
+        </div>
+  
+        <div class="nav-iconmenu" *ngIf="userPermission.RoleInfo.RoleId == 1 
+        || userPermission.RoleInfo.RoleId == 2">
+          <a class="nav-icon-color fa fa-home" routerLink='/users' (click)="removeClass()" routerLinkActive="active" class="list-group-item text-uppercase">{{
+            'User' | translate }}
+           
+          </a>
+          
+        </div>
+      <div class="nav-iconmenu" *ngIf="userPermission.RoleInfo.RoleId == 1 
+      || userPermission.RoleInfo.RoleId == 2">
+          <a class="nav-icon-color fa fa-home" routerLink='/user-requests' (click)="removeClass()" routerLinkActive="active" class="list-group-item text-uppercase">{{
+            'UserRequest' | translate }}
+            <span class="right-arrow glyphicon glyphicon-play"></span>
+          </a>
+        </div>
+  
+        <a class="nav-icon-color fa fa-home" [routerLink]="['/']" class="list-group-item text-uppercase" *ngIf="checkUserPermission('2')">{{ 'EXTERNAL CABLING' | translate }}</a>
+        <a class="nav-icon-color fa fa-home" routerLink="/blockWiringList" class="list-group-item text-uppercase" *ngIf="checkUserPermission('3')">{{
+          'BLOCK WIRING' | translate }}</a>
+        <a class="nav-icon-color fa fa-home" href="NetworkInventory.htm" class="list-group-item text-uppercase" *ngIf="checkUserPermission('4')">{{
+          'SWITICHING NETWORK' | translate }}</a>
+        <a class="nav-icon-color fa fa-home" href="#" class="list-group-item text-uppercase" *ngIf="checkUserPermission('5')">
+          {{ 'INTRANET' | translate }}</a>
+        <a class="nav-icon-color fa fa-home" href="#" class="list-group-item text-uppercase" *ngIf="checkUserPermission('6')">{{ 'INTERNET' | translate }}</a>
+  
+        <div class="nav-iconmenu" *ngIf="checkUserPermission('7')">
+          <a class="nav-icon-color fa fa-home" routerLink='/pabx/entities' (click)="removeClass()" routerLinkActive="active" class="list-group-item text-uppercase">{{
+            'PABX' | translate }}
+          </a>
+        </div>
+  
+        <div class="nav-iconmenu" *ngIf="checkUserPermission('9')">
+          <a class="nav-icon-color fa fa-home" routerLink='/store-items' (click)="removeClass()" routerLinkActive="active" class="list-group-item text-uppercase">{{
+            'Store' | translate }}
+           
+          </a>
+        </div>
+  
+        <div class="nav-iconmenu" *ngIf="checkUserPermission('14')">
+          <a class="nav-icon-color fa fa-home" *ngIf="OrganisationalChart" routerLink='/organizationalChart' (click)="removeClass()" routerLinkActive="active"
+            class="list-group-item text-uppercase">{{ 'OrganizationalChart' | translate }}
+           
+          </a>
+        </div>
+        <div class="nav-iconmenu" *ngIf="checkUserPermission('11')">
+          <a class="nav-icon-color fa fa-home" routerLink='/workOrder' (click)="removeClass()" routerLinkActive="active" class="list-group-item text-uppercase">{{
+            'COMPLAINTS/FAULTS' | translate }}
+           
+          </a>
+        </div>
+        <div class="nav-iconmenu" *ngIf="checkUserPermission('15')">
+          <a class="nav-icon-color fa fa-home" routerLink='/faultIssueManagement' (click)="removeClass()" routerLinkActive="active" class="list-group-item text-uppercase">{{
+            'FAULTS / ISSUE MANAGEMENT' | translate }}
+           
+          </a>
+        </div>
+        <a class="nav-icon-color fa fa-home" href="#" class="list-group-item text-uppercase" *ngIf="checkUserPermission('8')">
+          {{ 'TRANSMISSION' | translate }}</a>
+       
+      </div>
+    </div>
+ -->

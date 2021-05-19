@@ -1,0 +1,359 @@
+<div class="demandBook-container">
+  <div class="row formDemandListhead mlr-0">
+    <div class="col-md-12 ">
+      <strong class="storeDemandHead" style="margin-bottom: 20px">Store Demand Book</strong>
+    </div>
+    <div class="col-md-7 pull-left">
+      <div class=" form-inline" style="padding-bottom: 1rem;">
+        <strong class="storeSearchhead">Serial No :</strong>
+        <input type="text" style="width: auto;" [(ngModel)]="serialNo" name="serial_no" class="form-control"
+          id="serial_no" placeholder="Enter Serial Number :">
+        <button type="submit" class="btn btn-sm btn-color" (click)="searchSerialNo(this.serialNo)">Submit</button>
+        <button type="submit" class="btn btn-sm btn-color" (click)="clearSerialNoSearch()">Clear</button>
+      </div>
+    </div>
+    <div class="col-md-5 pull-right storesmbtn">
+      <div class="txtrth">
+        <a class="btn  btn-color btn-sm import" routerLink="/demandBookForm/add">Add Demand Form</a>
+        <button type="button" (click)="closeAndRedirect()" class="btn btn-sm btn-default"> Back </button>
+      </div>
+    </div>
+  </div>
+  <div class="row"  class="mlr-110">
+    <div class="scroll-x">
+      <table class="storeDemandList-table table">
+        <tr class="tr-fonts">
+          <th class="fix-1 fth" [ngClass]="!isLangArabic? 'enthrt':'arthrt'">
+            <strong>Action</strong>
+          </th>
+
+          <th (click)="sort('material_demand_no')" class="mw195"> Generated Demand no
+            <i class="fa" [ngClass]="{'fa-sort': column != 'material_demand_no',
+                                                      'fa-sort-asc': (column == 'material_demand_no' && !isDesc),
+                                                      'fa-sort-desc': (column == 'material_demand_no' && isDesc) }"
+              aria-hidden="true">
+            </i>
+          </th>
+          <th (click)="sort('date_issued')" class="mw195"> Date
+            <i class="fa" [ngClass]="{'fa-sort': column != 'date_issued',
+                                                              'fa-sort-asc': (column == 'date_issued' && !isDesc),
+                                                              'fa-sort-desc': (column == 'date_issued' && isDesc) }"
+              aria-hidden="true">
+            </i>
+          </th>
+          <th (click)="sort('form_type')" class="mw195"> Form Type
+            <i class="fa" [ngClass]="{'fa-sort': column != 'form_type',
+                                                              'fa-sort-asc': (column == 'form_type' && !isDesc),
+                                                              'fa-sort-desc': (column == 'form_type' && isDesc) }"
+              aria-hidden="true">
+            </i>
+          </th>
+          <th (click)="sort('department')" class="mw195"> Department
+            <i class="fa" [ngClass]="{'fa-sort': column != 'department',
+                                                                  'fa-sort-asc': (column == 'department' && !isDesc),
+                                                                  'fa-sort-desc': (column == 'department' && isDesc) }"
+              aria-hidden="true">
+            </i>
+          </th>
+          <th (click)="sort('issued_by')" class="mw195"> Issued By
+            <i class="fa" [ngClass]="{'fa-sort': column != 'issued_by',
+                                                                  'fa-sort-asc': (column == 'issued_by' && !isDesc),
+                                                                  'fa-sort-desc': (column == 'issued_by' && isDesc) }"
+              aria-hidden="true">
+            </i>
+          </th>
+          <th (click)="sort('manual_demand_no')" class="mw195"> Manual Demand no
+            <i class="fa" [ngClass]="{'fa-sort': column != 'manual_demand_no',
+                                                          'fa-sort-asc': (column == 'manual_demand_no' && !isDesc),
+                                                          'fa-sort-desc': (column == 'manual_demand_no' && isDesc) }"
+              aria-hidden="true">
+            </i>
+          </th>
+          <th (click)="sort('monitoring')" class="mw195">Monitoring
+            <i class="fa" [ngClass]="{'fa-sort': column != 'monitoring',
+                                                    'fa-sort-asc': (column == 'monitoring' && !isDesc),
+                                                    'fa-sort-desc': (column == 'monitoring' && isDesc) }"
+              aria-hidden="true">
+            </i>
+          </th>
+          <th (click)="sort('control_no')" class="mw195"> Control No
+            <i class="fa" [ngClass]="{'fa-sort': column != 'control_no',
+                                                              'fa-sort-asc': (column == 'control_no' && !isDesc),
+                                                              'fa-sort-desc': (column == 'control_no' && isDesc) }"
+              aria-hidden="true">
+            </i>
+          </th>
+          <th (click)="sort('reference_no')" class="mw195">Reference No
+            <i class="fa" [ngClass]="{'fa-sort': column != 'reference_no',
+                                                              'fa-sort-asc': (column == 'reference_no' && !isDesc),
+                                                              'fa-sort-desc': (column == 'reference_no' && isDesc) }"
+              aria-hidden="true">
+            </i>
+          </th>
+          <th (click)="sort('request_party')" class="mw195">Requested By
+            <i class="fa"
+              [ngClass]="{'fa-sort': column != 'request_party',
+                                                                          'fa-sort-asc': (column == 'request_party' && !isDesc),
+                                                                          'fa-sort-desc': (column == 'request_party' && isDesc) }"
+              aria-hidden="true">
+            </i>
+          </th>
+          <th (click)="sort('recipient')" class="mw195">Recipient
+            <i class="fa" [ngClass]="{'fa-sort': column != 'recipient',
+                                                      'fa-sort-asc': (column == 'recipient' && !isDesc),
+                                                      'fa-sort-desc': (column == 'recipient' && isDesc) }"
+              aria-hidden="true">
+            </i>
+          </th>
+          <th (click)="sort('distributor')" class="mw195">Distributor
+            <i class="fa" [ngClass]="{'fa-sort': column != 'distributor',
+                                                          'fa-sort-asc': (column == 'distributor' && !isDesc),
+                                                          'fa-sort-desc': (column == 'distributor' && isDesc) }"
+              aria-hidden="true">
+            </i>
+          </th>
+          <th (click)="sort('warehouse_officer')" class="mw195">WareHouse Officer
+            <i class="fa" [ngClass]="{'fa-sort': column != 'warehouse_officer',
+                                                  'fa-sort-asc': (column == 'warehouse_officer' && !isDesc),
+                                                  'fa-sort-desc': (column == 'warehouse_officer' && isDesc) }"
+              aria-hidden="true">
+            </i>
+          </th>
+          <th (click)="sort('warehouse_commander')" class="mw195">WareHouse Commander
+            <i class="fa" [ngClass]="{'fa-sort': column != 'warehouse_commander',
+                                                      'fa-sort-asc': (column == 'warehouse_commander' && !isDesc),
+                                                      'fa-sort-desc': (column == 'warehouse_commander' && isDesc) }"
+              aria-hidden="true">
+            </i>
+          </th>
+          <th (click)="sort('applicant')" class="mw195">Applicant
+            <i class="fa" [ngClass]="{'fa-sort': column != 'applicant',
+                                                          'fa-sort-asc': (column == 'applicant' && !isDesc),
+                                                          'fa-sort-desc': (column == 'applicant' && isDesc) }"
+              aria-hidden="true">
+            </i>
+          </th>
+          <th (click)="sort('force_commander_approval')" class="mw195">Force Commonder Officer
+            <i class="fa"
+              [ngClass]="{'fa-sort': column != 'force_commander_approval',
+                                                              'fa-sort-asc': (column == 'force_commander_approval' && !isDesc),
+                                                              'fa-sort-desc': (column == 'force_commander_approval' && isDesc) }"
+              aria-hidden="true">
+            </i>
+          </th>
+          <th (click)="sort('financial_notes')" class="mw195">Financial Notes
+            <i class="fa"
+              [ngClass]="{'fa-sort': column != 'financial_notes',
+                                                                  'fa-sort-asc': (column == 'financial_notes' && !isDesc),
+                                                                  'fa-sort-desc': (column == 'financial_notes' && isDesc) }"
+              aria-hidden="true">
+            </i>
+          </th>
+          <th (click)="sort('operational_recommendations')" class="mw195">Oper Recommendations
+            <i class="fa"
+              [ngClass]="{'fa-sort': column != 'operational_recommendations',
+                                                                      'fa-sort-asc': (column == 'operational_recommendations' && !isDesc),
+                                                                      'fa-sort-desc': (column == 'operational_recommendations' && isDesc) }"
+              aria-hidden="true">
+            </i>
+          </th>
+        </tr>
+        <tbody class="searchBox" *ngIf="showAdvanceSearch" [ngClass]="{'hidden-menu': !showMenu}">
+          <tr>
+            <td class="fixed-column-1">
+              <strong></strong>
+            </td>
+            <td class="mw195">
+              <input type="text" name="searchGenratedDBNo" [(ngModel)]="searchGenratedDBNo"
+                class="searchGenratedDBNo textbox-height form-control"
+                placeholder="{{ 'Genrated DB No' | translate }}" />
+            </td>
+
+            <td class="mw195">
+              <input type="text" name="searchDate" [(ngModel)]="searchDate"
+                class="searchDate textbox-height form-control" placeholder="{{ 'Date' | translate }}" />
+            </td>
+            <td class="mw195">
+              <select class="form-control searchFormType textbox-height" [(ngModel)]="searchFormType">
+                <option class="searchAlign" value="">{{ 'Form Type' | translate }} </option>
+                <option *ngFor="let st of formType" [value]="st.type">{{st.type}}</option>
+              </select>
+            </td>
+            <td class="mw195">
+              <select class="form-control searchDepartment textbox-height" [(ngModel)]="searchDepartment">
+                <option class="searchAlign" value="">{{ 'Department' | translate }} </option>
+                <option *ngFor="let dept of DepartmentList" [value]="dept.label">{{dept.label}}</option>
+              </select></td>
+            <td class="mw195">
+              <select class="form-control searchIssuedBy textbox-height" [(ngModel)]="searchIssuedBy">
+                <option class="searchAlign" value="">{{ 'Issued By' | translate }} </option>
+                <option *ngFor="let issuedUser of storeUsersList;let i = index" [value]="issuedUser.username">
+                  {{issuedUser.username}}</option>
+              </select></td>
+            <td class="mw195">
+              <input type="text" name="searchManualDBNo" [(ngModel)]="searchManualDBNo"
+                class="searchManualDBNo textbox-height form-control" placeholder="{{ 'Manual DB No' | translate }}" />
+            </td>
+
+
+            <td class="mw195">
+              <input type="text" name="searchMonitoring" [(ngModel)]="searchMonitoring"
+                class="searchMonitoring textbox-height form-control" placeholder="{{ 'Monitoring' | translate }}" />
+            </td>
+            <td class="mw195">
+              <input type="text" name="searchControlNo" [(ngModel)]="searchControlNo"
+                class="searchControlNo textbox-height form-control" placeholder="{{ 'Control No' | translate }}" />
+            </td>
+            <td class="mw195">
+              <input type="text" name="searchReferenceNo" [(ngModel)]="searchReferenceNo"
+                class="searchReferenceNo textbox-height form-control" placeholder="{{ 'Reference No' | translate }}" />
+            </td>
+
+            <td class="mw195">
+              <input type="text" name="searchRequestParty" [(ngModel)]="searchRequestParty"
+                class="searchRequestParty textbox-height form-control" placeholder="{{ 'RequestParty' | translate }}" />
+            </td>
+            <td class="mw195">
+              <input type="text" name="searchRecipient" [(ngModel)]="searchRecipient"
+                class="searchRecipient textbox-height form-control" placeholder="{{ 'Recipient' | translate }}" />
+            </td>
+            <td class="mw195">
+              <input type="text" name="searchDistributor" [(ngModel)]="searchDistributor"
+                class="searchDistributor textbox-height form-control" placeholder="{{ 'Distributor' | translate }}" />
+            </td>
+            <td class="mw195">
+              <input type="text" name="searchWHOfficer" [(ngModel)]="searchWHOfficer"
+                class="searchWHOfficer textbox-height form-control" placeholder="{{ 'WH Officer' | translate }}" />
+            </td>
+            <td class="mw195">
+              <input type="text" name="searchWHCommander" [(ngModel)]="searchWHCommander"
+                class="searchWHCommander textbox-height form-control" placeholder="{{ 'WH Commander' | translate }}" />
+            </td>
+            <td class="mw195">
+              <input type="text" name="searchApplicant" [(ngModel)]="searchApplicant"
+                class="searchApplicant textbox-height form-control" placeholder="{{ 'Applicant' | translate }}" />
+            </td>
+
+            <td class="mw195">
+              <input type="text" name="searchForceCommanderApproval" [(ngModel)]="searchForceCommanderApproval"
+                class="searchForceCommanderApproval textbox-height form-control"
+                placeholder="{{ 'Force Commander Approval' | translate }}" />
+            </td>
+            <td class="mw195">
+              <input type="text" name="searchFinancialNotes" [(ngModel)]="searchFinancialNotes"
+                class="searchFinancialNotes textbox-height form-control"
+                placeholder="{{ 'Financial Notes' | translate }}" />
+            </td>
+            <td class="mw195">
+              <input type="text" name="searchOperationalRecommendations" [(ngModel)]="searchOperationalRecommendations"
+                class="searchOperationalRecommendations textbox-height form-control"
+                placeholder="{{ 'Operational Recommendations' | translate }}" />
+            </td>
+          </tr>
+        </tbody>
+        <tbody
+          *ngFor="let demand of DemandBookDetails | storeDemandBookSearch : searchGenratedDBNo: searchDate : searchFormType : searchDepartment : searchIssuedBy : searchManualDBNo: searchMonitoring: searchControlNo: searchReferenceNo: searchRequestParty: searchRecipient: searchDistributor : searchWHOfficer :searchWHCommander :searchApplicant : searchForceCommanderApproval : searchFinancialNotes : searchOperationalRecommendations | orderBy: {property: column, direction: direction}  | paginate: {itemsPerPage: 12, currentPage:page, id: '1'} ; let i=index">
+          <tr [class.active]="demand.highLightRow" (click)="setClickedRow(demand)">
+            <td class="fix-1 fs" [ngClass]="!isLangArabic? 'enrt':'arrt'">              
+              <a class="primary-color cursor-pointer table-action-icon fa fa-eye fa-lg pr-7" title="View Demand Book Details"
+                [routerLink]="['/print',demand.form_type,demand.material_demand_no]"></a>
+              <a *ngIf="demand.form_type != 'oldLoanItem' "
+                [routerLink]="['/demandBookForm/edit',demand.material_demand_no]"
+                class="primary-color table-action-icon fa fa-wrench fa-lg pr-7" title="Edit Order Details"></a>
+              <a *ngIf="demand.form_type == 'oldLoanItem' "
+                [routerLink]="['/storewithoutPo/edit',demand.material_demand_no]"
+                class="primary-color table-action-icon fa fa-wrench fa-lg pr-7" title="Edit Order Details"></a>
+              <a *ngIf="demand.form_type != 'oldLoanItem' "
+                class="primary-color cursor-pointer table-action-icon fa fa-trash-o fa-lg pr-7"
+                (click)="showDeactivateDemandBookPopup(demand.material_demand_no)" title="Deactivate Demand Book"></a>
+              <a *ngIf="demand.form_type == 'oldLoanItem' "
+                class="primary-color cursor-pointer table-action-icon fa fa-trash-o fa-lg pr-7"
+                (click)="showDeactivateDemandBookPopup(demand.material_demand_no)" title="Deactivate Demand Book"></a>&nbsp;&nbsp;
+                <span class="cursor-pointer fa fa-expand pr-7" [ngClass]="(!demand?.hideInnerEmpRow)?'fa-expand':'fa-compress'"
+                (click)="toggleHiddenEmpRow(demand)"></span> 
+            </td>
+            <td class="word-break mw195">{{demand.material_demand_no}}</td>
+            <td class="mw195">{{demand.date_issued }}</td>
+            <td class="word-break mw195">{{demand.form_type}}</td>
+            <td class="mw195">{{demand.department}}</td>
+            <td class="mw195">{{demand.issued_by}}</td>
+            <td class="mw195">{{demand.manual_demand_no}}</td>
+            <td class="mw195">{{demand.monitoring }}</td>
+            <td class="mw195">{{demand.control_no}}</td>
+            <td class="mw195">{{demand.reference_no}}</td>
+            <td class="mw195">{{demand.request_party}}</td>
+            <td class="mw195">{{demand.recipient}}</td>
+            <td class="mw195">{{demand.distributor }}</td>
+            <td class="mw195">{{demand.warehouse_officer}}</td>
+            <td class="mw195">{{demand.warehouse_commander}}</td>
+            <td class="mw195">{{demand.applicant }}</td>
+            <td class="mw195">{{demand.force_commander_approval}}</td>
+            <td class="mw195">{{demand.financial_notes}}</td>
+            <td class="mw195">{{demand.operational_recommendations}}</td>
+          </tr>
+          
+          <ng-container *ngIf="demand?.hideInnerEmpRow">
+            <tr rowspan="99" class="inner-tr" [ngClass]="demand.hideInnerEmpRow? 'display-block':'hidden-row'">
+              <td class="bk-dark border-bottom" colspan="99">
+                <div class="scrollInnerRest" style="width: 129vw;">
+                  <table class="tbl-employee table" style="width: 123vw">
+                    <tr class="tr-fonts">
+                      <th>Item Name</th>
+                      <th>Item Part No</th>
+                      <th>Serial No</th>
+                      <th>Quantity</th>
+                      <th>Issued By</th>
+                      <th>Reported By</th>
+                      <th>Supplier</th>
+                      <th>Site Name</th>
+                      <th>Location</th>
+                      <th>Remarks</th>
+                    </tr>
+                    <tbody *ngFor="let demandItems of demand.store_item; let i = index">
+                      <tr>
+                        <td class="mw195">{{demandItems.item_name}}</td>
+                        <td class="mw195">{{demandItems.item_part_no}}</td>
+                        <td class="word-break">{{demandItems.serial_no}}</td>
+                        <td class="word-break">{{demandItems.quantity_nc}}</td>
+                        <td class="mw195">{{demandItems.issued_by}}</td>
+                        <td class="mw195">{{demandItems.reported_by}}</td>
+                        <td class="mw195">{{demandItems.problem}}</td>
+                        <td class="mw195">{{demandItems.site_name}}</td>
+                        <td class="mw195">{{demandItems.location}}</td>
+                        <td class="mw195">{{demandItems.remarks}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </td>
+              <td class="bk-dark border-bottom"></td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="right-align">
+    <pagination-controls (pageChange)="page = $event" id="1" maxSize="5" directionLinks="true" autoHide="true">
+    </pagination-controls>
+  </div>
+</div>
+<div class="form-row">
+  <bs-modal #modalDeactivate id="modalDeactivate" dir="{{!isLangArabic ?'ltr':'rtl'}}">
+    <bs-modal-header [showDismiss]="false">
+      <button type="button" class="close" data-dismiss="modal" [ngClass]="!isLangArabic? 'float-right':'float-left'">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only">Close</span>
+      </button>
+      <h4 class="modal-title">{{ 'Deactivate Demand Book' | translate }}</h4>
+    </bs-modal-header>
+    <bs-modal-body>
+      {{'Are you sure you want to deactivate this Demand Book' | translate }}
+    </bs-modal-body>
+    <bs-modal-footer>
+      <button type="button" class="btn btn-danger" (click)="deleteDemandBook()">{{ 'Deactivate' | translate }}</button>
+      <button type="button" class="btn btn-default"
+        (click)="hidePopUp('modalDeactivate')">{{ 'Cancel' | translate }}</button>
+    </bs-modal-footer>
+  </bs-modal>
+</div>

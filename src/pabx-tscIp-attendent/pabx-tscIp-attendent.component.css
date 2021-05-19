@@ -1,0 +1,194 @@
+.attendent .tbl-employee.table>tbody>tr>th {
+    border-top: none !important;
+}
+.container-fluid{
+    min-height: 100vh;
+}
+.attendent {
+    margin-left: 2% !important;
+    margin-right: 2%;
+}
+
+.attendent .card {
+    background-color: #fff;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    margin-bottom: 2%;
+}
+
+.attendent .clr-anch {
+    margin-left: 2%;
+    cursor: pointer;
+}
+
+.attendent .header {
+    margin-top: 0 !important;
+    margin-left: 0 !important;
+    width: 100% !important;
+    background-color: #f1efef;
+    padding-top: 2%;
+}
+
+.attendent .srcrow {
+    margin-right: 0;
+    margin-left: 0;
+    margin-top: 2%;
+}
+
+.attendent .wd-80 {
+    width: 80%
+}
+
+.attendent .wd-100 {
+    width: 100%;
+}
+
+.attendent .drop-down {
+    border-radius: 5px;
+    height: 6vh;
+}
+
+.attendent .custom {
+    margin-top: 3%;
+    font-size: 2rem;
+    float: right;
+}
+
+.attendent .vertical-line {
+    width: 2px;
+    border: 1px solid black;
+}
+
+.attendent .add-anch {
+    margin-left: 4%;
+    margin-right: 2%;
+    cursor: pointer;
+}
+
+.attendent .mt-3 {
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
+}
+
+.attendent .primary {
+    color: #fff;
+    background-color: #76102B;
+    border: 0;
+    border-radius: 5px;
+    height: 5vh;
+    width: 35%;
+}
+
+.attendent .Pagename {
+    background: transparent;
+    margin: 0;
+}
+.attendent .ftrt {
+    text-align: right;
+}
+.attendent .fixed-1 {
+    left: 7% !important;
+    min-width: 70px !important;
+    text-align: left;
+    font-weight: bolder;
+    padding: 5px 20px !important;
+    width: fit-content !important;
+    position: absolute;
+    
+}
+.fix-top{
+    font-size: 1.2em !important;
+    height: 8vh;
+    line-height: 4.15em !important;
+}
+ @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+.attendent .fix-top{
+    font-size: 1.2em !important;
+    height: 8vh;
+    line-height: 2.8em !important;
+}
+.attendent .page-head{
+    text-align: right;
+}
+}
+
+.attendent .ng2-pagination{
+    border-top: none !important;
+}
+
+.attendent .fixed-2 {
+    position: absolute;
+    left: 12% !important;
+    min-width: 70px !important;
+    text-align: left;
+    font-weight: bolder;
+    padding: 5px 20px !important;
+    width: fit-content !important;
+}
+
+.attendent #tableContainer {
+    margin-left: 18% !important;
+}
+
+.attendent .h-6 {
+    height: 6vh;
+}
+
+@media only screen and (max-height: 700px){
+    .attendent .mt-6 {
+        margin-top: 3%;
+    }
+}
+@media only screen and (min-height: 850px) and (max-height: 700px){
+    .attendent .mt-6 {
+        margin-top: 3%;
+    }
+}
+@media only screen and (min-height: 950px) and (max-height: 850px){
+    .attendent .mt-6 {
+        margin-top: 4%;
+    }
+}
+@media only screen and (min-height: 1050px) and (max-height: 950px){
+    .attendent .mt-6 {
+        margin-top: 6%;
+    }
+}
+.attendent .btn-primary {
+    color: #fff !important;
+    background-color: #76102B !important;
+    height: 5vh;
+}
+
+@media only screen and (min-width: 1824px) {
+    .attendent .mt-6 {
+        margin-top: 6%;
+    }
+    .attendent #tableContainer {
+        margin-left: 0% !important;
+    }
+    .attendent .custom {
+        margin-top: 6%;
+    }
+    .attendent .wd-80 {
+        width: 87%;
+    }
+    .attendent .tbl-employee.pabx-table{
+        width: 100%;
+    }
+}
+
+@media only screen and (min-height: 1000px) and (max-height: 1200px){
+    .attendent .drop-down {
+        height: 4vh;
+    }
+    .attendent .primary {
+        height: 3.5vh;
+    }
+    .attendent .mt-3 {
+        margin-top: 0.25vh;
+        margin-bottom: 0.25vh;
+    }
+    .attendent .btn-primary {
+        height: 3.5vh;
+    }
+}

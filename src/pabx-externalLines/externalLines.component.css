@@ -1,0 +1,100 @@
+/* .externadd{
+    margin-top: 6%;
+} */
+
+/* .externadd .table-header-margin {
+    margin-left: 0 !important;
+} */
+
+.externadd .btn {
+    margin: 1%;
+}
+.externadd .dsclr{
+    display: block;
+    clear: both;
+}
+.externadd .whitebc {
+    background-color: transparent;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.externadd .left-align {
+    text-align: left !important;
+}
+
+.externadd .container {
+    width: 100% !important;
+    margin-left: none;
+}
+
+.externadd .plr-0 {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.externadd .pull-right {
+    float: right;
+}
+
+.externadd .ml-2 {
+    margin-left: 2% !important;
+}
+
+.externadd .mtb-0 {
+    margin-top: 0;
+    margin-bottom: 5 px !important;
+}
+
+.externadd .form-group {
+    margin-bottom: 5px !important;
+}
+.externadd .mb-1 {
+    margin-top: 0;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 1%;
+}
+
+.externadd .ftlt {
+    float: left;
+    margin-left: 2% !important;
+}
+
+.externadd .ht {
+    min-height: 10vh !important;
+}
+
+@media only screen and (min-width: 1920px) {
+    .externadd .ht {
+        min-height: 6vh !important;
+    }
+  }
+.externadd .ftrt {
+    
+    float: right;
+    margin-right: 2% !important;
+}
+
+.externadd .groups {
+    color: #700909;
+}
+
+.externadd .line {
+    box-sizing: border-box;
+    height: 1px;
+    border: 1px solid #D1CECE;
+}
+
+.externadd .pr-0{
+    padding-right: 0;
+}
+
+.externadd .prt-5{
+    padding-right: 5px !important;
+    padding-left: 5px !important;
+}
+
+.externadd .pl{
+    padding-left: 0;
+}

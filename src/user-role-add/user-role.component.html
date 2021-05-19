@@ -1,0 +1,138 @@
+<div class="container">
+  <div class="listgroup content-margin">
+    <div class="row">
+      <div class="col-md-12" style="margin-top:0px;">
+        <div class="col-md-12">
+          <div class="panel-group">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <div class="inline-display"> 
+                  <h3 class="panel-title">Add New Role</h3>
+                </div>
+                <div style="float:right;" class="inline-display" >(<span style="color:red"> * </span>) Mandatory</div>
+              </div>
+              <div class="panel-body">
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="RoleName">
+                        Role Name<span style="color:red">*</span></label>
+                    <input type="text" [(ngModel)]="userRole.RoleName" name="RoleName" id="RoleName" class="form-control"  placeholder="Role Name" />
+                  </div>
+                  <!--div class="form-group col-md-6">
+                    <label for="RoleName">
+                        Role Name AR<span style="color:red">*</span></label>
+                    <input type="text" [(ngModel)]="userRole.RoleNameAR" name="RoleNameAR" id="RoleNameAR" class="form-control"  placeholder="Role Name AR" />
+                  </div-->
+                  <div class="form-group col-md-6">
+                    <label for="RoleDesc">
+                        Description <span style="color:red">*</span></label>
+                    <textarea [(ngModel)]="userRole.Description" name="RoleDesc" class="form-control" id="RoleDesc" placeholder="Description" > </textarea> 
+                  </div>
+                  <!--div class="form-group col-md-6">
+                    <label for="RoleDesc">
+                        Description AR<span style="color:red">*</span></label>
+                    <textarea [(ngModel)]="userRole.DescriptionAR" name="RoleDescAR" class="form-control" id="RoleDescAR" placeholder="Description" > </textarea> 
+                  </div-->
+                </div>  
+                <!-- <div class="form-row">
+                  <div class="form-group col-md-4">
+                      <input type="checkbox"  [(ngModel)]="userRole.organisation_chart" value="1" name="organisation_chart" class="" id="organisation_chart"  />
+                      <label for="organisation_chart">
+                          Employee Chart </label>
+                  </div>
+                </div> -->
+              </div> 
+              <div>
+                <div class="panel panel-default">
+                  <div class="panel-heading" >
+                    <h3 class="panel-title cursor-pointer" style="display: inline;"> Manage Role Access </h3>
+                    <!--a style="float: right;display: inline;" (click)="ShowRolePermissions()">Create/Edit</a-->
+                  </div>
+                  <div class="panel-body collapse in" [hidden]="hidePermissions">                    
+                      <div>
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                                <label for="txtOfficetelePhone1">
+                                    Module : </label>
+                                <select (change)="selectPage($event.target.value)" name="page_id" [(ngModel)]="pageRole.page_id" class="form-control">
+                                  <option value="0">Select Module</option>
+                                  <option *ngFor="let lpage of pages; let i = index;" value="{{lpage.id}}">
+                                    {{ lpage.page }}
+                                  </option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-8" *ngIf="pageRole.page_id" >
+                              <div style="float: right;" >
+                                <input type="button" (click)="AddAccess()" value="Add" class="primary btn btn-default">
+                                <input type="button" (click)="CancelAccess()" value="Cancel" class="btn btn-error">
+                              </div>
+                            </div>
+                        </div>
+                        <div class="form-row" *ngIf="pageRole.page_id" style="clear: both;">
+                            <div>
+                              <div style="width: 30%;display: inline-block;margin: 10px 0px;">
+                                <h3 style="margin: 10px 14px;font-weight: bold;" class="panel-title">Operations on Module</h3>
+                              </div>
+                              <div style="width: 50%;display: inline;">
+                                <input type="checkbox" (click)="CheckAllModuleOpr($event,pageRole.page_id)" id="operation_pages_all" />Check/Uncheck All
+                              </div>
+                            </div>
+                            <div class="form-group col-md-3" *ngFor="let op_page of operation_pages;" >
+                            		<input type="checkbox" [checked]="op_page.selected" (click)="CheckModuleOpr($event,pageRole.page_id,op_page.id)" id="txtResidentTelePhone{{op_page.id}}" />
+                            		<label style="font-weight: normal;text-transform: uppercase;" for="txtResidentTelePhone{{op_page.id}}">
+                                    {{op_page.label}} </label>
+                            </div>
+                        </div>
+                        <div class="form-row" style="clear: both;" *ngIf="pageRole.page_id">
+                            <div>
+                              <div style="width: 30%;display: inline-block;margin: 10px 0px;">
+                                <h3 style="margin: 10px 14px;font-weight: bold;" class="panel-title">View Access on Module Fields</h3>  
+                              </div>
+                              <div style="width: 50%;display: inline;">
+                                <input type="checkbox" (click)="CheckAllViewAccess($event,pageRole.page_id)" id="page_fields_all" />Check/Uncheck All
+                              </div>
+                            </div>
+                            <div class="form-group col-md-3" *ngFor="let page_field of page_fields;" >
+                                <input type="checkbox" [checked]="page_field.selected" (click)="CheckViewAccess($event,pageRole.page_id,page_field.id)" id="txtResidentTelePhone{{page_field.id}}" />
+                                <label style="font-weight: normal;" for="txtResidentTelePhone{{page_field.id}}">
+                                    {{page_field.label}}</label>
+                            </div>
+                        </div>
+                      </div>
+                  </div>
+                  <div>
+                    <table class="role-table table">
+                      <tr>
+                          <th> Module</th>
+                          <th> Enabled</th>
+                          <th> Action</th>
+                        </tr>
+                      <tbody *ngFor="let pageInfo of pages; let i = index">
+                      <tr>
+                          <td>{{pageInfo.page}} <span class="error">{{ pageInfo.hasOwnProperty('modified') && pageInfo.modified ? '(changed)': ''}}</span></td> 
+                          <td>{{pageInfo.selected}}</td>
+                          <td><a href="javascript:void(0);" (click)="selectPage(pageInfo.id)">View</a></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-12 center-align">
+        <button type="button" (click)="saveRole()" class="primary btn btn-default primary">
+                  {{'Save Role'| translate}}</button>
+        <button type="button" (click)="closeAndRedirect(true)" class="btn btn-default">
+                  {{'Cancel'| translate}}</button>
+        <br/>
+      </div>
+    </div>
+  </div>
+</div>
+      <!-- <div class="ar current-lang" [ngClass]="getArStyleClass()">
+        <app-nav ></app-nav>
+        </div> --> 

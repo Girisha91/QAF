@@ -1,0 +1,156 @@
+<div class="storeMaterialAdd-container">
+<div class="col-md-12 formMaterialPanelhead">
+    <div class="row">
+        <div class="col-md-8 pull-left"><Strong>Store Material DB</Strong> <span style="visibility: hidden;" class="errortitle">(<span class="error">*</span> Mandatory)</span></div>
+        <div class="col-md-4 pull-left">
+                <!-- <button type="button" style="float: right;margin: 5px;" (click)="AddStoreMaterial(sm)" class="btn btn-default primary" *ngIf="!(opr==0)">
+                    {{title}}</button> -->
+                  <!-- <button type="button" style="float: right;margin: 5px;" (click)="AddStoreMaterial(sm)" class="btn btn-default primary" *ngIf="!(backButton==0)">
+                    {{title}}</button> -->
+                  <!-- <button type="button" style="float: right;margin: 5px;" (click)="UpdateStoreMaterial(sm)" class="btn btn-default primary" *ngIf="!(opr==1)">
+                    {{title}}</button> -->
+                  <!-- <button type="button" style="float: right;margin: 5px;" (click)="closeAndRedirect()" class="btn btn-default" *ngIf="!(opr==0)">
+                    Back </button> -->
+                  <!-- <button type="button" style="float: right;margin: 5px;" (click)="closeAndRedirect()" class="btn btn-default" *ngIf="!(opr==1)">
+                    Back </button> -->
+                  <button type="button" style="float: right;margin: 5px;" (click)="closeAndRedirect()" class="btn btn-default" *ngIf="opr==2">
+                    Back </button>
+                    <span style="float: right;" class="errortitle" *ngIf="!(opr==2)">(<span class="error">*</span> Mandatory)</span>
+                  <!-- <button type="button" style="float: right;margin: 5px;" (click)="closeAndRedirectToPo()" class="btn btn-default" *ngIf="!(backButton==0)">
+                    Back </button> -->
+        </div>
+    </div>
+</div>
+<hr class="line" style="margin-top:0 ">
+<div class="row">
+<div class="form-group col-md-12">
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="SmsId">Item Name</label> <span class="error">*</span>
+        <input type="text" [disabled]="isReadOnly" class="form-control" name="sm.item_name"
+          [(ngModel)]="sm.item_name" placeholder="{{ItemName}}" />
+        <div [hidden]="errorItemName == ''" class="error">{{errorItemName}}</div>
+      </div>
+
+      <div class="form-group col-md-4">
+        <label for="SmsPosition">Item No</label> <span class="error">*</span>
+        <input type="text" [disabled]="isReadOnly || isUpdateReadOnly" class="form-control"
+          name="sm.item_no" [(ngModel)]="sm.item_no" placeholder="{{ItemNo}}" />
+        <div [hidden]="errorItemNo == ''" class="error">{{errorItemNo}}</div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="SmsId">Part No</label> <span class="error">*</span>
+        <input type="text" [disabled]="isReadOnly  || isUpdateReadOnly" class="form-control"
+          name="sm.part_no" [(ngModel)]="sm.part_no" placeholder="{{PartNo}}" />
+        <div [hidden]="errorPartNo == ''" class="error">{{errorPartNo}}</div>
+
+      </div>
+      <div class="form-group col-md-4">
+        <label for="SmsPosition">
+          Description </label>
+        <input type="text" [disabled]="isReadOnly" class="form-control" name="sm.description"
+          [(ngModel)]="sm.description" placeholder="{{Description}}" />
+        <div [hidden]="errorDescription == ''" class="error">{{errorDescription}}</div>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="SmsId">
+          Department</label> <span class="error">*</span>
+        <select class="form-control" ngControl="st" [disabled]="isReadOnly" [(ngModel)]="sm.department"
+          (change)="($event)">
+          <option *ngFor="let st of DepartmentList" [value]="st.label">{{st.label}}</option>
+        </select>
+        <div [hidden]="errorDept == ''" class="error">{{errorDept}}</div>
+
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="SmsPosition">
+          Manufacturer</label> <span class="error">*</span>
+        <input type="text" [disabled]="isReadOnly" class="form-control" name="sm.manufacture"
+          [(ngModel)]="sm.manufacture" placeholder="{{Manufature}}" />
+        <div [hidden]="errorManuf == ''" class="error">{{errorManuf}}</div>
+
+      </div>
+      <div class="form-group col-md-4">
+        <label for="SmsId">
+          Vendor</label>
+        <input type="text" [disabled]="isReadOnly" class="form-control" name="sm.vendor"
+          [(ngModel)]="sm.vendor" placeholder="{{Vendor}}" />
+        <div [hidden]="errorVendor == ''" class="error">{{errorVendor}}</div>
+
+      </div>
+      <div class="form-group col-md-4">
+        <label for="txtId">
+          Supplier Reference Name
+          <span class="error">*</span>
+        </label>
+        <select class="form-control Supplier" ngControl="st" [disabled]="isReadOnly"
+          [(ngModel)]="sm.supplier_id" (change)="addSupplier($event , 'redirectToMateraialAdd')">
+          <option value="" class="btn btn-color btn-xl">
+            <a>Add Supplier</a>
+          </option>
+          <option *ngFor="let st of suprefnameList" [value]="st.label">{{st.label}}</option>
+        </select>
+        <div [hidden]="errorSup_ref_name == ''" class="error">{{errorSup_ref_name}}</div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="SmsCategory"> Category </label> <span class="error">*</span>
+        <select class="form-control" id="SmsCategory" [disabled]="isReadOnly" name="sm.category"
+          [(ngModel)]="sm.category">
+          <option *ngFor="let category of materialCatList" [value]="category.label">{{ category.label }}
+          </option>
+        </select>
+        <div [hidden]="errorCategory == ''" class="error">{{errorCategory}}</div>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="SmsId">Threshold Qty</label> <span class="error">*</span>
+        <input type="text" [disabled]="isReadOnly" class="form-control" name="sm.reorder_qty"
+          [(ngModel)]="sm.reorder_qty" placeholder="{{ReOrderQuantity}}" />
+        <div [hidden]="errorReorderQty == ''" class="error">{{errorReorderQty}}</div>
+      </div>
+      <div class="col-md-4 center-align">
+        <img class="img-height img-circle" *ngIf="sm.itempic != ''" src="{{sm.itempic}}"
+          style="height: 100px;">
+        <img class="img-height img-circle" *ngIf="sm.itempic == ''" src="../assets/mobile.gif"
+          style="height: 100px;">
+        <input class="hide" type="file" [disabled]="isReadOnly" (change)="onFileChanged($event)"
+          #fileInput>
+        <div class="img-picker cursor-pointer primary-color">
+          <i class="fa fa-pencil"></i>
+          <span (click)="fileInput.click()">Change Image</span>
+        </div>
+        <div [hidden]="errorImage == ''" class="error">{{errorImage}}</div>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="SmsWarranty">Warranty(in months)</label> <span class="error">*</span>
+        <input type="text" [disabled]="isReadOnly" class="form-control" name="sm.warranty"
+          [(ngModel)]="sm.warranty" />
+        <div [hidden]="errorWarranty == ''" class="error">{{errorWarranty}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12 center-align">
+      <hr class="line" style="margin-top:0 ">
+      <button type="button" (click)="AddStoreMaterial(sm)" class="btn btn-default primary" *ngIf="opr==0">
+        {{title}}</button>
+      <button type="button" (click)="AddStoreMaterial(sm)" class="btn btn-default primary" *ngIf="backButton==0">
+        {{title}}</button>
+      <button type="button" (click)="UpdateStoreMaterial(sm)" class="btn btn-default primary" *ngIf="opr==1">
+        {{title}}</button>
+      <button type="button" (click)="closeAndRedirect()" class="btn btn-default" *ngIf="opr==0">
+        Back </button>
+      <button type="button" (click)="closeAndRedirect()" class="btn btn-default" *ngIf="opr==1">
+        Back </button>
+      <!-- <button type="button" (click)="closeAndRedirect()" class="btn btn-default" *ngIf="opr==2">
+        Back </button> -->
+      <button type="button" (click)="closeAndRedirectToPo()" class="btn btn-default" *ngIf="backButton==0">
+        Back </button>
+      <br />
+    </div>
+  </div>
+</div>

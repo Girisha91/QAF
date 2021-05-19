@@ -1,0 +1,158 @@
+<div class="purchaseitem-container">
+  <div class="col-md-12 formPanelhead">
+    <div class="row">
+      <div class="col-md-8 pull-left"><Strong>Store Item</Strong> </div>
+      <div class="col-md-4">
+          <span style="float: right;margin: 5px;" *ngIf="!(opr==2)" class="errortitle">(<span class="error">*</span> Mandatory)</span>
+        <!-- <button style="float: right;margin: 5px;" type="button" *ngIf="title == 'Add Item'" (click)="AddStoreItem(item)"
+          class="btn btn-default primary">
+          {{title}}</button>
+        <button style="float: right;margin: 5px;" type="button" *ngIf="title == 'Update Item'"
+          (click)="UpdateStoreItem(item)" class="btn btn-default primary">
+          {{title}}</button> -->
+        <button style="float: right;margin: 5px;" *ngIf="opr==2" type="button" (click)="closeAndRedirect()" class="btn btn-default">
+          Back</button>
+      </div>
+    </div>
+  </div>
+  <hr class="line" style="margin-top:0 ">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label for="txtId">
+            Item name
+            <span class="error">*</span>
+          </label>
+          <input type="text" [disabled]="isReadOnly" [(ngModel)]="item.label" name="txtid" class="form-control"
+            placeholder="Item name" required />
+          <div [hidden]="errorItem_name==''" class="error">{{errorItem_name}}</div>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="txtId">
+            Item No
+            <span class="error">*</span>
+          </label>
+          <input type="text" [disabled]="isReadOnly" [(ngModel)]="item.item_no" name="txtid" class="form-control"
+            placeholder="Item No" required />
+          <div [hidden]="errorItem_no==''" class="error">{{errorItem_no}}</div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label for="txtId">
+            Item Part No
+            <span class="error">*</span>
+          </label>
+          <input type="text" [disabled]="isReadOnly" [(ngModel)]="item.part_no" name="txtid" class="form-control"
+            placeholder="Item Part No" required />
+          <div [hidden]="errorItem_part_no==''" class="error">{{errorItem_part_no}}</div>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="txtId">
+            Category
+            <span class="error">*</span>
+          </label>
+          <input type="text" [disabled]="isReadOnly" [(ngModel)]="item.category" name="txtid" class="form-control"
+            placeholder="Category" required />
+          <!-- <select class="form-control" ngControl="st" [disabled]="isReadOnly" [(ngModel)]="item.category" required>
+                                            <option *ngFor="let st of CategoryList" [value]="st.value">{{st.label}}</option>
+                                        </select> -->
+          <div [hidden]="errorCategory==''" class="error">{{errorCategory}}</div>
+        </div>
+        <div class="form-group col-md-4 ">
+          <label for="SmsId">Serial No
+            <span class="error">*</span>
+          </label>
+          <input type="text" class="form-control" [disabled]="isItemReadOnly" [(ngModel)]="item.serial_no"
+            placeholder="Serial No" />
+        </div>
+        <div class="form-group col-md-4">
+          <label for="SmsPosition">
+            Location </label>
+          <input type="text" class="form-control" [disabled]="isItemReadOnly" [(ngModel)]="item.location"
+            placeholder="Location" />
+          <div [hidden]="errorLoc == ''" class="error">{{errorLoc}}</div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="SmsId">
+              Warranty</label>
+            <input type="text" class="form-control" [disabled]="isItemReadOnly" [(ngModel)]="item.warranty"
+              placeholder="Warranty" />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="SmsPosition">
+              Site Name</label>
+            <input type="text" class="form-control" [disabled]="isItemReadOnly" [(ngModel)]="item.site_name"
+              placeholder="Site Name" />
+            <div [hidden]="errorSiteName == ''" class="error">{{errorSiteName}}</div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="SmsId">
+              Loan Duration</label>
+            <input type="text" class="form-control" [disabled]="isItemReadOnly" [(ngModel)]="item.loan_duration"
+              placeholder="Loan Duration" />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="SmsPosition">
+              Date In</label>
+            <input type="text" bsDatepicker class="form-control" [disabled]="isItemReadOnly" [(ngModel)]="item.date_in"
+              placeholder="Date In" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" />
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="SmsId">
+              Descriptions</label>
+            <textarea name="Descriptions" class="form-control" [disabled]="isItemReadOnly"
+              [(ngModel)]="item.descriptions"></textarea>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="SmsRemarks">
+              Remarks</label>
+            <textarea name="Remarks" class="form-control" [disabled]="isItemReadOnly"
+              [(ngModel)]="item.remarks"></textarea>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label for="Sms">
+              Change Status</label>
+            <select class="form-control" [disabled]="isItemReadOnly" [(ngModel)]="item.status">
+              <option *ngFor="let status of this.statusChange" [value]="status.value">{{status.label}}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-12 center-align">
+        <hr class="line" style="margin-top:0 ">
+      <div class="col-md-4"></div>
+      <div class="col-md-4">
+        <button type="button" *ngIf="title == 'Add Item'" (click)="AddStoreItem(item)" class="btn btn-default primary">
+          {{title}}</button>
+        <button type="button" *ngIf="title == 'Update Item'" (click)="UpdateStoreItem(item)"
+          class="btn btn-default primary">
+          {{title}}</button>
+        <button type="button" *ngIf="!(opr==2)" (click)="closeAndRedirect()" class="btn btn-default">
+          Cancel </button>
+      </div>
+      <div class="col-md-4"></div>
+
+      <br />
+    </div>
+  </div>
+</div>

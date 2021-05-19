@@ -1,0 +1,698 @@
+<div class="trunk">
+        <div class="pabxScreeen">
+<app-pabx-nav></app-pabx-nav>
+        </div>
+        <div class="card">
+
+
+                <div class="header">
+                        <div class="row Pagename">
+                          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                            <b class="page-head">PABX - Trunk </b>
+                          </div>
+                          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 ftrt" *ngIf="lastUpdatedDate">
+                            Date Last Updated: {{lastUpdatedDate}}
+                          </div>
+                        </div>
+                        <div class="row srcrow">
+                          <div class="col-lg-10 col-md-10 col-sm-10">
+                            <form [formGroup]="searchForm"
+                              (ngSubmit)="OnSubmit(searchForm.value)">
+                              <div class="search-form margin-bottom" formArrayName="items"
+                                *ngFor="let item of items.controls; let i= index;">
+                                <div class="position-relative form-id-{{i}}" [formGroupName]="i">
+                                  <div class="row pos">
+                                    <div class="col-lg-4 col-md-4
+                                      col-sm-4">
+                                      <label class="text-center">Search:</label>
+                                      <select id="ddlselect{{i}}" class="drop-down
+                                        form-control text-center wd-80
+                                        inline-display" (change)="onChange($event)"
+                                        formControlName="fieldName">
+                                        <option value="">Select</option>
+                                        <option *ngFor="let state of searchKeyArray"
+                                          [value]="state.item">{{state.label}}</option>
+                                      </select>
+                                    </div>
+                                    <div class="col-lg-4 col-sm-4
+                                      col-md-4" style="padding-left: 0;">
+                                      <input class="drop-down wd-100 form-control inline-display"
+                                        type="text" formControlName="fieldValue"
+                                        placeholder="value" />
+                                    </div>
+                                    <select class="hide drop-down form-control node-select"
+                                      formControlName="fieldValue">
+                                      <option value="">Select</option>
+                                      <option *ngFor="let state of nodeArray" [value]="state">{{state}}</option>
+                                    </select>
+                                    <div class="col-lg-3 col-md-3
+                                      col-sm-3" style="padding: 0;">
+                                      <button type="submit" class="primary mt-3">{{ 'Search' | translate}}</button>
+                                      <a class="inline-display add-anch"
+                                        (click)="addItem()">{{ 'Add More' | translate}}</a>
+                                      <span class="vertical-line"></span>
+                                      <a class="inline-display clr-anch"
+                                        (click)="cancelSearch()">{{ 'Clear' | translate}}</a>
+                                      <i class="fa fa-times custom primary-color cursor-pointer"
+                                        *ngIf="!(i===0)" (click)="deleteAction(i)"
+                                        aria-hidden="true"></i>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+                          <div class="col-lg-2 col-md-2 com-sm-2 h-6 ftrt" *ngIf="userRoleId == '1'">
+                            <button type="button" class="btn btn-primary import mt-3"
+                              (click)='showUploaPopUp()'>{{ 'Import' | translate }}</button>
+                            <button type="button" class="btn btn-primary import mt-3"
+                              (click)='exportToExcel()'>{{ 'Export' | translate }}</button>
+                          </div>
+                        </div>
+                      </div>
+
+
+
+
+<!-- <div class="row pabx-header">
+    
+    <div class="col-md-4 pabx-heading">PABX - Trunk </div>
+    <div class="col-md-4">
+            <label>Search:</label>
+            <form [formGroup]="searchForm" (ngSubmit)="OnSubmit(searchForm.value)">
+                <div class="search-form margin-bottom" formArrayName="items" *ngFor="let item of items.controls; let i = index;">
+                    <div class="position-relative form-id-{{i}}" [formGroupName]="i">
+                        <select id="ddlselect{{i}}" class="textbox-height form-control inline-display" (change)="onChange($event)" formControlName="fieldName">
+                            <option value="">Select</option>
+                            <option *ngFor="let state of searchKeyArray" [value]="state.item">{{state.label}}</option>
+                        </select>
+                        <input class="textbox-height form-control inline-display" type="text" formControlName="fieldValue" placeholder="value" />
+                        <select class="hide textbox-height form-control node-select" formControlName="fieldValue">
+                            <option value="">Select</option>
+                            <option *ngFor="let state of nodeArray" [value]="state">{{state}}</option>
+                        </select>
+                        
+                        <span class="align-search-cross fa fa-remove cursor-pointer primary-color" (click)="deleteAction(i)"></span>
+                        
+                    </div>
+                </div>
+                <button type="submit" class="primary btn btn-default">Search</button>
+                <button type="button" class="primary btn btn-default" (click)="addItem()">Add More</button>
+                <button type="button" class="btn btn-default" (click)="cancelSearch()">Clear</button>
+                
+            </form>
+        </div>
+    <div class="col-md-4 update-info">{{lastUpdatedDate}}</div>
+</div> -->
+
+<div class="main">
+        <!-- <div class="margin-bottom" *ngIf="userRoleId == '1'" >
+                <button type="button" class="btn btn-primary import"  (click)='showUploaPopUp()'>{{ 'Import' | translate }}</button>
+                <button type="button" class="btn btn-primary import" (click)='exportToExcel()'>{{ 'Export' | translate }}</button>
+            </div> -->
+          
+    <div id="tableContainer">
+        <table class="pabx-trunk pabx-table tbl-employee table highLightTable">
+            <tr class="tr-fonts">
+                   
+                <th [ngClass]="!isLangArabic? 'fixed-1' : 'fixed-ar-1'" class="fix-top" (click)="sort('Node')">Node
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Node',        
+                 'fa-sort-asc': (column == 'Node' && !isDesc), 
+                 'fa-sort-desc': (column == 'Node' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th [ngClass]="!isLangArabic? 'fixed-2' : 'fixed-ar-2'" class="fix-top" (click)="sort('Trunk_Groups')">Trunk Groups
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Trunk_Groups', 
+                     'fa-sort-asc': (column == 'Trunk_Groups' && !isDesc), 
+                     'fa-sort-desc': (column == 'Trunk_Groups' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('Instance_reserved')">Instance Reserved
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Instance_reserved', 
+                    'fa-sort-asc': (column == 'Instance_reserved' && !isDesc), 
+                    'fa-sort-desc': (column == 'Instance_reserved' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th (click)="sort('Trunk_Group_Type')">Trunk Group Type
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Trunk_Group_Type', 
+    'fa-sort-asc': (column == 'Trunk_Group_Type' && !isDesc), 
+    'fa-sort-desc': (column == 'Trunk_Group_Type' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th (click)="sort('T2_Specification')">T2 Specification
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'T2_Specification', 
+    'fa-sort-asc': (column == 'T2_Specification' && !isDesc), 
+    'fa-sort-desc': (column == 'T2_Specification' && isDesc) }" aria-hidden="true">
+                    </i>
+                </th>
+                <th hidden (click)="sort('Public_Network_Ref')">Public Network Ref
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Public_Network_Ref', 
+    'fa-sort-asc': (column == 'Public_Network_Ref' && !isDesc), 
+    'fa-sort-desc': (column == 'Public_Network_Ref' && isDesc) }" aria-hidden="true">
+                    </i>
+                </th>
+                <th hidden (click)="sort('End_to_end_dialing')">End to End Dialing
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'End_to_end_dialing', 
+    'fa-sort-asc': (column == 'End_to_end_dialing' && !isDesc), 
+    'fa-sort-desc': (column == 'End_to_end_dialing' && isDesc) }" aria-hidden="true">
+                    </i>
+                </th>
+                <th hidden (click)="sort('DTMF_End_to_end_signal	')">DTMF End to End Signal
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'DTMF_End_to_end_signal', 
+    'fa-sort-asc': (column == 'DTMF_End_to_end_signal	' && !isDesc), 
+    'fa-sort-desc': (column == 'DTMF_End_to_end_signal	' && isDesc) }" aria-hidden="true">
+                    </i>
+                </th>
+                <th hidden (click)="sort('Paying_Incoming_Calls	')">Paying Incoming Calls
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Paying_Incoming_Calls', 
+    'fa-sort-asc': (column == 'Paying_Incoming_Calls	' && !isDesc), 
+    'fa-sort-desc': (column == 'Paying_Incoming_Calls	' && isDesc) }" aria-hidden="true">
+                    </i>
+                </th>
+                <th hidden (click)="sort('TS_Permanently_assigned	')">TS Permanently Assigned
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'TS_Permanently_assigned', 
+    'fa-sort-asc': (column == 'TS_Permanently_assigned	' && !isDesc), 
+    'fa-sort-desc': (column == 'TS_Permanently_assigned	' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('Min_No_of_digits_on_seize')">Min No of Digits on Seize
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Min_No_of_digits_on_seize', 
+    'fa-sort-asc': (column == 'Min_No_of_digits_on_seize' && !isDesc), 
+    'fa-sort-desc': (column == 'Min_No_of_digits_on_seize' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th  hidden  (click)="sort('Signalwith_access_code')">Signal with Access Code
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Signalwith_access_code', 
+    'fa-sort-asc': (column == 'Signalwith_access_code' && !isDesc), 
+    'fa-sort-desc': (column == 'Signalwith_access_code' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('Trunk_group_used_in_DISA')">Trunk Group Used in DISA
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Trunk_group_used_in_DISA', 
+    'fa-sort-asc': (column == 'Trunk_group_used_in_DISA' && !isDesc), 
+    'fa-sort-desc': (column == 'Trunk_group_used_in_DISA' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('DISA_Secret_Code')">DISA Secret Code
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'DISA_Secret_Code', 
+    'fa-sort-asc': (column == 'DISA_Secret_Code' && !isDesc), 
+    'fa-sort-desc': (column == 'DISA_Secret_Code' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('VG_for_non_existent_No')">VG for Non Existent No
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'VG_for_non_existent_No', 
+    'fa-sort-asc': (column == 'VG_for_non_existent_No' && !isDesc), 
+    'fa-sort-desc': (column == 'VG_for_non_existent_No' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('Routing_To_Manager')">Routing To Manager
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Routing_To_Manager', 
+    'fa-sort-asc': (column == 'Routing_To_Manager' && !isDesc), 
+    'fa-sort-desc': (column == 'Routing_To_Manager' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th (click)="sort('Trunk_COS')">Trunk COS
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Trunk_COS', 
+    'fa-sort-asc': (column == 'Trunk_COS' && !isDesc), 
+    'fa-sort-desc': (column == 'Trunk_COS' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('Sending_of_Progress_message	')">Sending of Progress Message
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Sending_of_Progress_message', 
+    'fa-sort-asc': (column == 'Sending_of_Progress_message	' && !isDesc), 
+    'fa-sort-desc': (column == 'Sending_of_Progress_message	' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th  hidden (click)="sort('No_of_digits_unused_ISDN')">No of Digits Unused ISDN
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'No_of_digits_unused_ISDN', 
+    'fa-sort-asc': (column == 'No_of_digits_unused_ISDN' && !isDesc), 
+    'fa-sort-desc': (column == 'No_of_digits_unused_ISDN' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th (click)="sort('B_Channel_Choice	')">B Channel Choice
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'B_Channel_Choice', 
+    'fa-sort-asc': (column == 'B_Channel_Choice	' && !isDesc), 
+    'fa-sort-desc': (column == 'B_Channel_Choice	' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('Channels_Attendant_Control_Rsvd	')">Channels Attendant Control Rsvd
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Channels_Attendant_Control_Rsvd', 
+    'fa-sort-asc': (column == 'Channels_Attendant_Control_Rsvd	' && !isDesc), 
+    'fa-sort-desc': (column == 'Channels_Attendant_Control_Rsvd	' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('Redirection_For_ACD_Dissuasion	')">Redirection For ACD Dissuasion
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Redirection_For_ACD_Dissuasion', 
+    'fa-sort-asc': (column == 'Redirection_For_ACD_Dissuasion	' && !isDesc), 
+    'fa-sort-desc': (column == 'Redirection_For_ACD_Dissuasion	' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('DTO_joining')">DTO Joining
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'DTO_joining', 
+    'fa-sort-asc': (column == 'DTO_joining' && !isDesc), 
+    'fa-sort-desc': (column == 'DTO_joining' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('Consultation_Call_On_B_Channel')">Consultation Call On B Channel
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Consultation_Call_On_B_Channel', 
+    'fa-sort-asc': (column == 'Consultation_Call_On_B_Channel' && !isDesc), 
+    'fa-sort-desc': (column == 'Consultation_Call_On_B_Channel' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('DID_Mode')">DID Mode
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'DID_Mode', 
+    'fa-sort-asc': (column == 'DID_Mode' && !isDesc), 
+    'fa-sort-desc': (column == 'DID_Mode' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('Automated_Attendant	')">Automated Attendant
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Automated_Attendant	', 
+    'fa-sort-asc': (column == 'Automated_Attendant	' && !isDesc), 
+    'fa-sort-desc': (column == 'Automated_Attendant	' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('Calling_party_Rights_COS')">Calling Party Rights COS
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Calling_party_Rights_COS', 
+    'fa-sort-asc': (column == 'Calling_party_Rights_COS' && !isDesc), 
+    'fa-sort-desc': (column == 'Calling_party_Rights_COS' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th (click)="sort('Entity_Number')">Entity Number
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Entity_Number	', 
+    'fa-sort-asc': (column == 'Entity_Number' && !isDesc), 
+    'fa-sort-desc': (column == 'Entity_Number' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('TS_Overflow')">TS Overflow
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'TS_Overflow', 
+    'fa-sort-asc': (column == 'TS_Overflow' && !isDesc), 
+    'fa-sort-desc': (column == 'TS_Overflow' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('Number_To_Be_Added')">Number To Be Added
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Number_To_Be_Added', 
+    'fa-sort-asc': (column == 'Number_To_Be_Added' && !isDesc), 
+    'fa-sort-desc': (column == 'Number_To_Be_Added' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th (click)="sort('Supervised_by_Routing')">Supervised by Routing
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Supervised_by_Routing', 
+    'fa-sort-asc': (column == 'Supervised_by_Routing' && !isDesc), 
+    'fa-sort-desc': (column == 'Supervised_by_Routing' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('Access_Cluster_ID')">Access Cluster ID
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Access_Cluster_ID', 
+    'fa-sort-asc': (column == 'Access_Cluster_ID' && !isDesc), 
+    'fa-sort-desc': (column == 'Access_Cluster_ID' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('VPN_Cost_Limit_for_IncomCalls')">VPN Cost Limit for IncomCalls
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'VPN_Cost_Limit_for_IncomCalls', 
+    'fa-sort-asc': (column == 'VPN_Cost_Limit_for_IncomCalls' && !isDesc), 
+    'fa-sort-desc': (column == 'VPN_Cost_Limit_for_IncomCalls' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('Immediate_Trk_Listening_if_VPNCall')">Immediate Trk Listening if VPNCall
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Immediate_Trk_Listening_if_VPNCall', 
+    'fa-sort-asc': (column == 'Immediate_Trk_Listening_if_VPNCall' && !isDesc), 
+    'fa-sort-desc': (column == 'Immediate_Trk_Listening_if_VPNCall' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th (click)="sort('VPN_TS_')">VPN TS
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'VPN_TS_', 
+    'fa-sort-asc': (column == 'VPN_TS_' && !isDesc), 
+    'fa-sort-desc': (column == 'VPN_TS_' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('CSTA_Monitored')">CSTA Monitored
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'CSTA_Monitored', 
+    'fa-sort-asc': (column == 'CSTA_Monitored' && !isDesc), 
+    'fa-sort-desc': (column == 'CSTA_Monitored' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('Max_of_trunks_out_CCD')">Max of Trunks out CCD
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Max_of_trunks_out_CCD', 
+    'fa-sort-asc': (column == 'Max_of_trunks_out_CCD' && !isDesc), 
+    'fa-sort-desc': (column == 'Max_of_trunks_out_CCD' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('Charge_Calling_And_ADN_Creation')">Charge Calling And ADN Creation
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Charge_Calling_And_ADN_Creation', 
+    'fa-sort-asc': (column == 'Charge_Calling_And_ADN_Creation' && !isDesc), 
+    'fa-sort-desc': (column == 'Charge_Calling_And_ADN_Creation' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('Ratio_analogto_ISDN_cost')">Ratio Analogto ISDN Cost
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Ratio_analogto_ISDN_cost', 
+    'fa-sort-asc': (column == 'Ratio_analogto_ISDN_cost' && !isDesc), 
+    'fa-sort-desc': (column == 'Ratio_analogto_ISDN_cost' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('Collect_Calls_Allowed')">Collect Calls Allowed
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Collect_Calls_Allowed', 
+    'fa-sort-asc': (column == 'Collect_Calls_Allowed' && !isDesc), 
+    'fa-sort-desc': (column == 'Collect_Calls_Allowed' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('Priority_of_Call')">Priority of Call
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Priority_of_Call', 
+    'fa-sort-asc': (column == 'Priority_of_Call' && !isDesc), 
+    'fa-sort-desc': (column == 'Priority_of_Call' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('PCM_Network_Mode')">PCM Network Mode
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'PCM_Network_Mode', 
+    'fa-sort-asc': (column == 'PCM_Network_Mode' && !isDesc), 
+    'fa-sort-desc': (column == 'PCM_Network_Mode' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th (click)="sort('Logical_Channel')">Logical Channel
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Logical_Channel', 
+    'fa-sort-asc': (column == 'Logical_Channel' && !isDesc), 
+    'fa-sort-desc': (column == 'Logical_Channel' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('TS_Distribution_on_Accesses')">TS Distribution on Accesses
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'TS_Distribution_on_Accesses', 
+    'fa-sort-asc': (column == 'TS_Distribution_on_Accesses' && !isDesc), 
+    'fa-sort-desc': (column == 'TS_Distribution_on_Accesses' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('Use_Split_Access')">Use Split Access
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Use_Split_Access', 
+    'fa-sort-asc': (column == 'Use_Split_Access' && !isDesc), 
+    'fa-sort-desc': (column == 'Use_Split_Access' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('Heterogeneous_Remote_Network	')">Heterogeneous Remote Network
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Heterogeneous_Remote_Network', 
+    'fa-sort-asc': (column == 'Heterogeneous_Remote_Network	' && !isDesc), 
+    'fa-sort-desc': (column == 'Heterogeneous_Remote_Network	' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('COS_Restrictions___Barring_mode')">COS Restrictions Barring Mode
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'COS_Restrictions___Barring_mode', 
+    'fa-sort-asc': (column == 'COS_Restrictions___Barring_mode' && !isDesc), 
+    'fa-sort-desc': (column == 'COS_Restrictions___Barring_mode' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th (click)="sort('ARS_Class_of_service')">ARS Class of Service
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'ARS_Class_of_service', 
+    'fa-sort-asc': (column == 'ARS_Class_of_service' && !isDesc), 
+    'fa-sort-desc': (column == 'ARS_Class_of_service' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('Megacom_Service')">Megacom Service
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Megacom_Service', 
+    'fa-sort-asc': (column == 'Megacom_Service' && !isDesc), 
+    'fa-sort-desc': (column == 'Megacom_Service' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('SDN_Service')">SDN Service
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'SDN_Service', 
+    'fa-sort-asc': (column == 'SDN_Service' && !isDesc), 
+    'fa-sort-desc': (column == 'SDN_Service' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('Quality_profile_for_voice_over_IP')">Quality Profile for Voice Over IP
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Quality_profile_for_voice_over_IP', 
+    'fa-sort-asc': (column == 'Quality_profile_for_voice_over_IP' && !isDesc), 
+    'fa-sort-desc': (column == 'Quality_profile_for_voice_over_IP' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th (click)="sort('IP_Compression_Type	')">IP Compression Type
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'IP_Compression_Type	', 
+    'fa-sort-asc': (column == 'IP_Compression_Type	' && !isDesc), 
+    'fa-sort-desc': (column == 'IP_Compression_Type	' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('Use_of_volume_in_system')">Use_of_volume_in_system
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Use_of_volume_in_system', 
+    'fa-sort-asc': (column == 'Use_of_volume_in_system' && !isDesc), 
+    'fa-sort-desc': (column == 'Use_of_volume_in_system' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('Local_Volume_dB')">Local_Volume_dB
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Local_Volume_dB', 
+    'fa-sort-asc': (column == 'Local_Volume_dB' && !isDesc), 
+    'fa-sort-desc': (column == 'Local_Volume_dB' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('External_Access_Server')">External_Access_Server
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'External_Access_Server', 
+    'fa-sort-asc': (column == 'External_Access_Server' && !isDesc), 
+    'fa-sort-desc': (column == 'External_Access_Server' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('CSTA_Tracking_MCDU_Trk')">CSTA_Tracking_MCDU_Trk
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'CSTA_Tracking_MCDU_Trk', 
+    'fa-sort-asc': (column == 'CSTA_Tracking_MCDU_Trk' && !isDesc), 
+    'fa-sort-desc': (column == 'CSTA_Tracking_MCDU_Trk' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('IE_External_Forward')">IE_External_Forward
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'IE_External_Forward', 
+    'fa-sort-asc': (column == 'IE_External_Forward' && !isDesc), 
+    'fa-sort-desc': (column == 'IE_External_Forward' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('Announcement_for_dial_tone')">Announcement_for_dial_tone
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Announcement_for_dial_tone', 
+    'fa-sort-asc': (column == 'Announcement_for_dial_tone' && !isDesc), 
+    'fa-sort-desc': (column == 'Announcement_for_dial_tone' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('Announcement_for_Ring_tone')">Announcement_for_Ring_tone
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Announcement_for_Ring_tone', 
+    'fa-sort-asc': (column == 'Announcement_for_Ring_tone' && !isDesc), 
+    'fa-sort-desc': (column == 'Announcement_for_Ring_tone' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('Reroute_Anonymous_Calls_to_Entity')">Reroute_Anonymous_Calls_to_Entity
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Reroute_Anonymous_Calls_to_Entity', 
+    'fa-sort-asc': (column == 'Reroute_Anonymous_Calls_to_Entity' && !isDesc), 
+    'fa-sort-desc': (column == 'Reroute_Anonymous_Calls_to_Entity' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th (click)="sort('Max_ABCF_IP_and_SIP_connections')">Max ABCF IP and SIP Connections
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Max_ABCF_IP_and_SIP_connections', 
+    'fa-sort-asc': (column == 'Max_ABCF_IP_and_SIP_connections' && !isDesc), 
+    'fa-sort-desc': (column == 'Max_ABCF_IP_and_SIP_connections' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+                <th hidden (click)="sort('X25_SynchronizationX25_Cluster_access')">X25_SynchronizationX25_Cluster_access
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'X25_SynchronizationX25_Cluster_access', 
+    'fa-sort-asc': (column == 'X25_SynchronizationX25_Cluster_access' && !isDesc), 
+    'fa-sort-desc': (column == 'X25_SynchronizationX25_Cluster_access' && isDesc) }" aria-hidden="true"> </i>
+                </th>
+            </tr>
+            <!--rankSearch -->
+            <tbody *ngFor="let emp of EmployeeDetails |orderBy: {property: column, direction: direction} | paginate: {itemsPerPage: 10, currentPage:page, id: '1'}  ; let i = index">
+                <tr (click)="setClickedRow(emp)" [class.active]="emp.highLightRow">
+                    <!-- <td class="no-word-wrap fixed-1">
+                        <a *ngIf="checkOperation('1','5')" class="primary-color cursor-pointer table-action-icon fa fa-envelope fa-lg" title="{{'Send Sms'| translate}}"
+                            (click)="showSMSPopup(emp)"></a>
+                    </td> -->
+                    <td [ngClass]="!isLangArabic? 'fixed-1' : 'fixed-ar-1'" >{{emp.Node}}</td>
+                    <td [ngClass]="!isLangArabic? 'fixed-2' : 'fixed-ar-2'" style="text-align: center;width: 115px;">{{emp.Trunk_Groups}}</td>
+                    <td hidden class="word-break">{{emp.Instance_reserved}}</td>
+                    <td>{{emp.Trunk_Group_Type}}</td>
+                    <td>{{emp.T2_Specification}}</td>
+                    <td hidden>{{emp.Public_Network_Ref}}</td>
+                    <td hidden>{{emp.End_to_end_dialing}}</td>
+                    <td hidden>{{emp.DTMF_End_to_end_signal}}</td>
+                    <td hidden>{{emp.Paying_Incoming_Calls}}</td>
+                    <td hidden>{{emp.TS_Permanently_assigned}}</td>
+                    <td hidden>{{emp.Min_No_of_digits_on_seize}}</td>
+                    <td hidden>{{emp.Signalwith_access_code}}</td>
+                    <td hidden>{{emp.Trunk_group_used_in_DISA }}</td>
+                    <td hidden>{{emp.DISA_Secret_Code}}</td>
+                    <td hidden>{{emp.VG_for_non_existent_No}}</td>
+                    <td hidden>{{emp.Routing_To_Manager}}</td>
+                    <td>{{emp.Trunk_COS}}</td>
+                    <td hidden>{{emp.Sending_of_Progress_message }}</td>
+                    <td hidden>{{emp.No_of_digits_unused_ISDN}}</td>
+                    <td>{{emp.B_Channel_Choice}}</td>
+                    <td hidden>{{emp.Channels_Attendant_Control_Rsvd}}</td>
+                    <td hidden>{{emp.Redirection_For_ACD_Dissuasion}}</td>
+                    <td hidden>{{emp.DTO_joining }}</td>
+                    <td hidden>{{emp.Consultation_Call_On_B_Channel}}</td>
+                    <td hidden>{{emp.DID_Mode }}</td>
+                    <td hidden>{{emp.Automated_Attendant}}</td>
+                    <td hidden>{{emp.Calling_party_Rights_COS }}</td>
+                    <td>{{emp.Entity_Number}}</td>
+                    <td hidden>{{emp.TS_Overflow}}</td>
+                    <td hidden>{{emp.Number_To_Be_Added}}</td>
+                    <td>{{emp.Supervised_by_Routing}}</td>
+                    <td hidden>{{emp.Access_Cluster_ID}}</td>
+                    <td hidden>{{emp.VPN_Cost_Limit_for_IncomCalls}}</td>
+                    <td hidden>{{emp.Immediate_Trk_Listening_if_VPNCall}}</td>
+                    <td>{{emp.VPN_TS_}}</td>
+                    <td hidden>{{emp.CSTA_Monitored}}</td>
+                    <td hidden>{{emp.Max_of_trunks_out_CCD}}</td>
+                    <td hidden>{{emp.Charge_Calling_And_ADN_Creation}}</td>
+                    <td hidden>{{emp.Ratio_analogto_ISDN_cost}}</td>
+                    <td hidden>{{emp.Collect_Calls_Allowed}}</td>
+                    <td hidden>{{emp.Priority_of_Call}}</td>
+                    <td hidden>{{emp.PCM_Network_Mode}}</td>
+                    <td>{{emp.Logical_Channel}}</td>
+                    <td hidden>{{emp.TS_Distribution_on_Accesses}}</td>
+                    <td hidden>{{emp.Use_Split_Access}}</td>
+                    <td hidden>{{emp.Heterogeneous_Remote_Network}}</td>
+                    <td hidden>{{emp.COS_Restrictions___Barring_mode}}</td>
+                    <td>{{emp.ARS_Class_of_service}}</td>
+                    <td hidden>{{emp.Megacom_Service}}</td>
+                    <td hidden>{{emp.SDN_Service}}</td>
+                    <td hidden>{{emp.Quality_profile_for_voice_over_IP}}</td>
+                    <td>{{emp.IP_Compression_Type}}</td>
+                    <td hidden>{{emp.Use_of_volume_in_system}}</td>
+                    <td hidden>{{emp.Local_Volume_dB}}</td>
+                    <td hidden>{{emp.External_Access_Server}}</td>
+                    <td hidden>{{emp.CSTA_Tracking_MCDU_Trk}}</td>
+                    <td hidden>{{emp.IE_External_Forward}}</td>
+                    <td hidden>{{emp.Announcement_for_dial_tone}}</td>
+                    <td hidden>{{emp.Announcement_for_Ring_tone }}</td>
+                    <td hidden>{{emp.Reroute_Anonymous_Calls_to_Entity}}</td>
+                    <td>{{emp.Max_ABCF_IP_and_SIP_connections}}</td>
+                    <td hidden>{{emp.X25_SynchronizationX25_Cluster_access}}</td>
+                </tr>
+                <ng-container *ngIf="emp?.hideInnerEmpRow">
+                    <tr rowspan="99" class="inner-tr" [ngClass]="emp.hideInnerEmpRow? 'display-block':'hidden-row'">
+                        <td class="bk-dark border-bottom" colspan="99">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="inner-table-th inline-display inline-th-align top-vertical-align">
+                                        {{ 'TEL-Office' | translate }}:
+                                    </div>
+                                    <div class="inline-display inline-content-margin">
+                                        <div>
+                                            {{emp.OfficeTelephone1}}</div>
+                                        <div>
+                                            {{emp.OfficeTelephone2}}</div>
+                                        <div>
+                                            {{emp.OfficeTelephone3}}</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="inner-table-th inline-display inline-th-align top-vertical-align">
+                                        {{ 'TEL-Mobile' | translate }}:
+                                    </div>
+                                    <div class="inline-display inline-content-margin">
+                                        <div>
+                                            {{emp.Mobile}}</div>
+    
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <!-- <td> <span>Office Telephone:</span> <span>{{emp.telephoneOffice}}</span></td>
+          <td><span>Mobile Telephone:</span><span>{{emp.telephoneMobile}}</span></td> -->
+    
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+    </div>
+    <div class="right-align">
+        <pagination-controls (pageChange)="page = $event" id="1" maxSize="5" directionLinks="true" autoHide="true">
+        </pagination-controls>
+    </div>
+</div>
+
+</div>
+<div class="form-row">
+    <bs-modal #modalDeactivate id="modalDeactivate" dir="{{!isLangArabic ?'ltr':'rtl'}}">
+        <bs-modal-header [showDismiss]="false">
+            <button type="button" class="close" data-dismiss="modal" [ngClass]="!isLangArabic? 'float-right':'float-left'">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <h4 class="modal-title">{{ 'Deactivate Employee' | translate }}</h4>
+        </bs-modal-header>
+        <bs-modal-body>
+            {{'Are you sure you want to deactivate this employee' | translate }}
+        </bs-modal-body>
+        <bs-modal-footer>
+            <button type="button" class="btn btn-danger" (click)='deactivateEmp()'>{{ 'Deactivate' | translate }}</button>
+            <button type="button" class="btn btn-default" (click)="hidePopUp('modalDeactivate')">{{ 'Cancel' | translate }}</button>
+
+        </bs-modal-footer>
+    </bs-modal>
+
+
+    <bs-modal #modalSendSMS id="modalSendSMS" dir="{{!isLangArabic ?'ltr':'rtl'}}">
+        <bs-modal-header [showDismiss]="false">
+            <button type="button" class="close" [ngClass]="!isLangArabic? 'float-right':'float-left'" data-dismiss="modal">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <h4 class="modal-title">{{'Send Sms'| translate }}</h4>
+            <br/>
+            <div class="modal-title" id="SendsmsModalLabel">
+                <label>{{'TO'| translate }}</label>
+                <span>
+                    <input type="text" class="form-control" [(ngModel)]="txtToNumber" id="ToMobileNo." placeholder="{{'Enter Contact No.'| translate }}"
+                        name="ToMobileNo" style="display: inline-block; width: 90%;" />
+                </span>
+            </div>
+        </bs-modal-header>
+        <bs-modal-body>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="SmsId">
+                            <input type="checkbox" [(ngModel)]="checkId" (click)="filterData('id')" /> {{ 'MilitaryId' | translate }}</label>
+                        <input type="text" class="form-control" [(ngModel)]="SmsId" placeholder="{{ 'ID' | translate }}" name="SmsId" />
+                    </div>
+                    <div class="form-group">
+                        <label for="SmsName">
+                            <input type="checkbox" [(ngModel)]="checkName" (click)="filterData('name')" /> {{ 'NAME' | translate }}</label>
+                        <input type="text" class="form-control" [(ngModel)]="SmsName" placeholder="{{ 'NAME' | translate }}" name="SmsName" />
+                    </div>
+                    <div class="form-group">
+                        <label for="SmsRank">
+                            <input type="checkbox" [(ngModel)]="checkRank" (click)="filterData('rank')" /> {{ 'RANK' | translate }}</label>
+                        <input type="email" class="form-control" [(ngModel)]="SmsRank" placeholder="{{ 'RANK' | translate }}" name="SmsRank" />
+                    </div>
+                    <div class="form-group">
+                        <label for="SmstelMobile">
+                            <!-- <input type="checkbox" [(ngModel)]="checkOfficePhone" (click)="filterData('offPhone')"/> -->
+                            {{ 'TEL-Office' | translate }}</label>
+                        <div>
+                            <input type="checkbox" [(ngModel)]="checkOfficePhone1" (click)="filterData('offPhone1')" />
+                            <input type="text" class="form-control textbox-with-checkBox" [(ngModel)]="SmstelOffice" placeholder="{{ 'TEL-Office' | translate }}"
+                                name="SmstelMobile" />
+                        </div>
+                        <div>
+                            <input type="checkbox" [(ngModel)]="checkOfficePhone2" (click)="filterData('offPhone2')" />
+                            <input type="text" class="form-control  textbox-with-checkBox" [(ngModel)]="SmstelOffice1" placeholder="{{ 'TEL-Office' | translate }}"
+                                name="SmstelOffice" style="margin-top: 5px; margin-bottom: 5px;" />
+                        </div>
+                        <div>
+                            <input type="checkbox" [(ngModel)]="checkOfficePhone3" (click)="filterData('offPhone3')" />
+                            <input type="text" class="form-control  textbox-with-checkBox" [(ngModel)]="SmstelOffice2" placeholder="{{ 'TEL-Office' | translate }}"
+                                name="SmstelOffice" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="SmsPosition">
+                            <input type="checkbox" [(ngModel)]="checkPosition" (click)="filterData('pos')" /> {{ 'POSITION' | translate }}</label>
+                        <input type="text" class="form-control" [(ngModel)]="SmsPosition" placeholder="{{ 'POSITION' | translate }}" name="SmsPosition"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="SmsCompany">
+                            <input type="checkbox" [(ngModel)]="checkDisList" (click)="filterData('disList')" /> {{ 'DistributionUnit' | translate }}</label>
+                        <input type="Text" class="form-control" [(ngModel)]="SmsDistributionUnit" placeholder="{{ 'DistributionUnit' | translate }}"
+                            name="SmsCompany" />
+                    </div>
+                    <!-- <div class="form-group">
+                            <label for="SmsCompany">
+                                <input type="checkbox" [(ngModel)]="checkComapny" (click)="filterData('com')"/>
+                                {{ 'COMPANY' | translate }}</label>
+                            <input type="Text" class="form-control" [(ngModel)]="SmsCompany" placeholder="{{ 'POSITION' | translate }}" name="SmsCompany" />
+                        </div>
+                        <div class="form-group">
+                            <label for="SmsRegiment" class="no-word-wrap">
+                                <input type="checkbox" [(ngModel)]="checkForce_Unit" (click)="filterData('frc')"/>
+                                {{ 'Force/Corps/Units/Regiment/Directorate' | translate }}</label>
+                            <input type="text" class="form-control" [(ngModel)]="SmsRegiment" placeholder="{{ 'Force/Corps/Units/Regiment/Directorate' | translate }}" name="SmsRegiment" />
+                        </div> -->
+                    <div class="form-group">
+                        <label for="SmstelOffice">
+                            <input type="checkbox" [(ngModel)]="checkMobile" (click)="filterData('mob')" /> {{ 'TEL-Mobile' | translate }}</label>
+                        <div>
+                            <!-- <input type="checkbox" /> -->
+                            <input type="text" class="form-control textbox-with-checkBox" [(ngModel)]="SmstelMobile" placeholder="{{ 'TEL-Mobile' | translate }}"
+                                name="SmstelOffice" />
+                        </div>
+                        <!-- <div>
+                                <input type="checkbox" />
+                                <input type="text" class="form-control  textbox-with-checkBox" [(ngModel)]="SmstelMobile1" placeholder="{{ 'TEL-Mobile' | translate }}"
+                                    name="SmstelOffice"  style="margin-top: 5px; margin-bottom: 5px;" />
+                            </div>
+                            <div>
+                                <input type="checkbox" />
+                                <input type="text" class="form-control  textbox-with-checkBox" [(ngModel)]="SmstelMobile2" placeholder="{{ 'TEL-Mobile' | translate }}"
+                                    name="SmstelOffice"/>
+                                </div> -->
+                    </div>
+                </div>
+            </div>
+        </bs-modal-body>
+        <bs-modal-footer>
+            <button type="button" class="primary-button btn btn-default" (click)='sendSMS()'>{{ 'Send' | translate }}</button>
+            <button type="button" class="btn btn-default" (click)="hidePopUp('modalSendSMS')">{{ 'Cancel' | translate }}</button>
+
+        </bs-modal-footer>
+    </bs-modal>
+
+
+    <bs-modal #modalImport id="modalImport" dir="{{!isLangArabic ?'ltr':'rtl'}}">
+        <bs-modal-header [showDismiss]="false">
+            <button type="button" class="close" data-dismiss="modal" [ngClass]="!isLangArabic? 'float-right':'float-left'">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <h4 class="modal-title">{{ 'Import Csv' | translate }}</h4>
+        </bs-modal-header>
+        <bs-modal-body>
+            {{'Upload Csv file' | translate }}
+            <input type="file" #fileImportInput name="csv_data" id="txtFileUpload" class="btn btn-primary" (change)="fileChangeListener($event)"
+                accept=".csv" />
+        </bs-modal-body>
+        <bs-modal-footer>
+            <button type="button" class="btn btn-primary" (click)="import()">{{ 'Import' | translate }}</button>
+            <button type="button" class="btn btn-default" (click)="hidePopUp('modalImport')">{{ 'Cancel' | translate }}</button>
+
+        </bs-modal-footer>
+    </bs-modal>
+</div>
+</div>

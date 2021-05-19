@@ -1,0 +1,1983 @@
+<header></header>
+<div class="Work_order">
+  <div class="card no-print">
+    <div class="row head" style="margin-left: 0px !important; margin-right: 0px !important;">
+      <div class="header">
+        <div class="row Pagename">
+          <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+            <b class="page-head">Work Order </b>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 ftrt" *ngIf="lastUpdatedDate">
+            Date Last Updated: {{ lastUpdatedDate }}
+          </div>
+        </div>
+        <div class="row srcrow">
+          <div class="col-lg-7 col-md-7 col-sm-7">
+            <form [formGroup]="searchForm" (ngSubmit)="OnSubmit(searchForm.value)">
+              <div class="search-form margin-bottom" formArrayName="items"
+                *ngFor="let item of items.controls; let i = index">
+                <div class="position-relative form-id-{{ i }}" [formGroupName]="i">
+                  <div class="row pos mlr-0">
+                    <div class="col-lg-4 col-md-4 col-sm-4" style="
+                        padding-right: 5px !important;
+                        padding-left: 0 !important;
+                      ">
+                      <select id="ddlselect{{ i }}" class="drop-down form-control text-center wd-100 inline-display"
+                        (change)="onChangesearch($event)" formControlName="fieldName">
+                        <option value="">Search</option>
+                        <option *ngFor="let state of searchKeyArray" [value]="state.item">{{ state.label }}</option>
+                      </select>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 col-md-4" style="padding-left: 0;">
+                      <input class="drop-down wd-100 form-control inline-display" type="text"
+                        formControlName="fieldValue" placeholder="value" />
+                    </div>
+                    <select class="hide drop-down form-control node-select" formControlName="fieldValue">
+                      <option value="">Select</option>
+                      <option *ngFor="let state of nodeArray" [value]="state">{{
+                        state
+                      }}</option>
+                    </select>
+                    <div class="col-lg-4 col-md-4 col-sm-4" style="padding: 0;">
+                      <button type="submit" class="primary mt-3" *ngIf="i == (items.length-1)" [disabled]="srcbut">
+                        {{ "Search" }}
+                      </button>
+                      <a class="inline-display add-anch" (click)="addItem()" *ngIf="i == (items.length-1)">{{
+                        "Add More"
+                      }}</a>
+                      <span class="vertical-line" *ngIf="i == (items.length-1)"></span>
+                      <a class="inline-display clr-anch" (click)="cancelSearch()" *ngIf="i == (items.length-1)">{{ "Clear" }}</a>
+                      <i class="fa fa-times custom primary-color cursor-pointer" *ngIf="!(i === 0)"
+                        (click)="deleteAction(i)" aria-hidden="true"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="col-lg-5 col-md-5 col-sm-5 h-6 ftrt">
+            <button *ngIf="checkOperation('11', '7')" type="button" class="btn btn-primary import mt-3"
+              (click)="showUploaPopUp('History')">
+              {{ "Import History" }}
+            </button>
+            <button *ngIf="checkOperation('11', '8')" type="button" class="btn btn-primary import mt-3"
+              (click)="exportToExcel('History')">
+              {{ "Export History" }}
+            </button>
+            <button *ngIf="checkOperation('11', '7')" type="button" class="btn btn-primary import mt-3"
+              (click)="showUploaPopUp('WO')">
+              {{ "Import WO" }}
+            </button>
+            <button *ngIf="checkOperation('11', '8')" type="button" class="btn btn-primary import mt-3"
+              (click)="exportToExcel('WO')">
+              {{ "Export WO" }}
+            </button>
+            <button *ngIf="checkOperation('11', '1')" type="button" class="btn btn-primary import mt-3"
+              routerLink="/work-order-form-exchange-info">
+              {{ "Add WO" }}
+            </button>
+            <button *ngIf="checkOperation('11', '1')" type="button" class="btn btn-primary import mt-3"
+              routerLink="/work-order-form-dp-info">
+              {{ "Add History" }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row workOrderMargin">
+      <div class="main margin-bottom no-print">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 plr-0">
+          <div id="tableContainer">
+            <!-- pabx-table -->
+            <table class="workOrder-table tbl-employee table highLightTable">
+              <tr class="tr-fonts">
+                <th *ngIf="checkOperation('11', '9')" colspan="19" class="mw"
+                  style="border-left: 2px solid #ddd !important;">
+                  Exchange Info
+                </th>
+                <th *ngIf="checkOperation('11', '10')" colspan="22" class="mw">
+                  DP Info
+                </th>
+                <th *ngIf="checkOperation('11', '11')" colspan="8" class="mw" >
+                  General Info
+                </th>
+              </tr>
+              <tr class="tr-fonts" style="background-color: transparent !important;">
+                <th class="fixed-1 cursor-pointer fixth" (click)="toggleAdvanceSearch()">
+                  <span class="fa fa-search" title="show Advance Search"></span>
+                </th>
+                <th class="fixed-2 fixth">Action</th>
+                <!-- Exchange info starts  -->
+                <th class="mw" (click)="sort('telephone_no')" style="border-left: 2px solid #ddd !important;">
+                  Telephone #.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'telephone_no',
+                      'fa-sort-asc': column == 'telephone_no' && !isDesc,
+                      'fa-sort-desc': column == 'telephone_no' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th *ngIf="checkOperation('11', '9')" class="mw" (click)="sort('linked')">
+                  Linked #.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'linked',
+                      'fa-sort-asc': column == 'linked' && !isDesc,
+                      'fa-sort-desc': column == 'linked' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th *ngIf="checkOperation('11', '9')" class="mw" (click)="sort('sw_workorder_no')">
+                  S/W Work Order #.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'sw_workorder_no',
+                      'fa-sort-asc': column == 'sw_workorder_no' && !isDesc,
+                      'fa-sort-desc': column == 'sw_workorder_no' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th *ngIf="checkOperation('11', '9')" class="mw" (click)="sort('manual_workorder_no')">
+                  Manual Work Order #.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'manual_workorder_no',
+                      'fa-sort-asc': column == 'manual_workorder_no' && !isDesc,
+                      'fa-sort-desc': column == 'manual_workorder_no' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th *ngIf="checkOperation('11', '9')" class="mw" (click)="sort('set_type')">
+                  Set Type.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'set_type',
+                      'fa-sort-asc': column == 'set_type' && !isDesc,
+                      'fa-sort-desc': column == 'set_type' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th *ngIf="checkOperation('11', '9')" class="mw" (click)="sort('type_of_work')">
+                  Type of Work.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'type_of_work',
+                      'fa-sort-asc': column == 'type_of_work' && !isDesc,
+                      'fa-sort-desc': column == 'type_of_work' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th *ngIf="checkOperation('11', '9')" class="mw" (click)="sort('node_no')">
+                  Node #.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'node_no',
+                      'fa-sort-asc': column == 'node_no' && !isDesc,
+                      'fa-sort-desc': column == 'node_no' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th *ngIf="checkOperation('11', '9')" class="mw" (click)="sort('act_no')">
+                  Act #.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'act_no',
+                      'fa-sort-asc': column == 'act_no' && !isDesc,
+                      'fa-sort-desc': column == 'act_no' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th *ngIf="checkOperation('11', '9')" class="mw" (click)="sort('cct_no')">
+                  CCT #.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'cct_no',
+                      'fa-sort-asc': column == 'cct_no' && !isDesc,
+                      'fa-sort-desc': column == 'cct_no' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th *ngIf="checkOperation('11', '9')" class="mw" (click)="sort('camp_name')">
+                  Camp Name.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'camp_name',
+                      'fa-sort-asc': column == 'camp_name' && !isDesc,
+                      'fa-sort-desc': column == 'camp_name' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th *ngIf="checkOperation('11', '9')" class="mw" (click)="sort('unit')">
+                  Force/Unit.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'unit',
+                      'fa-sort-asc': column == 'unit' && !isDesc,
+                      'fa-sort-desc': column == 'unit' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th *ngIf="checkOperation('11', '9')" class="mw" (click)="sort('exchange')">
+                  Exchange.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'exchange',
+                      'fa-sort-asc': column == 'exchange' && !isDesc,
+                      'fa-sort-desc': column == 'exchange' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th *ngIf="checkOperation('11', '9')" class="mw" (click)="sort('position')">
+                  Position.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'position',
+                      'fa-sort-asc': column == 'position' && !isDesc,
+                      'fa-sort-desc': column == 'position' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th *ngIf="checkOperation('11', '9')" class="mw" (click)="sort('user_type')">
+                  User Type.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'user_type',
+                      'fa-sort-asc': column == 'user_type' && !isDesc,
+                      'fa-sort-desc': column == 'user_type' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th *ngIf="checkOperation('11', '9')" class="mw" (click)="sort('user_name')">
+                  User Name.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'user_name',
+                      'fa-sort-asc': column == 'user_name' && !isDesc,
+                      'fa-sort-desc': column == 'user_name' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th *ngIf="checkOperation('11', '9')" class="mw" (click)="sort('created_by')">
+                  Created By.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'created_by',
+                      'fa-sort-asc': column == 'created_by' && !isDesc,
+                      'fa-sort-desc': column == 'created_by' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th *ngIf="checkOperation('11', '9')" class="mw" (click)="sort('created_date')">
+                  Created Date.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'created_date',
+                      'fa-sort-asc': column == 'created_date' && !isDesc,
+                      'fa-sort-desc': column == 'created_date' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th *ngIf="checkOperation('11', '9')" class="mw" (click)="sort('status')">
+                  Exchange Status.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'status',
+                      'fa-sort-asc': column == 'status' && !isDesc,
+                      'fa-sort-desc': column == 'status' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <!-- Exchange infor ends  -->
+                <!-- Dp info starts  -->
+                <th class="mw" *ngIf="checkOperation('11', '10')" (click)="sort('dp_name')" style="border-left: 2px solid #ddd !important;">
+                  DP Name.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'dp_name',
+                      'fa-sort-asc': column == 'dp_name' && !isDesc,
+                      'fa-sort-desc': column == 'dp_name' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th class="mw" *ngIf="checkOperation('11', '10')" (click)="sort('dp_location')">
+                  DP Location.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'dp_location',
+                      'fa-sort-asc': column == 'dp_location' && !isDesc,
+                      'fa-sort-desc': column == 'dp_location' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th *ngIf="checkOperation('11', '10')" (click)="sort('dp_capacity')" class="mw">
+                  DP capacity.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'dp_capacity',
+                      'fa-sort-asc': column == 'dp_capacity' && !isDesc,
+                      'fa-sort-desc': column == 'dp_capacity' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th class="mw" *ngIf="checkOperation('11', '10')" (click)="sort('dp_no')">
+                  DP #.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'dp_no',
+                      'fa-sort-asc': column == 'dp_no' && !isDesc,
+                      'fa-sort-desc': column == 'dp_no' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th class="mw" *ngIf="checkOperation('11', '10')" (click)="sort('pair_no')">
+                  DP Pair #.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'pair_no',
+                      'fa-sort-asc': column == 'pair_no' && !isDesc,
+                      'fa-sort-desc': column == 'pair_no' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th class="mw" *ngIf="checkOperation('11', '10')" (click)="sort('dp_status')">
+                  DP Status #.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'dp_status',
+                      'fa-sort-asc': column == 'dp_status' && !isDesc,
+                      'fa-sort-desc': column == 'dp_status' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th class="mw" *ngIf="checkOperation('11', '10')" (click)="sort('dp_ooredoodp')">
+                  Service Provider DP #.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'dp_ooredoodp',
+                      'fa-sort-asc': column == 'dp_ooredoodp' && !isDesc,
+                      'fa-sort-desc': column == 'dp_ooredoodp' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th class="mw" *ngIf="checkOperation('11', '10')" (click)="sort('dp_ooredoopair')">
+                  Service Provider Pair#.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'dp_ooredoopair',
+                      'fa-sort-asc': column == 'dp_ooredoopair' && !isDesc,
+                      'fa-sort-desc': column == 'dp_ooredoopair' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th class="mw" *ngIf="checkOperation('11', '10')" (click)="sort('dp_ooredoomdf')">
+                  Service Provider MDF.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'dp_ooredoomdf',
+                      'fa-sort-asc': column == 'dp_ooredoomdf' && !isDesc,
+                      'fa-sort-desc': column == 'dp_ooredoomdf' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th class="mw" *ngIf="checkOperation('11', '10')" (click)="sort('dp_createdby')">
+                  Created By.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'dp_createdby',
+                      'fa-sort-asc': column == 'dp_createdby' && !isDesc,
+                      'fa-sort-desc': column == 'dp_createdby' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th class="mw" *ngIf="checkOperation('11', '10')" (click)="sort('dp_createddate')">
+                  Created Date.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'dp_createddate',
+                      'fa-sort-asc': column == 'dp_createddate' && !isDesc,
+                      'fa-sort-desc': column == 'dp_createddate' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th class="mw" *ngIf="checkOperation('11', '10')" (click)="sort('dp_remarks')">
+                  Remarks.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'dp_remarks',
+                      'fa-sort-asc': column == 'dp_remarks' && !isDesc,
+                      'fa-sort-desc': column == 'dp_remarks' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th class="mw" *ngIf="checkOperation('11', '10')" (click)="sort('dp_installedby')">
+                  Installed By.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'dp_installedby',
+                      'fa-sort-asc': column == 'dp_installedby' && !isDesc,
+                      'fa-sort-desc': column == 'dp_installedby' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th class="mw" *ngIf="checkOperation('11', '10')" (click)="sort('dp_installeddate')">
+                  Installed Date.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'dp_installeddate',
+                      'fa-sort-asc': column == 'dp_installeddate' && !isDesc,
+                      'fa-sort-desc': column == 'dp_installeddate' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th class="mw" *ngIf="checkOperation('11', '10')" (click)="sort('dp_recordedby')">
+                  Recorded By.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'dp_recordedby',
+                      'fa-sort-asc': column == 'dp_recordedby' && !isDesc,
+                      'fa-sort-desc': column == 'dp_recordedby' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th class="mw" *ngIf="checkOperation('11', '10')" (click)="sort('dp_mdfverticalfrom')">
+                  MDF-Vertical From.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'dp_mdfverticalfrom',
+                      'fa-sort-asc':
+                        column == 'dp_mdfverticalfrom' && !isDesc,
+                      'fa-sort-desc': column == 'dp_mdfverticalfrom' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th class="mw" *ngIf="checkOperation('11', '10')" (click)="sort('dp_mdfpairnofrom')">
+                  MDF-Pair # From.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'dp_mdfpairnofrom',
+                      'fa-sort-asc': column == 'dp_mdfpairnofrom' && !isDesc,
+                      'fa-sort-desc': column == 'dp_mdfpairnofrom' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th class="mw" *ngIf="checkOperation('11', '10')" (click)="sort('dp_cablenofrom')">
+                  Cable Info From.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'dp_cablenofrom',
+                      'fa-sort-asc': column == 'dp_cablenofrom' && !isDesc,
+                      'fa-sort-desc': column == 'dp_cablenofrom' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th class="mw" *ngIf="checkOperation('11', '10')" (click)="sort('dp_mdfverticalto')">
+                  MDF-Vertical To.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'dp_mdfverticalto',
+                      'fa-sort-asc': column == 'dp_mdfverticalto' && !isDesc,
+                      'fa-sort-desc': column == 'dp_mdfverticalto' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th class="mw" *ngIf="checkOperation('11', '10')" (click)="sort('dp_pairnoto')">
+                  MDF-Pair # To.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'dp_pairnoto',
+                      'fa-sort-asc': column == 'dp_pairnoto' && !isDesc,
+                      'fa-sort-desc': column == 'dp_pairnoto' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th class="mw" *ngIf="checkOperation('11', '10')" (click)="sort('dp_cablenoto')">
+                  Cable Info To.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'dp_cablenoto',
+                      'fa-sort-asc': column == 'dp_cablenoto' && !isDesc,
+                      'fa-sort-desc': column == 'dp_cablenoto' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th class="mw" *ngIf="checkOperation('11', '10')" (click)="sort('dp_additionalinfo')">
+                  Additional Info.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'dp_additionalinfo',
+                      'fa-sort-asc': column == 'dp_additionalinfo' && !isDesc,
+                      'fa-sort-desc': column == 'dp_additionalinfo' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <!-- dp info ends  -->
+                <!-- general info starts  -->
+                <th *ngIf="checkOperation('11', '11')" class="mw" (click)="sort('gn_requestfrom')" style="border-left: 2px solid #ddd !important;">
+                  Request From.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'gn_requestfrom',
+                      'fa-sort-asc': column == 'gn_requestfrom' && !isDesc,
+                      'fa-sort-desc': column == 'gn_requestfrom' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th *ngIf="checkOperation('11', '11')" class="mw" (click)="sort('gn_requestto')">
+                  Request To.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'gn_requestto',
+                      'fa-sort-asc': column == 'gn_requestto' && !isDesc,
+                      'fa-sort-desc': column == 'gn_requestto' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th *ngIf="checkOperation('11', '11')" class="mw" (click)="sort('gn_requestby')">
+                  Request By.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'gn_requestby',
+                      'fa-sort-asc': column == 'gn_requestby' && !isDesc,
+                      'fa-sort-desc': column == 'gn_requestby' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th *ngIf="checkOperation('11', '11')" class="mw" (click)="sort('gn_approvedby')">
+                  Approved By.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'gn_approvedby',
+                      'fa-sort-asc': column == 'gn_approvedby' && !isDesc,
+                      'fa-sort-desc': column == 'gn_approvedby' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th *ngIf="checkOperation('11', '11')" class="mw" (click)="sort('gn_storedemandno')">
+                  Store Demand #.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'gn_storedemandno',
+                      'fa-sort-asc': column == 'gn_storedemandno' && !isDesc,
+                      'fa-sort-desc': column == 'gn_storedemandno' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th *ngIf="checkOperation('11', '11')" class="mw" (click)="sort('gn_recordfileno')">
+                  Record File #.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'gn_recordfileno',
+                      'fa-sort-asc': column == 'gn_recordfileno' && !isDesc,
+                      'fa-sort-desc': column == 'gn_recordfileno' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th *ngIf="checkOperation('11', '11')" class="mw" (click)="sort('gn_cableno')">
+                  Cable Info.
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'gn_cableno',
+                      'fa-sort-asc': column == 'gn_cableno' && !isDesc,
+                      'fa-sort-desc': column == 'gn_cableno' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <th *ngIf="checkOperation('11', '11')" class="mw" (click)="sort('gn_cabledistance')"
+                  style="border-right: 2px solid #ddd !important;">
+                  Cable Distance(m).
+                  <i class="fa" [ngClass]="{
+                      'fa-sort': column != 'gn_cabledistance',
+                      'fa-sort-asc': column == 'gn_cabledistance' && !isDesc,
+                      'fa-sort-desc': column == 'gn_cabledistance' && isDesc
+                    }" aria-hidden="true">
+                  </i>
+                </th>
+                <!-- cable info ends      -->
+              </tr>
+              <tbody class="searchBox" *ngIf="showAdvanceSearch" [ngClass]="{ 'hidden-menu': !showMenu }">
+                <tr>
+                  <td class="fixed-1">
+                    <span class="cursor-pointer fa fa-expand pb-12 dont"
+                      (click)="toggleHiddenEmpRow(exchangeInfo)"></span>
+                  </td>
+                  <td class="fixed-2 vertically-align-middle pb-12" (click)="closeandClearAdvanceSearch()">
+                    <span class="glyphicon glyphicon-remove cursor-pointer primary-color pb-12"></span>
+                  </td>
+                  <!-- search field forexchange info starts here  -->
+                  <!-- telephone search box -->
+                  <td style="border-left: 2px solid #ddd !important;">
+                    <input type="text" name="searchexTelephoneNo" [(ngModel)]="searchexTelephoneNo"
+                      class="WoSearchBoxWidth textbox-height form-control" placeholder="{{ 'Telephone #' }}" />
+                  </td>
+                  <!-- linked search box -->
+                  <td *ngIf="checkOperation('11', '9')">
+                    <input type="text" name="linkedno" [(ngModel)]="Linkedno"
+                      class="WoSearchBoxWidth textbox-height form-control" placeholder="{{ 'Linked #' }}" />
+                  </td>
+                  <!-- S/W work order search box  -->
+                  <td *ngIf="checkOperation('11', '9')">
+                    <input type="text" name="EXSWOrder" [(ngModel)]="EXSWOrder"
+                      class="WoSearchBoxWidth textbox-height form-control" placeholder="{{ 'S/W Work Order #' }}" />
+                  </td>
+                  <!-- Manual work order search box  -->
+                  <td *ngIf="checkOperation('11', '9')">
+                    <input type="text" name="searchManualWorkOrder" [(ngModel)]="searchManualWorkOrder"
+                      class="WoSearchBoxWidth textbox-height form-control" placeholder="{{ 'Manual Work Order #' }}" />
+                  </td>
+                  <!-- set type search box  -->
+                  <td *ngIf="checkOperation('11', '9')">
+                    <select class="form-control WoSearchBoxWidth textbox-height" [(ngModel)]="searchSetType">
+                      <option class="searchAlign" selected value="">{{ "Set Type" }}
+                      </option>
+                      <option *ngFor="let st of SetType" [value]="st.type">{{
+                        st.type
+                      }}</option>
+                    </select>
+                  </td>
+                  <!-- type of work search box  -->
+                  <td *ngIf="checkOperation('11', '9')">
+                    <select class="form-control WoSearchBoxWidth textbox-height" [(ngModel)]="searchTypeOfWork">
+                      <option class="searchAlign" selected value="">{{ "Work Type" }}
+                      </option>
+                      <option *ngFor="let wt of WorkType" [value]="wt.WorkType">{{ wt.WorkType }}</option>
+                    </select>
+                  </td>
+                  <!-- node search box -->
+                  <td *ngIf="checkOperation('11', '9')">
+                    <select class="form-control WoSearchBoxWidth textbox-height" [(ngModel)]="searchNoneNo"
+                      name="nodeArray">
+                      <option class="searchAlign" value="">{{ "Node #" }}
+                      </option>
+                      <option *ngFor="let node of nodeArray" [value]="node">{{
+                        node
+                      }}</option>
+                      <option [value]="N / A">{{ "N/A" }}</option>
+                    </select>
+                  </td>
+                  <!-- act search box -->
+                  <td *ngIf="checkOperation('11', '9')">
+                    <select class="form-control WoSearchBoxWidth textbox-height" [(ngModel)]="searchActNo"
+                      name="actArray">
+                      <option class="searchAlign" value="">{{ "Act #" }}
+                      </option>
+                      <option *ngFor="let act of actArray" [value]="act.act_value">{{ act.label }}</option>
+                    </select>
+                  </td>
+                  <!-- cct search box -->
+                  <td *ngIf="checkOperation('11', '9')">
+                    <input type="text" name="searchCCTNo" [(ngModel)]="searchCCTNo"
+                      class="WoSearchBoxWidth textbox-height form-control" placeholder="{{ 'CCT #' }}" />
+                  </td>
+                  <!-- camp name search box -->
+                  <td *ngIf="checkOperation('11', '9')">
+                    <select class="form-control WoSearchBoxWidth textbox-height" [(ngModel)]="searchCampName"
+                      name="searchCampName">
+                      <option class="searchAlign" value="">{{ "Camp Name" }}
+                      </option>
+                      <option *ngFor="let ci of CampInfo" [value]="ci.camp_name">{{ ci.camp_name }}</option>
+                    </select>
+                  </td>
+                  <!-- force/unit search box -->
+                  <td *ngIf="checkOperation('11', '9')">
+                    <select class="form-control WoSearchBoxWidth textbox-height" [(ngModel)]="searchUnit" (change)="forceUnitChange()"
+                    name="searchCampName">
+                    <option class="searchAlign" value="">{{ "Force/Unit" }}
+                    </option>
+                    <option *ngFor="let ci of unitInfo" [value]="ci.unit">{{ ci.unit }}</option>
+                  </select>
+                    <!-- <input type="text" name="searchUnit" class="WoSearchBoxWidth textbox-height form-control"
+                      [(ngModel)]="searchUnit" placeholder="{{ 'Unit' }}" /> -->
+                  </td>
+                  <!-- exchange search box -->
+                  <td *ngIf="checkOperation('11', '9')">
+                    <input type="text" name="ExchangeNo" class="WoSearchBoxWidth textbox-height form-control"
+                      [(ngModel)]="ExchangeNo" placeholder="{{ 'Exchange' }}" />
+                  </td>
+                  <!-- position search box -->
+                  <td *ngIf="checkOperation('11', '9')">
+                    <input type="text" name="searchPosition" class="WoSearchBoxWidth textbox-height form-control"
+                      [(ngModel)]="searchPosition" placeholder="{{ 'Position' }}" />
+                  </td>
+                  <!-- user type search box -->
+                  <td *ngIf="checkOperation('11', '9')">
+                    <select class="WoSearchBoxWidth textbox-height form-control" [(ngModel)]="searchUserType"
+                      name="UserType">
+                      <option value="">User type</option>
+                      <option *ngFor="let st of UserType" [value]="st.value">{{
+                        st.label
+                      }}</option>
+                    </select>
+                  </td>
+
+                   <!-- user name search box -->
+                  <td *ngIf="checkOperation('11', '9')">
+                    <input type="text" name="searchUserName" [(ngModel)]="searchUserName"
+                      class="WoSearchBoxWidth textbox-height form-control" placeholder="{{ 'User Name' }}" />
+                  </td>
+                   <!-- Created Date search box -->
+                  <td *ngIf="checkOperation('11', '9')">
+                    <input type="text" name="searchCreatedBy" [(ngModel)]="searchCreatedBy"
+                      class="WoSearchBoxWidth textbox-height form-control" placeholder="{{ 'Created By' }}" />
+                  </td>
+                   <!-- user type search box -->
+                  <td *ngIf="checkOperation('11', '9')">
+                    <input type="text" name="searchCreatedDate" [(ngModel)]="searchCreatedDate"
+                      class="WoSearchBoxWidth textbox-height form-control" placeholder="{{ 'Created Date' }}" />
+                  </td>
+                   <!-- exchange status search box -->
+                  <td *ngIf="checkOperation('11', '9')">
+                    <select class="form-control WoSearchBoxWidth textbox-height" [(ngModel)]="searchStatus"
+                      name="status">
+                      <option class="searchAlign" value="">{{ "Status" }}
+                      </option>
+                      <option *ngFor="let st of ExchangeStatus" [value]="st.value">{{ st.label }}</option>
+                    </select>
+                  </td>
+                  <!-- search field for exchange info ends here  -->
+                  <!-- search field for dp info starts here  -->
+                  <!-- <td *ngIf="(checkOperation('11','10'))"  style="border-left: 2px solid #ddd !important; background-color: #c9e9f6 !important;">
+              <input type="text" name="search_dp_telephone" [(ngModel)]="search_dp_telephone"
+                class="WoSearchBoxWidth textbox-height form-control" placeholder="{{ 'search dp telephone' }}" />
+            </td> -->
+                  <td *ngIf="checkOperation('11', '10')" style="border-left: 2px solid #ddd !important;">
+                    <input type="text" name="searchdpname" [(ngModel)]="searchdpname"
+                      class="WoSearchBoxWidth textbox-height form-control" placeholder="{{ 'search dp name' }}" />
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    <input type="text" name="searchdplocation" [(ngModel)]="searchDpLocation"
+                      class="WoSearchBoxWidth textbox-height form-control" placeholder="{{ 'Search DP Location' }}" />
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    <input type="text" name="searchWorkOrderDpCapacity" [(ngModel)]="searchWorkOrderDpCapacity"
+                      class="searchWorkOrderDpCapacity textbox-height form-control" placeholder="{{ 'DP Capacity' }}" />
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    <input type="text" name="searchSwWorkOrderDpNo" [(ngModel)]="searchSwWorkOrderDpNo"
+                      class="searchSwWorkOrderDpNo textbox-height form-control" placeholder="{{ 'DP #' }}" />
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    <input type="text" name="searchSwWorkOrderPairNo" [(ngModel)]="searchSwWorkOrderPairNo"
+                      class="searchSwWorkOrderPairNo textbox-height form-control" placeholder="{{ 'DP Pair #' }}" />
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    <!-- <input type="text" name="searchSwWorkOrderDPStatus" [(ngModel)]="searchSwWorkOrderStatus"
+                      class="searchSwWorkOrderPairNo textbox-height form-control" placeholder="{{ 'DP Status #' }}" /> -->
+
+
+                      <select class="form-control searchSwWorkOrderDpLocation textbox-height"
+                      [(ngModel)]="searchSwWorkOrderStatus">
+                      <option class="searchAlign" value="">{{ "Dp Status" }}
+                      </option>
+                      <option *ngFor="let st of DPStatusvalues" [value]="st.value">{{ st.label }}</option>
+                    </select>
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    <input type="text" name="OoredooDp" [(ngModel)]="OoredooDp"
+                      class="searchSwWorkOrderPairNo textbox-height form-control" placeholder="{{ 'Service DP #' }}" />
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    <input type="text" name="Ooredoopair" [(ngModel)]="Ooredoopair"
+                      class="searchSwWorkOrderPairNo textbox-height form-control"
+                      placeholder="{{ 'Service Provider Pair#' }}" />
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    <input type="text" name="OoredooMDF" [(ngModel)]="OoredooMDF"
+                      class="searchSwWorkOrderPairNo textbox-height form-control" placeholder="{{ 'Service Provider MDF' }}" />
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    <input type="text" name="dpCreatedBy" [(ngModel)]="dpCreatedBy"
+                      class="searchSwWorkOrderPairNo textbox-height form-control" placeholder="{{ 'Created By' }}" />
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    <input type="text" name="dpc_Date" [(ngModel)]="dpcreatedDate"
+                      class="WoSearchBoxWidth textbox-height form-control" placeholder="{{ 'Created Date' }}" />
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    <input type="text" name="DP_Remarks" [(ngModel)]="DPRemarks"
+                      class="searchSwWorkOrderPairNo textbox-height form-control" placeholder="{{ 'Remarks' }}" />
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    <input type="text" name="InstalledBy" [(ngModel)]="InstalledBy"
+                      class="searchSwWorkOrderPairNo textbox-height form-control" placeholder="{{ 'Installed By' }}" />
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    <input type="text" name="InstalledDate" [(ngModel)]="InstalledDate"
+                      class="searchSwWorkOrderPairNo textbox-height form-control"
+                      placeholder="{{ 'Installed Date' }}" />
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    <input type="text" name="RecordedBy" [(ngModel)]="RecordedBy"
+                      class="searchSwWorkOrderPairNo textbox-height form-control" placeholder="{{ 'Recorded By' }}" />
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    <input type="text" name="MDFVFrom" [(ngModel)]="MDFVFrom"
+                      class="searchSwWorkOrderPairNo textbox-height form-control"
+                      placeholder="{{ 'MDF Vertical From' }}" />
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    <input type="text" name="MDFPFrom" [(ngModel)]="MDFPFrom"
+                      class="searchSwWorkOrderPairNo textbox-height form-control"
+                      placeholder="{{ 'MDF Pair # From ' }}" />
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    <input type="text" name="CableInfoFrom" [(ngModel)]="CableInfoFrom"
+                      class="searchSwWorkOrderPairNo textbox-height form-control"
+                      placeholder="{{ 'Cable Info From' }}" />
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    <input type="text" name="MDFVTo" [(ngModel)]="MDFVTo"
+                      class="searchSwWorkOrderPairNo textbox-height form-control"
+                      placeholder="{{ 'MDF Vertical To' }}" />
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    <input type="text" name="MDFPTo" [(ngModel)]="MDFPTo"
+                      class="searchSwWorkOrderPairNo textbox-height form-control" placeholder="{{ 'MDF Pair # To' }}" />
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    <input type="text" name="CableInfoTo" [(ngModel)]="CableInfoTo"
+                      class="searchSwWorkOrderPairNo textbox-height form-control" placeholder="{{ 'Cable Info To' }}" />
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    <input type="text" [(ngModel)]="Dp_Add_Info"
+                      class="searchSwWorkOrderPairNo textbox-height form-control"
+                      placeholder="{{ 'Additional Info' }}" />
+                  </td>
+                  <!-- search field for dp info ends here -->
+                  <!-- search field for general info starts from here  -->
+                  <!-- <td *ngIf="(checkOperation('11','11'))" style="border-left: 2px solid #ddd !important;">
+              <input type="text" name="GNTelephone" [(ngModel)]="GNTelephone" class="searchSwWorkOrderPairNo textbox-height form-control"
+              placeholder="{{ ' General Info Telephone no'}}" />
+            </td> -->
+                  <td *ngIf="checkOperation('11', '11')" style="border-left: 2px solid #ddd !important;">
+                    <input type="text" name="RequestFrom" [(ngModel)]="RequestFrom"
+                      class="searchSwWorkOrderPairNo textbox-height form-control" placeholder="{{ 'Request From' }}" />
+                  </td>
+                  <td *ngIf="checkOperation('11', '11')">
+                    <input type="text" name="RequestTo" [(ngModel)]="RequestTo"
+                      class="searchSwWorkOrderPairNo textbox-height form-control" placeholder="{{ 'Request To' }}" />
+                  </td>
+                  <td *ngIf="checkOperation('11', '11')">
+                    <input type="text" name="RequestBy" [(ngModel)]="RequestBy"
+                      class="searchSwWorkOrderPairNo textbox-height form-control" placeholder="{{ 'Request By' }}" />
+                  </td>
+                  <td *ngIf="checkOperation('11', '11')">
+                    <input type="text" name="ApprovedBy" [(ngModel)]="ApprovedBy"
+                      class="searchSwWorkOrderPairNo textbox-height form-control" placeholder="{{ 'Approved By' }}" />
+                  </td>
+                  <td *ngIf="checkOperation('11', '11')">
+                    <input type="text" name="StoreDemandNo" [(ngModel)]="StoreDemandNo"
+                      class="searchSwWorkOrderPairNo textbox-height form-control"
+                      placeholder="{{ 'Store Demand #' }}" />
+                  </td>
+                  <td *ngIf="checkOperation('11', '11')">
+                    <input type="text" name="RecordFile" [(ngModel)]="RecordFile"
+                      class="searchSwWorkOrderPairNo textbox-height form-control" placeholder="{{ 'Record File #' }}" />
+                  </td>
+                  <td *ngIf="checkOperation('11', '11')">
+                    <input type="text" name="CableInfo" [(ngModel)]="CableInfo"
+                      class="searchSwWorkOrderPairNo textbox-height form-control" placeholder="{{ 'Cable Info' }}" />
+                  </td>
+                  <td *ngIf="checkOperation('11', '11')" style="border-right: 2px solid #ddd !important;">
+                    <input type="text" name="CableDistance" [(ngModel)]="CableDistance"
+                      class="searchSwWorkOrderPairNo textbox-height form-control"
+                      placeholder="{{ 'Cable Distance(m)' }}" />
+                  </td>
+                </tr>
+              </tbody>
+              <tbody *ngFor="
+                  let exchangeInfo of WorkOrderDetails
+                    | workOrderSearch
+                      : searchexTelephoneNo
+                      : Linkedno
+                      : EXSWOrder
+                      : searchManualWorkOrder
+                      : searchSetType
+                      : searchTypeOfWork
+                      : searchNoneNo
+                      : searchActNo
+                      : searchCCTNo
+                      : searchCampName
+                      : searchUnit
+                      : ExchangeNo
+                      : searchPosition
+                      : searchUserType
+                      : searchUserName
+                      : searchCreatedBy
+                      : searchCreatedDate
+                      : searchStatus
+                      : search_dp_telephone
+                      : searchdpname
+                      : searchDpLocation
+                      : searchWorkOrderDpCapacity
+                      : searchSwWorkOrderDpNo
+                      : searchSwWorkOrderPairNo
+                      : searchSwWorkOrderStatus
+                      : OoredooDp
+                      : Ooredoopair
+                      : OoredooMDF
+                      : dpCreatedBy
+                      : dpcreatedDate
+                      : DPRemarks
+                      : InstalledBy
+                      : InstalledDate
+                      : RecordedBy
+                      : MDFVFrom
+                      : MDFPFrom
+                      : CableInfoFrom
+                      : MDFVTo
+                      : MDFPTo
+                      : CableInfoTo
+                      : Dp_Add_Info
+                      : GNTelephone
+                      : RequestFrom
+                      : RequestTo
+                      : RequestBy
+                      : ApprovedBy
+                      : StoreDemandNo
+                      : RecordFile
+                      : CableInfo
+                      : CableDistance
+                    | orderBy: { property: column, direction: direction }
+                    | paginate
+                      : { itemsPerPage: 10, currentPage: page, id: '1' };
+                  let i = index
+                " #someVar>
+                <tr (click)="setClickedRow(exchangeInfo)" [class.active]="exchangeInfo.highLightRow">
+                  <td class="fixed-1 fullsize">
+                    <span class="cursor-pointer fa" [ngClass]="
+                        !exchangeInfo?.hideInnerEmpRow
+                          ? 'fa-expand'
+                          : 'fa-compress'
+                      " (click)="toggleHiddenEmpRow(exchangeInfo)"></span>
+                  </td>
+                  <td class="fixed-2 fullsize">
+                    <a class="primary-color cursor-pointer table-action-icon fa fa-eye fa-lg pr-7" 
+                      (click)="viewAllinformation(exchangeInfo)" title="{{ 'View Work Order' | translate }}"></a>
+                    <a class="primary-color table-action-icon fa fa-wrench fa-lg pr-7 cursor-pointer" *ngIf="checkOperation('11', '2')"
+                      (click)="editinformaion(exchangeInfo)" title="{{ 'View or Edit Work Order' | translate }}"></a>
+                    <a class="primary-color cursor-pointer table-action-icon fa fa-trash-o fa-lg" *ngIf="checkOperation('11', '3')"
+                      (click)="showDeactivateWoExchangeInfoPopup(exchangeInfo)" title="Delete Work Order "></a>
+                  </td>
+                  <td style="border-left: 2px solid #ddd !important;">
+                    {{ exchangeInfo.telephone_no }}
+                  </td>
+                  <td *ngIf="checkOperation('11', '9')">{{ exchangeInfo.linked }}</td>
+                  <td *ngIf="checkOperation('11', '9')">{{ exchangeInfo.sw_workorder_no }}</td>
+                  <td *ngIf="checkOperation('11', '9')">{{ exchangeInfo.manual_workorder_no }}</td>
+                  <td *ngIf="checkOperation('11', '9')" class="wsnw">{{ exchangeInfo.set_type }}</td>
+                  <td *ngIf="checkOperation('11', '9')">{{ exchangeInfo.type_of_work }}</td>
+                  <td *ngIf="checkOperation('11', '9')">{{ exchangeInfo.node_no }}</td>
+                  <td *ngIf="checkOperation('11', '9')">{{ exchangeInfo.act_no }}</td>
+                  <td *ngIf="checkOperation('11', '9')">{{ exchangeInfo.cct_no }}</td>
+                  <td *ngIf="checkOperation('11', '9')">{{ exchangeInfo.camp_name }}</td>
+                  <td *ngIf="checkOperation('11', '9')">{{ exchangeInfo.unit }}</td>
+                  <td *ngIf="checkOperation('11', '9')">{{ exchangeInfo.exchange }}</td>
+                  <td *ngIf="checkOperation('11', '9')">{{ exchangeInfo.position }}</td>
+                  <td *ngIf="checkOperation('11', '9')">{{ exchangeInfo.user_type }}</td>
+                  <td *ngIf="checkOperation('11', '9')">{{ exchangeInfo.user_name }}</td>
+                  <td *ngIf="checkOperation('11', '9')">{{ exchangeInfo.created_by }}</td>
+                  <td *ngIf="checkOperation('11', '9')">{{ exchangeInfo.created_date }}</td>
+                  <td *ngIf="checkOperation('11', '9')">{{ exchangeInfo.exchange_status }}</td>
+                  <td *ngIf="checkOperation('11', '10')" style="border-left: 2px solid #ddd !important;">
+                    {{ exchangeInfo.dp_name }}
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    {{ exchangeInfo.dp_location }}
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    {{ exchangeInfo.dp_capacity }}
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    {{ exchangeInfo.dp_no }}
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    {{ exchangeInfo.dp_pair }}
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    {{ exchangeInfo.dp_dpstatus }}
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    {{ exchangeInfo.dp_ooredoodp }}
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    {{ exchangeInfo.dp_ooredoopair }}
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    {{ exchangeInfo.dp_ooredoomdf }}
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    {{ exchangeInfo.dp_createdby }}
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    {{ exchangeInfo.dp_createddate }}
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    {{ exchangeInfo.dp_remarks }}
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    {{ exchangeInfo.dp_installedby }}
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    {{ exchangeInfo.dp_installeddate }}
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    {{ exchangeInfo.dp_recordedby }}
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    {{ exchangeInfo.dp_mdfverticalfrom }}
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    {{ exchangeInfo.dp_mdfpairnofrom }}
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    {{ exchangeInfo.dp_cablenofrom }}
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    {{ exchangeInfo.dp_mdfverticalto }}
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    {{ exchangeInfo.dp_pairnoto }}
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    {{ exchangeInfo.dp_cablenoto }}
+                  </td>
+                  <td *ngIf="checkOperation('11', '10')">
+                    {{ exchangeInfo.dp_additionalinfo }}
+                  </td>
+                  <td *ngIf="checkOperation('11', '11')" style="border-left: 2px solid #ddd !important;">
+                    {{ exchangeInfo.gn_requestfrom }}
+                  </td>
+                  <td *ngIf="checkOperation('11', '11')">
+                    {{ exchangeInfo.gn_requestto }}
+                  </td>
+                  <td *ngIf="checkOperation('11', '11')">
+                    {{ exchangeInfo.gn_requestby }}
+                  </td>
+                  <td *ngIf="checkOperation('11', '11')">
+                    {{ exchangeInfo.gn_approvedby }}
+                  </td>
+                  <td *ngIf="checkOperation('11', '11')">
+                    {{ exchangeInfo.gn_storedemandno }}
+                  </td>
+                  <td *ngIf="checkOperation('11', '11')">
+                    {{ exchangeInfo.gn_recordfileno }}
+                  </td>
+                  <td *ngIf="checkOperation('11', '11')">
+                    {{ exchangeInfo.gn_cableno }}
+                  </td>
+                  <td *ngIf="checkOperation('11', '11')" style="border-right: 2px solid #ddd !important;">
+                    {{ exchangeInfo.gn_cabledistance }}
+                  </td>
+                </tr>
+
+                <ng-container *ngIf="
+                    exchangeInfo.hideInnerEmpRow && checkOperation('11', '10')
+                  ">
+                  <tr rowspan="99" class="inner-tr" [ngClass]="
+                      exchangeInfo.hideInnerEmpRow
+                        ? 'display-block'
+                        : 'hidden-row'
+                    ">
+                    <td class="bk-dark border-bottom" colspan="99">
+                      <div class="scrollInnerRest">
+                        <table class="tbl-employee table" style="width: 999px;">
+                          <tr>
+                            <th>Action</th>
+                            <th>Telephone</th>
+                            <th>Reported Date</th>
+                            <th>Fault Man</th>
+                            <th>Cause</th>
+                            <th>Clear of Fault</th>
+                            <th>Cleared Date</th>
+                          </tr>
+                          <tbody *ngFor="let DpInfo of exchangeInfo.history">
+                            <tr>
+                              <td class="no-word-wrap">
+                                <a class="primary-color cursor-pointer table-action-icon fa fa-eye fa-lg" [routerLink]="[
+                                    '/work-order-form-dp-info/view/',
+                                    DpInfo.id
+                                  ]" title="{{ 'View DP Info' | translate }}"></a>
+                                <a class="primary-color table-action-icon fa fa-wrench fa-lg" [routerLink]="[
+                                    '/work-order-form-dp-info/edit/',
+                                    DpInfo.id
+                                  ]" title="{{ 'Edit History info' | translate }}"></a>
+                                <a class="primary-color cursor-pointer table-action-icon fa fa-trash-o fa-lg"
+                                  (click)="showDeactivateWoDpInfoPopup(DpInfo)" title="Delete History Info"></a>
+                              </td>
+                              <td>{{ DpInfo.telephone_no }}</td>
+                              <td>{{ DpInfo.reported_date }}</td>
+                              <td>{{ DpInfo.fault_man }}</td>
+                              <td>{{ DpInfo.cause }}</td>
+                              <td>{{ DpInfo.clear_of_fault }}</td>
+                              <td>{{ DpInfo.cleared_date }}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-container>
+                <!-- *ngIf="
+                    
+                  " -->
+                <ng-container *ngIf="exchangeInfo.hideInnerEmpRow && checkOperation('11', '11') && (exchangeInfo.interlinked.length > 0)">
+
+                  <tr rowspan="99" class="inner-tr" [ngClass]="
+                      exchangeInfo.hideInnerEmpRow
+                        ? 'display-block'
+                        : 'hidden-row'
+                    ">
+                    <td class="bk-dark border-bottom" colspan="99">
+                      <div class="scrollInnerRest">
+                        <table class="tbl-employee table" style="width: 999px;">
+                          <tr>
+                            <th style="border-left: 2px solid #ddd !important;">
+                              Telephone #.
+                            </th>
+                            <th>Linked #.</th>
+                            <th>S/W Work Order #.</th>
+                            <th>Manual Work Order #.</th>
+                            <th>Set Type.</th>
+                            <th>Type of Work.</th>
+                            <th>Node #.</th>
+                            <th>ACT #.</th>
+                            <th>CCT #.</th>
+                            <th>Camp Name.</th>
+                            <th>Force/Unit.</th>
+                            <th>Exchange.</th>
+                            <th>Position.</th>
+                            <th>User Type.</th>
+                            <th>User Name.</th>
+                            <th>Created By.</th>
+                            <th>Created Date.</th>
+                            <th>Exchange Status.</th>
+                            <th style="border-left: 2px solid #ddd !important;">
+                              DP Name.
+                            </th>
+                            <th>DP Location.</th>
+                            <th>DP capacity.</th>
+                            <th>DP #.</th>
+                            <th>DP Pair #.</th>
+                            <th>DP Status</th>
+                            <th>Service Provider DP #.</th>
+                            <th>Service Provider Pair#.</th>
+                            <th>Service Provider MDF</th>
+                            <th>Created By.</th>
+                            <th>Created Date.</th>
+                            <th>Remarks.</th>
+                            <th>Installed By.</th>
+                            <th>Installed Date.</th>
+                            <th>Recorded By.</th>
+                            <th>MDF-Vertical From.</th>
+                            <th>MDF-Pair # From.</th>
+                            <th>Cable Info From.</th>
+                            <th>MDF-Vertical To.</th>
+                            <th>MDF-Pair # To.</th>
+                            <th>Cable Info To.</th>
+                            <th>Additional Info.</th>
+                            <th style="border-left: 2px solid #ddd !important;">
+                              Request From.
+                            </th>
+                            <th>Request To.</th>
+                            <th>Request By.</th>
+                            <th>Approved By.</th>
+                            <th>Store Demand #.</th>
+                            <th>Record File #.</th>
+                            <th>Cable Info.</th>
+                            <th style="border-right: 2px solid #ddd !important;">
+                              Cable Distance(m).
+                            </th>
+                          </tr>
+                          <tbody *ngFor="let GeneralInfo of exchangeInfo.interlinked">
+                            <tr>
+                              <td style="border-left: 2px solid #ddd !important;">
+                                {{ GeneralInfo.telephone_no }}
+                              </td>
+                              <td>{{ GeneralInfo.linked }}</td>
+                              <td>{{ GeneralInfo.sw_workorder_no }}</td>
+                              <td>{{ GeneralInfo.manual_workorder_no }}</td>
+                              <td class="wsnw">{{ GeneralInfo.set_type }}</td>
+                              <td>{{ GeneralInfo.type_of_work }}</td>
+                              <td>{{ GeneralInfo.node_no }}</td>
+                              <td>{{ GeneralInfo.act_no }}</td>
+                              <td>{{ GeneralInfo.cct_no }}</td>
+                              <td>{{ GeneralInfo.camp_name }}</td>
+                              <td>{{ GeneralInfo.unit }}</td>
+                              <td>{{ GeneralInfo.exchange }}</td>
+                              <td>{{ GeneralInfo.position }}</td>
+                              <td>{{ GeneralInfo.user_type }}</td>
+                              <td>{{ GeneralInfo.user_name }}</td>
+                              <td>{{ GeneralInfo.created_by }}</td>
+                              <td>{{ GeneralInfo.created_date }}</td>
+                              <td>{{ GeneralInfo.exchange_status }}</td>
+                              <td style="border-left: 2px solid #ddd !important;">
+                                {{ GeneralInfo.dp_name }}
+                              </td>
+                              <td>{{ GeneralInfo.dp_location }}</td>
+                              <td>{{ GeneralInfo.dp_capacity }}</td>
+                              <td>{{ GeneralInfo.dp_no }}</td>
+                              <td>{{ GeneralInfo.dp_pair }}</td>
+                              <td>{{ GeneralInfo.dp_dpstatus }}</td>
+                              <td>{{ GeneralInfo.dp_ooredoodp }}</td>
+                              <td>{{ GeneralInfo.dp_ooredoopair }}</td>
+                              <td>{{ GeneralInfo.dp_ooredoomdf }}</td>
+                              <td>{{ GeneralInfo.dp_createdby }}</td>
+                              <td>{{ GeneralInfo.dp_createddate }}</td>
+                              <td>{{ GeneralInfo.dp_remarks }}</td>
+                              <td>{{ GeneralInfo.dp_installedby }}</td>
+                              <td>{{ GeneralInfo.dp_installeddate }}</td>
+                              <td>{{ GeneralInfo.dp_recordedby }}</td>
+                              <td>{{ GeneralInfo.dp_mdfverticalfrom }}</td>
+                              <td>{{ GeneralInfo.dp_mdfpairnofrom }}</td>
+                              <td>{{ GeneralInfo.dp_cablenofrom }}</td>
+                              <td>{{ GeneralInfo.dp_mdfverticalto }}</td>
+                              <td>{{ GeneralInfo.dp_pairnoto }}</td>
+                              <td>{{ GeneralInfo.dp_cablenoto }}</td>
+                              <td>{{ GeneralInfo.dp_additionalinfo }}</td>
+                              <td style="border-left: 2px solid #ddd !important;">
+                                {{ GeneralInfo.gn_requestfrom }}
+                              </td>
+                              <td>{{ GeneralInfo.gn_requestto }}</td>
+                              <td>{{ GeneralInfo.gn_requestby }}</td>
+                              <td>{{ GeneralInfo.gn_approvedby }}</td>
+                              <td>{{ GeneralInfo.gn_storedemandno }}</td>
+                              <td>{{ GeneralInfo.gn_recordfileno }}</td>
+                              <td>{{ GeneralInfo.gn_cableno }}</td>
+                              <td style="border-right: 2px solid #ddd !important;">
+                                {{ GeneralInfo.gn_cabledistance }}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-container>
+              </tbody>
+              <tbody *ngIf="EmployeeDetails?.length == 0">
+                <tr>
+                  <td></td>
+                  <td colspan="1000">
+                    No records found.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="right-align">
+            <pagination-controls (pageChange)="page = $event" id="1" maxSize="5" directionLinks="true" autoHide="true">
+            </pagination-controls>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <!-- modal to delete the row in main table starts -->
+    <bs-modal #modalDeactivate id="modalDeactivate" dir="{{ !isLangArabic ? 'ltr' : 'rtl' }}">
+      <bs-modal-header [showDismiss]="false">
+        <button type="button" class="close" data-dismiss="modal"
+          [ngClass]="!isLangArabic ? 'float-right' : 'float-left'">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+        <h4 class="modal-title">{{ "Delete Work Order Info" }}</h4>
+      </bs-modal-header>
+      <bs-modal-body>
+        {{ "Are you sure you want to Delete this Work Order Info " }}
+      </bs-modal-body>
+      <bs-modal-footer>
+        <button type="button" class="btn btn-danger" (click)="deleteExchangeInfo(emp)">
+          {{ "Delete" }}
+        </button>
+        <button type="button" class="btn btn-default" (click)="hidePopUp('modalDeactivate')">
+          {{ "Cancel" }}
+        </button>
+      </bs-modal-footer>
+    </bs-modal>
+    <!-- modal to delete the row in main table ends -->
+    <!-- modal to delete the row in DP info table starts -->
+    <bs-modal #modalDeactivate1 id="modalDeactivate1" dir="{{ !isLangArabic ? 'ltr' : 'rtl' }}">
+      <bs-modal-header [showDismiss]="false">
+        <button type="button" class="close" data-dismiss="modal"
+          [ngClass]="!isLangArabic ? 'float-right' : 'float-left'">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+        <h4 class="modal-title">{{ "Delete History Info" }}</h4>
+      </bs-modal-header>
+      <bs-modal-body>
+        {{ "Are you sure you want to Delete this History Info" }}
+      </bs-modal-body>
+      <bs-modal-footer>
+        <button type="button" class="btn btn-danger" (click)="deleteDpInfo(emp1)">
+          {{ "Delete" }}
+        </button>
+        <button type="button" class="btn btn-default" (click)="hidePopUp('modalDeactivate1')">
+          {{ "Cancel" }}
+        </button>
+      </bs-modal-footer>
+    </bs-modal>
+    <!-- modal to delete the row in DP info table ends -->
+    <!-- modal to delete the row in General info table starts -->
+    <bs-modal #modalDeactivate2 id="modalDeactivate2" dir="{{ !isLangArabic ? 'ltr' : 'rtl' }}">
+      <bs-modal-header [showDismiss]="false">
+        <button type="button" class="close" data-dismiss="modal"
+          [ngClass]="!isLangArabic ? 'float-right' : 'float-left'">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+        <h4 class="modal-title">{{ "Delete General Info" }}</h4>
+      </bs-modal-header>
+      <bs-modal-body>
+        {{ "Are you sure you want to Delete this General Info" }}
+      </bs-modal-body>
+      <bs-modal-footer>
+        <button type="button" class="btn btn-danger" (click)="deleteGeneralInfo(emp1)">
+          {{ "Delete" }}
+        </button>
+        <button type="button" class="btn btn-default" (click)="hidePopUp('modalDeactivate2')">
+          {{ "Cancel" }}
+        </button>
+      </bs-modal-footer>
+    </bs-modal>
+    <!-- modal to delete the row in General info table ends -->
+  </div>
+  <!-- modal to view and print the details of the row starts dir="{{ !isLangArabic ? 'ltr' : 'rtl' }}" -->
+  <bs-modal id="modalDeactivate4"  style="border: none !important">
+    <bs-modal-header [showDismiss]="false" style="border: none !important">
+      <button type="button" class="close" [ngClass]="!isLangArabic ? 'float-right' : 'float-left'" data-dismiss="modal">
+        <span aria-hidden="true" (click)="removePopUpCss()">&times;</span>
+        <span class="sr-only">Close</span>
+      </button>
+    </bs-modal-header>
+    <bs-modal-body style="border: none !important">
+      <div class="col-md-12 alignCenter hideContent">
+        <div class="btn btn-color" (click)="Printme()">Print</div>
+      </div>
+
+
+      <div class="row modal-dialog">
+        <div class="row mlr-0 plr-0" style="width: 100%;">
+        
+          <div *ngIf="checkOperation('11', '9')" [ngClass]="
+              (checkOperation('11', '9') && checkOperation('11', '10')) ||
+              checkOperation('11', '11')
+                ? 'col-md-4 exchangeBlock'
+                : 'exchangeAlign exchangeBlock col-md-6'
+            ">
+            <h4 class="alignCenter">
+              <strong>Exchange Info</strong>
+            </h4>
+            <div class="form-group col-md-12 mr-0">
+              <label for="new_name" class="col-md-4 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">Telephone #</label>
+              <div class="col-md-8">
+                <input type="text" [disabled]="true" [(ngModel)]="ExchangeInfoTelephone_no"
+                  name="ExchangeInfoTelephone_no" class="form-control brnone" style="border: none !important" id="telephone_no" />
+                <div [hidden]="errorTelephone_no == ''" class="error">
+                  {{ errorTelephone_no }}
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0">
+              <label for="new_name" class="col-md-4 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">Linked #</label>
+              <div class="col-md-8">
+                <input type="text" [disabled]="true" [(ngModel)]="Exchangelinkedno" name="Exchangelinked_no"
+                  class="form-control brnone" style="border: none !important" id="linkedno" />
+                <div [hidden]="errorLinked == ''" class="error">
+                  {{ errorLinked }}
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0">
+              <label for="new_name" class="col-md-4 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">S/W Work Order #</label>
+              <div class="col-md-8">
+                <input type="text" [disabled]="true" [(ngModel)]="ExchangeInfoSw_workorder_no"
+                  name="ExchangeInfoSw_workorder_no" style="font-size: 12px;" class="form-control brnone" style="border: none !important" id="sw_workorder_no"
+                  />
+                <div [hidden]="errorSw_workorder_no == ''" class="error">
+                  {{ errorSw_workorder_no }}
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0">
+              <label for="new_name" class="col-md-4 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">M/N Work Order #</label>
+              <div class="col-md-8">
+                <input type="text" [disabled]="true" [(ngModel)]="ExchangeInfoManual_workorder_no"
+                  name="ExchangeInfoManual_workorder_no" class="form-control brnone" style="border: none !important" id="manual_workorder_no"
+                  />
+                <div [hidden]="errorManual_workorder_no == ''" class="error">
+                  {{ errorManual_workorder_no }}
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0">
+              <label for="new_name" class="col-md-4 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">Set Type</label>
+              <div class="col-md-8">
+                <input type="text" [disabled]="true" [(ngModel)]="ExchangeInfoSet_type" name="ExchangeInfoSet_type"
+                  class="form-control brnone" style="border: none !important" id="Set_type" />
+                <div [hidden]="errorSet_type == ''" class="error">
+                  {{ errorSet_type }}
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0">
+              <label for="new_name" class="col-md-4 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">Type of Work</label>
+              <div class="col-md-8">
+                <input type="text" [disabled]="true" [(ngModel)]="ExchangeInfoType_of_Work"
+                  name="ExchangeInfoType_of_Work" class="form-control brnone" style="border: none !important" id="Type_of_Work" />
+                <div [hidden]="errorType_of_Work == ''" class="error">
+                  {{ errorType_of_Work }}
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0">
+              <label for="new_name" class="col-md-4 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">Node #</label>
+              <div class="col-md-8">
+                <input type="text" [disabled]="true" [(ngModel)]="ExchangeInfoNode_no" name="ExchangeInfoNode_no"
+                  class="form-control brnone" style="border: none !important" id="node_no" />
+                <div [hidden]="errorNode_no == ''" class="error">
+                  {{ errorNode_no }}
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0">
+              <label for="new_name" class="col-md-4 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">Act #</label>
+              <div class="col-md-8">
+                <input type="text" [disabled]="true" [(ngModel)]="ExchangeInfoAct_no" name="ExchangeInfoAct_no"
+                  class="form-control brnone" style="border: none !important" id="act_no" />
+                <div [hidden]="errorAct_no == ''" class="error">
+                  {{ errorAct_no }}
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0">
+              <label for="new_name" class="col-md-4 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">CCT #</label>
+              <div class="col-md-8">
+                <input type="text" [disabled]="true" [(ngModel)]="ExchangeInfoCct_no" name="ExchangeInfoCct_no"
+                  class="form-control brnone" style="border: none !important" id="cct_no" />
+                <div [hidden]="errorCct_no == ''" class="error">
+                  {{ errorCct_no }}
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0">
+              <label for="new_name" class="col-md-4 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">CAMP Name</label>
+              <div class="col-md-8">
+                <input type="text" [disabled]="true" [(ngModel)]="ExchangeInfoCamp_name" name="ExchangeInfoCamp_name"
+                  class="form-control brnone" style="border: none !important" id="camp_name" />
+                <div [hidden]="errorCamp_name == ''" class="error">
+                  {{ errorCamp_name }}
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0">
+              <label for="new_name" class="col-md-4 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">Force/Unit</label>
+              <div class="col-md-8">
+                <input type="text" [disabled]="true" [(ngModel)]="ExchangeInfoUnit" name="ExchangeInfoUnit"
+                  class="form-control brnone" style="border: none !important" id="unit"  />
+                <div [hidden]="errorUnit == ''" class="error">
+                  {{ errorUnit }}
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0">
+              <label for="new_name" class="col-md-4 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">Exchange.</label>
+              <div class="col-md-8">
+                <input type="text" [disabled]="true" [(ngModel)]="Exchange_Exchange" name="Exchange_Exchange"
+                  class="form-control brnone" style="border: none !important" id="ExchangeExchange"  />
+                <div [hidden]="errorExchange == ''" class="error">
+                  {{ errorExchange }}
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0">
+              <label for="new_name" class="col-md-4 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">Position</label>
+              <div class="col-md-8">
+                <input *ngIf="ExInfoPosLen" type="text" [disabled]="true" [(ngModel)]="ExchangeInfoPosition" name="ExchangeInfoPosition"
+                  class="form-control brnone" style="border: none !important" id="position"  />
+                  <textarea rows="2" cols="28" *ngIf="!ExInfoPosLen" [disabled]="true" [(ngModel)]="ExchangeInfoPosition" name="ExchangeInfoPosition"
+                    class="form-control brnone txtarea" style="border: none !important;resize: none !important;" id="position" ></textarea>
+                <div [hidden]="errorPosition == ''" class="error">
+                  {{ errorPosition }}
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0">
+              <label for="new_name" class="col-md-4 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">User Type</label>
+              <div class="col-md-8">
+                <input type="text" [disabled]="true" [(ngModel)]="ExchangeInfoUser_type" name="ExchangeInfoUser_type"
+                  class="form-control brnone" style="border: none !important" id="user_type"  />
+                <div [hidden]="errorUser_type == ''" class="error">
+                  {{ errorUser_type }}
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-12 mr-0">
+              <label for="new_name" class="col-md-4 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">User Name</label>
+              <div class="col-md-8">
+                <input type="text" [disabled]="true" [(ngModel)]="ExchangeInfoUser_name" name="ExchangeInfoUser_name"
+                  class="form-control brnone" style="border: none !important" id="user_name"  />
+                <div [hidden]="errorUser_name == ''" class="error">
+                  {{ errorUser_name }}
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0">
+              <label for="Exchange_created_by" class="col-md-4 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">Created By</label>
+              <div class="col-md-8">
+                <input type="text" [disabled]="true" [(ngModel)]="ExchangeInfoCreated_by" name="ExchangeInfoCreated_by"
+                  class="form-control brnone" style="border: none !important" id="Exchange_created_by"  />
+                <div [hidden]="errorCreated_by == ''" class="error">
+                  {{ errorCreated_by }}
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0">
+              <label for="created_Date" class="col-md-4 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">Created Date</label>
+              <div class="col-md-8">
+                <input type="text" [disabled]="true" [(ngModel)]="ExchangeInfoCreated_date"
+                  name="ExchangeInfoCreated_date" class="form-control brnone" style="border: none !important" id="created_Date"
+                   />
+                <div [hidden]="errorCreated_date == ''" class="error">
+                  {{ errorCreated_date }}
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0">
+              <label for="new_name" class="col-md-4 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">Exchange Status</label>
+              <div class="col-md-8">
+                <input type="text" [disabled]="true" [(ngModel)]="ExchangeInfoStatus" name="ExchangeInfoStatus"
+                  class="form-control brnone" style="border: none !important" id="ex_status"  />
+                <div [hidden]="errorStatus == ''" class="error">
+                  {{ errorStatus }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="checkOperation('11', '10')" [ngClass]="
+              (checkOperation('11', '9') && checkOperation('11', '10')) ||
+              checkOperation('11', '11')
+                ? 'col-md-4 dpBlock'
+                : 'exchangeAlign exchangeBlock col-md-6'
+            ">
+            <h4 class="alignCenter">
+              <strong>Dp Info</strong>
+            </h4>
+
+            <div class="form-group col-md-12 mr-0" style="margin-bottom: 5px;">
+              <label for="new_name" class="col-md-5 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">Telephone #</label>
+              <div class="col-md-7">
+                <input type="text" [disabled]="true" [(ngModel)]="dp_infoTelephone_no" name="dp_infoTelephone_no"
+                  class="form-control htfs" style="border: none !important;height: 30px !important; font-size: 12px !important;"
+                  id="dp_telephone"  />
+                <div [hidden]="errorTelephone_no == ''" class="error">
+                  {{ errorTelephone_no }}
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0" style="margin-bottom: 5px;">
+              <label for="new_name" class="col-md-5 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">DP Name</label>
+              <div class="col-md-7">
+                <input type="text" [disabled]="true" [(ngModel)]="dp_dpname" name="dpname" class="form-control htfs"
+                  style="border: none !important;height: 30px !important; font-size: 12px !important;" id="DP_Name"
+                   />
+                <div [hidden]="errorDp_name == ''" class="error">
+                  {{ errorDp_name }}
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0" style="margin-bottom: 5px;">
+              <label for="new_name" class="col-md-5 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">DP Location</label>
+              <div class="col-md-7">
+                <input type="text" [disabled]="true" [(ngModel)]="dp_infoDp_location" name="dp_infoDp_location" class="fs-16"
+                  class="form-control htfs" style="border: none !important;height: 30px !important; font-size: 12px !important;"
+                  id="dp_location"  />
+                <div [hidden]="errorDp_location == ''" class="error">
+                  {{ errorDp_location }}
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0" style="margin-bottom: 5px;">
+              <label for="new_name" class="col-md-5 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">DP Capacity</label>
+              <div class="col-md-7">
+                <input type="text" [disabled]="true" [(ngModel)]="dp_infoDp_capacity" name="dp_infoDp_capacity"
+                  class="form-control fs-16 htfs" style="border: none !important;height: 30px !important; font-size: 12px !important;"
+                  id="dp_capacity"  />
+                <div [hidden]="errorDp_capacity == ''" class="error">
+                  {{ errorDp_capacity }}
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0" style="margin-bottom: 5px;">
+              <label for="new_name" class="col-md-5 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">DP #</label>
+              <div class="col-md-7">
+                <input type="text" [disabled]="true" [(ngModel)]="dp_infoDp_no" name="dp_infoDp_no"
+                  class="form-control htfs" style="border: none !important;height: 30px !important; font-size: 12px !important;"
+                  id="dp_infono"  />
+                <div [hidden]="errorDp_no == ''" class="error">
+                  {{ errorDp_no }}
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0" style="margin-bottom: 5px;">
+              <label for="new_name" class="col-md-5 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">Pair #</label>
+              <div class="col-md-7">
+                <input type="text" [disabled]="true" [(ngModel)]="dp_infoPair_no" name="dp_infoPair_no"
+                  class="form-control htfs" style="border: none !important;height: 30px !important; font-size: 12px !important;"
+                  id="dp_pairno"  />
+                <div [hidden]="errorPair_no == ''" class="error">
+                  {{ errorPair_no }}
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0" style="margin-bottom: 5px;">
+              <label for="new_name" class="col-md-5 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">DP Status</label>
+              <div class="col-md-7">
+                <input type="text" [disabled]="true" [(ngModel)]="dp_status" name="dp_infoStatus"
+                  class="form-control htfs" style="border: none !important;height: 30px !important; font-size: 12px !important;"
+                  id="sw_workorder_Status"  />
+                <div [hidden]="errorPair_no == ''" class="error">
+                  {{ errorPair_no }}
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0" style="margin-bottom: 5px;">
+              <label for="new_name" class="col-md-5 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">Svc Provider DP</label>
+              <div class="col-md-7">
+                <input type="text" [disabled]="true" [(ngModel)]="dp_Ooredoodp" name="DPOoredoodp"
+                  class="form-control htfs" style="border: none !important;height: 30px !important; font-size: 12px !important;"
+                  id="DP_Ooredoo_dp"  />
+                <div [hidden]="errorOoredoo_dp == ''" class="error">
+                  {{ errorOoredoo_dp }}
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0" style="margin-bottom: 5px;">
+              <label for="new_name" class="col-md-5 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">Svc Provider Pair</label>
+              <div class="col-md-7">
+                <input type="text" [disabled]="true" [(ngModel)]="dp_dp_Ooredoopair" name="DPOoredoopair"
+                  class="form-control htfs" style="border: none !important;height: 30px !important; font-size: 12px !important;"
+                  id="DP_Ooredoo_Pair"  />
+                <div [hidden]="errorOoredoo_Pair == ''" class="error">
+                  {{ errorOoredoo_Pair }}
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0" style="margin-bottom: 5px;">
+              <label for="new_name" class="col-md-5 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">Svc Provider MDF</label>
+              <div class="col-md-7">
+                <input type="text" [disabled]="true" [(ngModel)]="dp_OoredooMDF" name="DPOoredooMDF"
+                  class="form-control htfs" style="border: none !important;height: 30px !important; font-size: 12px !important;"
+                  id="DP_Ooredoo_MDF"  />
+                <div [hidden]="errorOoredoo_Pair == ''" class="error">
+                  {{ errorOoredoo_Pair }}
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0" style="margin-bottom: 5px;">
+              <label for="new_name" class="col-md-5 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">Created By</label>
+              <div class="col-md-7">
+                <input type="text" [disabled]="true" [(ngModel)]="dp_infoCreated_by" name="dp_infoCreated_by"
+                  class="form-control htfs" style="border: none !important;height: 30px !important; font-size: 12px !important;"
+                  id="dp_created_by"  />
+                <div [hidden]="errorCreated_by == ''" class="error">
+                  {{ errorCreated_by }}
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-12 mr-0" style="margin-bottom: 5px;">
+              <label for="new_name" class="col-md-5 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">Created Date</label>
+              <div class="col-md-7">
+                <input type="text" [disabled]="true" [(ngModel)]="dp_infoCreated_date" name="dp_infoCreated_date"
+                  class="form-control htfs" style="border: none !important;height: 30px !important; font-size: 12px !important;" id="created_by"
+                   />
+                <div [hidden]="errorCreated_date == ''" class="error">
+                  {{ errorCreated_date }}
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group col-md-12 mr-0" style="margin-bottom: 5px;">
+              <label for="new_name" class="col-md-5 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">Remarks</label>
+              <div class="col-md-7">
+                <input type="text" [disabled]="true" [(ngModel)]="dp_infoRemarks" name="dp_infoRemarks"
+                  class="form-control htfs" style="border: none !important;height: 30px !important; font-size: 12px !important;"
+                  id="dp_remarks"  />
+                <div [hidden]="errorRemarks == ''" class="error">
+                  {{ errorRemarks }}
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0" style="margin-bottom: 5px;">
+              <label for="new_name" class="col-md-5 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">Installed By</label>
+              <div class="col-md-7">
+                <input type="text" [disabled]="true" [(ngModel)]="dp_infoInstalled_by" name="dp_infoInstalled_by"
+                  class="form-control htfs" style="border: none !important;height: 30px !important; font-size: 12px !important;"
+                  id="dp_installedby"  />
+                <div [hidden]="errorInstalled_by == ''" class="error">
+                  {{ errorInstalled_by }}
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0" style="margin-bottom: 5px;">
+              <label for="new_name" class="col-md-5 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">Installed Date</label>
+              <div class="col-md-7">
+                <input type="text" bsDatepicker [disabled]="true" [(ngModel)]="dp_infoInstalled_date"
+                  name="dp_infoInstalled_date" class="form-control htfs"
+                  style="border: none !important;height: 30px !important; font-size: 12px !important;" id="installed_date_dp"
+                   [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }"  />
+                <div [hidden]="errorInstalled_date == ''" class="error">
+                  {{ errorInstalled_date }}
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0" style="margin-bottom: 5px;">
+              <label for="new_name" class="col-md-5 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">Recorded By</label>
+              <div class="col-md-7">
+                <input type="text" [disabled]="true" [(ngModel)]="dp_infoRecorded_by" name="dp_infoRecorded_by"
+                  class="form-control htfs" style="border: none !important;height: 30px !important; font-size: 12px !important;"
+                  id="dp_recordby"  />
+                <div [hidden]="errorRecorded_by == ''" class="error">
+                  {{ errorRecorded_by }}
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0" style="margin-bottom: 10px;">
+              <label for="new_name" class="col-md-5 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">Additional Info</label>
+              <div class="col-md-7">
+                <textarea [disabled]="true" [(ngModel)]="dp_additionalinfo" name="dpaddinfo" 
+                id="DP_Addi_info" class="form-control htfs" [rows]="txtrow" cols="50"
+                style="border: none !important; font-size: 12px !important;white-space: pre-line;overflow: hidden;"></textarea>
+                <!-- <input type="text" [disabled]="true" [(ngModel)]="dp_additionalinfo" name="dpaddinfo"
+                  class="form-control htfs" style="border: none !important;height: 30px !important; font-size: 12px !important;"
+                  id="DP_Addi_info"  /> -->
+                <div [hidden]="errorAdditional_info == ''" class="error">
+                  {{ errorAdditional_info }}
+                </div>
+              </div>
+            </div>
+            <div class="DpInfoBox col-md-12">
+              <label class="col-md-12 DpInfoBoxTitle">From</label>
+              <div class="form-group col-md-12 mr-0" style="margin-bottom: 5px;">
+                <label for="new_name" class="col-md-5 control-label sl" style="
+                    padding-left: 0 !important;
+                    text-align: right !important;
+                    padding-right: 0 !important;
+                  ">MDF-Vertical From</label>
+                <div class="col-md-7">
+                  <input type="text" [disabled]="true" [(ngModel)]="dp_infoMdf_vertical_from"
+                    name="dp_infoMdf_vertical_from" class="form-control brnone" style="border: none !important" id="vertical_from"
+                     style="border: none !important;height: 30px !important; font-size: 12px !important;"  />
+                </div>
+              </div>
+              <div class="form-group col-md-12 mr-0" style="margin-bottom: 5px;">
+                <label for="new_name" class="col-md-5 control-label sl" style="
+                    padding-left: 0 !important;
+                    text-align: right !important;
+                    padding-right: 0 !important;
+                  ">MDF-Pair # From</label>
+                <div class="col-md-7">
+                  <input type="text" [disabled]="true" [(ngModel)]="dp_infoMdf_pair_no_from"
+                    name="dp_infoMdf_pair_no_from" class="form-control brnone" style="border: none !important" id="pair_from"
+                     style="border: none !important;height: 30px !important; font-size: 12px !important;"  />
+                </div>
+              </div>
+              <div class="form-group col-md-12 mr-0" style="margin-bottom: 5px;">
+                <label for="new_name" class="col-md-5 control-label sl" style="
+                    padding-left: 0 !important;
+                    text-align: right !important;
+                    padding-right: 0 !important;
+                  ">Cable Info From</label>
+                <div class="col-md-7">
+                  <input type="text" [disabled]="true" [(ngModel)]="dp_infoCable_no_from" name="dp_infoCable_no_from"
+                    class="form-control brnone" style="border: none !important" id="cable_from" 
+                    style="border: none !important;height: 30px !important; font-size: 12px !important;"  />
+                </div>
+              </div>
+            </div>
+
+            <div class="DpInfoBox col-md-12" style="top: 10px;">
+              <label class="col-md-12 DpInfoBoxTitle">To</label>
+              <div class="form-group col-md-12 mr-0" style="margin-bottom: 5px;">
+                <label for="new_name" class="col-md-5 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">MDF-Vertical To</label>
+                <div class="col-md-7">
+                  <input type="text" [disabled]="true" [(ngModel)]="dp_infoMdf_vertical_to"
+                    name="dp_infoMdf_vertical_to" class="form-control brnone" style="border: none !important" id="vertical_to"
+                     style="border: none !important;height: 30px !important; font-size: 12px !important;"  />
+                </div>
+              </div>
+              <div class="form-group col-md-12 mr-0" style="margin-bottom: 5px;">
+                <label for="new_name" class="col-md-5 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">MDF-Pair # To</label>
+                <div class="col-md-7">
+                  <input type="text" [disabled]="true" [(ngModel)]="dp_infoMdf_pair_no_to" name="dp_infoMdf_pair_no_to"
+                    class="form-control brnone" style="border: none !important" id="pair_to" 
+                    style="border: none !important;height: 30px !important; font-size: 12px !important;"  />
+                </div>
+              </div>
+              <div class="form-group col-md-12 mr-0" style="margin-bottom: 5px;">
+                <label for="new_name" class="col-md-5 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">Cable Info To</label>
+                <div class="col-md-7">
+                  <input type="text" [disabled]="true" [(ngModel)]="dp_infoCable_no_to" name="dp_infoCable_no_to"
+                    class="form-control brnone" style="border: none !important" id="cable_to" 
+                    style="border: none !important;height: 30px !important; font-size: 12px !important;"  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="checkOperation('11', '11')" [ngClass]="
+              (checkOperation('11', '9') && checkOperation('11', '10')) ||
+              checkOperation('11', '11')
+                ? 'col-md-4 generalBlock'
+                : 'exchangeAlign exchangeBlock col-md-6'
+            ">
+            <h4 class="alignCenter">
+              <strong>General Info</strong>
+            </h4>
+            <div class="form-group col-md-12 mr-0" style="margin-bottom: 5px !important;">
+              <label for="telephone_no" class="col-md-5 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">Telephone #</label>
+              <div class="col-md-7">
+                <input type="text" class="form-control brnone" style="border: none !important" id="general_telephone_no" [disabled]="true"
+                  name="general_infoTelephone_no" [(ngModel)]="general_infoTelephone_no"  />
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0" style="margin-bottom: 5px !important;">
+              <label for="request_from" class="col-md-5 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">Request From</label>
+              <div class="col-md-7">
+                <input type="text" class="form-control brnone" style="border: none !important" id="request_from" [disabled]="true"
+                  name="general_infoRequest_from" [(ngModel)]="general_infoRequest_from"  />
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0" style="margin-bottom: 5px !important;">
+              <label for="request_to" class="col-md-5 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">Request To</label>
+              <div class="col-md-7">
+                <input type="text" class="form-control brnone" style="border: none !important" id="request_to" [disabled]="true" name="general_infoRequest_to"
+                  [(ngModel)]="general_infoRequest_to"  />
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0" style="margin-bottom: 5px !important;">
+              <label for="requested_by" class="col-md-5 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">Request By</label>
+              <div class="col-md-7">
+                <input type="text" class="form-control brnone" style="border: none !important" id="requested_by" [disabled]="true"
+                  name="general_infoRequested_by" [(ngModel)]="general_infoRequested_by"  />
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0" style="margin-bottom: 5px !important;">
+              <label for="approved_by" class="col-md-5 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">Approved By</label>
+              <div class="col-md-7">
+                <input type="text" class="form-control brnone" style="border: none !important" id="approved_by" [disabled]="true"
+                  name="general_infoApproved_by" [(ngModel)]="general_infoApproved_by"  />
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0" style="margin-bottom: 5px !important;">
+              <label for="store_demand_no" class="col-md-5 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">Store Demand #</label>
+              <div class="col-md-7">
+                <input type="text" class="form-control brnone" style="border: none !important" id="store_demand_no" [disabled]="true"
+                  name="general_infoStore_demand_no" [(ngModel)]="general_infoStore_demand_no"
+                   />
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0" style="margin-bottom: 5px !important;">
+              <label for="record_file_no" class="col-md-5 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">Record File #</label>
+              <div class="col-md-7">
+                <input type="text" class="form-control brnone" style="border: none !important" id="record_file_no" [disabled]="true"
+                  name="general_infoRecord_file_no" [(ngModel)]="general_infoRecord_file_no"
+                   />
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0" style="margin-bottom: 5px !important;">
+              <label for="cable_no" class="col-md-5 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">Cable Info</label>
+              <div class="col-md-7">
+                <input type="text" class="form-control brnone" style="border: none !important" id="cable_no" [disabled]="true" name="general_infoCable_no"
+                  [(ngModel)]="general_infoCable_no"  />
+              </div>
+            </div>
+            <div class="form-group col-md-12 mr-0" style="margin-bottom: 5px !important;">
+              <label for="cable_no" class="col-md-5 control-label sl" style="text-align: right !important;padding-right: 0 px; padding-left: 10px;">Cable Info</label>
+              <div class="col-md-7">
+                <input type="text" class="form-control brnone" style="border: none !important" id="Cable_distance" [disabled]="true" name="cabledistance"
+                  [(ngModel)]="general_infoCable_distance"  />
+              </div>
+            </div>
+          </div>
+        
+        </div>
+
+      </div>
+    </bs-modal-body>
+    <bs-modal-footer style="border: none !important">
+      <button type="button" class="btn btn-default" (click)="hideViewAllPopUp('modalDeactivate4')">
+        {{ "Cancel" | translate }}
+      </button>
+    </bs-modal-footer>
+  </bs-modal>
+  <!-- modal to view and print the details of the row ends -->
+
+  <bs-modal #modalImport id="modalImport" dir="{{ !isLangArabic ? 'ltr' : 'rtl' }}">
+    <bs-modal-header [showDismiss]="false">
+      <button type="button" class="close" data-dismiss="modal" [ngClass]="!isLangArabic ? 'float-right' : 'float-left'">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only">Close</span>
+      </button>
+      <h4 class="modal-title">{{ "Import Csv" }}</h4>
+    </bs-modal-header>
+    <bs-modal-body>
+      {{ "Upload Csv file" }}
+      <input type="file" #fileImportInput name="csv_data" id="txtFileUpload" class="btn btn-primary"
+        (change)="fileChangeListener($event)" accept=".csv" />
+    </bs-modal-body>
+    <bs-modal-footer>
+      <button type="button" class="btn btn-primary" (click)="import()">
+        {{ "Import" }}
+      </button>
+      <button type="button" class="btn btn-default" (click)="hidePopUp('modalImport')">
+        {{ "Cancel" }}
+      </button>
+    </bs-modal-footer>
+  </bs-modal>
+
+  <bs-modal #modalImportWO id="modalImportWO" dir="{{ !isLangArabic ? 'ltr' : 'rtl' }}">
+    <bs-modal-header [showDismiss]="false">
+      <button type="button" class="close" data-dismiss="modal" [ngClass]="!isLangArabic ? 'float-right' : 'float-left'">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only">Close</span>
+      </button>
+      <h4 class="modal-title">{{ "Import Csv" }}</h4>
+    </bs-modal-header>
+    <bs-modal-body>
+      {{ "Upload Csv file" }}
+      <input type="file" #fileImportInputWO name="csv_data" id="txtFileUpload" class="btn btn-primary"
+        (change)="fileChangeListener($event)" accept=".csv" />
+    </bs-modal-body>
+    <bs-modal-footer>
+      <button type="button" class="btn btn-primary" (click)="importWO()">
+        {{ "Import" }}
+      </button>
+      <button type="button" class="btn btn-default" (click)="hidePopUp('modalImportWO')">
+        {{ "Cancel" }}
+      </button>
+    </bs-modal-footer>
+  </bs-modal>
+  <bs-modal #modalImportWO id="modalDeactivate5" dir="{{ !isLangArabic ? 'ltr' : 'rtl' }}">
+    <bs-modal-header [showDismiss]="false">
+      <button type="button" class="close" [ngClass]="!isLangArabic ? 'float-right' : 'float-left'" data-dismiss="modal">
+        <span aria-hidden="true" (click)="removePopUpCss()">&times;</span>
+        <span class="sr-only">Close</span>
+      </button>
+    </bs-modal-header>
+    <bs-modal-body>
+      <div class="col-md-12 alignCenter hideContent">
+        <div class="btn btn-color" (click)="Printme()">Print</div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th colspan="2">
+              <h4 class="alignCenter">
+                <strong>Exchange Info</strong>
+              </h4>
+            </th>
+            <th colspan="2">
+              <h4 class="alignCenter">
+                <strong>DP Info</strong>
+              </h4>
+            </th>
+            <th colspan="2">
+              <h4 class="alignCenter">
+                <strong>General Info</strong>
+              </h4>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>S/W Work Order #</td>
+            <td>{{ ExchangeInfoTelephone_no }}</td>
+            <td>S/W Work Order #</td>
+            <td>{{ ExchangeInfoTelephone_no }}</td>
+            <td>S/W Work Order #</td>
+            <td>{{ ExchangeInfoTelephone_no }}</td>
+          </tr>
+          <tr>
+            <td>S/W Work Order #</td>
+            <td>{{ ExchangeInfoSw_workorder_no }}</td>
+            <td>S/W Work Order #</td>
+            <td>{{ ExchangeInfoSw_workorder_no }}</td>
+            <td>S/W Work Order #</td>
+            <td>{{ ExchangeInfoSw_workorder_no }}</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td>S/W Work Order #</td>
+            <td>{{ ExchangeInfoSw_workorder_no }}</td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </bs-modal-body>
+    <bs-modal-footer>
+      <button type="button" class="btn btn-default" (click)="hideViewAllPopUp('modalDeactivate4')">
+        {{ "Cancel" | translate }}
+      </button>
+    </bs-modal-footer>
+  </bs-modal>
+</div>

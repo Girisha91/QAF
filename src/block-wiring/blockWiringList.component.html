@@ -1,0 +1,798 @@
+<header></header>
+<div class="blkwir">
+    <div class="card">
+        <div class="header">
+            <div class="row Pagename" style="display: flex;">
+                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 mt-2">
+                    <b class="page-head table-header-margin">Block Wiring </b>
+                </div>
+            </div>
+            <div class="row srcrow" style="display: flex;">
+                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                    <form [formGroup]="searchForm"
+                        (ngSubmit)="OnSubmit(searchForm.value)">
+                        <div class="margin-bottom"
+                            formArrayName="items"
+                            *ngFor="let item of items.controls; let i= index;">
+                            <div class="position-relative form-id-{{i}}"
+                                [formGroupName]="i">
+                                <div class="row pos">
+                                    <div class="col-xl-4 col-lg-4 col-md-4
+                                        col-sm-4">
+                                        <select id="ddlselect{{i}}"
+                                            class="drop-down inline-display
+                                            form-control"
+                                            (change)="onChange($event)"
+                                            formControlName="fieldName">
+                                            <option value="">Select</option>
+                                            <option *ngFor="let state of
+                                                searchKeyArray"
+                                                [value]="state.item">{{state.label}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-4 col-sm-4
+                                        col-md-4 pl-0">
+                                        <input class="form-control drop-down
+                                            inline-display"
+                                            type="text"
+                                            formControlName="fieldValue"
+                                            placeholder="value" />
+                                    </div>
+                                    <select class="hide textbox-height
+                                        form-control
+                                        node-select"
+                                        formControlName="fieldValue">
+                                        <option value="">Select</option>
+                                        <option *ngFor="let state of nodeArray"
+                                            [value]="state">{{state}}</option>
+                                    </select>
+                                    <div class="col-xl-4 col-lg-4 col-md-4
+                                        col-sm-4">
+                                        <button type="submit" class="primary
+                                            mt-3">{{ 'Search' | translate}}</button>
+                                        <a class="inline-display add-anch"
+                                            (click)="addItem()">{{ 'Add More' | translate}}</a>
+                                        <span class="vertical-line"></span>
+                                        <a class="inline-display clr-anch"
+                                            (click)="cancelSearch()">{{ 'Clear' | translate}}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-4 col-md-4 com-sm-4 ftrt pl-0  h-6" *ngIf="userRoleId == '1'">
+                    <button type="button" class="btn btn-primary import mt-3"
+                    routerLink='/blockWiringList/add' style="margin-right: 5px;">{{ 'Add' | translate}}</button>
+                    <!-- <button type="button" class="btn btn-default import mt-3"
+                    routerLink='/employee'>{{ 'Back' | translate}}</button> -->
+                    <!-- <button type="button" class="btn btn-primary import mt-3"
+                      (click)='showMdfUploadPopUp()'>Import Mdf Details</button> -->
+                    
+                  </div>
+                <!-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">{{lastUpdatedDate}}</div> -->
+            </div>
+        </div>
+        <!-- <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div class="horiline">
+                <a *ngIf="userRoleId == '1'" routerLink='/employee'> <button
+                        type="button" class="qafbutton pull-right">Back</button></a>
+                <a routerLink='/blockWiringList/add'> <button type="button"
+                        class="primary btn btn-default
+                        pull-right">Add</button></a>
+            </div>
+            </div>
+        </div> -->
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div class="mr-tb">
+                        <!-- [ngClass]="!isLangArabic ? 'tc-en' : 'tc-ar' ;" -->
+                    <div id="tableContainer"  >
+                        <!-- tableContainer blockWiring-table pabx-table tbl-employee table
+                            highLightTable -->
+                        <!-- tabcont maintable hlt -->
+                        <!-- dir="{{!isLangArabic ?'ltr':'rtl'}}" -->
+                        <table  class="blockWiring-table pabx-table tbl-employee
+                            table
+                            highLightTable">
+                            <thead style="border-top: none !important;">
+                                <tr class="tr-fonts">
+                                        <!-- [ngClass]="!isLangArabic ? 'fixed-1' : 'fixed-ar-1' ;" -->
+                                    <th class="fixed-1 fixth"></th>
+                                    <!-- [ngClass]="!isLangArabic ? 'fixed-2' : 'fixed-ar-2' ;" -->
+                                    <th class="fixed-2 fixth">
+                                        Action
+                                    </th>
+                                    <th (click)="sort('type_enquiry')"> Type of
+                                        Enquiry
+                                        <i class="fa" [ngClass]="{'fa-sort':
+                                            column
+                                            !=
+                                            'type_enquiry',
+                                            'fa-sort-asc': (column ==
+                                            'type_enquiry'
+                                            &&
+                                            !isDesc),
+                                            'fa-sort-desc': (column ==
+                                            'type_enquiry' && isDesc)
+                                            }"
+                                            aria-hidden="true">
+                                        </i>
+                                    </th>
+                                    <th (click)="sort('enquiry_from')"> Enquiry
+                                        From
+                                        <i class="fa" [ngClass]="{'fa-sort':
+                                            column
+                                            !=
+                                            'enquiry_from',
+                                            'fa-sort-asc': (column ==
+                                            'enquiry_from'
+                                            &&
+                                            !isDesc),
+                                            'fa-sort-desc': (column ==
+                                            'enquiry_from' && isDesc)
+                                            }"
+                                            aria-hidden="true">
+                                        </i>
+                                    </th>
+                                    <th (click)="sort('client_dev_name')">Client/Development
+                                        Name
+                                        <i class="fa" [ngClass]="{'fa-sort':
+                                            column
+                                            !=
+                                            'Userclient_dev_name',
+                                            'fa-sort-asc': (column ==
+                                            'client_dev_name' &&
+                                            !isDesc),
+                                            'fa-sort-desc': (column ==
+                                            'client_dev_name' &&
+                                            isDesc)
+                                            }" aria-hidden="true">
+                                        </i>
+                                    </th>
+                                    <th (click)="sort('consultant_name')">Consultant
+                                        Name
+                                        <i class="fa" [ngClass]="{'fa-sort':
+                                            column
+                                            !=
+                                            'consultant_name ',
+                                            'fa-sort-asc': (column ==
+                                            'consultant_name ' &&
+                                            !isDesc),
+                                            'fa-sort-desc': (column ==
+                                            'consultant_name ' &&
+                                            isDesc)
+                                            }" aria-hidden="true">
+                                        </i>
+                                    </th>
+                                    <th (click)="sort('contractor_name')">Contractor
+                                        Name
+                                        <i class="fa" [ngClass]="{'fa-sort':
+                                            column
+                                            !=
+                                            'contractor_name',
+                                            'fa-sort-asc': (column ==
+                                            'contractor_name' &&
+                                            !isDesc),
+                                            'fa-sort-desc': (column ==
+                                            'contractor_name' &&
+                                            isDesc)
+                                            }" aria-hidden="true">
+                                        </i>
+                                    </th>
+                                    <th (click)="sort('project_name')">Project
+                                        Name
+                                        <i class="fa" [ngClass]="{'fa-sort':
+                                            column
+                                            !=
+                                            'project_name',
+                                            'fa-sort-asc': (column ==
+                                            'project_name'
+                                            &&
+                                            !isDesc),
+                                            'fa-sort-desc': (column ==
+                                            'project_name' && isDesc)
+                                            }"
+                                            aria-hidden="true">
+                                        </i>
+                                    </th>
+                                    <th (click)="sort('project_no')">Project no
+                                        <i class="fa" [ngClass]="{'fa-sort':
+                                            column
+                                            !=
+                                            'project_no',
+                                            'fa-sort-asc': (column ==
+                                            'project_no'
+                                            && !isDesc),
+                                            'fa-sort-desc': (column ==
+                                            'project_no'
+                                            && isDesc)
+                                            }"
+                                            aria-hidden="true">
+                                        </i>
+                                    </th>
+                                    <th (click)="sort('distribution_menu')">Distribution
+                                        Menu
+                                        <i class="fa" [ngClass]="{'fa-sort':
+                                            column
+                                            !=
+                                            'distribution_menu',
+                                            'fa-sort-asc': (column ==
+                                            'distribution_menu' &&
+                                            !isDesc),
+                                            'fa-sort-desc': (column ==
+                                            'distribution_menu' &&
+                                            isDesc) }" aria-hidden="true">
+                                        </i>
+                                    </th>
+                                    <th (click)="sort('distribution_unit')">Distribution
+                                        Unit
+                                        <i class="fa" [ngClass]="{'fa-sort':
+                                            column
+                                            !=
+                                            'distribution_unit',
+                                            'fa-sort-asc': (column ==
+                                            'distribution_unit' &&
+                                            !isDesc),
+                                            'fa-sort-desc': (column ==
+                                            'distribution_unit' &&
+                                            isDesc) }" aria-hidden="true">
+                                        </i>
+                                    </th>
+                                    <th (click)="sort('location')">Location
+                                        <i class="fa" [ngClass]="{'fa-sort':
+                                            column
+                                            !=
+                                            'location',
+                                            'fa-sort-asc': (column == 'location'
+                                            &&
+                                            !isDesc),
+                                            'fa-sort-desc': (column ==
+                                            'location' &&
+                                            isDesc) }"
+                                            aria-hidden="true">
+                                        </i>
+                                    </th>
+                                    <th (click)="sort('pin_no')">Pin no
+                                        <i class="fa" [ngClass]="{'fa-sort':
+                                            column
+                                            != 'pin_no',
+                                            'fa-sort-asc': (column == 'pin_no'
+                                            &&
+                                            !isDesc),
+                                            'fa-sort-desc': (column == 'pin_no'
+                                            &&
+                                            isDesc) }"
+                                            aria-hidden="true">
+                                        </i>
+                                    </th>
+                                    <th (click)="sort('drawing_name')">Drawing
+                                        Name
+                                        <i class="fa" [ngClass]="{'fa-sort':
+                                            column
+                                            !=
+                                            'drawing_name',
+                                            'fa-sort-asc': (column ==
+                                            'drawing_name'
+                                            &&
+                                            !isDesc),
+                                            'fa-sort-desc': (column ==
+                                            'drawing_name' && isDesc)
+                                            }"
+                                            aria-hidden="true">
+                                        </i>
+                                    </th>
+                                    <th (click)="sort('drawing_no')">Drawing no
+                                        <i class="fa" [ngClass]="{'fa-sort':
+                                            column
+                                            !=
+                                            'drawing_no',
+                                            'fa-sort-asc': (column ==
+                                            'drawing_no'
+                                            && !isDesc),
+                                            'fa-sort-desc': (column ==
+                                            'drawing_no'
+                                            && isDesc)
+                                            }"
+                                            aria-hidden="true">
+                                        </i>
+                                    </th>
+                                    <th (click)="sort('originator')">Originator
+                                        <i class="fa" [ngClass]="{'fa-sort':
+                                            column
+                                            !=
+                                            'originator',
+                                            'fa-sort-asc': (column ==
+                                            'originator'
+                                            && !isDesc),
+                                            'fa-sort-desc': (column ==
+                                            'originator'
+                                            && isDesc)
+                                            }"
+                                            aria-hidden="true">
+                                        </i>
+                                    </th>
+                                    <th (click)="sort('description_work')">Description
+                                        Work
+                                        <i class="fa" [ngClass]="{'fa-sort':
+                                            column
+                                            !=
+                                            'description_work',
+                                            'fa-sort-asc': (column ==
+                                            'description_work' &&
+                                            !isDesc),
+                                            'fa-sort-desc': (column ==
+                                            'description_work' &&
+                                            isDesc)
+                                            }" aria-hidden="true"> </i>
+                                    </th>
+                                    <th (click)="sort('status')">Status
+                                        <i class="fa" [ngClass]="{'fa-sort':
+                                            column
+                                            != 'status',
+                                            'fa-sort-asc': (column == 'status'
+                                            &&
+                                            !isDesc),
+                                            'fa-sort-desc': (column == 'status'
+                                            &&
+                                            isDesc) }"
+                                            aria-hidden="true"> </i>
+                                    </th>
+                                    <th (click)="sort('remarks')"> Remarks
+                                        <i class="fa" [ngClass]="{'fa-sort':
+                                            column
+                                            !=
+                                            'remarks',
+                                            'fa-sort-asc': (column == 'remarks'
+                                            &&
+                                            !isDesc),
+                                            'fa-sort-desc': (column == 'remarks'
+                                            &&
+                                            isDesc) }"
+                                            aria-hidden="true"> </i>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let emp of EmployeeDetails | orderBy:
+                                {property:
+                                column, direction: direction} | paginate:
+                                {itemsPerPage: 10,
+                                currentPage:page, id: '1'} ; let i= index">
+                                <tr *ngIf="EmployeeDetails?.length> 0"
+                                    (click)="setClickedRow(emp)"
+                                    [class.active]="emp.highLightRow">
+                                    <!-- [ngClass]="!isLangArabic ? 'fixed-1' : 'fixed-ar-1' ;" -->
+                                    <td class=" fixed-1 fullsize">
+                                        <span class="cursor-pointer fa"
+                                            [ngClass]="(!emp?.hideInnerEmpRow)?'fa-expand':'fa-compress'"
+                                            (click)="toggleHiddenEmpRow(emp)"></span>
+                                    </td>
+                                    <!-- [ngClass]="!isLangArabic ? 'fixed-2' : 'fixed-ar-2' ;"  -->
+                                    <td class=" fixed-2 fullsize">
+                                        <a class="primary-color cursor-pointer pr-7
+                                            table-action-icon
+                                            fa fa-eye fa-lg" title="{{'View Block Wiring'| translate}}"
+                                            [routerLink]="['/blockWiringList/view/',
+                                            emp.id]"></a>
+                                        <a class="primary-color pr-7
+                                            table-action-icon fa
+                                            fa-wrench cursor-pointer
+                                            fa-lg" title="{{'View or Edit Block Wiring'| translate}}"
+                                            [routerLink]="['/blockWiringList/edit/',
+                                            emp.id]"></a>
+                                        <a class="primary-color cursor-pointer
+                                            table-action-icon pr-7
+                                            fa fa-trash-o fa-lg"
+                                            (click)="showDeactivateBlockWiringPopup(emp)"
+                                            title="Delete Block Wiring"></a>
+                                        <a
+                                            [routerLink]="['/blockWiringAttach/add',
+                                            emp.id]"
+                                            class="primary-color pr-7
+                                            table-action-icon fa
+                                            fa-plus cursor-pointer
+                                            fa-lg" title="{{'Add Block Wiring Attach'| translate}}"></a>
+                                    </td>
+                                    <td>{{emp.type_enquiry}}</td>
+                                    <td>{{emp.enquiry_from}}</td>
+                                    <td class="word-break">{{emp.client_dev_name}}</td>
+                                    <td>{{emp.consultant_name}}</td>
+                                    <td>{{emp.contractor_name}}</td>
+                                    <td>{{emp.project_name}}</td>
+                                    <td>{{emp.project_no}}</td>
+                                    <td>{{emp.distribution_menu}}</td>
+                                    <td>{{emp.distribution_unit}}</td>
+                                    <td>{{emp.location}}</td>
+                                    <td>{{emp.pin_no}}</td>
+                                    <td>{{emp.drawing_name}}</td>
+                                    <td>{{emp.drawing_no}}</td>
+                                    <td>{{emp.originator}}</td>
+                                    <td>{{emp.description_work}}</td>
+                                    <td>{{emp.status}}</td>
+                                    <td>{{emp.remarks}}</td>
+                                </tr>
+                                <ng-container *ngIf="emp?.hideInnerEmpRow">
+                                    <tr rowspan="99" class="inner-tr"
+                                        [ngClass]="emp.hideInnerEmpRow?
+                                        'display-block':'hidden-row'">
+                                        <td class="bk-dark border-bottom"
+                                            colspan="99">
+                                            <table class="tbl-employee table"
+                                                style="width:
+                                                999px;">
+                                                <tr class="tr-fonts">                                                    
+                                                    <th>File Name</th>
+                                                    <th>Originator</th>
+                                                    <th>Uploaded By</th>
+                                                    <th>Verified By</th>
+                                                    <th>Approved By </th>
+                                                    <th>Uploaded Date</th>
+                                                    <th>No of SN Points</th>
+                                                    <th>No of VN Points</th>
+                                                    <th>No of GN Points</th>
+                                                    <th>No of LN Points</th>
+                                                    <th>No of WAP Points</th>
+                                                    <th>No of DECT Points</th>
+                                                    <th>No of LMS Points</th>
+                                                    <th>Total no of Points</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                                <tbody *ngFor="let emp1 of
+                                                    emp.block_wiring_attach |
+                                                    orderBy:
+                                                    {property: column,
+                                                    direction: direction}
+                                                    ;
+                                                    let i= index" #someVar>
+                                                    <tr>                                                        
+                                                        <td>
+                                                            <a target="_blank"
+                                                                href="{{environment_apikey
+                                                                +
+                                                                '/imagetest/uploads/block_wiring/'
+                                                                + emp1.id + '/'
+                                                                +
+                                                                emp1.file_name}}">{{emp1.file_name}}</a>
+                                                        </td>
+                                                        <td>{{emp1.originator}}</td>
+                                                        <td>{{emp1.uploaded_by}}</td>
+                                                        <td>{{emp1.verified_by}}</td>
+                                                        <td>{{emp1.approved_by}}</td>
+                                                        <td>{{emp1.uploaded_at}}</td>
+                                                        <td>{{emp1.no_sn_points}}</td>
+                                                        <td>{{emp1.no_vn_points}}</td>
+                                                        <td>{{emp1.no_gn_points}}</td>
+                                                        <td>{{emp1.no_ln_points}}</td>
+                                                        <td>{{emp1.no_wap_points}}</td>
+                                                        <td>{{emp1.no_dect_points}}</td>
+                                                        <td>{{emp1.no_lms_points}}</td>
+                                                        <td>{{emp1.total_no_points}}</td>
+                                                        <td
+                                                            class="no-word-wrap">
+                                                            <a
+                                                                class="primary-color
+                                                                cursor-pointer
+                                                                table-action-icon
+                                                                fa fa-eye pr-7 fa-lg"
+                                                                title="{{'View block wiring attach'| translate}}"
+                                                                [routerLink]="['/blockWiringAttach/view',
+                                                                emp1.id]"></a>
+                                                            <a
+                                                                *ngIf="checkOperation('1','2')"
+                                                                [routerLink]="['/blockWiringAttach/edit',
+                                                                emp1.id]"
+                                                                class="primary-color
+                                                                table-action-icon
+                                                                fa
+                                                                fa-wrench
+                                                                fa-lg pr-7"
+                                                                title="{{'Edit block wiring attach Details'| translate}}"></a>
+                                                            <a
+                                                                class="primary-color
+                                                                cursor-pointer
+                                                                table-action-icon
+                                                                fa fa-trash-o
+                                                                fa-lg pr-7"
+                                                                (click)="showDeactivateBlockWiringAttachmentPopup(emp1)"
+                                                                title="Delete Block Wiring Attachment"></a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </tbody>
+                            <tbody *ngIf="EmployeeDetails?.length == 0">
+                                <tr>
+                                    <td></td>
+                                    <td colspan="1000">
+                                        No records found.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="right-align">
+                        <pagination-controls (pageChange)="page= $event" id="1"
+                            maxSize="5"
+                            directionLinks="true" autoHide="true">
+                        </pagination-controls>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <bs-modal #modalDeactivate id="modalDeactivate" dir="{{!isLangArabic
+            ?'ltr':'rtl'}}">
+            <bs-modal-header [showDismiss]="false">
+                <button type="button" class="close" data-dismiss="modal"
+                    [ngClass]="!isLangArabic? 'float-right':'float-left'">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title">{{ 'Delete Block Wiring' | translate }}</h4>
+            </bs-modal-header>
+            <bs-modal-body>
+                {{'Are you sure you want to Delete this Block Wiring' |
+                translate }}
+            </bs-modal-body>
+            <bs-modal-footer>
+                <button type="button" class="btn btn-danger"
+                    (click)="deleteBlockWiring()">{{ 'Delete' | translate }}</button>
+                <button type="button" class="btn btn-default"
+                    (click)="hidePopUp('modalDeactivate')">{{ 'Cancel' |
+                    translate
+                    }}</button>
+            </bs-modal-footer>
+        </bs-modal>
+        <bs-modal #modalDeactivate1 id="modalDeactivate1"
+            dir="{{!isLangArabic
+            ?'ltr':'rtl'}}">
+            <bs-modal-header [showDismiss]="false">
+                <button type="button" class="close" data-dismiss="modal"
+                    [ngClass]="!isLangArabic? 'float-right':'float-left'">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title">{{ 'Deactivate Block Wiring Attachment' | translate }}</h4>
+            </bs-modal-header>
+            <bs-modal-body>
+                {{'Are you sure you want to deactivate this Block Wiring
+                Attachment'
+                | translate }}
+            </bs-modal-body>
+            <bs-modal-footer>
+                <button type="button" class="btn btn-danger"
+                    (click)="deleteBlockWiringAttach()">{{ 'Deactivate' |
+                    translate
+                    }}</button>
+                <button type="button" class="btn btn-default"
+                    (click)="hidePopUp('modalDeactivate1')">{{ 'Cancel' |
+                    translate
+                    }}</button>
+
+            </bs-modal-footer>
+        </bs-modal>
+
+        <bs-modal #modalSendSMS id="modalSendSMS" dir="{{!isLangArabic
+            ?'ltr':'rtl'}}">
+            <bs-modal-header [showDismiss]="false">
+                <button type="button" class="close"
+                    [ngClass]="!isLangArabic?
+                    'float-right':'float-left'" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title">{{'Send Sms'| translate }}</h4>
+                <br />
+                <div class="modal-title" id="SendsmsModalLabel">
+                    <label>{{'TO'| translate }}</label>
+                    <span>
+                        <input type="text" class="form-control"
+                            [(ngModel)]="txtToNumber" id="ToMobileNo."
+                            placeholder="{{'Enter Contact No.'|
+                            translate
+                            }}" name="ToMobileNo" style="display:
+                            inline-block;
+                            width: 90%;" />
+                    </span>
+                </div>
+            </bs-modal-header>
+            <bs-modal-body>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="SmsId">
+                                <input type="checkbox" [(ngModel)]="checkId"
+                                    (click)="filterData('id')" /> {{
+                                'MilitaryId' | translate }}</label>
+                            <input type="text" class="form-control"
+                                [(ngModel)]="SmsId" placeholder="{{ 'ID'
+                                |
+                                translate }}" name="SmsId" />
+                        </div>
+                        <div class="form-group">
+                            <label for="SmsName">
+                                <input type="checkbox"
+                                    [(ngModel)]="checkName"
+                                    (click)="filterData('name')" /> {{
+                                'NAME' |
+                                translate }}</label>
+                            <input type="text" class="form-control"
+                                [(ngModel)]="SmsName" placeholder="{{
+                                'NAME'
+                                |
+                                translate }}" name="SmsName" />
+                        </div>
+                        <div class="form-group">
+                            <label for="SmsRank">
+                                <input type="checkbox"
+                                    [(ngModel)]="checkRank"
+                                    (click)="filterData('rank')" /> {{
+                                'RANK' |
+                                translate }}</label>
+                            <input type="email" class="form-control"
+                                [(ngModel)]="SmsRank" placeholder="{{
+                                'RANK'
+                                |
+                                translate }}" name="SmsRank" />
+                        </div>
+                        <div class="form-group">
+                            <label for="SmstelMobile">
+                                {{ 'TEL-Office' | translate }}</label>
+                            <div>
+                                <input type="checkbox"
+                                    [(ngModel)]="checkOfficePhone1"
+                                    (click)="filterData('offPhone1')" />
+                                <input type="text" class="form-control
+                                    textbox-with-checkBox"
+                                    [(ngModel)]="SmstelOffice"
+                                    placeholder="{{
+                                    'TEL-Office' | translate }}"
+                                    name="SmstelMobile" />
+                            </div>
+                            <div>
+                                <input type="checkbox"
+                                    [(ngModel)]="checkOfficePhone2"
+                                    (click)="filterData('offPhone2')" />
+                                <input type="text" class="form-control
+                                    textbox-with-checkBox"
+                                    [(ngModel)]="SmstelOffice1"
+                                    placeholder="{{
+                                    'TEL-Office' | translate }}"
+                                    name="SmstelOffice" style="margin-top:
+                                    5px;
+                                    margin-bottom: 5px;" />
+                            </div>
+                            <div>
+                                <input type="checkbox"
+                                    [(ngModel)]="checkOfficePhone3"
+                                    (click)="filterData('offPhone3')" />
+                                <input type="text" class="form-control
+                                    textbox-with-checkBox"
+                                    [(ngModel)]="SmstelOffice2"
+                                    placeholder="{{
+                                    'TEL-Office' | translate }}"
+                                    name="SmstelOffice" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="SmsPosition">
+                                <input type="checkbox"
+                                    [(ngModel)]="checkPosition"
+                                    (click)="filterData('pos')" /> {{
+                                'POSITION'
+                                | translate }}</label>
+                            <input type="text" class="form-control"
+                                [(ngModel)]="SmsPosition" placeholder="{{
+                                'POSITION' | translate }}"
+                                name="SmsPosition" />
+                        </div>
+                        <div class="form-group">
+                            <label for="SmsCompany">
+                                <input type="checkbox"
+                                    [(ngModel)]="checkDisList"
+                                    (click)="filterData('disList')" />
+                                {{
+                                'DistributionUnit' | translate }}</label>
+                            <input type="Text" class="form-control"
+                                [(ngModel)]="SmsDistributionUnit"
+                                placeholder="{{ 'DistributionUnit' |
+                                translate
+                                }}" name="SmsCompany" />
+                        </div>
+                        <div class="form-group">
+                            <label for="SmstelOffice">
+                                <input type="checkbox"
+                                    [(ngModel)]="checkMobile"
+                                    (click)="filterData('mob')" /> {{
+                                'TEL-Mobile' | translate }}</label>
+                            <div>
+                                <input type="text" class="form-control
+                                    textbox-with-checkBox"
+                                    [(ngModel)]="SmstelMobile"
+                                    placeholder="{{
+                                    'TEL-Mobile' | translate }}"
+                                    name="SmstelOffice" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </bs-modal-body>
+            <bs-modal-footer>
+                <button type="button" class="primary-button btn
+                    btn-default" (click)='sendSMS()'>{{ 'Send' | translate
+                    }}</button>
+                <button type="button" class="btn btn-default"
+                    (click)="hidePopUp('modalSendSMS')">{{ 'Cancel' |
+                    translate
+                    }}</button>
+
+            </bs-modal-footer>
+        </bs-modal>
+
+
+        <bs-modal #modalImport id="modalImport" dir="{{!isLangArabic
+            ?'ltr':'rtl'}}">
+            <bs-modal-header [showDismiss]="false">
+                <button type="button" class="close" data-dismiss="modal"
+                    [ngClass]="!isLangArabic?
+                    'float-right':'float-left'">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title">{{ 'Import Csv' | translate }}</h4>
+            </bs-modal-header>
+            <bs-modal-body>
+                {{'Upload Csv file' | translate }}
+                <input type="file" #fileImportInput name="csv_data"
+                    id="txtFileUpload" class="btn btn-primary"
+                    (change)="fileChangeListener($event,'external_lines')"
+                    accept=".csv" />
+            </bs-modal-body>
+            <bs-modal-footer>
+                <button type="button" class="btn btn-primary"
+                    (click)='import()'>{{ 'import' | translate }}</button>
+                <button type="button" class="btn btn-default"
+                    (click)="hidePopUp('modalImport')">{{ 'Cancel' |
+                    translate
+                    }}</button>
+
+            </bs-modal-footer>
+        </bs-modal>
+
+        <bs-modal #modalImportRent id="modalImportRent" dir="{{!isLangArabic
+            ?'ltr':'rtl'}}">
+            <bs-modal-header [showDismiss]="false">
+                <button type="button" class="close" data-dismiss="modal"
+                    [ngClass]="!isLangArabic?
+                    'float-right':'float-left'">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title">{{ 'Import Csv' | translate }}</h4>
+            </bs-modal-header>
+            <bs-modal-body>
+                {{'Upload Rent Csv file' | translate }}
+                <input type="file" #fileImportInput name="csv_data"
+                    id="txtFileUpload" class="btn btn-primary"
+                    (change)="fileChangeListener($event,'external_lines_rent')"
+                    accept=".csv" />
+            </bs-modal-body>
+            <bs-modal-footer>
+                <button type="button" class="btn btn-primary"
+                    (click)='importRent()'>{{ 'importRent' | translate
+                    }}</button>
+                <button type="button" class="btn btn-default"
+                    (click)="hidePopUp('modalImportRent')">{{ 'Cancel' |
+                    translate }}</button>
+            </bs-modal-footer>
+        </bs-modal>
+    </div>
+</div>

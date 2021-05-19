@@ -1,0 +1,335 @@
+<div class="freeadd">
+    <div class="pabxScreeen">
+        <app-pabx-nav></app-pabx-nav>
+    </div>
+    <div class="card">
+
+            <div class="header">
+                    <div class="row Pagename">
+                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                        <b class="page-head">PABX - Free Address</b>
+                      </div>
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 ftrt" *ngIf="lastUpdatedDate">
+                        Date Last Updated: {{lastUpdatedDate}}
+                      </div>
+                    </div>
+                    <div class="row srcrow">
+                      <div class="col-lg-10 col-md-10 col-sm-10">
+                        <form [formGroup]="searchForm"
+                          (ngSubmit)="OnSubmit(searchForm.value)">
+                          <div class="search-form margin-bottom" formArrayName="items"
+                            *ngFor="let item of items.controls; let i= index;">
+                            <div class="position-relative form-id-{{i}}" [formGroupName]="i">
+                              <div class="row pos">
+                                <div class="col-lg-4 col-md-4
+                                  col-sm-4">
+                                  <label class="text-center">Search:</label>
+                                  <select id="ddlselect{{i}}" class="drop-down
+                                    form-control text-center wd-80
+                                    inline-display" (change)="onChange($event,searchForm.value)"
+                                    formControlName="fieldName">
+                                    <option value="">Select</option>
+                                    <option *ngFor="let state of searchKeyArray"
+                                      [value]="state.item">{{state.label}}</option>
+                                  </select>
+                                </div>
+                                <div class="col-lg-4 col-sm-4
+                                  col-md-4" style="padding-left: 0;">
+                                  <input class="drop-down wd-100 form-control inline-display"
+                                    type="text" formControlName="fieldValue"
+                                    placeholder="value" />                                  
+                                </div>
+                                <select class="hide drop-down form-control node-select"
+                                  formControlName="fieldValue">
+                                  <option value="">Select</option>
+                                  <option *ngFor="let state of terminalTypeArray" [value]="state">{{state}}</option>
+                                </select>
+                                <div class="col-lg-3 col-md-3
+                                  col-sm-3" style="padding: 0;">
+                                  <button type="submit" class="primary mt-3">{{ 'Search' | translate}}</button>
+                                  <a class="inline-display add-anch"
+                                    (click)="addItem()">{{ 'Add More' | translate}}</a>
+                                  <span class="vertical-line"></span>
+                                  <a class="inline-display clr-anch"
+                                    (click)="cancelSearch()">{{ 'Clear' | translate}}</a>
+                                  <i class="fa fa-times custom primary-color cursor-pointer"
+                                    *ngIf="!(i===0)" (click)="deleteAction(i)"
+                                    aria-hidden="true"></i>                                  
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                      <div class="col-lg-2 col-md-2 com-sm-2 h-6 ftrt" *ngIf="userRoleId == '1'">
+                        <button type="button" class="btn btn-primary import mt-3"
+                          (click)='showUploaPopUp()'>{{ 'Import' | translate }}</button>
+                        <button type="button" class="btn btn-primary import mt-3"
+                          (click)='exportToExcel()'>{{ 'Export' | translate }}</button>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+    <!-- <div class="row pabx-header">
+        <div class="col-md-4 pabx-heading">PABX - Free Address</div>
+        <div class="col-md-4">
+            <label>Search:</label>
+            <form [formGroup]="searchForm"
+                (ngSubmit)="OnSubmit(searchForm.value)">
+                <div class="search-form margin-bottom" formArrayName="items"
+                    *ngFor="let item of items.controls; let i= index;">
+                    <div class="position-relative form-id-{{i}}"
+                        [formGroupName]="i">
+                        <select id="ddlselect{{i}}" class="textbox-height
+                            form-control inline-display"
+                            (change)="onChange($event)"
+                            formControlName="fieldName">
+                            <option value="">Select</option>
+                            <option *ngFor="let state of searchKeyArray"
+                                [value]="state.item">{{state.label}}</option>
+                        </select>
+                        <input class="textbox-height form-control
+                            inline-display" type="text"
+                            formControlName="fieldValue" placeholder="value" />
+                        <select class="hide textbox-height form-control
+                            form-select node-select"
+                            formControlName="fieldValue">
+                            <option value="">Select</option>
+                            <option *ngFor="let state of nodeArray"
+                                [value]="state">{{state}}</option>
+                        </select>
+                        <select class="hide textbox-height form-control
+                            form-select terminal-select"
+                            formControlName="fieldValue">
+                            <option value="">Select</option>
+                            <option *ngFor="let state of terminalTypeArray"
+                                [value]="state">{{state}}</option>
+                        </select>
+                        <span class="align-search-cross fa fa-remove
+                            cursor-pointer primary-color"
+                            (click)="deleteAction(i)"></span>
+
+                    </div>
+                </div>
+                <button type="submit" class="primary btn btn-default">Search</button>
+                <button type="button" class="primary btn btn-default"
+                    (click)="addItem()">Add More</button>
+                <button type="button" class="btn btn-default"
+                    (click)="cancelSearch()">Clear</button>
+
+            </form>
+        </div>
+        <div class="col-md-4 update-info">{{lastUpdatedDate}}</div>
+    </div> -->
+    <div class="main">
+        <!-- <div class="margin-bottom" *ngIf="userRoleId == '1'">
+            <button type="button" class="btn btn-primary import"
+                (click)='showUploaPopUp()'>{{ 'Import' | translate }}</button>
+            <button type="button" class="btn btn-primary import"
+                (click)='exportToExcel()'>{{ 'Export' | translate }}</button>
+        </div> -->
+
+        <table class="tbl-employee table highLightTable">
+            <tr class="tr-fonts">
+                <th>Action</th>
+                <th (click)="sort('Node')">Node
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Node',
+                        'fa-sort-asc': (column == 'Node' && !isDesc),
+                        'fa-sort-desc': (column == 'Node' && isDesc) }"
+                        aria-hidden="true"> </i>
+                </th>
+                <th (click)="sort('System')">System
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'System',
+                        'fa-sort-asc': (column == 'System' && !isDesc),
+                        'fa-sort-desc': (column == 'System' && isDesc) }"
+                        aria-hidden="true"> </i>
+                </th>
+                <th (click)="sort('Physical_Address')">Physical Address
+                    <i class="fa" [ngClass]="{'fa-sort': column !=
+                        'Physical_Address',
+                        'fa-sort-asc': (column == 'Physical_Address' &&
+                        !isDesc),
+                        'fa-sort-desc': (column == 'Physical_Address' && isDesc)
+                        }" aria-hidden="true"> </i>
+                </th>
+
+
+                <th (click)="sort('Terminal_Type')">Terminal Type
+                    <i class="fa" [ngClass]="{'fa-sort': column !=
+                        'Terminal_Type',
+                        'fa-sort-asc': (column == 'Terminal_Type' && !isDesc),
+                        'fa-sort-desc': (column == 'Terminal_Type' && isDesc) }"
+                        aria-hidden="true"> </i>
+                </th>
+
+                <th (click)="sort('Rack_Address')">Rack Address
+                    <i class="fa" [ngClass]="{'fa-sort': column !=
+                        'Rack_Address',
+                        'fa-sort-asc': (column == 'Rack_Address' && !isDesc),
+                        'fa-sort-desc': (column == 'Rack_Address' && isDesc) }"
+                        aria-hidden="true"> </i>
+                </th>
+                <th (click)="sort('Board_Address')">Board Address
+                    <i class="fa" [ngClass]="{'fa-sort': column !=
+                        'Board_Address',
+                        'fa-sort-asc': (column == 'Board_Address' && !isDesc),
+                        'fa-sort-desc': (column == 'Board_Address' && isDesc) }"
+                        aria-hidden="true"> </i>
+                </th>
+                <th (click)="sort('SET_ADDRESS')">Set Address
+                    <i class="fa" [ngClass]="{'fa-sort': column !=
+                        'SET_ADDRESS',
+                        'fa-sort-asc': (column == 'SET_ADDRESS' && !isDesc),
+                        'fa-sort-desc': (column == 'SET_ADDRESS' && isDesc) }"
+                        aria-hidden="true"> </i>
+                </th>
+
+                <!-- <th *ngIf="!showHideAllRows"><span class="cursor-pointer fa-lg fa fa-expand"  (click)="showAllHiddenEmpRow()"></span></th>
+        <th *ngIf="showHideAllRows"><span class="cursor-pointer fa-lg fa fa-compress"  (click)="hideAllHiddenRows()"></span></th> -->
+            </tr>
+
+            <tbody *ngFor="let emp of EmployeeDetails | orderBy: {property:
+                column, direction: direction}| paginate: {itemsPerPage: 10,
+                currentPage:page, id: '1'} ; let i= index">
+                <tr *ngIf="EmployeeDetails?.length> 0"
+                    (click)="setClickedRow(emp)"
+                    [class.active]="emp.highLightRow"
+                    class="tableRowTransparent">
+                    <td class="no-word-wrap">
+                        <a *ngIf="checkOperation('1','5')" class="primary-color
+                            cursor-pointer table-action-icon fa fa-envelope
+                            fa-lg" title="{{'Send Sms'| translate}}"
+                            (click)="showSMSPopup(emp)"></a>
+                    </td>
+                    <td>{{emp.Node}}</td>
+                    <td>{{emp.System}}</td>
+                    <td class="word-break">{{emp.Physical_Address}}</td>
+                    <td>{{emp.Terminal_Type}}</td>
+                    <td>{{emp.Rack_Address}}</td>
+                    <td>{{emp.Board_Address}}</td>
+                    <td>{{emp.Set_Address}}</td>
+                    <!-- <td >
+          <span class="cursor-pointer  fa " [ngClass]="(!emp?.hideInnerEmpRow)?'fa-expand':'fa-compress'" (click)="toggleHiddenEmpRow(emp)"></span>
+        </td> -->
+                </tr>
+            </tbody>
+            <tbody *ngIf="EmployeeDetails?.length == 0">
+                <tr>
+                    <td></td>
+                    <td colspan="1000">
+                        No records found
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="right-align">
+            <pagination-controls (pageChange)="page= $event" id="1" maxSize="5"
+                directionLinks="true" autoHide="true">
+            </pagination-controls>
+        </div>
+    </div>
+</div>
+
+    <div class="form-row">
+
+        <bs-modal #modalSendSMS id="modalSendSMS" dir="{{!isLangArabic
+            ?'ltr':'rtl'}}">
+            <bs-modal-header [showDismiss]="false">
+                <button type="button" class="close" [ngClass]="!isLangArabic?
+                    'float-right':'float-left'" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title">{{'Send Sms'| translate }}</h4>
+                <br/>
+                    <div class="modal-title" id="SendsmsModalLabel">
+                        <label>{{'TO'| translate }}</label>
+                        <span>
+                            <input type="text" class="form-control"
+                                [(ngModel)]="txtToNumber" id="ToMobileNo."
+                                placeholder="{{'Enter Contact No.'| translate
+                                }}"
+                                name="ToMobileNo" style="display: inline-block;
+                                width: 90%;" />
+                        </span>
+                    </div>
+                </bs-modal-header>
+                <bs-modal-body>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input type="checkbox" (click)=checkAllCheckbox()
+                                id="checkAllIds" /> {{ 'Select/UnSelect All' |
+                            translate }}
+                            <div class="form-group">
+                                <label for="SmsId">
+                                    <input type="checkbox" class="checkNode"
+                                        [(ngModel)]="checkNode" /> Node
+                                </label>
+                                <input type="text" class="form-control"
+                                    [(ngModel)]="SmsNode" placeholder="Node" />
+                            </div>
+                            <div class="form-group">
+                                <label for="SmsName">
+                                    <input type="checkbox"
+                                        class="checkPhyAddress"
+                                        [(ngModel)]="checkPhyAddress" />
+                                    Physical Address</label>
+                                <input type="text" class="form-control"
+                                    [(ngModel)]="SmsPhyAddress"
+                                    placeholder="Physical Address"
+                                    name="SmsName" />
+                            </div>
+                            <div class="form-group">
+                                <label for="SmsRank">
+                                    <input type="checkbox" class="checkTerminal"
+                                        [(ngModel)]="checkTerminal" /> Terminal
+                                    Type</label>
+                                <input type="email" class="form-control"
+                                    [(ngModel)]="SmsTerminal"
+                                    placeholder="Terminal Type" name="SmsRank"
+                                    />
+                            </div>
+                        </div>
+                    </div>
+                </bs-modal-body>
+                <bs-modal-footer>
+                    <button type="button" class="primary-button btn btn-default"
+                        (click)='sendSMS()'>{{ 'Send' | translate }}</button>
+                    <button type="button" class="btn btn-default"
+                        (click)="hidePopUp('modalSendSMS')">{{ 'Cancel' |
+                        translate }}</button>
+
+                </bs-modal-footer>
+            </bs-modal>
+
+
+            <bs-modal #modalImport id="modalImport" dir="{{!isLangArabic
+                ?'ltr':'rtl'}}">
+                <bs-modal-header [showDismiss]="false">
+                    <button type="button" class="close" data-dismiss="modal"
+                        [ngClass]="!isLangArabic? 'float-right':'float-left'">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title">{{ 'Import Csv' | translate }}</h4>
+                </bs-modal-header>
+                <bs-modal-body>
+                    {{'Upload Csv file' | translate }}
+                    <input type="file" #fileImportInput name="csv_data"
+                        id="txtFileUpload" class="btn btn-primary"
+                        (change)="fileChangeListener($event)"
+                        accept=".csv" />
+                </bs-modal-body>
+                <bs-modal-footer>
+                    <button type="button" class="btn btn-primary"
+                        (click)="import()">{{ 'Import' | translate }}</button>
+                    <button type="button" class="btn btn-default"
+                        (click)="hidePopUp('modalImport')">{{ 'Cancel' |
+                        translate }}</button>
+
+                </bs-modal-footer>
+            </bs-modal>
+        </div>
+    </div>

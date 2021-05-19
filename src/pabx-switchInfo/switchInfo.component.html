@@ -1,0 +1,290 @@
+<div class="switchform">
+    <div class="container">
+        <div class="listgroup content-margin">
+            <!-- <div class="col-md-12 margin-bottom right-align" >
+              <button type="button" (click)="AddSW(sw)" class="btn btn-default primary" *ngIf="opr==0">
+              {{title}}</button>
+              <button type="button" (click)="UpdateSW(sw)" class="btn btn-default primary" *ngIf="opr==1">
+                  {{title}}</button>
+              <button type="button" (click)="closeAndRedirect()" class="btn btn-default">
+                  Back </button>
+            </div> -->
+            <div class="row">
+                <div class="col-md-12" style="margin-top:0px;">
+                    <div class="col-md-12 plr-0">
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="col-md-12 whitebc"
+                                    [ngClass]="!isLangArabic?
+                                    'right-align':'left-align'">
+                                    <div style="display: flex;">
+                                        <b [ngClass]="!isLangArabic?
+                                            'ftlt':'ftrt'" class="page-head
+                                            table-header-margin">{{title}}</b>
+                                            <button *ngIf="opr==2" type="button"
+                                        (click)="closeAndRedirect()" class="btn
+                                        btn-default poabr0">
+                                        {{'Back' | translate}} </button>
+                                    </div>
+                                    <hr class="mtb-0 line" />
+                                    <!-- <button *ngIf="opr==2" type="button"
+                                        (click)="closeAndRedirect()" class="btn
+                                        btn-default">
+                                        {{'Back' | translate}} </button> -->
+                                </div>
+                                <!-- <div class="panel-heading">
+                                    <div class="inline-display">
+                                        <h3 class="panel-title">
+                                            {{title}}</h3>
+                                    </div>
+
+                                    <div style="float:right;" class="inline-display">(
+                                        <span class="error"> * </span>) Mandatory</div>
+                                </div> -->
+                                <div class="panel-body">
+                                    <div class="form-group col-md-12">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-4">
+                                                <label for="site_name">
+                                                    Site name</label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="sw.site_name"
+                                                    name="site_name"
+                                                    class="form-control"
+                                                    id="site_name"
+                                                    placeholder="Site name" />
+                                                <div class="error"
+                                                    [hidden]="errorSiteName ==
+                                                    ''">{{errorSiteName}}
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="location">
+                                                    Location</label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="sw.location"
+                                                    name="location"
+                                                    class="form-control"
+                                                    id="location"
+                                                    placeholder="Location"
+                                                    />
+                                                <div class="error"
+                                                    [hidden]="errorLocation ==
+                                                    ''">{{errorLocation}}
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="switch_name">
+                                                    Switch name</label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="sw.switch_name"
+                                                    name="switch_name"
+                                                    class="form-control"
+                                                    id="switch_name"
+                                                    placeholder="Switch Name" />
+                                                <div class="error"
+                                                    [hidden]="errorSwitchName ==
+                                                    ''">{{errorSwitchName}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-4">
+                                                <label for="type_switch">
+                                                    Type Switch</label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="sw.type_switch"
+                                                    name="type_switch"
+                                                    class="form-control"
+                                                    id="type_switch"
+                                                    placeholder="Type Switch"
+                                                    />
+                                                <div class="error"
+                                                    [hidden]="errorTypeSwitch ==
+                                                    ''">{{errorTypeSwitch}}</div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="sw_version">
+                                                    Sw Version</label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="sw.sw_version"
+                                                    name="sw_version"
+                                                    class="form-control"
+                                                    id="sw_version"
+                                                    placeholder="Sw Version" />
+                                                <div class="error"
+                                                    [hidden]="errorVersion ==
+                                                    ''">{{errorVersion}}</div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="sw_model_no">
+                                                    Sw Model No</label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="sw.sw_model_no"
+                                                    name="sw_model_no"
+                                                    class="form-control"
+                                                    id="sw_model_no"
+                                                    placeholder="Sw Model No" />
+                                                <div class="error"
+                                                    [hidden]="errorModelNo ==
+                                                    ''">{{errorModelNo}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-4">
+                                                <label for="management">
+                                                    Management</label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="sw.management"
+                                                    name="management"
+                                                    class="form-control"
+                                                    id="management"
+                                                    placeholder="Management" />
+                                                <div class="error"
+                                                    [hidden]="errorManagement ==
+                                                    ''">{{errorManagement}}</div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="serial_no">
+                                                    Serial No</label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="sw.serial_no"
+                                                    name="serial_no"
+                                                    class="form-control"
+                                                    id="serial_no"
+                                                    placeholder="Serial No" />
+                                                <div class="error"
+                                                    [hidden]="errorSerialNo ==
+                                                    ''">{{errorSerialNo}}</div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="part_no">
+                                                    Part No</label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="sw.part_no"
+                                                    name="part_no"
+                                                    class="form-control"
+                                                    id="part_no"
+                                                    placeholder="Part No" />
+                                                <div class="error"
+                                                    [hidden]="errorPartNo ==
+                                                    ''">{{errorPartNo}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-4">
+                                                <label for="sdh_spo_used">
+                                                    Sdh Spo Used</label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="sw.sdh_spo_used"
+                                                    name="sdh_spo_used"
+                                                    class="form-control"
+                                                    id="sdh_spo_used"
+                                                    placeholder="Sdh Spo Used"
+                                                    />
+                                                <div class="error"
+                                                    [hidden]="errorSpoused ==
+                                                    ''">{{errorSpoused}}</div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="remarks">
+                                                    Remarks</label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="sw.remarks"
+                                                    name="remarks"
+                                                    class="form-control"
+                                                    id="remarks"
+                                                    placeholder="Remarks" />
+                                                <div class="error"
+                                                    [hidden]="errorRemarks ==
+                                                    ''">{{errorRemarks}}</div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="status">
+                                                    Status</label>
+                                                <select class="form-control"
+                                                    ngControl="st"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="sw.status"
+                                                    required>
+                                                    <option *ngFor="let st of
+                                                        StatusList"
+                                                        [value]="st.value">{{st.label}}</option>
+                                                </select>
+                                                <div class="error"
+                                                    [hidden]="errorStatus ==
+                                                    ''">{{errorStatus}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-4"
+                                                *ngIf="opr==2">
+                                                <label for="added_at">
+                                                    Added at</label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="sw.added_at"
+                                                    name="added_at"
+                                                    class="form-control"
+                                                    id="added_at"
+                                                    placeholder="Added at" />
+                                            </div>
+                                            <div class="form-group col-md-4"
+                                                *ngIf="opr==2">
+                                                <label for="updated_at">
+                                                    Updated at</label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="sw.updated_at"
+                                                    name="updated_at"
+                                                    class="form-control"
+                                                    id="updated_at"
+                                                    placeholder="Updated at" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 center-align">
+                                        <button type="button"
+                                            (click)="AddSW(sw)" class="btn
+                                            btn-default primary" *ngIf="opr==0">
+                                            {{title}}</button>
+                                        <button type="button"
+                                            (click)="UpdateSW(sw)" class="btn
+                                            btn-default primary" *ngIf="opr==1">
+                                            {{title}}</button>
+                                        <button *ngIf="!(opr==2)" type="button"
+                                            (click)="closeAndRedirect()"
+                                            class="btn btn-default">
+                                            Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="col-md-12 center-align">
+                        <button type="button" (click)="AddSW(sw)" class="btn btn-default primary" *ngIf="opr==0">
+                        {{title}}</button>
+                        <button type="button" (click)="UpdateSW(sw)" class="btn btn-default primary" *ngIf="opr==1">
+                            {{title}}</button>
+                        <button type="button" (click)="closeAndRedirect()" class="btn btn-default">
+                            Back </button>
+                        <br/>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="ar current-lang" [ngClass]="getArStyleClass()">
+        <app-nav ></app-nav>
+        </div> -->
+</div>

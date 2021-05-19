@@ -1,0 +1,1760 @@
+<div class="demandbookform-container">
+  <!-- <div class="listgroup content-margin">
+    <div class="col-md-12 margin-bottom hideDemandBook1" style="text-align: right;">
+      <button type="button" (click)="closeAndRedirect()" class="btn btn-default"> Back </button>
+    </div>
+    <div> -->
+      <div class="row" style="padding: 1% 1% 0% 1%;">
+      <div class="col-md-3 col-xl-4"></div>
+      <div class="col-md-6 col-xl-4">
+        <div class="col-md-2 col-xl-2"></div>
+        <div class="col-md-3 col-xl-3 bgscrnalign" *ngIf="((opr!=1)&&(opr!=2))">
+          <strong>
+            Form Type :
+          </strong>
+        </div>
+        <div class="col-md-5 col-xl-5  selectDemandType">
+          <li class="dropdown btn btn-form" *ngIf="((opr!=1)&&(opr!=2))">
+            <a class="dropdown-toggle btn-form" data-toggle="dropdown"> <div>{{formName}}
+              <span class="caret"></span></div>
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="btn-form" (click)="selectForm('1')">Material Issue Form</a>
+              </li>
+              <li>
+                <a class="btn-form" (click)="selectForm('2')">Faulty Form</a>
+              </li>
+              <li>
+                <a class="btn-form" (click)="selectForm('3')">Under Repair Form</a>
+              </li>
+              <li>
+                <a class="btn-form" (click)="selectForm('4')">Loan Form</a>
+              </li>
+              <li>
+                <a class="btn-form" (click)="selectForm('5')">Loan Return Form</a>
+              </li>
+            </ul>
+          </li>
+        </div>
+        <div class="col-md-2 col-xl-2"></div>
+      </div>
+      <!-- <div class="col-md-3 col-xl-4" style="text-align: right;margin-bottom: 1rem;"> 
+        <button type="button" (click)="closeAndRedirect()" class="btn btn-default" style="margin-right: 2%;"> Back </button>
+      </div> -->
+    </div>
+    <div class="row" *ngIf="(selectFormValue == '1')">
+      <div class="col-md-12" style="margin-top:0px;">
+        <div class="col-md-12">
+          <div class="panel-group">
+            <div class="panel panel-default">
+              <div class="panel-heading printHeading1" style="margin: -1px;">
+                <div class="inline-display">
+                  <h3 class="panel-title printddTitle">
+                    Material Issue Form</h3>
+                </div><span class="errortitledark">(<span class="error">*</span> Mandatory)</span>
+                <!-- 
+                                <div id="hideMandatory" style="float:right;" class="inline-display hidePrint" >(
+                                    <span class="error"> * </span>) Mandatory </div> -->
+              </div>
+              <div class="panel-body">
+                <div class="col-md-12"
+                  style="background:#fff; padding-top:30px; padding-left:30px;  padding-bottom:0px;">
+                  <div class="col-md-4 TopLeftContent">
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong> Monitoring</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="IssueForm.monitoring" name="monitoring"
+                          class="form-control input-sm" id="monitoring" placeholder="Monitoring" />
+                      </div>
+                      <div [hidden]="errorIssueMonitoring == ''" class="error">{{errorIssueMonitoring}}</div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong> Control No</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="IssueForm.control_no" name="control_no"
+                          class="form-control input-sm" id="control_no" placeholder="Control No" />
+                      </div>
+                      <div [hidden]="errorIssueControlNo == ''" class="error">{{errorIssueControlNo}}</div>
+                    </div>
+                    <div *ngIf="isCurrentDateOnly" class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong> Date</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="true" [(ngModel)]="IssueForm.date_issued" name="date"
+                          class="form-control input-sm" id="date" placeholder="Date" />
+                      </div>
+                      <!-- <div [hidden]="errorIssueDateIssued == ''" class="error">{{errorIssueDateIssued}}</div> -->
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong> Issued By </strong> <span class="error">*</span>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <select class="form-control input-sm" [disabled]="isReadOnly" [(ngModel)]="IssueForm.issued_by"
+                          name="issued_by">
+                          <option *ngFor="let issuedUser of storeUsersList;let i = index" [value]="issuedUser.username">
+                            {{issuedUser.username}}</option>
+                        </select>
+                      </div>
+                      <div [hidden]="errorIssueIssuedBy == ''" class="error">{{errorIssueIssuedBy}}</div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 form-group TopCenterContent">
+                    <label for="Qatar" class="Toptitle"> Qatar Armed forces</label>
+                    <h6>
+                      <strong> (Main Technical Store - Signal force)</strong>
+                    </h6>
+                  </div>
+                  <div class="col-md-4 TopRightContent">
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong> Reference number</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="IssueForm.reference_no"
+                          name="OrderNumber" class="form-control input-sm" id="OrderNumber"
+                          placeholder="Reference number" />
+                      </div>
+                      <div [hidden]="errorIssueReferenceNo == ''" class="error">{{errorIssueReferenceNo}}</div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong> Requested by </strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="IssueForm.request_party"
+                          name="RequestParty" class="form-control input-sm" id="RequestParty"
+                          placeholder="Requested by" />
+                      </div>
+                      <div [hidden]="errorIssueRequestParty == ''" class="error">{{errorIssueRequestParty}}</div>
+                    </div>
+                    <div *ngIf="isGenereatedDemandNoOnly" class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Generated Demand No</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isGenereatedDemandNoOnly"
+                          [(ngModel)]="IssueForm.material_demand_no" name="ReturnAuthority"
+                          class="form-control input-sm" id="ReturnAuthority" placeholder="Generated Demand No" />
+                      </div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong> Manual Demand No </strong> <span class="error">*</span>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="IssueForm.manual_demand_no"
+                          name="RequestReason" class="form-control input-sm" id="RequestReason"
+                          placeholder="Manual Demand No" />
+                      </div>
+                      <div [hidden]="errorIssueManualDemandNo == ''" class="error">{{errorIssueManualDemandNo}}</div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong> Department </strong> <span class="error">*</span>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <select class="form-control input-sm" [disabled]="isReadOnly" [(ngModel)]="IssueForm.department"
+                          (change)="($event)">
+                          <option *ngFor="let dept of DepartmentList" [value]="dept.label">{{dept.label}}</option>
+                        </select>
+                      </div>
+                      <div [hidden]="errorIssueDepartment == ''" class="error">{{errorIssueDepartment}}</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row pushPrintTable">
+                  <div class="form-group" *ngIf="opr==0">
+                    <div class="col-md-9 form-inline iab" *ngIf="opr!=2">
+                      <label for="material_id">Enter Material:</label>
+                      <ng-select id="materialList{{i}}" class="selectMaterialDD form-control" style="padding: 0px;"
+                        id="material_id" [disabled]="isReadOnly" [items]="this.materialList" bindLabel="label"
+                        bindValue="material_id" [(ngModel)]="this.materialIssue">
+                      </ng-select>
+                      <label for="Quant">Quantity:</label>
+                      <input type="text" [(ngModel)]="this.quantityIssue" name="quantity" id="Quant"
+                        class="form-control" placeholder="Quantity" />
+                      <button type="submit" class="btn btn-default btn-color"
+                        (click)="addFieldsValue(this.materialIssue,this.quantityIssue,'Issue')">Submit</button>
+                      <button type="submit" class="btn btn-default btn-color"
+                        (click)="clearIssueFieldsValue()">Clear</button>
+                    </div>
+                  </div>
+                  <!-- <div class="col-md-8">
+                                            <div class="col-md-2">
+                                                <strong> Select Material </strong>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <ng-select id="materialList{{i}}" class="selectMaterialDD" [disabled]="isReadOnly" [items]="this.materialList" bindLabel="label"
+                                                    bindValue="material_id" [(ngModel)]="this.material">
+                                                </ng-select>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input type="text" [(ngModel)]="this.quantity" name="quantity" class="form-control input-sm" placeholder="Quantity" />
+                                            </div>
+                                            <button class="btn btn-default btn-color" type="button" (click)="addFieldsValue(this.material,this.quantity)">
+                                                Add
+                                            </button>
+                                            <button class="btn btn-default btn-color" type="button" (click)="clearIssueFieldsValue()">
+                                                Clear
+                                            </button>
+                                        </div>
+                                        <div class="col-md-4"></div> -->
+                  <!-- <div class="col-md-12">
+                    <div class="col-md-5"></div>
+                    <div class="col-md-2"><strong> Controllable Devices </strong> </div>
+                    <div class="col-md-5"></div>
+                  </div> -->
+                  <div class="col-md-12 pullControlDevice" style="padding:0">
+                    <div class="well well-sm" style="text-align:center; margin-bottom: 0px !important"><strong>
+                        Controllable Devices </strong></div>
+                  </div>
+                  <table class="table table-striped table-bordered tableContainer ">
+                    <thead>
+                      <tr>
+                        <th class="text-center">Item Name</th>
+                        <th class="text-center ">Item Part No</th>
+                        <th class="text-center ">Serial No</th>
+                        <th class="text-center ">Site Name</th>
+                        <th class="text-center">Remarks</th>
+                        <th class="text-center hidePrint" *ngIf="opr==0">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody *ngFor="let issuedField of issuedFieldsArray;let i = index;">
+                      <tr>
+                        <td>
+                          <input type="text" #label [disabled]="isItemNameOnly" [ngModel]="issuedField.item_name"
+                            class="form-control" (blur)="issuedField.label = label.value" />
+                        </td>
+                        <td>
+                          <input type="text" #part [disabled]="isItemPartNoOnly" [ngModel]="issuedField.item_part_no"
+                            class="form-control" (blur)="issuedField.part_no = part.value" />
+                        </td>
+                        <td>
+                          <input type="text" #serial [disabled]="((issuedField.serial_no !=null)&&(isItemSerialNo)&&(issuedField.serial_no !=''))" [ngModel]="issuedField.serial_no"
+                            class="form-control" (blur)="issuedField.serial_no = serial.value" />
+                        </td>
+                        <td>
+                          <input type="text" #site [disabled]="isAddonly" [ngModel]="issuedField.site_name"
+                            class="form-control" (blur)="issuedField.site_name = site.value" />
+                        </td>
+                        <td>
+                          <input type="text" #remarks [disabled]="isAddonly" [ngModel]="issuedField.remarks"
+                            class="form-control" (blur)="issuedField.remarks = remarks.value" />
+                        </td>
+                        <td class="hidePrint" *ngIf="opr==0">
+                          <button class="btn btn-default" type="button"
+                            (click)="deleteIssueFieldsValue(i,issuedField.id,'Controllable')">Delete</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <!-- <div class="col-md-12">
+                    <div class="col-md-5"></div>
+                    <div class="col-md-2"> <strong> Non-Controllable Devices </strong></div>
+                    <div class="col-md-5"></div>
+                  </div> -->
+                  <div class="well well-sm" style="text-align:center; margin-bottom: 0px !important"><strong>
+                      Non-Controllable Devices </strong></div>
+                  <table class="table table-striped table-bordered tableContainer ">
+                    <thead>
+                      <tr>
+                        <th class="text-center">Item Name</th>
+                        <th class="text-center ">Item Part No</th>
+                        <th class="text-center ">Quantity</th>
+                        <th class="text-center ">Site Name</th>
+                        <th class="text-center">Remarks</th>
+                        <th class="text-center hidePrint" *ngIf="opr==0">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let issuedField of issuedNonCtrlArray;let i = index;">
+                        <td>
+                          <input type="text" #labelNC [disabled]="isItemNameOnly" [ngModel]="issuedField.item_name"
+                            class="form-control" (blur)="issuedField.label = labelNC.value" />
+                        </td>
+                        <td>
+                          <input type="text" #partNC [disabled]="isItemPartNoOnly" [ngModel]="issuedField.item_part_no"
+                            class="form-control" (blur)="issuedField.part_no = partNC.value" />
+                        </td>
+                        <td>
+                          <input type="text" #quantityNC [disabled]="isItemSerialNo" [ngModel]="issuedField.quantity_nc"
+                            class="form-control" (blur)="issuedField.quantity_nc = quantityNC.value" />
+                        </td>
+                        <td>
+                          <input type="text" #siteNC [disabled]="isAddonly" [ngModel]="issuedField.site_name"
+                            class="form-control" (blur)="issuedField.site_name = siteNC.value" />
+                        </td>
+                        <td>
+                          <input type="text" #remarksNC [disabled]="isAddonly" [ngModel]="issuedField.remarks"
+                            class="form-control" (blur)="issuedField.remarks = remarksNC.value" />
+                        </td>
+                        <td class="hidePrint" *ngIf="opr==0">
+                          <button class="btn btn-default" type="button"
+                            (click)="deleteIssueFieldsValue(i,issuedField.id,'Non-Controllable')">Delete</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <!-- <tbody>
+                                                <input type="text" name={{item.answer}} ref-answer="ngModel" class="col-sm-12 k-textbox ph0" [(ngModel)]="item.passwordRecoveryAnswer"
+                                                [pattern]="'[a-z]'" required autocomplete="off" />
+                                            <tr *ngFor="let issuedField of issuedFieldsArray; let i = index">
+                                                <td>
+                                                    <ng-select id="materialList{{i}}" class="selectMaterialDD" [disabled]="isReadOnly" [items]="this.materialList" bindLabel="label"
+                                                        bindValue="material_id" [(ngModel)]="issuedField.label" (change)="changeIssueItemList(issuedField.label,i)">
+                                                    </ng-select>
+                                                    <select  class="form-control" ngControl="mt" [disabled]="isReadOnly" [(ngModel)]="issuedField.label"
+                                                        (change)="changeIssueItemList($event,i)">
+                                                        <option *ngFor="let mt of materialList;let i = index" [value]="mt.material_id">{{mt.label}}</option>
+                                                    </select>
+                                                            <input id="material{{i}}" #label [ngModel]="issuedField.label"  class="form-control" (blur)="issuedField.label = label.value" [disabled]="isReadOnly" type="text" name="{{issuedField.label}}"
+                                                            />
+                                                </td>
+                                                <td class="ddFormtdWidth">
+                                                    <input id="part_no{{i}}" #part  [ngModel]="issuedField.part_no" class="form-control" (blur)="issuedField.part_no = part.value" [disabled]="isReadOnly" type="text" name="{{issuedField.part_no}}"
+                                                    />
+                                                </td>
+                                                <td class="ddFormtdWidth">
+                                                    <ng-select id="serialNo{{i}}" class="selectMaterialDD" [disabled]="isReadOnly" bindLabel="serial_no"  bindValue="serial_no" [items]="this.issuedItemList[i]" bindLabel="Material Name"
+                                                        [ngModel]="issuedField.serial_no" (change)="getIssueItemInformation(issuedField,issuedField.serial_no,i)">
+                                                        </ng-select>
+                                                        <input id="serialNo{{i}}" #serial [ngModel]="issuedField.serial_no"   class="form-control" (blur)="issuedField.serial_no = serial.value" [disabled]="isReadOnly" type="text" name="{{issuedField.serial_no}}"
+                                                        />
+                                                    <ng-select [items]="this.issuedItemList[i]" [disabled]="isReadOnly" bindLabel="serial_no" bindValue="serial_no" placeholder="Item Serial no"
+                                                        [ngModel]="issuedField.serial_no" (change)="getIssueItemInformation(issuedField,issuedField.serial_no,i)">
+                                                    </ng-select>
+                                                    <select id="serialNo{{i}}" class="form-control" ngControl="it" [disabled]="isReadOnly" [ngModel]="issuedField.serial_no"
+                                                        (change)="getIssueItemInformation($event,i)">
+                                                        <option *ngFor="let it of issuedItemList[i];" [value]="it.serial_no">{{it.serial_no}}</option>
+                                                    </select>
+                                                </td>
+                                                <td class="ddFormtdWidth">
+                                                    <input id="site_name{{i}}" #site  [ngModel]="issuedField.site_name"  (blur)="issuedField.site_name = site.value" class="form-control" [disabled]="isReadOnly" type="text" name="{{issuedField.site_name}}"
+                                                    />
+                                                </td>
+                                                <td class="ddFormtdWidth">
+                                                    <select id="issued_by{{i}}" #issued  class="form-control" ngControl="issuedUser"  [disabled]="isReadOnly" [ngModel]="issuedField.issued_by"  (blur)="issuedField.issued_by = issued.value">
+                                                        <option *ngFor="let issuedUser of storeUsersList;let i = index" [value]="issuedUser.username">{{issuedUser.username}}</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <input id="remarks{{i}}" #remarks [ngModel]="issuedField.remarks"   class="form-control" (blur)="issuedField.remarks = remarks.value" [disabled]="isReadOnly" type="text" name="{{issuedField.remarks}}"
+                                                    />
+                                                </td>
+                                                <td class="hidePrint">
+                                                    <button class="btn btn-default" type="button" (click)="deleteIssueFieldsValue(i)">Delete</button>
+                                                </td>
+                                            </tr>
+                                        </tbody> -->
+
+                </div>
+                <div class="col-md-12 " style="background:#fff;  padding-top:15px; padding-left:30px; ">
+                  <div class="col-md-4 BottomLeftContent">
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Recipient</strong> <span class="error">*</span>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="IssueForm.recipient" name="recipient"
+                          class="form-control input-sm" id="recipient" placeholder="Recipient" />
+                      </div>
+                      <div [hidden]="errorIssueRecipient == ''" class="error">{{errorIssueRecipient}}</div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Distributor</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="IssueForm.distributor"
+                          name="distributor" class="form-control input-sm" id="distributor" placeholder="Distributor" />
+                      </div>
+                      <div [hidden]="errorIssueDistributor == ''" class="error">{{errorIssueDistributor}}</div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Warehouse Officer</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="IssueForm.warehouse_officer"
+                          name="warehouse_officer" class="form-control input-sm" id="warehouse_officer"
+                          placeholder="Warehouse Officer" />
+                      </div>
+                      <div [hidden]="errorIssueWHofficer == ''" class="error">{{errorIssueWHofficer}}</div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Warehouse Commander</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="IssueForm.warehouse_commander"
+                          name="warehouse_commander" class="form-control input-sm" id="warehouse_commander"
+                          placeholder="Warehouse Commander" />
+                      </div>
+                      <div [hidden]="errorIssueWHcommander == ''" class="error">{{errorIssueWHcommander}}</div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 form-group BottomCenterContent">
+                    <label for="General" class="bottomTitle"> General Command approval</label>
+                  </div>
+                  <div class="col-md-4 BottomRightContent">
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Applicant</strong> <span class="error">*</span>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="IssueForm.applicant" name="applicant"
+                          class="form-control input-sm" id="applicant" placeholder="Applicant" />
+                      </div>
+                      <div [hidden]="errorIssueWHApplicant == ''" class="error">{{errorIssueWHApplicant}}</div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Force Commander Approval</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="IssueForm.force_commander_approval"
+                          name="force_commander_approval" class="form-control input-sm" id="force_commander_approval"
+                          placeholder="Force Commander" />
+                      </div>
+                      <div [hidden]="errorIssueWHApproval == ''" class="error">{{errorIssueWHApproval}}</div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Financial Notes</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="IssueForm.financial_notes"
+                          name="financial_notes" class="form-control input-sm" id="financial_notes"
+                          placeholder="Financial Notes" />
+                      </div>
+                      <div [hidden]="errorIssueWHfinancialNotes == ''" class="error">{{errorIssueWHfinancialNotes}}
+                      </div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Operational Recommendations</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="IssueForm.operational_recommendations"
+                          name="operational_recommendations" class="form-control input-sm"
+                          id="operational_recommendations" placeholder="Operational Recommendations" />
+                      </div>
+                      <div [hidden]="errorIssueOperRecommend == ''" class="error">{{errorIssueOperRecommend}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12 center-align hideDemandBook2 mb-3">
+          <button type="button" (click)="addMaterialIssue(IssueForm)" class="btn btn-default primary"
+            *ngIf="opr==0">{{title}}</button>
+          <button type="button" (click)="updateMaterialIssue(IssueForm)" class="btn btn-default primary"
+            *ngIf="opr==1">{{title}}</button>
+          <button type="button" (click)="closeAndRedirect()" class="btn btn-default">
+            Cancel </button>
+          <br />
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="(selectFormValue == '2')">
+      <div class="col-md-12" style="margin-top:0px;">
+        <div class="col-md-12">
+          <div class="panel-group">
+            <div class="panel panel-default">
+              <div class="panel-heading printHeading2" style="margin: -1px;">
+                <div class="inline-display">
+                  <h3 class="panel-title printddTitle">
+                    Faulty Form</h3>
+                </div><span class="errortitledark">(<span class="error">*</span> Mandatory)</span>
+
+              </div>
+              <div class="panel-body">
+                <div class="col-md-12" style="background:#fff; padding:30px;">
+                  <!-- <div class="col-md-12" style="bottom: 25px;">
+                                        <div class="col-md-3"></div>
+                                        <div class="col-md-6 form-inline issueAddBox">
+                                            <label for="material_id">Enter Serial Number:</label>
+                                            <input type="text" style="width: auto;" [(ngModel)]="serialNo" name="serial_no" class="form-control" id="serial_no" placeholder="Serial Number">
+                                            <button type="submit" class="btn btn-sm btn-color" (click)="searchFaultySerialNo(this.serialNo,'issue')">Submit</button>
+                                            <button type="submit" class="btn btn-sm btn-color" (click)="clearSerialNoSearch()">Clear</button>
+                                        </div>
+                                        <div class="col-md-3"></div>
+                                    </div> -->
+                  <div class="col-md-4 TopLeftContent">
+                    <div class="col-md-12 form-group materialPrint" *ngIf="opr==0">
+                      <div class="col-md-4 ">
+                        <h6>
+                          <strong> Enter Demand Number </strong> <span class="error">*</span>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <ng-select id="materialList{{i}}" [disabled]="isReadOnly" [items]="this.DemandNumberList"
+                          bindLabel="material_demand_no" bindValue="material_demand_no" [(ngModel)]="DemandNumber"
+                          (change)="submitFaultyDemandNumber(DemandNumber)">
+                        </ng-select>
+                      </div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong> Monitoring</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="FaultyForm.monitoring" name="monitoring"
+                          class="form-control input-sm" id="monitoring" placeholder="Monitoring" />
+                      </div>
+                      <div [hidden]="errorFaultyMonitoring == ''" class="error">{{errorFaultyMonitoring}}</div>
+
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong> Control No</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="FaultyForm.control_no" name="control_no"
+                          class="form-control input-sm" id="control_no" placeholder=" control No" />
+                      </div>
+                      <div [hidden]="errorFaultyControlNo == ''" class="error">{{errorFaultyControlNo}}</div>
+                    </div>
+                    <div *ngIf="isCurrentDateOnly" class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong> Date</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isCurrentDateOnly" [(ngModel)]="FaultyForm.date_issued"
+                          name="date" class="form-control input-sm" id="date" placeholder="Date" />
+                      </div>
+                      <!-- <div [hidden]="errorFaultyDateIssued == ''" class="error">{{errorFaultyDateIssued}}</div> -->
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong> Issued By </strong> <span class="error">*</span>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <select class="form-control input-sm" [disabled]="isReadOnly" [(ngModel)]="FaultyForm.issued_by"
+                          name="issued_by">
+                          <option *ngFor="let issuedUser of storeUsersList;let i = index" [value]="issuedUser.username">
+                            {{issuedUser.username}}</option>
+                        </select>
+                      </div>
+                      <div [hidden]="errorFaultyIssuedBy == ''" class="error">{{errorFaultyIssuedBy}}</div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 form-group TopCenterContent">
+                    <label for="Qatar" class="Toptitle"> Qatar Armed forces</label>
+                    <h6>
+                      <strong> (Main Technical Store - Signal force)</strong>
+                    </h6>
+                  </div>
+                  <div class="col-md-4 TopRightContent">
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong> Reference number</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="FaultyForm.reference_no"
+                          name="OrderNumber" class="form-control input-sm" id="OrderNumber"
+                          placeholder="Reference number" />
+                      </div>
+                      <div [hidden]="errorFaultyReferenceNo == ''" class="error">{{errorFaultyReferenceNo}}</div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong> Requested by </strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="FaultyForm.request_party"
+                          name="RequestParty" class="form-control input-sm" id="RequestParty"
+                          placeholder="Requested by" />
+                      </div>
+                      <div [hidden]="errorFaultyRequestParty == ''" class="error">{{errorFaultyRequestParty}}</div>
+                    </div>
+                    <div *ngIf="isGenereatedDemandNoOnly" class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Generated Demand No</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isGenereatedDemandNoOnly"
+                          [(ngModel)]="FaultyForm.material_demand_no" name="ReturnAuthority"
+                          class="form-control input-sm" id="ReturnAuthority" placeholder="Generated Demand No" />
+                      </div>
+                      <!-- <div [hidden]="errorIssueOperRecommend == ''" class="error">{{errorIssueOperRecommend}}</div> -->
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong> Manual Demand No </strong> <span class="error">*</span>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="FaultyForm.manual_demand_no"
+                          name="RequestReason" class="form-control input-sm" id="RequestReason"
+                          placeholder="Manual Demand No" />
+                      </div>
+                      <div [hidden]="errorFaultyManualDemandNo == ''" class="error">{{errorFaultyManualDemandNo}}</div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong> Department </strong> <span class="error">*</span>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <select class="form-control input-sm" [disabled]="isReadOnly"
+                          [(ngModel)]="FaultyForm.department" (change)="($event)">
+                          <option *ngFor="let dept of DepartmentList" [value]="dept.label">{{dept.label}}</option>
+                        </select>
+                      </div>
+                      <div [hidden]="errorFaultyDepartment == ''" class="error">{{errorFaultyDepartment}}</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row pushPrintTable ">
+                  <!-- <button class="btn btn-default" type="button" (click)="addFaultyFieldsValue()">
+                                        <i class="fa fa-plus"></i>
+                                    </button> -->
+                  <table class="table table-striped table-bordered tableContainer">
+                    <thead>
+                      <tr>
+                        <th class="text-center">Item Name</th>
+                        <th class="text-center">Item Part No</th>
+                        <th class="text-center">Serial No</th>
+                        <th class="text-center">Location</th>
+                        <th class="text-center">Reported By</th>
+                        <th class="text-center">Remarks</th>
+                        <th class="text-center hidePrint" *ngIf="opr==0">Action</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr *ngFor="let faultyField of FaultyFieldsArray; let i = index">
+                        <td>
+                          <!-- <ng-select id="materialList{{i}}" class="selectMaterialDD" [disabled]="isReadOnly" [items]="this.materialList" bindLabel="label"
+                                                        bindValue="material_id" [(ngModel)]="faultyField.label" (change)="changeFaultyItemList($event,i)">
+                                                    </ng-select> -->
+                          <!-- <select id="materialList{{i}}" class="form-control" ngControl="mt" [disabled]="itemIsReadOnly" [(ngModel)]="faultyField.label"
+                                                        (change)="changeFaultyItemList($event,i)">
+                                                        <option *ngFor="let mt of materialList;let i = index" [value]="mt.material_id">{{mt.label}}</option>
+                                                    </select> -->
+                          <input id="materialList{{i}}" [disabled]="isItemNameOnly" [(ngModel)]="faultyField.item_name"
+                            class="form-control" type="text" name="{{faultyField.label}}" />
+                        </td>
+                        <td>
+                          <input id="part_no{{i}}" [disabled]="isItemPartNoOnly" [(ngModel)]="faultyField.item_part_no"
+                            class="form-control" type="text" name="{{faultyField.part_no}}" />
+                        </td>
+                        <td>
+                          <!-- <select id="faultyItemList{{i}}" class="form-control" ngControl="it" [disabled]="itemIsReadOnly" [(ngModel)]="faultyField.serial_no"
+                                                        (change)="getFaultyItemInformation($event,i)">
+                                                        <option *ngFor="let it of faultyItemList[i];" [value]="it.id">{{it.serial_no}}</option>
+                                                    </select> -->
+                          <input id="serial_no{{i}}" [disabled]="true" [(ngModel)]="faultyField.serial_no"
+                            class="form-control" type="text" name="{{faultyField.serial_no}}" />
+                        </td>
+                        <td>
+                          <input id="location{{i}}" [disabled]="isAddonly" [(ngModel)]="faultyField.location"
+                            class="form-control" type="text" name="{{faultyField.location}}" />
+                        </td>
+                        <td>
+                          <input id="reportedby{{i}}" [disabled]="isAddonly" [(ngModel)]="faultyField.reported_by"
+                            class="form-control" type="text" name="{{faultyField.reported_by}}" />
+                        </td>
+                        <td>
+                          <input id="remarks{{i}}" [disabled]="isAddonly" [(ngModel)]="faultyField.remarks"
+                            class="form-control" type="text" name="{{faultyField.remarks}}" />
+                        </td>
+                        <td class="hidePrint" *ngIf="opr==0">
+                          <button class="btn btn-default" type="button" [disabled]="isReadOnly"
+                            (click)="deleteFaultyFieldsValue(i)">Delete</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-12" style="background:#fff; padding:30px;">
+                  <div class="col-md-4 BottomLeftContent">
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Recipient</strong> <span class="error">*</span>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="FaultyForm.recipient" name="recipient"
+                          class="form-control input-sm" id="recipient" placeholder="Recipient" />
+                      </div>
+                      <div [hidden]="errorFaultyRecipient == ''" class="error">{{errorFaultyRecipient}}</div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Distributor</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="FaultyForm.distributor"
+                          name="distributor" class="form-control input-sm" id="distributor" placeholder="Distributor" />
+                      </div>
+                      <div [hidden]="errorFaultyDistributor == ''" class="error">{{errorFaultyDistributor}}</div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Warehouse Officer</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="FaultyForm.warehouse_officer"
+                          name="warehouse_officer" class="form-control input-sm" id="warehouse_officer"
+                          placeholder="Warehouse Officer" />
+                      </div>
+                      <div [hidden]="errorFaultyWHofficer == ''" class="error">{{errorFaultyWHofficer}}</div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Warehouse Commander</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="FaultyForm.warehouse_commander"
+                          name="warehouse_commander" class="form-control input-sm" id="warehouse_commander"
+                          placeholder="Warehouse Commander" />
+                      </div>
+                      <div [hidden]="errorFaultyWHcommander == ''" class="error">{{errorFaultyWHcommander}}</div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 form-group BottomCenterContent ">
+                    <label for="General" class="bottomTitle"> General Command approval</label>
+                  </div>
+                  <div class="col-md-4 BottomRightContent">
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Applicant</strong> <span class="error">*</span>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="FaultyForm.applicant" name="applicant"
+                          class="form-control input-sm" id="applicant" placeholder="Applicant" />
+                      </div>
+                      <div [hidden]="errorFaultyWHApplicant == ''" class="error">{{errorFaultyWHApplicant}}</div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Force Commander Approval</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="FaultyForm.force_commander_approval"
+                          name="force_commander_approval" class="form-control input-sm" id="force_commander_approval"
+                          placeholder="Force Commander" />
+                      </div>
+                      <div [hidden]="errorFaultyWHApproval == ''" class="error">{{errorFaultyWHApproval}}</div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Financial Notes</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="FaultyForm.financial_notes"
+                          name="financial_notes" class="form-control input-sm" id="financial_notes"
+                          placeholder="Financial Notes" />
+                      </div>
+                      <div [hidden]="errorFaultyWHfinancialNotes == ''" class="error">{{errorFaultyWHfinancialNotes}}
+                      </div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Operational Recommendations</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="FaultyForm.operational_recommendations"
+                          name="operational_recommendations" class="form-control input-sm"
+                          id="operational_recommendations" placeholder="Operational Recommendations" />
+                      </div>
+                      <div [hidden]="errorFaultyOperRecommend == ''" class="error">{{errorFaultyOperRecommend}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12 center-align mb-3">
+          <button type="button" (click)="addFaultyMaterial(FaultyForm)" class="primary-button btn btn-default"
+            *ngIf="opr==0">{{title}}</button>
+          <button type="button" (click)="updateFaultyMaterial(FaultyForm)" class="btn btn-default primary"
+            *ngIf="opr==1">{{title}}</button>
+          <button type="button" (click)="closeAndRedirect()" class="btn btn-default">
+            Cancel </button>
+          <br />
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="(selectFormValue == '3')">
+      <div class="col-md-12" style="margin-top:0px;">
+        <div class="col-md-12">
+          <div class="panel-group">
+            <div class="panel panel-default">
+              <div class="panel-heading printHeading3" style="margin: -1px;">
+                <div class="inline-display">
+                  <h3 class="panel-title printddTitle">
+                    Under Repair Form</h3>
+                </div><span class="errortitledark">(<span class="error">*</span> Mandatory)</span>
+              </div>
+              <div class="panel-body">
+                <div class="col-md-12" style="background:#fff; padding:30px;">
+                  <div class="col-md-4 TopLeftContent">
+                    <div class="col-md-12 form-group " *ngIf="opr==0">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong> Enter Demand Number </strong> <span class="error">*</span>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <ng-select id="materialList{{i}}" [disabled]="isReadOnly" [items]="this.DemandNumberList"
+                          bindLabel="material_demand_no" bindValue="material_demand_no" [(ngModel)]="DemandNumber"
+                          (change)="submitUnderRepairDemandNumber(DemandNumber)">
+                        </ng-select>
+                      </div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong> Monitoring</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="RepairForm.monitoring" name="monitoring"
+                          class="form-control input-sm" id="monitoring" placeholder="Monitoring" />
+                      </div>
+                      <div [hidden]="errorUnderRepairMonitoring == ''" class="error">{{errorUnderRepairMonitoring}}
+                      </div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong> Control No</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="RepairForm.control_no" name="control_no"
+                          class="form-control input-sm" id="control_no" placeholder="control No" />
+                      </div>
+                      <div [hidden]="errorUnderRepairControlNo == ''" class="error">{{errorUnderRepairControlNo}}</div>
+                    </div>
+                    <div *ngIf="isCurrentDateOnly" class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong> Date</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="true" [(ngModel)]="RepairForm.date_issued" name="date"
+                          class="form-control input-sm" id="date" placeholder="Date" />
+                      </div>
+                      <!-- <div [hidden]="errorUnderRepairDateIssued == ''" class="error">{{errorUnderRepairDateIssued}}</div> -->
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong> Issued By </strong> <span class="error">*</span>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <select class="form-control input-sm" [disabled]="isReadOnly" [(ngModel)]="RepairForm.issued_by"
+                          name="issued_by">
+                          <option *ngFor="let issuedUser of storeUsersList;let i = index" [value]="issuedUser.username">
+                            {{issuedUser.username}}</option>
+                        </select>
+                      </div>
+                      <div [hidden]="errorUnderRepairIssuedBy == ''" class="error">{{errorUnderRepairIssuedBy}}</div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 form-group TopCenterContent">
+                    <label for="Qatar" class="Toptitle"> Qatar Armed forces</label>
+                    <h6>
+                      <strong> (Main Technical Store - Signal force)</strong>
+                    </h6>
+                  </div>
+                  <div class="col-md-4 TopRightContent">
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong> Reference number</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="RepairForm.reference_no"
+                          name="OrderNumber" class="form-control input-sm" id="OrderNumber"
+                          placeholder="Reference number" />
+                      </div>
+                      <div [hidden]="errorUnderRepairReferenceNo == ''" class="error">{{errorUnderRepairReferenceNo}}
+                      </div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong> Requested by </strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="RepairForm.request_party"
+                          name="RequestParty" class="form-control input-sm" id="RequestParty"
+                          placeholder="Requested by" />
+                      </div>
+                      <div [hidden]="errorUnderRepairRequestParty == ''" class="error">{{errorUnderRepairRequestParty}}
+                      </div>
+                    </div>
+                    <div *ngIf="isGenereatedDemandNoOnly" class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Generated Demand No</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="RepairForm.material_demand_no"
+                          name="ReturnAuthority" class="form-control input-sm" id="ReturnAuthority"
+                          placeholder="Generated Demand No" />
+                      </div>
+                      <!-- <div [hidden]="errorIssueOperRecommend == ''" class="error">{{errorIssueOperRecommend}}</div> -->
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong> Manual Demand No </strong> <span class="error">*</span>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="RepairForm.manual_demand_no"
+                          name="RequestReason" class="form-control input-sm" id="RequestReason"
+                          placeholder="Manual Demand No" />
+                      </div>
+                      <div [hidden]="errorUnderRepairManualDemandNo == ''" class="error">
+                        {{errorUnderRepairManualDemandNo}}</div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong> Department </strong> <span class="error">*</span>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <select class="form-control input-sm" [disabled]="isReadOnly"
+                          [(ngModel)]="RepairForm.department" (change)="($event)">
+                          <option *ngFor="let dept of DepartmentList" [value]="dept.label">{{dept.label}}</option>
+                        </select>
+                      </div>
+                      <div [hidden]="errorUnderRepairDepartment == ''" class="error">{{errorUnderRepairDepartment}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row pushPrintTable ">
+                  <!-- <button class="btn btn-default" type="button" (click)="addUnderRepairFieldsValue()">
+                                        <i class="fa fa-plus"></i>
+                                    </button> -->
+                  <table class="table table-striped table-bordered tableContainer">
+                    <thead>
+                      <tr>
+                        <th class="text-center">Item Name</th>
+                        <th class="text-center">Item Part No</th>
+                        <th class="text-center">Serial No</th>
+                        <th class="text-center">location</th>
+                        <th class="text-center">Reported By</th>
+                        <th class="text-center">Supplier</th>
+                        <th class="text-center">Remarks</th>
+                        <th class="text-center hidePrint" *ngIf="opr==0">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let repairField of UnderRepairFieldsArray; let i = index">
+                        <td>
+                          <!-- <select id="materialList{{i}}" class="form-control" ngControl="mt" [disabled]="itemIsReadOnly" [(ngModel)]="repairField.label"
+                                                        (change)="changeRepairItemList($event,i)">
+                                                        <option *ngFor="let mt of materialList;let i = index" [value]="mt.material_id">{{mt.label}}</option>
+                                                    </select> -->
+                          <input id="materialList{{i}}" [disabled]="isItemNameOnly" [(ngModel)]="repairField.item_name"
+                            class="form-control" type="text" name="{{repairField.item_name}}" />
+                        </td>
+                        <td>
+                          <input id="part_no{{i}}" [disabled]="isItemPartNoOnly" [(ngModel)]="repairField.item_part_no"
+                            class="form-control" type="text" name="{{repairField.item_part_no}}" />
+                        </td>
+                        <td>
+                          <input id="serial_no{{i}}" [disabled]="true" [(ngModel)]="repairField.serial_no"
+                            class="form-control" type="text" name="{{repairField.serial_no}}" />
+                          <!-- <select id="repairItemList{{i}}" class="form-control" ngControl="it" [disabled]="itemIsReadOnly" [(ngModel)]="repairField.serial_no"
+                                                        (change)="getRepairItemInformation($event,i)">
+                                                        <option *ngFor="let it of repairItemList[i];" [value]="it.id">{{it.serial_no}}</option>
+                                                    </select> -->
+                        </td>
+                        <td>
+                          <input id="location{{i}}" [disabled]="isAddonly" [(ngModel)]="repairField.location"
+                            class="form-control" type="text" name="{{repairField.location}}" />
+                        </td>
+                        <!-- <input type="text" #issued [disabled]="isReadOnly" [ngModel]="issuedField.issued_by"
+                                                            class="form-control" (blur)="issuedField.issued_by = issued.value" /> -->
+
+                        <!-- <td>
+                                                    <input id="issued_by{{i}}" [(ngModel)]="repairField.issued_by" class="form-control" type="text" name="{{repairField.issued_by}}"
+                                                    />
+                                                </td> -->
+                        <!-- <select id="issued_by{{i}}" class="form-control" ngControl="issuedUser" [disabled]="itemIsReadOnly" [(ngModel)]="repairField.issued_by">
+                                                        <option *ngFor="let issuedUser of storeUsersList;let i = index" [value]="issuedUser.value">{{issuedUser.name}}</option>
+                                                    </select> -->
+
+                        <td>
+                          <input id="reportedby{{i}}" [disabled]="isAddonly" [(ngModel)]="repairField.reported_by"
+                            class="form-control" type="text" name="{{repairField.reported_by}}" />
+                        </td>
+                        <td>
+                          <ng-select id="supplier{{i}}" [disabled]="isAddonly" class="selectMaterialDD"
+                            [items]="this.suprefnameList" bindLabel="label" bindValue="label"
+                            [(ngModel)]="repairField.problem">
+                            <i class="fa-caret-down"></i>
+                          </ng-select>
+                        </td>
+                        <!-- <td class="ddFormtdWidth">
+                                                    <input id="supplier{{i}}" [(ngModel)]="repairField.problem_reported" class="form-control" type="text" name="{{repairField.supplier}}"
+                                                    />
+                                                </td> -->
+                        <td>
+                          <input id="remarks{{i}}" [disabled]="isAddonly" [(ngModel)]="repairField.remarks"
+                            class="form-control" type="text" name="{{repairField.remarks}}" />
+                        </td>
+                        <td class="hidePrint" *ngIf="opr==0">
+                          <button class="btn btn-default" type="button" [disabled]="isReadOnly"
+                            (click)="deleteUnderRepairFieldsValue(i)">Delete</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-12" style="background:#fff; padding:30px;">
+                  <div class="col-md-4 BottomLeftContent">
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Recipient</strong> <span class="error">*</span>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="RepairForm.recipient" name="recipient"
+                          class="form-control input-sm" id="recipient" placeholder="Recipient" />
+                      </div>
+                      <div [hidden]="errorUnderRepairRecipient == ''" class="error">{{errorUnderRepairRecipient}}</div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Distributor</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="RepairForm.distributor"
+                          name="distributor" class="form-control input-sm" id="distributor" placeholder="Distributor" />
+                      </div>
+                      <div [hidden]="errorUnderRepairDistributor == ''" class="error">{{errorUnderRepairDistributor}}
+                      </div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Warehouse Officer</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="RepairForm.warehouse_officer"
+                          name="warehouse_officer" class="form-control input-sm" id="warehouse_officer"
+                          placeholder="Warehouse Officer" />
+                      </div>
+                      <div [hidden]="errorUnderRepairWHofficer == ''" class="error">{{errorUnderRepairWHofficer}}</div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Warehouse Commander</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="RepairForm.warehouse_commander"
+                          name="warehouse_commander" class="form-control input-sm" id="warehouse_commander"
+                          placeholder="Warehouse Commander" />
+                      </div>
+                      <div [hidden]="errorUnderRepairWHcommander == ''" class="error">{{errorUnderRepairWHcommander}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 form-group BottomCenterContent">
+                    <label for="General" class="bottomTitle"> General Command approval</label>
+                  </div>
+                  <div class="col-md-4 BottomRightContent">
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Applicant</strong> <span class="error">*</span>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="RepairForm.applicant" name="applicant"
+                          class="form-control input-sm" id="applicant" placeholder="Applicant" />
+                      </div>
+                      <div [hidden]="errorUnderRepairWHApplicant == ''" class="error">{{errorUnderRepairWHApplicant}}
+                      </div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Force Commander Approval</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="RepairForm.force_commander_approval"
+                          name="force_commander_approval" class="form-control input-sm" id="force_commander_approval"
+                          placeholder="Force Commander" />
+                      </div>
+                      <div [hidden]="errorUnderRepairWHApproval == ''" class="error">{{errorUnderRepairWHApproval}}
+                      </div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Financial Notes</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="RepairForm.financial_notes"
+                          name="financial_notes" class="form-control input-sm" id="financial_notes"
+                          placeholder="Financial Notes" />
+                      </div>
+                      <div [hidden]="errorUnderRepairWHfinancialNotes == ''" class="error">
+                        {{errorUnderRepairWHfinancialNotes}}</div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Operational Recommendations</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="RepairForm.operational_recommendations"
+                          name="operational_recommendations" class="form-control input-sm"
+                          id="operational_recommendations" placeholder="Operational Recommendations" />
+                      </div>
+                      <div [hidden]="errorUnderRepairOperRecommend == ''" class="error">
+                        {{errorUnderRepairOperRecommend}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12 center-align mb-3">
+          <button type="button" (click)="addUnderRepairMaterial(RepairForm)" class="primary-button btn btn-default"
+            *ngIf="opr==0">{{title}}</button>
+          <button type="button" (click)="updateUnderRepairMaterial(RepairForm)" class="btn btn-default primary"
+            *ngIf="opr==1">{{title}}</button>
+          <button type="button" (click)="closeAndRedirect()" class="btn btn-default">
+            Cancel </button>
+          <br />
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="(selectFormValue == '4')">
+      <div class="col-md-12" style="margin-top:0px;">
+        <div class="col-md-12" >
+          <div class="panel-group">
+            <div class="panel panel-default">
+              <div class="panel-heading printHeading4" style="margin: -1px;">
+                <div class="inline-display">
+                  <h3 class="panel-title printddTitle">
+                    Loan Form</h3>
+                </div><span class="errortitledark">(<span class="error">*</span> Mandatory)</span>
+              </div>
+              <div class="panel-body">
+                <div class="col-md-12" style="background:#fff; padding:30px;">
+                  <div class="col-md-4 TopLeftContent">
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong> Monitoring</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="LoanForm.monitoring" name="monitoring"
+                          class="form-control input-sm" id="monitoring" placeholder="Monitoring" />
+                      </div>
+                      <div [hidden]="errorLoanMonitoring == ''" class="error">{{errorLoanMonitoring}}</div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong> Control No</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="LoanForm.control_no" name="control_no"
+                          class="form-control input-sm" id="control_no" placeholder="control No" />
+                      </div>
+                      <div [hidden]="errorLoanControlNo == ''" class="error">{{errorLoanControlNo}}</div>
+                    </div>
+                    <div *ngIf="isCurrentDateOnly" class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong> Date</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="true" [(ngModel)]="LoanForm.date_issued" name="date"
+                          class="form-control input-sm" id="date" placeholder="Date" />
+                      </div>
+                      <!-- <div [hidden]="errorLoanDateIssued == ''" class="error">{{errorLoanDateIssued}}</div> -->
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong> Issued By </strong> <span class="error">*</span>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <select class="form-control input-sm" [disabled]="isReadOnly" [(ngModel)]="LoanForm.issued_by"
+                          name="issued_by">
+                          <option *ngFor="let issuedUser of storeUsersList;let i = index" [value]="issuedUser.username">
+                            {{issuedUser.username}}</option>
+                        </select>
+                      </div>
+                      <div [hidden]="errorLoanIssuedBy == ''" class="error">{{errorLoanIssuedBy}}</div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 form-group TopCenterContent">
+                    <label for="Qatar" class="Toptitle"> Qatar Armed forces</label>
+                    <h6>
+                      <strong> (Main Technical Store - Signal force)</strong>
+                    </h6>
+                  </div>
+                  <div class="col-md-4 TopRightContent">
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong> Reference number</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="LoanForm.reference_no"
+                          name="OrderNumber" class="form-control input-sm" id="OrderNumber"
+                          placeholder="Reference number" />
+                      </div>
+                      <div [hidden]="errorLoanReferenceNo == ''" class="error">{{errorLoanReferenceNo}}</div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong> Requested by </strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="LoanForm.request_party"
+                          name="RequestParty" class="form-control input-sm" id="RequestParty"
+                          placeholder="Requested by" />
+                      </div>
+                      <div [hidden]="errorLoanRequestParty == ''" class="error">{{errorLoanRequestParty}}</div>
+                    </div>
+                    <div *ngIf="isGenereatedDemandNoOnly" class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Generated Demand No</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="LoanForm.material_demand_no"
+                          name="ReturnAuthority" class="form-control input-sm" id="ReturnAuthority"
+                          placeholder="Generated Demand No" />
+                      </div>
+                      <!-- <div [hidden]="errorIssueOperRecommend == ''" class="error">{{errorIssueOperRecommend}}</div> -->
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong> Manual Demand No </strong> <span class="error">*</span>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="LoanForm.manual_demand_no"
+                          name="RequestReason" class="form-control input-sm" id="RequestReason"
+                          placeholder="Manual Demand No" />
+                      </div>
+                      <div [hidden]="errorLoanManualDemandNo == ''" class="error">{{errorLoanManualDemandNo}}</div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong> Department </strong> <span class="error">*</span>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <select class="form-control input-sm" [disabled]="isReadOnly" [(ngModel)]="LoanForm.department"
+                          (change)="($event)">
+                          <option *ngFor="let dept of DepartmentList" [value]="dept.label">{{dept.label}}</option>
+                        </select>
+                      </div>
+                      <div [hidden]="errorLoanDepartment == ''" class="error">{{errorLoanDepartment}}</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row pushPrintTable ">
+                  <!-- <button class="btn btn-default" type="button" (click)="addLoanFieldsValue()">
+                                        <i class="fa fa-plus"></i>
+                                    </button> -->
+                  <div class="form-group" *ngIf="opr==0">
+                    <div class="col-md-9 form-inline iab" *ngIf="opr!=2">
+                      <label for="material_id">Enter Material:</label>
+                      <ng-select id="materialList{{i}}" class="selectMaterialDD form-control" style="padding: 0px;"
+                        id="material_id" [disabled]="isReadOnly" [items]="this.materialControlList" bindLabel="label"
+                        bindValue="material_id" [(ngModel)]="this.materialLoan">
+                      </ng-select>
+                      <label for="Quant">Quantity:</label>
+                      <input type="text" [(ngModel)]="this.quantityLoan" name="quantity" id="Quant" class="form-control"
+                        placeholder="Quantity" />
+                      <button type="submit" class="btn btn-default btn-color"
+                        (click)="addFieldsValue(this.materialLoan,this.quantityLoan,'Loan')">Submit</button>
+                      <button type="submit" class="btn btn-default btn-color"
+                        (click)="clearLoanFieldsValue()">Clear</button>
+                    </div>
+                  </div>
+                  <table class="table table-striped table-bordered tableContainer">
+                    <thead>
+                      <tr>
+                        <th class="text-center">Item Name</th>
+                        <th class="text-center">Item Part No</th>
+                        <th class="text-center">Serial No</th>
+                        <th class="text-center">Site Name</th>
+                        <th class="text-center">Remarks</th>
+                        <th class="text-center hidePrint" *ngIf="opr==0">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let loanField of LoanFieldsArray; let i = index">
+                          <td>
+                              <input id="materialList{{i}}" #label1 [disabled]="isItemNameOnly" [ngModel]="loanField.item_name"
+                                class="form-control" type="text" (blur)="loanField.label = label1.value" />
+                            </td>
+                            <td>
+                              <input id="part_no{{i}}" #part1 [disabled]="isItemPartNoOnly" [ngModel]="loanField.item_part_no"
+                                class="form-control" type="text" (blur)="loanField.part_no = part1.value" />
+                            </td>
+                            <td>
+                              <input id="serial_no{{i}}" #serial1 [disabled]="((loanField.serial_no !=null)&&(isItemSerialNo)&&(loanField.serial_no !=''))" [ngModel]="loanField.serial_no"
+                                class="form-control" type="text" (blur)="loanField.serial_no = serial1.value" />
+                            </td>
+                            <td>
+                              <input id="site_name{{i}}" #site1 [disabled]="isAddonly" [ngModel]="loanField.site_name"
+                                class="form-control" type="text" (blur)="loanField.site_name = site1.value" />
+                            </td>
+                            <td>
+                              <input id="remarks{{i}}" #remarks1 [disabled]="isAddonly" [ngModel]="loanField.remarks"
+                                class="form-control" type="text" (blur)="loanField.remarks = remarks1.value" />
+                            </td>
+                            <td class="hidePrint" *ngIf="opr==0">
+                              <button class="btn btn-default " [disabled]="isAddonly" type="button"
+                                (click)="deleteLoanFieldsValue(i,loanField.id)">Delete</button>
+                            </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-12" style="background:#fff; padding:30px;">
+                  <div class="col-md-4 BottomLeftContent">
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Recipient</strong> <span class="error">*</span>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="LoanForm.recipient" name="recipient"
+                          class="form-control input-sm" id="recipient" placeholder="Recipient" />
+                      </div>
+                      <div [hidden]="errorLoanRecipient == ''" class="error">{{errorLoanRecipient}}</div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Distributor</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="LoanForm.distributor" name="distributor"
+                          class="form-control input-sm" id="distributor" placeholder="Distributor" />
+                      </div>
+                      <div [hidden]="errorLoanDistributor == ''" class="error">{{errorLoanDistributor}}</div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Warehouse Officer</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="LoanForm.warehouse_officer"
+                          name="warehouse_officer" class="form-control input-sm" id="warehouse_officer"
+                          placeholder="Warehouse Officer" />
+                      </div>
+                      <div [hidden]="errorLoanWHofficer == ''" class="error">{{errorLoanWHofficer}}</div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Warehouse Commander</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="LoanForm.warehouse_commander"
+                          name="warehouse_commander" class="form-control input-sm" id="warehouse_commander"
+                          placeholder="Warehouse Commander" />
+                      </div>
+                      <div [hidden]="errorLoanWHcommander == ''" class="error">{{errorLoanWHcommander}}</div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 form-group BottomCenterContent">
+                    <label for="General" class="bottomTitle"> General Command approval</label>
+                  </div>
+                  <div class="col-md-4 BottomRightContent">
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Applicant</strong> <span class="error">*</span>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="LoanForm.applicant" name="applicant"
+                          class="form-control input-sm" id="applicant" placeholder="Applicant" />
+                      </div>
+                      <div [hidden]="errorLoanWHApplicant == ''" class="error">{{errorLoanWHApplicant}}</div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Force Commander Approval</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="LoanForm.force_commander_approval"
+                          name="force_commander_approval" class="form-control input-sm" id="force_commander_approval"
+                          placeholder="Force Commander" />
+                      </div>
+                      <div [hidden]="errorLoanWHApproval == ''" class="error">{{errorLoanWHApproval}}</div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Financial Notes</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="LoanForm.financial_notes"
+                          name="financial_notes" class="form-control input-sm" id="financial_notes"
+                          placeholder="Financial Notes" />
+                      </div>
+                      <div [hidden]="errorLoanWHfinancialNotes == ''" class="error">{{errorLoanWHfinancialNotes}}</div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Operational Recommendations</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="LoanForm.operational_recommendations"
+                          name="operational_recommendations" class="form-control input-sm"
+                          id="operational_recommendations" placeholder="Operational Recommendations" />
+                      </div>
+                      <div [hidden]="errorLoanOperRecommend == ''" class="error">{{errorLoanOperRecommend}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12 center-align mb-3">
+          <button type="button" (click)="addLoanMaterial(LoanForm)" class="primary-button btn btn-default"
+            *ngIf="opr==0">{{title}}</button>
+          <button type="button" (click)="updateLoanMaterial(LoanForm)" class="btn btn-default primary"
+            *ngIf="opr==1">{{title}}</button>
+          <button type="button" (click)="closeAndRedirect()" class="btn btn-default">
+            Cancel </button>
+          <br />
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="(selectFormValue == '5')">
+      <div class="col-md-12" style="margin-top:0px;">
+        <div class="col-md-12">
+          <div class="panel-group">
+            <div class="panel panel-default">
+              <div class="panel-heading printHeading5" style="margin: -1px;">
+                <div class="inline-display">
+                  <h3 class="panel-title printddTitle">
+                    Loan Exchange/Return Form</h3>
+                </div><span class="errortitledark">(<span class="error">*</span> Mandatory)</span>
+              </div>
+              <div class="panel-body">
+                <div class="col-md-12" style="background:#fff; padding:30px;">
+                  <div class="col-md-4 TopLeftContent">
+                    <div class="col-md-12 form-group materialPrint" *ngIf="opr==0">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong> Enter Demand Number </strong> <span class="error">*</span>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <ng-select [disabled]="isReadOnly" [items]="this.DemandNumberList"
+                          bindLabel="material_demand_no" bindValue="material_demand_no" [(ngModel)]="DemandNumber"
+                          (change)="submitLoanReturnDemandNumber(DemandNumber)">
+                        </ng-select>
+                      </div>
+                    </div>
+                    <div *ngIf="isGenereatedDemandNoOnly" class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Generated Demand No</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="LoanReturnForm.material_demand_no"
+                          name="ReturnAuthority" class="form-control input-sm" id="ReturnAuthority"
+                          placeholder="Generated Demand No" />
+                      </div>
+                      <!-- <div [hidden]="errorIssueOperRecommend == ''" class="error">{{errorIssueOperRecommend}}</div> -->
+                    </div>
+                    <div *ngIf="isCurrentDateOnly" class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong> Date</strong>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="true" [(ngModel)]="LoanReturnForm.date_issued" name="date"
+                          class="form-control input-sm" id="date" placeholder="Date" />
+                      </div>
+                      <!-- <div [hidden]="errorLoanDateIssued == ''" class="error">{{errorLoanDateIssued}}</div> -->
+                    </div>
+                  </div>
+                  <div class="col-md-4 form-group TopCenterContent">
+                    <label for="Qatar" class="Toptitle"> Qatar Armed forces</label>
+                    <h6>
+                      <strong> (Main Technical Store - Signal force)</strong>
+                    </h6>
+                  </div>
+                  <div class="col-md-4 TopRightContent">
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong> Manual Demand No </strong> <span class="error">*</span>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="LoanReturnForm.manual_demand_no"
+                          name="RequestReason" class="form-control input-sm" id="RequestReason"
+                          placeholder="Manual Demand No" />
+                      </div>
+                      <div [hidden]="errorLoanReturnManualDemandNo == ''" class="error">
+                        {{errorLoanReturnManualDemandNo}}</div>
+                    </div>
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong> Department </strong> <span class="error">*</span>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <select class="form-control input-sm" [disabled]="isReadOnly"
+                          [(ngModel)]="LoanReturnForm.department" (change)="($event)">
+                          <option *ngFor="let dept of DepartmentList" [value]="dept.label">{{dept.label}}</option>
+                        </select>
+                      </div>
+                      <div [hidden]="errorLoanReturnDepartment == ''" class="error">{{errorLoanReturnDepartment}}</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row pushPrintTable ">
+                  <!-- <div class="form-group" *ngIf="opr==0">
+                    <div class="col-md-9 form-inline issueAddBox" *ngIf="opr!=2">
+                      <label for="material_id">Enter Material:</label>
+                      <ng-select id="materialList{{i}}" class="selectMaterialDD form-control" style="padding: 0px;"
+                        id="material_id" [disabled]="isReadOnly" [items]="this.materialList" bindLabel="label"
+                        bindValue="material_id" [(ngModel)]="this.materialLoan">
+                      </ng-select>
+                      <label for="Quant">Quantity:</label>
+                      <input type="text" [(ngModel)]="this.quantityLoan" name="quantity" id="Quant" class="form-control"
+                        placeholder="Quantity" />
+                      <button type="submit" class="btn btn-default btn-color"
+                        (click)="addFieldsValue(this.materialLoan,this.quantityLoan,'oldLoanItem')">Submit</button>
+                      <button type="submit" class="btn btn-default btn-color"
+                        (click)="clearLoanFieldsValue()">Clear</button>
+                    </div>
+                  </div> -->
+                  <table class="table table-striped table-bordered tableContainer">
+                    <thead>
+                      <tr>
+                        <th class="text-center">Item Name</th>
+                        <th class="text-center">Item Part No</th>
+                        <th class="text-center">Serial No</th>
+                        <th class="text-center">Site Name</th>
+                        <th class="text-center">Remarks</th>
+                        <th class="text-center hidePrint" *ngIf="opr==0">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let loanReturnField of LoanReturnArray; let i = index">
+                        <td>
+                          <input id="materialList{{i}}" [disabled]="isItemNameOnly"
+                            [(ngModel)]="loanReturnField.item_name" class="form-control" type="text"
+                            name="{{loanReturnField.label}}" />
+                        </td>
+                        <td>
+                          <input id="part_no{{i}}" [disabled]="isItemPartNoOnly"
+                            [(ngModel)]="loanReturnField.item_part_no" class="form-control" type="text"
+                            name="{{loanReturnField.part_no}}" />
+                        </td>
+                        <td>
+                          <input id="serial_no{{i}}" [disabled]="isItemSerialNo" [(ngModel)]="loanReturnField.serial_no"
+                            class="form-control" type="text" name="{{loanReturnField.serial_no}}" />
+                        </td>
+                        <td>
+                          <input id="site_name{{i}}" [disabled]="isReturnReadOnly" [(ngModel)]="loanReturnField.site_name"
+                            class="form-control" type="text" name="{{loanReturnField.site_name}}" />
+                        </td>
+                        <td>
+                          <input id="remarks{{i}}" [disabled]="isReturnReadOnly" [(ngModel)]="loanReturnField.remarks"
+                            class="form-control" type="text" name="{{loanReturnField.remarks}}" />
+                        </td>
+                        <td class="hidePrint" *ngIf="opr==0">
+                          <button class="btn btn-default " [disabled]="isReadOnly" type="button"
+                            (click)="deleteLoanReturnValue(i)">Delete</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-md-12" style="background:#fff; padding:30px;">
+                  <div class="col-md-4 BottomLeftContent">
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Recepient </strong> <span class="error">*</span>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <select class="form-control input-sm" [disabled]="isReadOnly"
+                          [(ngModel)]="LoanReturnForm.issued_by" name="issued_by">
+                          <option *ngFor="let issuedUser of storeUsersList;let i = index" [value]="issuedUser.username">
+                            {{issuedUser.username}}</option>
+                        </select>
+                      </div>
+                      <div [hidden]="errorLoanReturnRecipient == ''" class="error">{{errorLoanReturnRecipient}}</div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 form-group BottomCenterContent">
+                    <label for="General" class="bottomTitle"> General Command approval</label>
+                  </div>
+                  <div class="col-md-4 BottomRightContent">
+                    <div class="col-md-12 form-group materialPrint">
+                      <div class="col-md-4">
+                        <h6>
+                          <strong>Applicant</strong> <span class="error">*</span>
+                        </h6>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="LoanReturnForm.applicant"
+                          name="applicant" class="form-control input-sm" id="applicant" placeholder="Applicant" />
+                      </div>
+                      <div [hidden]="errorLoanReturnApplicant == ''" class="error">{{errorLoanReturnApplicant}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12 center-align mb-3">
+          <button type="button" (click)="addLoanReturnMaterial(LoanReturnForm)" class="primary-button btn btn-default"
+            *ngIf="opr==0">{{title}}</button>
+          <button type="button" (click)="updateLoanReturnMaterial(LoanReturnForm)" class="btn btn-default primary"
+            *ngIf="opr==1">{{title}}</button>
+          <button type="button" (click)="closeAndRedirect()" class="btn btn-default">
+            Cancel </button>
+          <br />
+        </div>
+      </div>
+    </div>
+  </div>

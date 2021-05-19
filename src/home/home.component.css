@@ -1,0 +1,14 @@
+.home-container{
+    margin: 0%  2% 2% 2%;
+    border-radius: 3px;
+    background-color: #FFFFFF;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26), 0 2px 10px 0 rgba(0,0,0,0.16);
+    padding-bottom: 3%;
+  }
+
+  .leftlogo{
+    position: fixed;
+    height: 23vh;
+    bottom: 14vh;
+    left: 20vh;
+  }

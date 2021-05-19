@@ -1,0 +1,652 @@
+<div class="update-page-container">
+        <div class="page-padding">
+                <div [ngClass]="!isLangArabic ? 'float-left':'float-right'">
+            <b class="page-head">{{'Update Employee |   تحديث الموظف'}} </b></div>
+            <div [ngClass]="!isLangArabic? 'right-align':'left-align'">
+                <!-- <button type="button" (click)="updateEmployeedetails()" class="btn qafbutton">
+                    {{'Update Employee'| translate}}</button>
+                <button type="button" (click)="closeAndRedirect()" class="btn qafbutton">
+                    {{'Cancel'| translate}}</button> -->
+                    (<span class="error"> * </span>) Mandatory
+            </div>
+            <hr class="line">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="col-md-4" style="margin-bottom: 5%">
+                                <label for="txtId">
+                                        Military Id
+                                        <span class="error">*</span>
+                                    </label>
+                        </div>
+                        <div class="col-md-8" style="margin-bottom: 5%">
+                                <input type="text" [(ngModel)]="txtId" name="txtid" class="form-control" placeholder="Id" required readonly>
+                                <div *ngIf="errorId" class="error">Required</div>
+                                <div *ngIf="invalidMilitaryId" class="error">Invalid Id</div>
+                        </div>
+                    </div>
+    
+                    <div class="form-group">
+                        <div class="col-md-4" style="margin-bottom: 5%">
+                                <label for="UserName">
+                                        UserName</label>
+                        </div>
+                        <div class="col-md-8" style="margin-bottom: 5%">
+                                <input type="text" [(ngModel)]="txtUserName" name="UserName" class="form-control" id="txtUserName" placeholder="User Name"
+                                readonly/>
+                            <div *ngIf="errorUName" class="error">Required</div>
+                        </div>
+    
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4" style="margin-bottom: 5%">
+                                <label for="txtFirstName">
+                                        Name
+                                        <span class="error">*</span>
+                                    </label>
+                        </div>
+                        <div class="col-md-8" style="margin-bottom: 5%">
+                                <input type="text" [(ngModel)]="txtName" name="txtFirstName" class="form-control" id="txtFirstName" placeholder="Name" />
+                                <div *ngIf="errorFName" class="error">Required</div>
+                        </div>
+                    </div>
+    
+                    <div class="form-group">
+                        <div class="col-md-4" style="margin-bottom: 5%">
+                                <label for="ddlRank">
+                                        Rank
+                                        <span class="error" hidden>*</span>
+                                    </label>
+                        </div>
+                        <div class="col-md-8" style="margin-bottom: 5%">
+                                <select class="form-control" ngControl="rnk" [(ngModel)]="ddlRank">
+                                        <option value="">Select</option>
+                                        <option *ngFor="let rnk of rankList" [value]="rnk">{{rnk}}</option>
+                                    </select>
+                                    <div *ngIf="errorRank" class="error">Required</div>
+                        </div>
+                    </div>
+    
+                    <div class="form-group">
+                        <div class="col-md-4" style="margin-bottom: 5%">
+                                <label for="txtSubRank">
+                                        Sub Rank
+                                        <span class="error" hidden>*</span>
+                                    </label>
+                        </div>
+                        <div class="col-md-8" style="margin-bottom: 5%">
+                                <input type="text" [(ngModel)]="txtSubRank" name="Mobile" class="form-control" id="txtPosition" placeholder="Sub Rank" />
+                                <div *ngIf="errorSubRank" class="error">Required</div>
+                        </div>
+                    </div>
+    
+                    <div class="form-group">
+                        <div class="col-md-4" style="margin-bottom: 5%">
+                                <label for="ddlPosition">
+                                        Position
+                                        <span class="error" hidden>*</span>
+                                    </label>
+                        </div>
+                        <div class="col-md-8" style="margin-bottom: 5%">
+                                <input type="text" [(ngModel)]="txtPosition" name="Mobile" class="form-control" id="txtPosition" placeholder="Position" />
+                                <div *ngIf="errorPosition" class="error">Required</div>
+                        </div>
+                    </div>
+    
+                    <div class="form-group">
+                        <div class="col-md-4" style="margin-bottom: 5%">
+                                <label for="ddlRank">
+                                        Distribution List
+                                        <span class="error" hidden>*</span>
+                                    </label>
+                        </div>
+                        <div class="col-md-8" style="margin-bottom: 5%">
+                                <select class="form-control" ngControl="rnk" (change)="onChange($event.target.value,'en')" [(ngModel)]="ddlDstList">
+                                        <option value="">Select</option>
+                                        <option *ngFor="let rnk of distributionList" [value]="rnk">{{rnk}}</option>
+                                    </select>
+                                    <div *ngIf="errorDistributionList" class="error">Required</div>
+                        </div>
+                    </div>
+    
+                    <div class="form-group">
+                        <div class="col-md-4" style="margin-bottom: 5%">
+                                <label for="ddlPosition">
+                                        Distribution Unit
+                                        <span class="error" hidden>*</span>
+                                    </label>
+                        </div>
+                        <div class="col-md-8" style="margin-bottom: 5%">
+                             <select class="form-control" ngControl="rnk" [(ngModel)]="ddlDstUnit">
+                                        <option value="">Select</option>
+                                        <option *ngFor="let rnk of distributionUnit" [value]="rnk">{{rnk}}</option>
+                                    </select>
+                                    <div *ngIf="errorDistributionUnit" class="error">Required</div>
+                        </div>
+                    </div>
+    
+                    <div class="form-group" hidden>
+                        <div class="col-md-4" style="margin-bottom: 5%">
+                                <label for="txtForce">
+                                        Force
+                                        <span class="error">*</span>
+                                    </label>
+                        </div>
+                        <div class="col-md-8" style="margin-bottom: 5%" >
+                                <select class="form-control" ngControl="rnk" [(ngModel)]="txtForce">
+                                        <option value="">Select</option>
+                                        <option *ngFor="let rnk of forceList" [value]="rnk">{{rnk}}</option>
+                                    </select>
+                                    <div *ngIf="errorForce" class="error">Required</div>
+                        </div>
+                    </div>
+    
+                    <div class="form-group" hidden>
+                        <div class="col-md-4" style="margin-bottom: 5%">
+                                <label for="txtForce">
+                                        Corps
+                                        <span class="error">*</span>
+                                    </label>
+                        </div>
+                        <div class="col-md-8" style="margin-bottom: 5%">
+                                <select class="form-control" ngControl="rnk" [(ngModel)]="txtCorps">
+                                        <option value="">Select</option>
+                                        <option *ngFor="let rnk of corpsList" [value]="rnk">{{rnk}}</option>
+                                    </select>
+                                    <div *ngIf="errorCorps" class="error">Required</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" hidden>
+                            <div class="col-md-4" style="margin-bottom: 5%">
+                                    <label for="txtForce">
+                                            Corps
+                                            <span class="error">*</span>
+                                        </label>
+                            </div>
+                            <div class="col-md-8" style="margin-bottom: 5%">
+                                    <select class="form-control" ngControl="rnk" [(ngModel)]="txtCorps">
+                                            <option value="">Select</option>
+                                            <option *ngFor="let rnk of corpsList" [value]="rnk">{{rnk}}</option>
+                                        </select>
+                                        <div *ngIf="errorCorps" class="error">Required</div>
+                            </div>
+                        </div>
+    
+                    <div class="form-group">
+                        <div class="col-md-4" style="margin-bottom: 5%">
+                                <label for="Mobile">
+                                        Mobile
+                                        <span class="error">*</span>
+                                    </label>
+                        </div>
+                        <div class="col-md-8" style="margin-bottom: 5%">
+                                <input type="text" [(ngModel)]="txtMobile" name="Mobile" class="form-control" id="txtFamilyName" placeholder="Mobile" />
+                                <div *ngIf="errorMobile" class="error">Required</div>
+                                <div *ngIf="invalidMobile" class="error">Invalid Number</div>
+                        </div>
+                    </div>
+    
+                </div>
+                <div class="col-md-6" dir="rtl">
+                    <div class="form-group">
+                        <div class="col-md-4" style="margin-bottom: 5%">
+                            <label for="txtId">
+                                الرقم العسكري
+                                <span class="error">*</span>
+                            </label>
+                        </div>
+                        <div class="col-md-8" style="margin-bottom: 5%">
+                            <input type="text" [(ngModel)]="txtId" name="MilitaryIdArabic" class="form-control" placeholder="الرقم العسكري" readonly />
+                            <div *ngIf="errorIdArabic" class="error">مطلوب</div>
+                            <div *ngIf="invalidMilitaryIdArabic" class="error">بطاقة التعريف غير صالحة</div>
+                        </div>
+                    </div>
+    
+                    <div class="form-group">
+                        <div class="col-md-4" style="margin-bottom: 5%">
+                            <label for="txtUserName">
+                                اسم المستخدم</label>
+                        </div>
+                        <div class="col-md-8" style="margin-bottom: 5%">
+                            <input type="text" [(ngModel)]="txtUserNameArabic" name="UserNameArabic" class="form-control" id="txtUserName" placeholder="اسم المستخدم"
+                            readonly/>
+                        <div dir="rtl" *ngIf="errorUNameArabic" class="error">مطلوب</div>
+                        </div>
+    
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-4" style="margin-bottom: 5%">
+                            <label for="txtFirstName">
+                                الأسم
+                                <span class="error">*</span>
+                            </label>
+                        </div>
+                        <div class="col-md-8" style="margin-bottom: 5%">
+                            <input type="text" [(ngModel)]="txtNameArabic" name="FirstNameArabic" class="form-control" id="txtFirstName" placeholder="الأسم"
+                            />
+                            <div dir="rtl" *ngIf="errorFNameArabic" class="error">مطلوب</div>
+                        </div>
+                    </div>
+    
+                    <div class="form-group">
+                        <div class="col-md-4" style="margin-bottom: 5%">
+                            <label for="ddlRank">
+                                الرتبة
+                                <span class="error" hidden>*</span>
+                            </label>
+                        </div>
+                        <div class="col-md-8" style="margin-bottom: 5%">
+                            <select name="ddlRankArabic" class="form-control" ngControl="rnk" [(ngModel)]="ddlRankArabic">
+                                <option value="">تحديد</option>
+                                <option *ngFor="let rnk of rankListArabic" [value]="rnk">{{rnk}}</option>
+                            </select>
+                            <div dir="rtl" *ngIf="errorRankArabic" class="error">مطلوب</div>
+                        </div>
+                    </div>
+    
+                    <div class="form-group">
+                        <div class="col-md-4" style="margin-bottom: 5%">
+                            <label for="ddlPosition">
+                                رتبة فرعية
+                            <span class="error" hidden>*</span>
+                        </label>
+                        </div>
+                        <div class="col-md-8" style="margin-bottom: 5%">
+                            <input type="text" [(ngModel)]="txtSubRankArabic" name="PositionArabic" class="form-control" id="txtPosition" placeholder="رتبة فرعية"
+                            />
+                            <div dir="rtl" *ngIf="errorPositionArabic" class="error">مطلوب</div>
+                        </div>
+                    </div>
+    
+                    <div class="form-group">
+                        <div class="col-md-4" style="margin-bottom: 5%">
+                            <label for="ddlPosition">
+                                المنصب
+                                <span class="error" hidden>*</span>
+                            </label>
+                        </div>
+                        <div class="col-md-8" style="margin-bottom: 5%">
+                            <input type="text" [(ngModel)]="txtPositionArabic" name="PositionArabic" class="form-control"
+                                id="txtPosition" placeholder="موضع" />
+                            <div dir="rtl" *ngIf="errorPositionArabic" class="error">مطلوب</div>
+                        </div>
+                    </div>
+    
+                    <div class="form-group">
+                        <div class="col-md-4" style="margin-bottom: 5%">
+                            <label for="ddlRank">
+                                قائمة التوزيع
+                                <span class="error" hidden>*</span>
+                            </label>
+                        </div>
+                        <div class="col-md-8" style="margin-bottom: 5%">
+                            <select name="ddlRankArabic" class="form-control" ngControl="rnk" (change)="onChange($event.target.value,'ar')" [(ngModel)]="ddlDstListArabic">
+                                <option value="">تحديد</option>
+                                <option *ngFor="let rnk of distributionListArabic" [value]="rnk">{{rnk}}</option>
+                            </select>
+                            <div dir="rtl" *ngIf="errorDistributionUnitArabic" class="error">مطلوب</div>
+                        </div>
+                    </div>
+    
+                    <div class="form-group">
+                        <div class="col-md-4" style="margin-bottom: 5%">
+                            <label for="ddlUnit">
+                                الوحدة
+                                <span class="error" hidden>*</span>
+                            </label>
+                        </div>
+                        <div class="col-md-8" style="margin-bottom: 5%">
+                            <select name="ddlRankArabic" class="form-control" ngControl="rnk" [(ngModel)]="ddlDstUnitArabic">
+                                <option value="">تحديد</option>
+                                <option *ngFor="let rnk of distributionUnitArabic" [value]="rnk">{{rnk}}</option>
+                            </select>
+                            <div dir="rtl" *ngIf="errorDistributionListArabic" class="error">مطلوب</div>
+                        </div>
+                    </div>
+    
+                    <div class="form-group" hidden>
+                        <div class="col-md-4" style="margin-bottom: 5%" >
+                            <label for="txtForce">
+                                فوج
+                                <span class="error">*</span>
+                            </label>
+                        </div>
+                        <div class="form-group"></div>
+                        <div class="col-md-8" style="margin-bottom: 5%">
+                            <select name="ddlRegimentArabic" class="form-control" ngControl="rnk"
+                                [(ngModel)]="txtRegimentArabic">
+                                <option value="">تحديد</option>
+                                <option *ngFor="let rnk of regimentListArabic" [value]="rnk">{{rnk}}</option>
+                            </select>
+                            <div *ngIf="errorRegimentArabic" class="error">مطلوب</div>
+                        </div>
+                    </div>
+    
+                    <div class="form-group">
+                        <div class="col-md-4" style="margin-bottom: 5%" hidden>
+                            <label for="DirectorateArabic">
+                                إدارة
+                                <span class="error">*</span>
+                            </label>
+                        </div>
+                        <div class="col-md-8" style="margin-bottom: 5%" hidden>
+                            <select name="ddlRankArabic" class="form-control" ngControl="rnk"
+                                [(ngModel)]="txtDirectorateArabic">
+                                <option value="">تحديد</option>
+                                <option *ngFor="let rnk of directorateListArabic" [value]="rnk">{{rnk}}</option>
+                            </select>
+                            <div *ngIf="errorDirectorateArabic" class="error">مطلوب</div>
+                        </div>
+                    </div>
+    
+                    <div class="form-group">
+                        <div class="col-md-4" style="margin-bottom: 5%">
+                            <label for="MobileArabic">
+                                رقم الجوال
+                                <span class="error">*</span>
+                            </label>
+                        </div>
+                        <div class="col-md-8" style="margin-bottom: 5%">
+                            <input dir="rtl" type="text" [(ngModel)]="txtMobile" name="MobileArabic" class="form-control" id="txtFamilyName" placeholder=" التليفون المحمول"
+                            />
+                            <div dir="rtl" *ngIf="errorMobileArabic" class="error">مطلوب</div>
+                            <div *ngIf="invalidMobileArabic" class="error">رقم غير صالح</div>
+                        </div>
+                    </div>
+    
+                </div>
+    
+                <div class="panel-heading" data-toggle="collapse" data-target="#otherDetail">
+                        <!-- <b class="page-head">{{'OTHER INFORMATION | معلومات أخرى'}}</b> -->
+                        <div class="col-md-12">
+                                <b class="page-head">
+                                        {{'OTHER INFORMATION | معلومات أخرى'}}
+                                </b>
+                        </div>
+                       
+                </div>
+                <div class="col-md-12"> <hr class="line"></div>
+            <div class="panel-body collapse in" id="otherDetail">
+                    <div class="col-md-6">
+                            <div class="form-group">
+                                <div class="col-md-4" style="margin-bottom: 5%">
+                                        <label for="txtOfficetelePhone1">
+                                                Office Telephone 1</label>
+                                </div>
+                                <div class="col-md-8" style="margin-bottom: 5%">
+                                        <input type="text" [(ngModel)]="txtOfficetelePhone1" name="txtOfficetelePhone1" class="form-control" id="txtOfficeTelePhone1"
+                                                placeholder="Office Telephone 1" />
+                                            <div *ngIf="errorOfficetelePhone1" class="error">Required</div>
+                                            <div *ngIf="invalidOfficetelePhone1" class="error">Invalid Number</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-4" style="margin-bottom: 5%">
+                                        <label for="txtOfficetelePhone2">
+                                                Office Telephone 2</label>
+                                </div>
+                                <div class="col-md-8" style="margin-bottom: 5%">
+                                        <input type="text" [(ngModel)]="txtOfficetelePhone2" name="txtOfficetelePhone2" class="form-control" id="txtOfficetelePhone2"
+                                                placeholder="Office Telephone 2" />
+                                            <div *ngIf="errorOfficetelePhone2" class="error">Required</div>
+                                            <div *ngIf="invalidOfficetelePhone2" class="error">Invalid Number</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-4" style="margin-bottom: 5%">
+                                        <label for="txtOfficetelePhone3">
+                                                Office Telephone 3</label>
+                                </div>
+                                <div class="col-md-8" style="margin-bottom: 5%">
+                                        <input type="text" [(ngModel)]="txtOfficetelePhone3" name="txtOfficetelePhone3" class="form-control" id="txtOfficetelePhone3"
+                                                placeholder="Office Telephone 3" />
+                                            <div *ngIf="errorOfficetelePhone3" class="error">Required</div>
+                                            <div *ngIf="invalidOfficetelePhone3" class="error">Invalid Number</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-4" style="margin-bottom: 5%">
+                                        <label for="txtResidentTelePhone">
+                                                ResidenceTeleNo.</label>
+                                </div>
+                                <div class="col-md-8" style="margin-bottom: 5%">
+                                        <input type="text" [(ngModel)]="txtResidentTelePhone" name="txtResidentTelePhone" class="form-control" id="txtResidentTelePhone"
+                                        placeholder="Residence Telephone" />
+                                    <div *ngIf="errorResidentTele" class="error">Required</div>
+                                    <div *ngIf="invalidResidentTele" class="error">Invalid Number</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-4" style="margin-bottom: 5%">
+                                        <label for="txtDirectLine">
+                                                Direct line</label>
+                                </div>
+                                <div class="col-md-8" style="margin-bottom: 5%">
+                                        <input type="text" [(ngModel)]="txtDirectLine" name="txtDirectLine" class="form-control" id="txtDirectLine" placeholder=" Direct line"
+                                        />
+                                        <div *ngIf="errorDLine" class="error">Required</div>
+                                        <div *ngIf="invalidDLine" class="error">Invalid Number</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-4" style="margin-bottom: 5%">
+                                        <label for="txtFaxLine">
+                                                Fax Number</label>
+                                </div>
+                                <div class="col-md-8" style="margin-bottom: 5%">
+                                        <input type="text" [(ngModel)]="txtFaxLine" name="txtFaxLine" class="form-control" id="txtFaxLine" placeholder="Fax Number"
+                                        />
+                                        <div *ngIf="errorFLine" class="error">Required</div>
+                                        <div *ngIf="invalidFLine" class="error">Invalid Number</div>
+                                </div>
+                            </div>
+                           
+                            <div class="form-group" hidden>
+                                    <div class="col-md-4" style="margin-bottom: 5%">
+                                            <label for="txtHotLine">
+                                                    Hot Line</label>
+                                    </div>
+                                    <div class="col-md-8" style="margin-bottom: 5%">
+                                            <input type="text" [(ngModel)]="txtHotLine" name="txtHotLine" class="form-control"
+                                            id="txtHotLine" placeholder="Hot Line" />
+                                        <div *ngIf="errorHLine" class="error">Required</div>
+                                        <div *ngIf="invalidHLine" class="error">Invalid Number</div>
+                                    </div>
+                                </div>
+            
+                                <div class="form-group" hidden>
+                                    <div class="col-md-4" style="margin-bottom: 5%">
+                                            <label for="txtOtherSpecialLine">
+                                                    Special Line</label>
+                                    </div>
+                                    <div class="col-md-8" style="margin-bottom: 5%">
+                                            <input type="text" [(ngModel)]="txtOtherSpecialLine" name="txtOtherSpecialLine"
+                                            class="form-control" id="txtOtherSpecialLine" placeholder="Other Special Line" />
+                                        <div *ngIf="errorOLine" class="error">Required</div>
+                                        <div *ngIf="invalidOLine" class="error">Invalid Number</div>
+                                        </div>
+                                </div>
+                                <div class="form-group" hidden>
+                                        <div class="col-md-4" style="margin-bottom: 5%">
+                                                <label for="txtPrivateTelephone">
+                                                        Private Tele.</label>
+                                        </div>
+                                        <div class="col-md-8" style="margin-bottom: 5%">
+                                                <input type="text" [(ngModel)]="txtPrivateTelephone" name="txtPrivateTelephone"
+                                                class="form-control" id="txtPrivateTelephone" placeholder="Private Telephone" />
+                                            <div *ngIf="errorPrivateTele" class="error">Required</div>
+                                            <div *ngIf="invalidPrivateTele" class="error">Invalid Number</div>
+                                            </div>
+                                    </div>
+                                    <div class="form-group" hidden>
+                                            <div class="col-md-4" style="margin-bottom: 5%">
+                                                    <label for="txtInstruction">
+                                                            Instructions</label>
+                                                       
+                                            </div>
+                                            <div class="col-md-8" style="margin-bottom: 5%">
+                                                    <input type="text" [(ngModel)]="txtInstruction" name="txtInstruction" class="form-control"
+                                                    id="txtInstruction" placeholder="Instructions/ Remarks" />
+                    
+                                                <div *ngIf="errorInstruction" class="error">Required</div>
+                                                </div>
+                                        </div>
+                                        
+                            
+                        </div>
+            
+            
+                        <div  class="col-md-6" dir="rtl">
+                                <div class="form-group">
+                                    <div class="col-md-4" style="margin-bottom: 5%">
+                                        <label for="txtOfficetelePhone1">
+                                            هاتف العمل 1</label>
+                                    </div>
+                                    <div class="col-md-8" style="margin-bottom: 5%">
+                                        <input dir="rtl" type="text" [(ngModel)]="txtOfficetelePhone1" name="OfficetelePhone1Arabic" class="form-control" id="txtOfficeTelePhone1"
+                                            placeholder="مكتب هاتف 1" />
+                                        <div *ngIf="errorOfficetelePhone1Arabic" class="error">مطلوب</div>
+                                        <div *ngIf="invalidOfficetelePhone1Arabic" class="error">رقم غير صالح</div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4" style="margin-bottom: 5%">
+                                        <label for="txtOfficetelePhone2">
+                                            هاتف العمل 2</label>
+                                    </div>
+                                    <div class="col-md-8" style="margin-bottom: 5%">
+                                        <input dir="rtl" type="text" [(ngModel)]="txtOfficetelePhone2" name="OfficetelePhone2Arabic" class="form-control" id="txtOfficetelePhone2"
+                                        placeholder="مكتب هاتف 2" />
+                                    <div *ngIf="errorOfficetelePhone2Arabic" class="error">مطلوب</div>
+                                    <div *ngIf="invalidOfficetelePhone2Arabic" class="error">رقم غير صالح</div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4" style="margin-bottom: 5%">
+                                        <label for="txtOfficetelePhone3">
+                                            هاتف العمل 3</label>
+                                    </div>
+                                    <div class="col-md-8" style="margin-bottom: 5%">
+                                        <input dir="rtl" type="text" [(ngModel)]="txtOfficetelePhone3" name="OfficetelePhone3Arabic" class="form-control" id="txtOfficetelePhone3"
+                                            placeholder="مكتب هاتف 3" />
+                                        <div *ngIf="errorOfficetelePhone3Arabic" class="error">مطلوب</div>
+                                        <div *ngIf="invalidOfficetelePhone3Arabic" class="error">رقم غير صالح</div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4" style="margin-bottom: 5%">
+                                        <label for="txtResidentTelePhone">
+                                            هاتف المنزل</label>
+                                    </div>
+                                    <div class="col-md-8" style="margin-bottom: 5%">
+                                        <input dir="rtl" type="text" [(ngModel)]="txtResidentTelePhone" name="ResidentTelePhoneArabic" class="form-control" id="txtResidentTelePhone"
+                                            placeholder="الإقامة الهاتف" />
+                                        <div *ngIf="errorResidentTeleArabic" class="error">مطلوب</div>
+                                        <div *ngIf="invalidResidentTeleArabic" class="error">رقم غير صالح</div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4" style="margin-bottom: 5%">
+                                        <label for="txtDirectLine">
+                                            خط مباشر</label>
+                                    </div>
+                                    <div class="col-md-8" style="margin-bottom: 5%">
+                                        <input dir="rtl" type="text" [(ngModel)]="txtDirectLine" name="DirectLineArabic" class="form-control" id="txtDirectLine"
+                                            placeholder="مباشر" />
+                                        <div *ngIf="errorDLineArabic" class="error">مطلوب</div>
+                                        <div *ngIf="invalidDLineArabic" class="error">رقم غير صالح</div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4" style="margin-bottom: 5%">
+                                        <label for="txtFaxLine">
+                                            رقم الفاكس</label>
+                                    </div>
+                                    <div class="col-md-8" style="margin-bottom: 5%">
+                                        <input dir="rtl" type="text" [(ngModel)]="txtFaxLine" name="FaxLineArabic" class="form-control" id="txtFaxLine" placeholder="رقم الفاكس"
+                                        />
+                                        <div *ngIf="errorFLineArabic" class="error">مطلوب</div>
+                                        <div *ngIf="invalidFLineArabic" class="error">رقم غير صالح</div>
+                                    </div>
+                                </div>
+                               
+                                <div class="form-group" hidden>
+                                        <div class="col-md-4" style="margin-bottom: 5%">
+                                            <label for="txtHotLine">
+                                                خط ساخن</label>
+                                        </div>
+                                        <div class="col-md-8" style="margin-bottom: 5%">
+                                            <input dir="ltr" type="text" [(ngModel)]="txtHotLine" name="HotLine" class="form-control" id="txtHotLine" placeholder="الخط الساخن"
+                                            />
+                                            <div *ngIf="errorHLineArabic" class="error">مطلوب</div>
+                                            <div *ngIf="invalidHLineArabic" class="error">رقم غير صالح</div>
+                                        </div>
+                                    </div>
+                
+                                    <div class="form-group" hidden>
+                                        <div class="col-md-4" style="margin-bottom: 5%">
+                                            <label for="txtOtherSpecialLine">
+                                                خط خاص نوع آخر</label>
+                                        </div>
+                                        <div class="col-md-8" style="margin-bottom: 5%">
+                                            <input dir="ltr" type="text" [(ngModel)]="txtOtherSpecialLine" name="OtherSpecialLineArabic" class="form-control" id="txtOtherSpecialLine"
+                                            placeholder="خط خاص آخر" />
+                                        <div *ngIf="errorOLineArabic" class="error">مطلوب</div>
+                                        <div *ngIf="invalidOLineArabic" class="error">رقم غير صالح</div>
+                                            </div>
+                                    </div>
+                                    <div class="form-group" hidden>
+                                            <div class="col-md-4" style="margin-bottom: 5%">
+                                                <label for="txtPrivateTelephone">
+                                                    هاتف خاص</label>
+                                            </div>
+                                            <div class="col-md-8" style="margin-bottom: 5%">
+                                                <input dir="ltr" type="text" [(ngModel)]="txtPrivateTelephone" name="PrivateTelephone" class="form-control" id="txtPrivateTelephone"
+                                                placeholder="هاتف خاص" />
+                                            <div *ngIf="errorPrivateTeleArabic" class="error">مطلوب</div>
+                                            <div *ngIf="invalidPrivateTeleArabic" class="error">رقم غير صالح</div>
+                                                </div>
+                                        </div>
+                                        <div class="form-group" hidden>
+                                                <div class="col-md-4" style="margin-bottom: 5%">
+                                                    <label for="txtInstruction">
+                                                        تعليمات</label>
+                                                </div>
+                                                <div class="col-md-8" style="margin-bottom: 5%">
+                                                    <input type="text" [(ngModel)]="txtInstructionArabic" name="InstructionArabic" class="form-control" id="txtInstruction" placeholder="تعليمات / ملاحظات"
+                                                    />
+                                                    <div dir="rtl" *ngIf="errorInstructionArabic" class="error">مطلوب</div>
+                                                    </div>
+                                            </div>
+                                            
+                                
+                            </div>
+            </div>
+               
+                
+    
+    
+    
+    
+            
+                <!-- <div class="col-md-12 center-align">
+                        <hr class="line">
+                    <button type="button" (click)="SaveNewEmployee()" class="primary btn btn-default primary">
+                        {{'Save Employee'| translate}}</button>
+                    <button type="button" (click)="closeAndRedirect()" class="btn btn-default">
+                        {{'Cancel'| translate}}</button>
+                    <br />
+                </div> -->
+                <div class="col-md-12 center-align">
+                        <hr class="line">
+                    <button type="button" (click)="updateEmployeedetails()" class="btn btn-default primary">
+                        {{'Update Employee'| translate}}</button>
+                    <button type="button" (click)="closeAndRedirect()" class="btn btn-default">
+                        {{'Cancel'| translate}}</button>
+                </div>
+            </div>
+    
+        </div>
+    
+    </div>

@@ -1,0 +1,185 @@
+.routing .tbl-employee.table>tbody>tr>th {
+    border-top: none;
+}
+.container-fluid{
+    min-height: 100vh;
+}
+.routing {
+    margin-left: 2% !important;
+    margin-right: 2%;
+}
+
+.routing .card {
+    background-color: #fff;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    margin-bottom: 2%;
+}
+
+.routing .clr-anch {
+    margin-left: 2%;
+    cursor: pointer;
+}
+
+.routing .header {
+    margin-top: 0 !important;
+    margin-left: 0 !important;
+    width: 100% !important;
+    background-color: #f1efef;
+    padding-top: 2%;
+}
+
+.routing .srcrow {
+    margin-right: 0;
+    margin-left: 0;
+    margin-top: 2%;
+}
+
+.routing .wd-80 {
+    width: 80%
+}
+
+.routing .wd-100 {
+    width: 100%;
+}
+
+.routing .drop-down {
+    border-radius: 5px;
+    height: 6vh;
+}
+
+.routing .custom {
+    margin-top: 3%;
+    font-size: 2rem;
+    float: right;
+}
+
+.routing .vertical-line {
+    width: 2px;
+    border: 1px solid black;
+}
+
+.routing .add-anch {
+    margin-left: 4%;
+    margin-right: 2%;
+    cursor: pointer;
+}
+
+.routing .mt-3 {
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
+}
+
+.routing .primary {
+    color: #fff;
+    background-color: #76102B;
+    border: 0;
+    border-radius: 5px;
+    height: 5vh;
+    width: 35%;
+}
+
+.routing .Pagename {
+    background: transparent;
+    margin: 0;
+}
+.routing .ftrt {
+    text-align: right;
+}
+.routing .fixed-1 {
+    left: 7% !important;
+    min-width: 70px !important;
+    text-align: left;
+    font-weight: bolder;
+    padding: 5px 20px !important;
+    width: fit-content !important;
+    position: absolute;
+    
+}
+.fix-top{
+    font-size: 1.2em !important;
+    height: 8vh;
+    line-height: 4.15em !important;
+}
+ @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+.routing .fix-top{
+    font-size: 1.2em !important;
+    height: 8vh;
+    line-height: 2.8em !important;
+}
+}
+
+.routing .ng2-pagination{
+    border-top: none !important;
+}
+
+.routing .fixed-2 {
+    position: absolute;
+    left: 12% !important;
+    min-width: 70px !important;
+    text-align: left;
+    font-weight: bolder;
+    padding: 5px 20px !important;
+    width: fit-content !important;
+}
+
+.routing #tableContainer {
+    margin-left: 18% !important;
+}
+
+.routing .h-6 {
+    height: 6vh;
+}
+
+@media only screen and (max-height: 700px){
+    .routing .mt-6 {
+        margin-top: 3%;
+    }
+}
+@media only screen and (min-height: 850px) and (max-height: 700px){
+    .routing .mt-6 {
+        margin-top: 3%;
+    }
+}
+@media only screen and (min-height: 950px) and (max-height: 850px){
+    .routing .mt-6 {
+        margin-top: 4%;
+    }
+}
+@media only screen and (min-height: 1050px) and (max-height: 950px){
+    .routing .mt-6 {
+        margin-top: 6%;
+    }
+}
+.routing .btn-primary {
+    color: #fff !important;
+    background-color: #76102B !important;
+    height: 5vh;
+}
+
+@media only screen  and (min-width : 1824px) {
+    .routing .mt-6 {
+        margin-top: 6%;
+    }    
+    .routing .wd-80{
+        width: 87%;
+    }
+    .routing .custom{
+        margin-top: 6%;
+    }
+    }
+
+    @media only screen and (min-height: 1000px) and (max-height: 1200px){
+        .routing .drop-down {
+            height: 4vh;
+        }
+        .routing .primary {
+            height: 3.5vh;
+        }
+        .routing .mt-3 {
+            margin-top: 0.25vh;
+            margin-bottom: 0.25vh;
+        }
+        .routing .btn-primary {
+            height: 3.5vh;
+        }
+    }

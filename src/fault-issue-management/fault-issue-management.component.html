@@ -1,0 +1,569 @@
+<div class="isue">
+<div class="fault-job-margin">
+  <div class="no-print">
+    <div class="row faultJobListhead">
+      <div class="col-md-4">
+        <strong class="faultjobHead">Fault / Job Management</strong>
+      </div>
+      <div class="col-md-4">
+        <input name="Job" [(ngModel)]="radioSelected" type="radio" value="Job" (change)="onItemChange('Job')" />
+        <label style="margin:0;">Job</label>
+        <input style="margin-left: 2%" name="Fault" [(ngModel)]="radioSelected" type="radio" value="Fault"
+          (change)="onItemChange('Fault')" />
+        <label style="margin:0;">Fault</label>
+        <!-- <h5>{{radioSelectedString}}</h5> -->
+      </div>
+      <div class="col-md-4 right-align">
+        <a class="btn  btn-color btn-sm" routerLink="/AddJobFault">Add Job/Fault</a>
+        <a class="btn  btn-color btn-sm" (click)='showUploaPopUp()'>Import</a>
+        <a class="btn  btn-color btn-sm" routerLink="/fj-report">Report</a>
+        <a class="btn btn-default btn-sm" (click)='cleardata()'>Clear</a>
+        <!-- <a *ngIf="userRoleId == '1'" class="btn btn-default btn-sm" routerLink='/employee'>Back</a> -->
+      </div>
+    </div>
+  </div>
+  <div class="row falutjobtable no-print">
+    <!-- <div style="float:right;" class="inline-display">(
+          <span class="error"> * </span>) Mandatory</div> -->
+    <div class="scroll-x">
+      <table class="fault-job-table table highLightTable">
+        <tr class="tr-fonts">
+          <th class="fixed-1 fixth " [ngClass]="!isLangArabic ? 'enfixcol1':'arfixcol1'">
+            <!--  (click)="toggleAdvanceSearch()" <span class="fa fa-search" title="show Advance Search"></span> -->
+          </th>
+          <th class="fixed-2 fixth" [ngClass]="!isLangArabic ? 'enfixthcol2':'arfixthcol2'"> Action </th>
+          <th (click)="sort('ticket_number')">Operation NO
+            <i class="fa" [ngClass]="{'fa-sort': column != 'ticket_number',
+                'fa-sort-asc': (column == 'ticket_number' && !isDesc),
+                'fa-sort-desc': (column == 'ticket_number' && isDesc) }" aria-hidden="true">
+            </i>
+          </th>
+          <th (click)="sort('ticket_status')">Operation Status
+            <i class="fa" [ngClass]="{'fa-sort': column != 'ticket_status',
+                'fa-sort-asc': (column == 'ticket_status' && !isDesc),
+                'fa-sort-desc': (column == 'ticket_status' && isDesc) }" aria-hidden="true">
+            </i>
+          </th>
+          <th (click)="sort('created_date')">Operation Created Date
+            <i class="fa" [ngClass]="{'fa-sort': column != 'created_date',
+                'fa-sort-asc': (column == 'created_date' && !isDesc),
+                'fa-sort-desc': (column == 'created_date' && isDesc) }" aria-hidden="true">
+            </i>
+          </th>
+          <th (click)="sort('assigned_date')">Operation Assign Date
+            <i class="fa" [ngClass]="{'fa-sort': column != 'assigned_date',
+                'fa-sort-asc': (column == 'assigned_date' && !isDesc),
+                'fa-sort-desc': (column == 'assigned_date' && isDesc) }" aria-hidden="true">
+            </i>
+          </th>
+          <th (click)="sort('site_name')">Site name
+            <i class="fa" [ngClass]="{'fa-sort': column != 'site_name',
+                'fa-sort-asc': (column == 'site_name' && !isDesc),
+                'fa-sort-desc': (column == 'site_name' && isDesc) }" aria-hidden="true">
+            </i>
+          </th>
+          <th (click)="sort('department')">Department
+            <i class="fa" [ngClass]="{'fa-sort': column != 'department',
+                'fa-sort-asc': (column == 'department' && !isDesc),
+                'fa-sort-desc': (column == 'department' && isDesc) }" aria-hidden="true">
+            </i>
+          </th>
+          <th (click)="sort('severity')">Severity
+            <i class="fa" [ngClass]="{'fa-sort': column != 'severity',
+                'fa-sort-asc': (column == 'severity' && !isDesc),
+                'fa-sort-desc': (column == 'severity' && isDesc) }" aria-hidden="true">
+            </i>
+          </th>
+          <th (click)="sort('operation_type')">Operation Type
+            <i class="fa" [ngClass]="{'fa-sort': column != 'operation_type',
+                'fa-sort-asc': (column == 'operation_type' && !isDesc),
+                'fa-sort-desc': (column == 'operation_type' && isDesc) }" aria-hidden="true">
+            </i>
+          </th>
+          <th (click)="sort('operation_sub_type')">Operation Sub Type
+            <i class="fa" [ngClass]="{'fa-sort': column != 'operation_sub_type',
+                'fa-sort-asc': (column == 'operation_sub_type' && !isDesc),
+                'fa-sort-desc': (column == 'operation_sub_type' && isDesc) }" aria-hidden="true">
+            </i>
+          </th>
+
+          <th (click)="sort('operation_reported_by')">Reported By
+            <i class="fa" [ngClass]="{'fa-sort': column != 'operation_reported_by',
+                'fa-sort-asc': (column == 'operation_reported_by' && !isDesc),
+                'fa-sort-desc': (column == 'operation_reported_by' && isDesc) }" aria-hidden="true">
+            </i>
+          </th>
+          <th (click)="sort('operation_reported_to_names')">Reported To
+            <i class="fa" [ngClass]="{'fa-sort': column != 'operation_reported_to_names',
+                'fa-sort-asc': (column == 'operation_reported_to_names' && !isDesc),
+                'fa-sort-desc': (column == 'operation_reported_to_names' && isDesc) }" aria-hidden="true">
+            </i>
+          </th>
+          <th (click)="sort('requested_by')">Requested By
+            <i class="fa" [ngClass]="{'fa-sort': column != 'requested_by',
+                  'fa-sort-asc': (column == 'requested_by' && !isDesc),
+                  'fa-sort-desc': (column == 'requested_by' && isDesc) }" aria-hidden="true">
+            </i>
+          </th>
+          <th (click)="sort('description')">Description
+            <i class="fa" [ngClass]="{'fa-sort': column != 'description',
+                'fa-sort-asc': (column == 'description' && !isDesc),
+                'fa-sort-desc': (column == 'description' && isDesc) }" aria-hidden="true">
+            </i>
+          </th>
+        </tr>
+        <tbody class="searchBox" *ngIf="showAdvanceSearch" [ngClass]="{'hidden-menu': !showMenu}">
+          <tr>
+            <td class="fixed-column-1"></td>
+            <td class="fixed-column-2"></td>
+            <td>
+              <input type="text" name="searchOpNumber" [(ngModel)]="searchOpNumber"
+                class="WoSearchBoxWidth textbox-height form-control" placeholder="{{ 'Op Number' | translate }}" />
+            </td>
+            <td>
+              <select class="form-control WoSearchBoxWidth textbox-height" [(ngModel)]="searchOpStatus"
+                name="searchOpStatus">
+                <option class="searchAlign" value=""> </option>
+                <option *ngFor="let Opstatus of OpStatusList" [value]="Opstatus.name">{{Opstatus.name}}</option>
+              </select>
+            </td>
+            <td>
+              <input type="text" name="searchOpCreatedDate" [(ngModel)]="searchOpCreatedDate"
+                class="WoSearchBoxWidth textbox-height form-control" placeholder="{{ 'Created Date' | translate }}" />
+            </td>
+            <td>
+              <input type="text" name="searchOpAssignDate" [(ngModel)]="searchOpAssignDate"
+                class="WoSearchBoxWidth textbox-height form-control" placeholder="{{ 'Assign Date' | translate }}" />
+            </td>
+            <td>
+              <select class="form-control WoSearchBoxWidth textbox-height" [(ngModel)]="searchSiteName" name="siteName">
+                <option class="searchAlign" value=""> </option>
+                <option *ngFor="let sl of siteList" [value]="sl.name">{{sl.name}}</option>
+              </select>
+            </td>
+            <td>
+              <select class="form-control WoSearchBoxWidth textbox-height" [(ngModel)]="searchDepartment"
+                name="department">
+                <option class="searchAlign" value=""> </option>
+                <option *ngFor="let dept of DepartmentList" [value]="dept.label">{{dept.label}}</option>
+              </select>
+            </td>
+            <td>
+              <select class="form-control WoSearchBoxWidth textbox-height" [(ngModel)]="searchSeverity"
+                name="SeverityType">
+                <option class="searchAlign" value=""> </option>
+                <option *ngFor="let sv of SeverityList" [value]="sv.name">{{sv.name}}</option>
+              </select>
+            </td>
+            <td>
+              <select class="WoSearchBoxWidth textbox-height form-control" [(ngModel)]="searchOpType"
+                name="searchOpType">
+                <option class="searchAlign" value=""></option>
+                <option *ngFor="let ot of OpTypeList" [value]="ot.name">{{ot.name}}</option>
+              </select>
+            </td>
+            <td>
+              <select class="WoSearchBoxWidth textbox-height form-control" [(ngModel)]="searchOpSubType"
+                name="searchOpSubType">
+                <option class="searchAlign" value=""></option>
+                <option *ngFor="let ost of OpSubTypeList" [value]="ost.name">{{ost.name}}</option>
+              </select>
+            </td>
+            <td>
+              <select class="WoSearchBoxWidth textbox-height form-control" [(ngModel)]="searchReportedBy"
+                name="searchReportedBy">
+                <option class="searchAlign" value=""></option>
+                <option *ngFor="let ortb of OpReportedByList" [value]="ortb.name">{{ortb.name}}</option>
+              </select>
+            </td>
+            <td>
+              <select class="WoSearchBoxWidth textbox-height form-control" [(ngModel)]="searchReportedTo"
+                name="reportedTo">
+                <option class="searchAlign" value=""></option>
+                <option *ngFor="let ort of OpReportedToList" [value]="ort.name">{{ort.name}}</option>
+              </select>
+            </td>
+            <td>
+              <input type="text" name="searchrequested_by" class="WoSearchBoxWidth textbox-height form-control"
+                [(ngModel)]="searchrequested_by" placeholder="{{ 'Requested By' | translate }}" />
+            </td>
+            <td class="pl-3 ">
+              <input type="text" name="searchDescription" class="txtct WoSearchBoxWidth textbox-height form-control"
+                [(ngModel)]="searchDescription" placeholder="{{ 'Description' | translate }}" />
+            </td>
+          </tr>
+        </tbody>
+        <tbody
+          *ngFor=" let faultIssue of FaultIssueDetails| faultJobSearch : searchOpNumber : searchOpStatus : searchOpCreatedDate : searchOpAssignDate : searchSiteName :  searchDepartment : searchSeverity : searchOpSubType : searchOpType : searchReportedBy : searchReportedTo : searchrequested_by : searchDescription | orderBy: {property: column, direction: direction} |paginate: {itemsPerPage: 10, currentPage:page, id: '1'}; let i = index">
+          <tr *ngIf="FaultIssueDetails?.length> 0" (click)="setClickedRow(faultIssue)" [class.active]="faultIssue.highLightRow">
+            <td class="fixed-1 fullsize " [ngClass]="!isLangArabic ? 'enfixcol1':'arfixcol1'">
+              <span class="cursor-pointer  fa " [ngClass]="(!faultIssue?.hideInnerEmpRow)?'fa-expand':'fa-compress'"
+                (click)="toggleHiddenEmpRow(faultIssue)"></span>
+            </td>
+            <td class="no-word-wrap fixed-2 fullsize" [ngClass]="!isLangArabic ? 'enfixcol2':'arfixcol2'">
+              <a class="primary-color cursor-pointer table-action-icon fa fa-eye fa-lg pr-7"
+                (click)="showAllData(faultIssue.ticket_number)" title="View"
+                [routerLink]="['/AddJobFault/view/', faultIssue.ticket_number]"></a>
+              <a class="primary-color table-action-icon fa fa-wrench fa-lg pr-7" title="Edit Materials"
+                [routerLink]="['/AddJobFault/edit/', faultIssue.ticket_number]"></a>
+              <a class="primary-color cursor-pointer table-action-icon fa fa-trash-o pr-7 fa-lg"
+                (click)="showDeactivateTicketPopup(faultIssue.ticket_number)" title="Delete"></a>
+
+              <a class="primary-color cursor-pointer
+                  table-action-icon fa
+                  fa-plus 
+                  fa-lg" (click)="showSMSPopup(faultIssue.ticket_number)" title="{{'Add History'| translate}}"></a>
+
+
+            </td>
+            <td>{{faultIssue.ticket_number}}</td>
+            <td>{{faultIssue.ticket_status}}</td>
+            <td>{{faultIssue.created_date}}</td>
+            <td>{{faultIssue.assigned_date}}</td>
+            <td>{{faultIssue.site_name}}</td>
+            <td>{{faultIssue.department}}</td>
+            <td>{{faultIssue.severity}}</td>
+            <td>{{faultIssue.operation_type}}</td>
+            <td>{{faultIssue.operation_sub_type}}</td>
+            <td>{{faultIssue.operation_reported_by}}</td>
+            <!-- <td>{{faultIssue.operation_reported_to}}</td> -->
+            <!-- <td ><ul *ngFor= "let rt of faultIssue.operation_reported_to"> {{rt.name}}</ul></td> -->
+            <td>{{faultIssue.operation_reported_to_names}} </td>
+            <td>{{faultIssue.requested_by}}</td>
+            <!-- Single Line Long Words -->
+            <td class="nowrap">{{faultIssue.description}}</td>
+          </tr>
+
+          <ng-container *ngIf="(faultIssue.hideInnerEmpRow) && (checkOperation('11','10'))">
+            <tr rowspan="99" class="inner-tr">
+              <td class="bk-dark border-bottom" colspan="99">
+                <div class="scrollInnerRest">
+                  <!-- <div>
+                      <a class="btn  btn-color btn-sm" (click)="showSMSPopup(faultIssue.ticket_number)">Add History</a>
+                    </div> -->
+                  <table class="tbl-employee table" style="width: 999px;">
+                    <tr class="tr-fonts">                      
+                      <th>History No</th>
+                      <th>Des of Action</th>
+                      <th>Action Needed From</th>
+                      <th>Action Taken By</th>
+                      <th>Current Status of Incident/Issue</th>
+                      <th>External Ticket No</th>
+                      <th>Recorded By</th>
+                      <th>Recorded Date</th>
+                      <th>Remarks</th>
+                      <th>Action</th>
+                    </tr>
+                    <tbody *ngFor=" let faultIssueHistory of faultIssue.history_data">
+                      <tr>                        
+                        <td>{{faultIssueHistory.history_number}}</td>
+                        <td>{{faultIssueHistory.description_action}}</td>
+                        <td>{{faultIssueHistory.action_needed_from}}</td>
+                        <td>{{faultIssueHistory.action_taken_by}}</td>
+                        <td>{{faultIssueHistory.current_status}}</td>
+                        <td>{{faultIssueHistory.external_ticket_no}}</td>
+                        <td>{{faultIssueHistory.recorded_by}}</td>
+                        <td>{{faultIssueHistory.recorded_date}}</td>
+                        <td>{{faultIssueHistory.remarks}}</td>
+                        <td class="no-word-wrap">
+                            <!-- <a class="primary-color cursor-pointer table-action-icon fa fa-eye fa-lg"></a> -->
+                            <a class="primary-color cursor-pointer table-action-icon fa fa-wrench fa-lg pr-7"
+                              (click)="showSMSPopupHistory(faultIssue.ticket_number,faultIssueHistory.history_number)"
+                              title="Edit"></a>
+                            <a class="primary-color cursor-pointer table-action-icon fa fa-trash-o fa-lg"
+                              (click)="showDeactivateTicketPopupHistory(faultIssue.ticket_number,faultIssueHistory.history_number)"
+                              title="Delete">
+                            </a>
+                          </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+        <tbody *ngIf="EmployeeDetails?.length == 0">
+          <tr>
+            <td></td>
+            <td colspan="1000">
+              No records found.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+
+    <div class="right-align">
+      <pagination-controls (pageChange)="page = $event" id="1" maxSize="5" directionLinks="true" autoHide="true">
+      </pagination-controls>
+    </div>
+  </div>
+</div>
+<div class="form-row">
+  <bs-modal #modalSendSMS id="modalSendSMS" dir="{{!isLangArabic ?'ltr':'rtl'}}">
+    <bs-modal-header [showDismiss]="false">
+      <button type="button" class="close" [ngClass]="!isLangArabic? 'float-right':'float-left'" data-dismiss="modal">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only">Close</span>
+      </button>
+      <h4 class="modal-title">Add History</h4>
+    </bs-modal-header>
+    <bs-modal-body>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="col-md-4 control-label">Ticket No</label>
+            <div class="col-md-8" style="margin-bottom: 2%">
+              <input type="text" [(ngModel)]="ah.ticket_number" [disabled]="true" value="" name="tNum"
+                class="form-control" placeholder="Ticket No">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4 control-label">Recorded By</label>
+            <div class="col-md-8" style="margin-bottom: 2%">
+              <input type="text" [(ngModel)]="ah.recorded_by_id" [disabled]="true" value="" name="trby"
+                class="form-control" placeholder="RecordedBy">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4 control-label">Description Of Action</label>
+            <div class="col-md-8" style="margin-bottom: 2%">
+              <input type="text" [(ngModel)]="ah.description_action" name="dAction" class="form-control"
+                placeholder="Des Of Action">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4 control-label">Action Needed From</label>
+            <div class="col-md-8" style="margin-bottom: 2%">
+              <input type="text" [(ngModel)]="ah.action_needed_from" name="aNeededFron" class="form-control"
+                placeholder="Action Needed From">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4 control-label">Action Taken By</label>
+            <div class="col-md-8" style="margin-bottom: 2%">
+              <input type="text" [(ngModel)]="ah.action_taken_by" name="atakenBy" class="form-control"
+                placeholder="Action Taken By">
+            </div>
+          </div>
+          <!-- <div class="form-group">
+            <label class="col-md-4 control-label">Description Of Resolution</label>
+            <div class="col-md-8" style="margin-bottom: 2%">
+              <input type="text" class="form-control" placeholder="Des Of Resolution">
+            </div>
+          </div> -->
+          <div class="form-group">
+            <label class="col-md-4 control-label">Current
+              Status <span class="error"> * </span></label>
+            <div [hidden]="errorCurrentStatus == ''" class="error">{{errorCurrentStatus}}</div>
+            <div class="col-md-8"style="margin-bottom: 2%">
+              <select class="form-control" [(ngModel)]="ah.current_status_id" name="currentStatus">
+                <option *ngFor="let opsctatus of currentStatus" [value]="opsctatus.id">{{opsctatus.name}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4 control-label">External Ticket No</label>
+            <div class="col-md-8" style="margin-bottom: 2%">
+              <input type="text" [(ngModel)]="ah.external_ticket_no" name="eTicket" class="form-control"
+                placeholder="External Ticket No">
+            </div>
+          </div>
+          <!-- <div class="form-group" >
+            <label class="col-md-4 control-label">Recorded By</label>
+            <div class="col-md-8" style="margin-bottom: 2%">
+              <input type="text" [(ngModel)]="ah.recorded_by_id" name="rBy" class="form-control" placeholder="Recorded By">
+            </div>
+          </div> -->
+          <div class="form-group">
+            <label class="col-md-4 control-label">Recorded
+              Date</label>
+            <div class="col-md-8" style="margin-bottom: 2%">
+              <input type="text" bsDatepicker [(ngModel)]="ah.recorded_date" name="recordedDate" class="form-control"
+                placeholder="Recorded Date" [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4 control-label">Remarks</label>
+            <div class="col-md-8" style="margin-bottom: 2%">
+              <input type="text" [(ngModel)]="ah.remarks" name="remarks" class="form-control" placeholder="Remarks">
+            </div>
+          </div>
+        </div>
+      </div>
+    </bs-modal-body>
+    <bs-modal-footer>
+      <button type="button" class="primary-button btn btn-default"
+        (click)="addHistory(ah)">{{ 'Add' | translate }}</button>
+      <button type="button" class="btn btn-default"
+        (click)="hidePopUp('modalSendSMS')">{{ 'Cancel' | translate }}</button>
+    </bs-modal-footer>
+  </bs-modal>
+  <bs-modal #modalSendSMSHistory id="modalSendSMSHistory" dir="{{!isLangArabic ?'ltr':'rtl'}}">
+    <bs-modal-header [showDismiss]="false">
+      <button type="button" class="close" [ngClass]="!isLangArabic? 'float-right':'float-left'" data-dismiss="modal">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only">Close</span>
+      </button>
+      <h4 class="modal-title">Update History</h4>
+    </bs-modal-header>
+    <bs-modal-body>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="col-md-4 control-label">Ticket No</label>
+            <div class="col-md-8" style="margin-bottom: 2%">
+              <input type="text" [(ngModel)]="ah.ticket_number" [disabled]="true" value="" name="tNum"
+                class="form-control" placeholder="Ticket No">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4 control-label">History No</label>
+            <div class="col-md-8" style="margin-bottom: 2%">
+              <input type="text" [(ngModel)]="ah.history_number" [disabled]="true" value="" name="tNum"
+                class="form-control" placeholder="History No">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4 control-label">Recorded By</label>
+            <div class="col-md-8" style="margin-bottom: 2%">
+              <input type="text" [(ngModel)]="ah.recorded_by_id" [disabled]="true" value="" name="trby"
+                class="form-control" placeholder="RecordedBy">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4 control-label">Description Of Action</label>
+            <div class="col-md-8" style="margin-bottom: 2%">
+              <input type="text" [(ngModel)]="ah.description_action" name="dAction" class="form-control"
+                placeholder="Des Of Action">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4 control-label">Action Needed From</label>
+            <div class="col-md-8" style="margin-bottom: 2%">
+              <input type="text" [(ngModel)]="ah.action_needed_from" name="aNeededFron" class="form-control"
+                placeholder="Action Needed From">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4 control-label">Action Taken By</label>
+            <div class="col-md-8" style="margin-bottom: 2%">
+              <input type="text" [(ngModel)]="ah.action_taken_by" name="atakenBy" class="form-control"
+                placeholder="Action Taken By">
+            </div>
+          </div>
+          <!-- <div class="form-group">
+            <label class="col-md-4 control-label">Description Of Resolution</label>
+            <div class="col-md-8" style="margin-bottom: 2%">
+              <input type="text" class="form-control" placeholder="Des Of Resolution">
+            </div>
+          </div> -->
+          <div class="form-group">
+            <label class="col-md-4 control-label">Current
+              Status <span class="error"> * </span></label>
+            <div [hidden]="errorCurrentStatus == ''" class="error">{{errorCurrentStatus}}</div>
+            <div class="col-md-8"  style="margin-bottom: 2%">
+              <select class="form-control" [(ngModel)]="ah.current_status_id" name="currentStatus">
+                <option *ngFor="let opsctatus of currentStatus" [value]="opsctatus.id">{{opsctatus.name}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4 control-label">External Ticket No</label>
+            <div class="col-md-8" style="margin-bottom: 2%">
+              <input type="text" [(ngModel)]="ah.external_ticket_no" name="eTicket" class="form-control"
+                placeholder="External Ticket No">
+            </div>
+          </div>
+          <!-- <div class="form-group" >
+            <label class="col-md-4 control-label">Recorded By</label>
+            <div class="col-md-8" style="margin-bottom: 2%">
+              <input type="text" [(ngModel)]="ah.recorded_by_id" name="rBy" class="form-control" placeholder="Recorded By">
+            </div>
+          </div> -->
+          <div class="form-group">
+            <label class="col-md-4 control-label">Recorded
+              Date</label>
+            <div class="col-md-8"  style="margin-bottom: 2%">
+              <input type="text" bsDatepicker [(ngModel)]="ah.recorded_date" name="recordedDate" class="form-control"
+                placeholder="Recorded Date" [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4 control-label">Remarks</label>
+            <div class="col-md-8" style="margin-bottom: 2%">
+              <input type="text" [(ngModel)]="ah.remarks" name="remarks" class="form-control" placeholder="Remarks">
+            </div>
+          </div>
+        </div>
+      </div>
+    </bs-modal-body>
+    <bs-modal-footer>
+      <button type="button" class="primary-button btn btn-default"
+        (click)="updateHistoryData(ah)">{{ 'Update' | translate }}</button>
+      <button type="button" class="btn btn-default"
+        (click)="hidePopUp('modalSendSMSHistory')">{{ 'Cancel' | translate }}</button>
+    </bs-modal-footer>
+  </bs-modal>
+  <bs-modal #modalImport id="modalImport" dir="{{!isLangArabic ?'ltr':'rtl'}}">
+    <bs-modal-header [showDismiss]="false">
+      <button type="button" class="close" data-dismiss="modal" [ngClass]="!isLangArabic? 'float-right':'float-left'">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only">Close</span>
+      </button>
+      <h4 class="modal-title">{{ 'Import Csv' | translate }}</h4>
+    </bs-modal-header>
+    <bs-modal-body>
+      {{'Upload Csv file' | translate }}
+      <input type="file" #fileImportInput name="csv_data" id="txtFileUpload" class="btn btn-primary"
+        (change)="fileChangeListener($event)" accept=".csv" />
+    </bs-modal-body>
+    <bs-modal-footer>
+      <button type="button" class="btn btn-primary" (click)="import()">{{ 'Import' | translate }}</button>
+      <button type="button" class="btn btn-default"
+        (click)="hidePopUp('modalImport')">{{ 'Cancel' | translate }}</button>
+    </bs-modal-footer>
+  </bs-modal>
+  <bs-modal #modalDeactivate id="modalDeactivate" dir="{{!isLangArabic ?'ltr':'rtl'}}">
+    <bs-modal-header [showDismiss]="false">
+      <button type="button" class="close" data-dismiss="modal" [ngClass]="!isLangArabic? 'float-right':'float-left'">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only">Close</span>
+      </button>
+      <h4 class="modal-title">{{ 'Deactivate ticket' | translate }}</h4>
+    </bs-modal-header>
+    <bs-modal-body>
+      {{'Are you sure you want to deactivate this ticket' | translate }}
+    </bs-modal-body>
+    <bs-modal-footer>
+      <button type="button" class="btn btn-danger" (click)='deactivateTicket()'>{{ 'Deactivate' | translate }}</button>
+      <button type="button" class="btn btn-default"
+        (click)="hidePopUp('modalDeactivate')">{{ 'Cancel' | translate }}</button>
+
+    </bs-modal-footer>
+  </bs-modal>
+  <bs-modal #modalDeactivateHistory id="modalDeactivateHistory" dir="{{!isLangArabic ?'ltr':'rtl'}}">
+    <bs-modal-header [showDismiss]="false">
+      <button type="button" class="close" data-dismiss="modal" [ngClass]="!isLangArabic? 'float-right':'float-left'">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only">Close</span>
+      </button>
+      <h4 class="modal-title">{{ 'Deactivate History' | translate }}</h4>
+    </bs-modal-header>
+    <bs-modal-body>
+      {{'Are you sure you want to deactivate this History' | translate }}
+    </bs-modal-body>
+    <bs-modal-footer>
+      <button type="button" class="btn btn-danger"
+        (click)='deactivateTicketHistory()'>{{ 'Deactivate' | translate }}</button>
+      <button type="button" class="btn btn-default"
+        (click)="hidePopUp('modalDeactivateHistory')">{{ 'Cancel' | translate }}</button>
+
+    </bs-modal-footer>
+  </bs-modal>
+
+</div>
+</div>

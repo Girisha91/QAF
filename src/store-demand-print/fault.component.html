@@ -1,0 +1,172 @@
+<div class="demandBookPrint-Container">
+<div class="row" style="width: 100%; text-align: right;">
+  <!-- <button class="primary btn-sm btn-color"
+    (click)="Print('issue')">Print</button>
+  <button class="primary btn-sm " routerLink="/store/demandBookList">Back</button> -->
+</div>
+<p *ngIf="!FaultyForm">Loading data ...</p>
+<div *ngIf="FaultyForm" id="issue" class="container">
+  <div class="row print-100" style="border: black 2px solid;">
+    <div class="col-md-12">
+
+      <div class="card">
+        <div class="card-body">
+          <div class="row"
+            style="text-align: center;border: black 1px solid ;border-left: none;border-right:none;border-top: none;">
+            <h4> Fault Form</h4>
+          </div>
+          <div class="row topheight"
+            style="border: black 1px solid ; border-top: none;border-left: none;border-right: none;">
+            <div class="col-md-4 col-sm-4 col-xs-4 text-left topheight"
+              style="border: black 1px solid;border-bottom: none; border-top: none;border-left: none; ">
+              <div class="row rowheighttopleft" style="margin-top: 10px">
+                <div class="col-md-3 col-sm-3 col-xs-3 textHead"> <strong>Monitoring</strong> </div>
+                <div class="col-md-7 col-sm-7 col-xs-7 textData"><strong>:</strong> {{FaultyForm?.monitoring}}</div>
+              </div>
+              <div class="row rowheighttopleft">
+                <div class="col-md-3 col-sm-3 col-xs-3 textHead"> <strong>Control No </strong> </div>
+                <div class="col-md-7 col-sm-7 col-xs-7 textData"><strong>:</strong> {{FaultyForm?.control_no}}</div>
+              </div>
+              <div class="row rowheighttopleft">
+                <div class="col-md-3 col-sm-3 col-xs-3 textHead"> <strong>Date </strong> </div>
+                <div class="col-md-7 col-sm-7 col-xs-7 textData"><strong>:</strong> {{FaultyForm?.date_issued}}</div>
+              </div>
+              <div class="row rowheighttopleft">
+                <div class="col-md-3 col-sm-3 col-xs-3 textHead"> <strong>Issued By </strong></div>
+                <div class="col-md-7 col-sm-7 col-xs-7 textData"> <strong>:</strong> {{FaultyForm?.issued_by}}</div>
+              </div>
+              <div class="row rowheighttopleft">
+                  <div class="col-md-3 col-sm-3 col-xs-3 textHead"> <strong>Department </strong></div>
+                  <div class="col-md-7 col-sm-7 col-xs-7 textData"> <strong>:</strong> {{FaultyForm?.department}}</div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4 ">
+              <div class="row center-align">
+                <h6> <strong> Qatar Armed forces </strong></h6>
+              </div>
+              <div class="row center-align">
+                <h6>
+                  <strong> (Main Technical Store - Signal force)</strong>
+                </h6>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4  text-left topheight"
+              style="border: black 1px solid; border-bottom: none; border-top: none;border-right: none;">
+              <div class="row rowheight" style="margin-top: 10px">
+                <div class="col-md-5 col-sm-5 col-xs-5 textHead"> <strong>Reference number</strong></div>
+                <div class="col-md-7 col-sm-7 col-xs-7 textData"> <strong>:</strong> {{FaultyForm?.reference_no}}</div>
+              </div>
+              <div class="row rowheight">
+                <div class="col-md-5 col-sm-5 col-xs-5 textHead"> <strong>Requested by </strong> </div>
+                <div class="col-md-7 col-sm-7 col-xs-7 textData"> <strong>:</strong> {{FaultyForm?.request_party}}</div>
+              </div>
+              <div class="row rowheight">
+                <div class="col-md-5 col-sm-5 col-xs-5 textHead"> <strong>Generated Demand No </strong> </div>
+                <div class="col-md-7 col-sm-7 col-xs-7 textData"><strong>:</strong> {{FaultyForm?.material_demand_no}}
+                </div>
+              </div>
+              <div class="row rowheight">
+                <div class="col-md-5 col-sm-5 col-xs-5 textHead"> <strong>Manual Demand No </strong> </div>
+                <div class="col-md-7 col-sm-7 col-xs-7 textData"> <strong>:</strong> {{FaultyForm?.manual_demand_no}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row ">
+            <div class="col-md-12">
+              <div class="well well-sm DeviceTypeLable" style="border: black 1px solid;margin-top: 10px;"><strong>
+                  Controllable Devices </strong></div>
+              <table class="table table-bordered" style="table-layout: fixed;
+              width: 100%;">
+                <thead>
+                  <tr>
+                    <th class="text-uppercase small font-weight-bold" style="border: black 1px solid !important;">Item
+                      Name</th>
+                    <th class="text-uppercase small font-weight-bold" style="border: black 1px solid !important;">Item
+                      Part No</th>
+                    <th class="text-uppercase small font-weight-bold" style="border: black 1px solid !important;">Serial
+                      No</th>
+                    <th class="text-uppercase small font-weight-bold" style="border: black 1px solid !important;">
+                      Location
+                    </th>
+                    <th class="text-uppercase small font-weight-bold" style="border: black 1px solid !important;">
+                      Reported By
+                    </th>
+                    <th class="text-uppercase small font-weight-bold" style="border: black 1px solid !important;">
+                      Remarks</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let faultyField of FaultyFieldsArray;let i = index;">
+                    <td style="word-wrap: break-word;border: black 1px solid !important;">{{faultyField.item_name}}</td>
+                    <td style="word-wrap: break-word;border: black 1px solid !important;">{{faultyField.item_part_no}}
+                    </td>
+                    <td style="word-wrap: break-word;border: black 1px solid !important;">{{faultyField.serial_no}}</td>
+                    <td style="word-wrap: break-word;border: black 1px solid !important;">{{faultyField.location}}</td>
+                    <td style="word-wrap: break-word;border: black 1px solid !important;">{{faultyField.reported_by}}</td>
+                    <td style="word-wrap: break-word;border: black 1px solid !important;">{{faultyField.remarks}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="row printBottomContent btmheight"
+            style="border: black 1px solid; margin-top: 10px;border-bottom: none;border-left: none;border-right: none;">
+            <div class="col-md-4 col-sm-4 col-xs-4 text-left btmheight"
+              style="border: black 1px solid;  border-bottom: none;border-left: none;border-top: none ;">
+              <div class="row rowheight" style="margin-top: 10px">
+                <div class="col-md-3 col-sm-3 col-xs-3 textHead "> <strong>Recipient</strong> </div>
+                <div class="col-md-7 col-sm-7 col-xs-7 textData"><strong>:</strong> {{FaultyForm?.recipient}}</div>
+              </div>
+              <div class="row rowheight">
+                <div class="col-md-3 col-sm-3 col-xs-3 textHead"> <strong>Distributor </strong> </div>
+                <div class="col-md-7 col-sm-7 col-xs-7 textData"><strong>:</strong> {{FaultyForm?.distributor}}</div>
+              </div>
+              <div class="row rowheight">
+                <div class="col-md-3 col-sm-3 col-xs-3 textHead"> <strong>Warehouse Officer </strong> </div>
+                <div class="col-md-7 col-sm-7 col-xs-7 textData"><strong>:</strong> {{FaultyForm?.warehouse_officer}}
+                </div>
+              </div>
+              <div class="row rowheight">
+                <div class="col-md-3 col-sm-3 col-xs-3 textHead"> <strong>Warehouse Commander</strong></div>
+                <div class="col-md-7 col-sm-7 col-xs-7 textData"><strong>:</strong> {{FaultyForm?.warehouse_commander}}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4 ">
+              <div class="row center-align">
+                <div class="formBigTextValue">General Command approval</div>
+              </div>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4  text-left btmheight"
+              style="border: black 1px solid;  border-bottom: none; border-top: none; border-right:none; ">
+              <div class="row rowheight" style="margin-top: 10px">
+                <div class="col-md-5 col-sm-5 col-xs-5 textHead"> <strong>Applicant </strong></div>
+                <div class="col-md-7 col-sm-7 col-xs-7 textData"><strong>:</strong> {{FaultyForm?.applicant}}</div>
+              </div>
+              <div class="row rowheight">
+                <div class="col-md-5 col-sm-5 col-xs-5 textHead"> <strong>Force Commander Approval </strong> </div>
+                <div class="col-md-7 col-sm-7 col-xs-7 textData"> <strong>:</strong>
+                  {{FaultyForm?.force_commander_approval}}</div>
+              </div>
+              <div class="row rowheight">
+                <div class="col-md-5 col-sm-5 col-xs-5 textHead"> <strong>Financial Notes </strong> </div>
+                <div class="col-md-7 col-sm-7 col-xs-7 textData"> <strong>:</strong> {{FaultyForm?.financial_notes}}
+                </div>
+              </div>
+              <div class="row rowheight">
+                <div class="col-md-5 col-sm-5 col-xs-5 textHead"> <strong>Operational Recommendations </strong>
+                </div>
+                <div class="col-md-7 col-sm-7 col-xs-7 textData"> <strong>:</strong>
+                  {{FaultyForm?.operational_recommendations}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="btmmargin" style="text-align: center; margin-top: 20px;"><button class="primary btn-sm btn-color"
+    (click)="Print('issue')">Print</button>
+  <button class="primary btn-sm " routerLink="/store/demandBookList">Back</button></div></div>

@@ -1,0 +1,979 @@
+<header></header>
+<div class="pabentities">
+
+  <div class="pabxScreeen">
+    <app-pabx-nav>
+    </app-pabx-nav>
+  </div>
+  <div class="card">
+    <div class="header">
+      <div class="row Pagename">
+        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+          <b class="page-head">PABX - Entities </b>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 ftrt" *ngIf="lastUpdatedDate">
+          Date Last Updated: {{lastUpdatedDate}}
+        </div>
+      </div>
+      <div class="row srcrow">
+        <div class="col-lg-10 col-md-10 col-sm-10">
+          <form [formGroup]="searchForm"
+            (ngSubmit)="OnSubmit(searchForm.value)">
+            <div class="search-form margin-bottom" formArrayName="items"
+              *ngFor="let item of items.controls; let i= index;">
+              <div class="position-relative form-id-{{i}}" [formGroupName]="i">
+                <div class="row pos">
+                  <div class="col-lg-4 col-md-4
+                    col-sm-4">
+                    <label class="text-center">Search:</label>
+                    <select id="ddlselect{{i}}" class="drop-down
+                      form-control text-center wd-80
+                      inline-display" (change)="onChange($event)"
+                      formControlName="fieldName">
+                      <option value="">Select</option>
+                      <option *ngFor="let state of searchKeyArray"
+                        [value]="state.item">{{state.label}}</option>
+                    </select>
+                  </div>
+                  <div class="col-lg-4 col-sm-4
+                    col-md-4" style="padding-left: 0;">
+                    <input class="drop-down wd-100 form-control inline-display"
+                      type="text" formControlName="fieldValue"
+                      placeholder="value" />
+                    <!-- <span class="align-search-cross fa fa-remove cursor-pointer
+                      primary-color" (click)="deleteAction(i)"></span> -->
+                  </div>
+                  <select class="hide drop-down form-control node-select"
+                    formControlName="fieldValue">
+                    <option value="">Select</option>
+                    <option *ngFor="let state of nodeArray" [value]="state">{{state}}</option>
+                  </select>
+                  <div class="col-lg-3 col-md-3
+                    col-sm-3" style="padding: 0;">
+                    <button type="submit" class="primary mt-3">{{ 'Search' | translate}}</button>
+                    <a class="inline-display add-anch"
+                      (click)="addItem()">{{ 'Add More' | translate}}</a>
+                    <span class="vertical-line"></span>
+                    <a class="inline-display clr-anch"
+                      (click)="cancelSearch()">{{ 'Clear' | translate}}</a>
+                    <i class="fa fa-times custom primary-color cursor-pointer"
+                      *ngIf="!(i===0)" (click)="deleteAction(i)"
+                      aria-hidden="true"></i>
+                    <!-- <button type="button" class="primary btn btn-default"
+                      (click)="addItem()">Add More</button> -->
+                    <!-- <button type="button" class="primary btn btn-default" (click)="deleteAction(i)">Delete </button> -->
+                    <!-- <button type="button" class="btn btn-default"
+                      (click)="cancelSearch()">Clear</button> -->
+                  </div>
+                  <!-- <div class="col-lg-1 col-md-1 col-sm-1"> -->
+                    <!-- <i class="align-search-cross fa fa-remove cursor-pointer
+                      primary-color" *ngIf="!(i===0)" (click)="deleteAction(i)"></i> -->
+                  <!-- </div> -->
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 h-6 ftrt" *ngIf="userRoleId == '1'">
+          <button type="button" class="btn btn-primary import mt-3"
+            (click)='showUploaPopUp()'>{{ 'Import' | translate }}</button>
+          <button type="button" class="btn btn-primary import mt-3"
+            (click)='exportToExcel()'>{{ 'Export' | translate }}</button>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="row pabx-header">
+      <div class="col-md-2 pabx-heading">
+        <b class="page-head table-header-margin">PABX - Entities </b>
+      </div>
+      <div class="col-md-8">
+        <form [formGroup]="searchForm" (ngSubmit)="OnSubmit(searchForm.value)">
+          <div class="row">
+            <div class="search-form margin-bottom" formArrayName="items"
+              *ngFor="let item of items.controls; let i= index;">
+              <div class="position-relative form-id-{{i}}" [formGroupName]="i">
+                <div class="col-md-2">
+                  <label>Search:</label></div>
+                <div class="col-md-3">
+                  <select id="ddlselect{{i}}" class="textbox-height form-control
+                    inline-display" (change)="onChange($event)"
+                    formControlName="fieldName">
+                    <option value="">Select</option>
+                    <option *ngFor="let state of searchKeyArray"
+                      [value]="state.item">{{state.label}}</option>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <input class="textbox-height form-control inline-display"
+                    type="text" formControlName="fieldValue"
+                    placeholder="value" />
+                  <select class="hide textbox-height form-control node-select"
+                    formControlName="fieldValue">
+                    <option value="">Select</option>
+                    <option *ngFor="let state of nodeArray" [value]="state">{{state}}</option>
+                  </select>
+
+                  <span class="align-search-cross fa fa-remove cursor-pointer
+                    primary-color" (click)="deleteAction(i)"></span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <button type="submit" class="primary btn btn-default">Search</button>
+              <button type="button" class="primary btn btn-default"
+                (click)="addItem()">Add More</button>
+              <button type="button" class="btn btn-default"
+                (click)="cancelSearch()">Clear</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-md-2 update-info">{{lastUpdatedDate}}</div>
+    </div> -->
+
+    <div class="main">
+
+      <!-- <div class="margin-bottom" *ngIf="userRoleId == '1'">
+        <button type="button" class="btn btn-primary import"
+          (click)='showUploaPopUp()'>{{ 'Import' | translate }}</button>
+        <button type="button" class="btn btn-primary import"
+          (click)='exportToExcel()'>{{ 'Export' | translate }}</button>
+      </div> -->
+
+      <div id="tableContainer">
+        <table class="pabx-entities pabx-table tbl-employee table
+          highLightTable">
+          <tr class="tr-fonts">
+            <!-- <th class="fixed-1">
+                    Action
+                </th> -->
+            <th [ngClass]="!isLangArabic? 'fixed-1' : 'fixed-ar-1'" class="fix-top" (click)="sort('Node')"> Node
+              <i class="fa" [ngClass]="{'fa-sort': column != 'Node',
+                'fa-sort-asc': (column == 'Node' && !isDesc),
+                'fa-sort-desc': (column == 'Node' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th [ngClass]="!isLangArabic? 'fixed-2' : 'fixed-ar-2'" class="fix-top" (click)="sort('Entity_Number')">Entity
+              Number
+              <i class="fa" [ngClass]="{'fa-sort': column != 'Entity_Number',
+                'fa-sort-asc': (column == 'Entity_Number' && !isDesc),
+                'fa-sort-desc': (column == 'Entity_Number' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th (click)="sort('Name')">Name
+              <i class="fa" [ngClass]="{'fa-sort': column != 'UserName',
+                'fa-sort-asc': (column == 'Name' && !isDesc),
+                'fa-sort-desc': (column == 'Name' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+
+            <!-- <th (click)="sort('Force_Corps_Units_Regi_Dire')">{{ 'Force/Corps/Units/Regiment/Directorate' | translate }} <i class="fa" 
+                                                              [ngClass]="{'fa-sort': column != 'Force_Corps_Units_Regi_Dire', 
+                                                                                  'fa-sort-asc': (column == 'Force_Corps_Units_Regi_Dire' && !isDesc), 
+                                                                                  'fa-sort-desc': (column == 'Force_Corps_Units_Regi_Dire' && isDesc) }"
+                                                              aria-hidden="true"> </i></th> -->
+            <th hidden (click)="sort('UTF_8_Name')">UTF-8-Name
+              <i class="fa" [ngClass]="{'fa-sort': column != 'UTF_8_Name ',
+                'fa-sort-asc': (column == 'UTF_8_Name ' && !isDesc),
+                'fa-sort-desc': (column == 'UTF_8_Name ' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th hidden (click)="sort('Attendant_Group_Manager')">Attendant GM
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'Attendant_Group_Manager',
+                'fa-sort-asc': (column == 'Attendant_Group_Manager' && !isDesc),
+                'fa-sort-desc': (column == 'Attendant_Group_Manager' && isDesc)
+                }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th hidden (click)="sort('Priority')">Priority
+              <i class="fa" [ngClass]="{'fa-sort': column != 'Priority',
+                'fa-sort-asc': (column == 'Priority' && !isDesc),
+                'fa-sort-desc': (column == 'Priority' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <!-- <th (click)="sort('Company')">{{ 'COMPANY' | translate }} <i class="fa" 
+                                                              [ngClass]="{'fa-sort': column != 'Company', 
+                      'fa-sort-asc': (column == 'Company' && !isDesc), 
+                      'fa-sort-desc': (column == 'Company' && isDesc) }"
+                                                              aria-hidden="true"> </i></th>  -->
+            <th hidden (click)="sort('Emergency_call_to_attd')">Emergency Call
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'Emergency_call_to_attd',
+                'fa-sort-asc': (column == 'Emergency_call_to_attd' && !isDesc),
+                'fa-sort-desc': (column == 'Emergency_call_to_attd' && isDesc)
+                }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th hidden (click)="sort('Traffic_Overflow')">Traffic Overflow
+              <i class="fa" [ngClass]="{'fa-sort': column != 'Traffic_Overflow',
+                'fa-sort-asc': (column == 'Traffic_Overflow' && !isDesc),
+                'fa-sort-desc': (column == 'Traffic_Overflow' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th (click)="sort('Installation_No_ISDN')">Install ISDN no
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'Installation_No_ISDN',
+                'fa-sort-asc': (column == 'Installation_No_ISDN' && !isDesc),
+                'fa-sort-desc': (column == 'Installation_No_ISDN' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th hidden (click)="sort('SupplementInstallNo_ISDN')">Supplement
+              Install ISDN
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'SupplementInstallNo_ISDN',
+                'fa-sort-asc': (column == 'SupplementInstallNo_ISDN' &&
+                !isDesc),
+                'fa-sort-desc': (column == 'SupplementInstallNo_ISDN' && isDesc)
+                }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th hidden (click)="sort('Caller_ID_Secret')">Caller ID Secret
+              <i class="fa" [ngClass]="{'fa-sort': column != 'Caller_ID_Secret',
+                'fa-sort-asc': (column == 'Caller_ID_Secret' && !isDesc),
+                'fa-sort-desc': (column == 'Caller_ID_Secret' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th hidden (click)="sort('AdvOfCharg2_requests_AOC2')">AdvOfCharg2
+              Requests
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'AdvOfCharg2_requests_AOC2',
+                'fa-sort-asc': (column == 'AdvOfCharg2_requests_AOC2' &&
+                !isDesc),
+                'fa-sort-desc': (column == 'AdvOfCharg2_requests_AOC2' &&
+                isDesc)
+                }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th hidden (click)="sort('AdvOfCharg3_requests_A0C3')">AdvOfCharg3
+              Requests
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'AdvOfCharg3_requests_A0C3',
+                'fa-sort-asc': (column == 'AdvOfCharg3_requests_A0C3' &&
+                !isDesc),
+                'fa-sort-desc': (column == 'AdvOfCharg3_requests_A0C3' &&
+                isDesc)
+                }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th hidden (click)="sort('Auto_Locking')">Auto Locking
+              <i class="fa" [ngClass]="{'fa-sort': column != 'Auto_Locking',
+                'fa-sort-asc': (column == 'Auto_Locking' && !isDesc),
+                'fa-sort-desc': (column == 'Auto_Locking' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th hidden (click)="sort('Voice_Mail_Box_Nofor_attendt')">Voice Mail
+              Box No
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'Voice_Mail_Box_Nofor_attendt',
+                'fa-sort-asc': (column == 'Voice_Mail_Box_Nofor_attendt' &&
+                !isDesc),
+                'fa-sort-desc': (column == 'Voice_Mail_Box_Nofor_attendt' &&
+                isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th (click)="sort('Trunk_Group_ID')">Trunk Group Id
+              <i class="fa" [ngClass]="{'fa-sort': column != 'Trunk_Group_ID',
+                'fa-sort-asc': (column == 'Trunk_Group_ID' && !isDesc),
+                'fa-sort-desc': (column == 'Trunk_Group_ID' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th hidden (click)="sort('External_Callback_Table')">Callback Table
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'External_Callback_Table',
+                'fa-sort-asc': (column == 'External_Callback_Table' && !isDesc),
+                'fa-sort-desc': (column == 'External_Callback_Table' && isDesc)
+                }"
+                aria-hidden="true"> </i>
+            </th>
+            <th hidden (click)="sort('Voice_Mail_DirNo')">Voice Mail DirNo
+              <i class="fa" [ngClass]="{'fa-sort': column != 'Voice_Mail_DirNo
+                ',
+                'fa-sort-asc': (column == 'Voice_Mail_DirNo' && !isDesc),
+                'fa-sort-desc': (column == 'Voice_Mail_DirNo' && isDesc) }"
+                aria-hidden="true"> </i>
+            </th>
+            <th hidden (click)="sort('Password_for_A4630')"> A4630 Password
+              <i class="fa" [ngClass]="{'fa-sort': column != 'Password_for_A4630
+                ',
+                'fa-sort-asc': (column == 'Password_for_A4630' && !isDesc),
+                'fa-sort-desc': (column == 'Password_for_A4630' && isDesc) }"
+                aria-hidden="true"> </i>
+            </th>
+            <th hidden (click)="sort('Language_ID')">Language ID
+              <i class="fa" [ngClass]="{'fa-sort': column != 'Language_ID',
+                'fa-sort-asc': (column == 'Language_ID' && !isDesc),
+                'fa-sort-desc': (column == 'Language_ID' && isDesc) }"
+                aria-hidden="true"> </i>
+            </th>
+            <th hidden (click)="sort('Call_DistributionOverflow_Routing_No')">Call
+              Dist Overflow Routing No
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'Call_DistributionOverflow_Routing_No',
+                'fa-sort-asc': (column == 'Call_DistributionOverflow_Routing_No'
+                && !isDesc),
+                'fa-sort-desc': (column ==
+                'Call_DistributionOverflow_Routing_No'
+                && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th (click)="sort('Call_DistributionForwarding_on_routing')">Call
+              Dist
+              Forwarding on Routing
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'Call_DistributionForwarding_on_routing',
+                'fa-sort-asc': (column ==
+                'Call_DistributionForwarding_on_routing'
+                && !isDesc),
+                'fa-sort-desc': (column ==
+                'Call_DistributionForwarding_on_routing' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th (click)="sort('Call_Distribution1st_Night_Routing ')">Call dist
+              1st Night Routing
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'Call_Distribution1st_Night_Routing ',
+                'fa-sort-asc': (column == 'Call_Distribution1st_Night_Routing '
+                &&
+                !isDesc),
+                'fa-sort-desc': (column == 'Call_Distribution1st_Night_Routing '
+                && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th (click)="sort('Call_Distribution2nd_Night_Routing')">Call Dist
+              2nd
+              Night Routing
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'Call_Distribution2nd_Night_Routing',
+                'fa-sort-asc': (column == 'Call_Distribution2nd_Night_Routing'
+                &&
+                !isDesc),
+                'fa-sort-desc': (column == 'Call_Distribution2nd_Night_Routing'
+                &&
+                isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th hidden (click)="sort('Call_Distribution3nd_Night_Routing')">Call
+              Dist 3nd Night Routing
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'Call_Distribution3nd_Night_Routing',
+                'fa-sort-asc': (column == 'Call_Distribution3nd_Night_Routing'
+                &&
+                !isDesc),
+                'fa-sort-desc': (column == 'Call_Distribution3nd_Night_Routing'
+                &&
+                isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th (click)="sort('Call_Distribution1st_Day_Routing')">Call Dist 1st
+              Day Routing
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'Call_Distribution1st_Day_Routing',
+                'fa-sort-asc': (column == 'Call_Distribution1st_Day_Routing' &&
+                !isDesc),
+                'fa-sort-desc': (column == 'Call_Distribution1st_Day_Routing' &&
+                isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th (click)="sort('Call_Distribution2nd_Day_Routing')">Call Dist 2nd
+              Day Routing
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'Call_Distribution2nd_Day_Routing',
+                'fa-sort-asc': (column == 'Call_Distribution2nd_Day_Routing' &&
+                !isDesc),
+                'fa-sort-desc': (column == 'Call_Distribution2nd_Day_Routing' &&
+                isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th hidden (click)="sort('Call_Distribution3nd_Day_Routing')">Call
+              Dist 3nd Day Routing
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'Call_Distribution3nd_Day_Routing',
+                'fa-sort-asc': (column == 'Call_Distribution3nd_Day_Routing' &&
+                !isDesc),
+                'fa-sort-desc': (column == 'Call_Distribution3nd_Day_Routing' &&
+                isDesc) }"
+                aria-hidden="true"> </i>
+            </th>
+            <th hidden (click)="sort('Call_Distribution1st_MODE_1_Routing')">Call
+              Dist 1st Mode 1 Routing
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'Call_Distribution1st_MODE_1_Routing',
+                'fa-sort-asc': (column == 'Call_Distribution1st_MODE_1_Routing'
+                &&
+                !isDesc),
+                'fa-sort-desc': (column == 'Call_Distribution1st_MODE_1_Routing'
+                && isDesc) }"
+                aria-hidden="true"> </i>
+            </th>
+            <th hidden (click)="sort('Call_Distribution2nd_MODE_1_Routing')">Call
+              Dist 2nd Mode 1 Routing
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'Call_Distribution2nd_MODE_1_Routing',
+                'fa-sort-asc': (column == 'Call_Distribution2nd_MODE_1_Routing'
+                &&
+                !isDesc),
+                'fa-sort-desc': (column == 'Call_Distribution2nd_MODE_1_Routing'
+                && isDesc) }"
+                aria-hidden="true"> </i>
+            </th>
+            <th hidden (click)="sort('Call_Distribution3nd_MODE_1_Routing')">Call
+              Dist 3nd Mode 1 Routing
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'Call_Distribution3nd_MODE_1_Routing',
+                'fa-sort-asc': (column == 'Call_Distribution3nd_MODE_1_Routing'
+                &&
+                !isDesc),
+                'fa-sort-desc': (column == 'Call_Distribution3nd_MODE_1_Routing'
+                && isDesc) }"
+                aria-hidden="true"> </i>
+            </th>
+            <th hidden (click)="sort('Call_Distribution1st_MODE_2_Routing')">Call
+              Dist 1st Mode 2 Routing
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'Call_Distribution1st_MODE_2_Routing',
+                'fa-sort-asc': (column == 'Call_Distribution1st_MODE_2_Routing'
+                &&
+                !isDesc),
+                'fa-sort-desc': (column == 'Call_Distribution1st_MODE_2_Routing'
+                && isDesc) }"
+                aria-hidden="true"> </i>
+            </th>
+            <th hidden (click)="sort('Call_Distribution2nd_MODE_2_Routing')">Call
+              Dist 2nd Mode 2 Routing
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'Call_Distribution2nd_MODE_2_Routing',
+                'fa-sort-asc': (column == 'Call_Distribution2nd_MODE_2_Routing'
+                &&
+                !isDesc),
+                'fa-sort-desc': (column == 'Call_Distribution2nd_MODE_2_Routing'
+                && isDesc) }"
+                aria-hidden="true"> </i>
+            </th>
+            <th hidden (click)="sort('Call_Distribution3nd_MODE_2_Routing')">Call
+              Dist 3nd Mode 2 Routing
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'Call_Distribution3nd_MODE_2_Routing',
+                'fa-sort-asc': (column == 'Call_Distribution3nd_MODE_2_Routing'
+                &&
+                !isDesc),
+                'fa-sort-desc': (column == 'Call_Distribution3nd_MODE_2_Routing'
+                && isDesc) }"
+                aria-hidden="true"> </i>
+            </th>
+            <th hidden
+              (click)="sort('Calls_PriorityNormal_Public_Trk_grp_Entity')">Calls
+              Priority Normal Public Trk_Grp
+              Entity
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'Calls_PriorityNormal_Public_Trk_grp_Entity',
+                'fa-sort-asc': (column ==
+                'Calls_PriorityNormal_Public_Trk_grp_Entity' && !isDesc),
+                'fa-sort-desc': (column ==
+                'Calls_PriorityNormal_Public_Trk_grp_Entity' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th hidden
+              (click)="sort('Calls_PriorityUrgent_Public_Trk_grp_Entity')">Calls
+              Priority Urgent Public Trk_Grp
+              Entity
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'Calls_PriorityUrgent_Public_Trk_grp_Entity',
+                'fa-sort-asc': (column ==
+                'Calls_PriorityUrgent_Public_Trk_grp_Entity' && !isDesc),
+                'fa-sort-desc': (column ==
+                'Calls_PriorityUrgent_Public_Trk_grp_Entity' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th hidden
+              (click)="sort('Calls_PriorityNormal_Private_trk_grp_Entity')">Calls
+              Priority Normal Private Trk_Grp
+              Entity
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'Calls_PriorityNormal_Private_trk_grp_Entity',
+                'fa-sort-asc': (column ==
+                'Calls_PriorityNormal_Private_trk_grp_Entity' && !isDesc),
+                'fa-sort-desc': (column ==
+                'Calls_PriorityNormal_Private_trk_grp_Entity' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th hidden
+              (click)="sort('Calls_PriorityUrgent_Private_Trk_grp_Entity
+              ')">Calls Priority Urgent_Private Trk_grp
+              Entity
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'Calls_PriorityUrgent_Private_Trk_grp_Entity ',
+                'fa-sort-asc': (column ==
+                'Calls_PriorityUrgent_Private_Trk_grp_Entity ' && !isDesc),
+                'fa-sort-desc': (column ==
+                'Calls_PriorityUrgent_Private_Trk_grp_Entity ' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th hidden (click)="sort('Calls_PriorityNormal_Public_DID_Entity')">Calls
+              Priority Normal Public_DID Entity
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'Calls_PriorityNormal_Public_DID_Entity',
+                'fa-sort-asc': (column ==
+                'Calls_PriorityNormal_Public_DID_Entity'
+                && !isDesc),
+                'fa-sort-desc': (column ==
+                'Calls_PriorityNormal_Public_DID_Entity' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th hidden (click)="sort('Calls_PriorityUrgent_Public_DID_Entity')">Calls
+              Priority Urgent Public_DID Entity
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'Calls_PriorityUrgent_Public_DID_Entity',
+                'fa-sort-asc': (column ==
+                'Calls_PriorityUrgent_Public_DID_Entity'
+                && !isDesc),
+                'fa-sort-desc': (column ==
+                'Calls_PriorityUrgent_Public_DID_Entity' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th hidden
+              (click)="sort('Calls_PriorityNormal_Private_DID_Entity')">Calls
+              Priority Normal Private_DID Entity
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'Calls_PriorityNormal_Private_DID_Entity',
+                'fa-sort-asc': (column ==
+                'Calls_PriorityNormal_Private_DID_Entity' && !isDesc),
+                'fa-sort-desc': (column ==
+                'Calls_PriorityNormal_Private_DID_Entity' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th hidden
+              (click)="sort('Calls_PriorityUrgent_Private_DID_Entity')">Calls
+              Priority Urgent Private_DID Entity
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'Calls_PriorityUrgent_Private_DID_Entity',
+                'fa-sort-asc': (column ==
+                'Calls_PriorityUrgent_Private_DID_Entity' && !isDesc),
+                'fa-sort-desc': (column ==
+                'Calls_PriorityUrgent_Private_DID_Entity' && isDesc) }"
+                aria-hidden="true"> </i>
+            </th>
+            <th hidden
+              (click)="sort('Calls_PriorityNormal_Int_Callee_DID_Entity')">Calls
+              Priority Normal_Int Callee_DID
+              Entity
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'Calls_PriorityNormal_Int_Callee_DID_Entity',
+                'fa-sort-asc': (column ==
+                'Calls_PriorityNormal_Int_Callee_DID_Entity' && !isDesc),
+                'fa-sort-desc': (column ==
+                'Calls_PriorityNormal_Int_Callee_DID_Entity' && isDesc) }"
+                aria-hidden="true"> </i>
+            </th>
+            <th hidden
+              (click)="sort('Calls_PriorityUrgent_Int_Callee_DID_Entity')">Calls
+              Priority Urgent_Int Callee_DID
+              Entity
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'Calls_PriorityUrgent_Int_Callee_DID_Entity',
+                'fa-sort-asc': (column ==
+                'Calls_PriorityUrgent_Int_Callee_DID_Entity' && !isDesc),
+                'fa-sort-desc': (column ==
+                'Calls_PriorityUrgent_Int_Callee_DID_Entity' && isDesc) }"
+                aria-hidden="true"> </i>
+            </th>
+            <th hidden
+              (click)="sort('Calls_PriorityNormal_Public_Non_Answer_DID')">Calls
+              Priority Normal_Public
+              Non_Answer_DID
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'Calls_PriorityNormal_Public_Non_Answer_DID',
+                'fa-sort-asc': (column ==
+                'Calls_PriorityNormal_Public_Non_Answer_DID' && !isDesc),
+                'fa-sort-desc': (column ==
+                'Calls_PriorityNormal_Public_Non_Answer_DID' && isDesc) }"
+                aria-hidden="true"> </i>
+            </th>
+            <th hidden (click)="sort('Calls_PriorityUrgent_Public_Non_Answer_DID
+              ')">Calls Priority Urgent_Public
+              Non_Answer_DID
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'Calls_PriorityUrgent_Public_Non_Answer_DID ',
+                'fa-sort-asc': (column ==
+                'Calls_PriorityUrgent_Public_Non_Answer_DID ' && !isDesc),
+                'fa-sort-desc': (column ==
+                'Calls_PriorityUrgent_Public_Non_Answer_DID ' && isDesc) }"
+                aria-hidden="true"> </i>
+            </th>
+            <th hidden
+              (click)="sort('Calls_PriorityNormal_Private_Non_Answer_DID')">Calls
+              Priority Normal_Private
+              Non_Answer_DID
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'Calls_PriorityNormal_Private_Non_Answer_DID',
+                'fa-sort-asc': (column ==
+                'Calls_PriorityNormal_Private_Non_Answer_DID' && !isDesc),
+                'fa-sort-desc': (column ==
+                'Calls_PriorityNormal_Private_Non_Answer_DID' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th hidden
+              (click)="sort('Calls_PriorityUrgent_Private_Non_Answer_DID')">Calls
+              Priority Urgent_Private
+              Non_Answer DID
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'Calls_PriorityUrgent_Private_Non_Answer_DID',
+                'fa-sort-asc': (column ==
+                'Calls_PriorityUrgent_Private_Non_Answer_DID' && !isDesc),
+                'fa-sort-desc': (column ==
+                'Calls_PriorityUrgent_Private_Non_Answer_DID' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th (click)="sort('Voice_GuidesWaiting_Guide')">Voice Guideswaiting
+              Guide
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'Voice_GuidesWaiting_Guide',
+                'fa-sort-asc': (column == 'Voice_GuidesWaiting_Guide' &&
+                !isDesc),
+                'fa-sort-desc': (column == 'Voice_GuidesWaiting_Guide' &&
+                isDesc)
+                }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th (click)="sort('Voice_GuidesAttendant_Waiting_Guide')">Voice
+              GuidesAttendant Waiting Guide
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'Voice_GuidesAttendant_Waiting_Guide',
+                'fa-sort-asc': (column == 'Voice_GuidesAttendant_Waiting_Guide'
+                &&
+                !isDesc),
+                'fa-sort-desc': (column == 'Voice_GuidesAttendant_Waiting_Guide'
+                && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th hidden (click)="sort('Overflow_Timer')">Overflow Timer
+              <i class="fa" [ngClass]="{'fa-sort': column != 'Overflow_Timer',
+                'fa-sort-asc': (column == 'Overflow_Timer' && !isDesc),
+                'fa-sort-desc': (column == 'Overflow_Timer' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th hidden (click)="sort('Company_Call_Number')">Company Call_Number
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'Company_Call_Number',
+                'fa-sort-asc': (column == 'Company_Call_Number' && !isDesc),
+                'fa-sort-desc': (column == 'Company_Call_Number' && isDesc) }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th hidden (click)="sort('Centralized_Centrex_Serv')">Centralized
+              Centrex Serv
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'Centralized_Centrex_Serv',
+                'fa-sort-asc': (column == 'Centralized_Centrex_Serv' &&
+                !isDesc),
+                'fa-sort-desc': (column == 'Centralized_Centrex_Serv' && isDesc)
+                }"
+                aria-hidden="true">
+              </i>
+            </th>
+            <th hidden (click)="sort('Overflow_LDAP_Phone_Book ')">Overflow LDAP
+              PhoneBook
+              <i class="fa" [ngClass]="{'fa-sort': column !=
+                'Overflow_LDAP_Phone_Book ',
+                'fa-sort-asc': (column == 'Overflow_LDAP_Phone_Book ' &&
+                !isDesc),
+                'fa-sort-desc': (column == 'Overflow_LDAP_Phone_Book ' &&
+                isDesc)
+                }"
+                aria-hidden="true">
+              </i>
+            </th>
+          </tr>
+
+
+          <tbody *ngFor="let emp of EmployeeDetails | orderBy: {property:
+            column,
+            direction: direction} | paginate: {itemsPerPage: 10,
+            currentPage:page,
+            id: '1'} ; let i= index">
+            <tr *ngIf="EmployeeDetails?.length> 0" (click)="setClickedRow(emp)"
+              [class.active]="emp.highLightRow" class="tableRowTransparent">
+
+              <td [ngClass]="!isLangArabic? 'fixed-1' : 'fixed-ar-1'">{{emp.Node}}</td>
+              <td [ngClass]="!isLangArabic? 'fixed-2' : 'fixed-ar-2'" style="text-align: center;width:
+                115px;">{{emp.Entity_Number}}</td>
+              <td class="word-break">{{emp.Name}}</td>
+              <td hidden>{{emp.UTF_8_Name}}</td>
+              <td hidden>{{emp.Attendant_Group_Manager}}</td>
+              <td hidden>{{emp.Priority}}</td>
+              <td hidden>{{emp.Emergency_call_to_attd}}</td>
+              <td hidden>{{emp.Traffic_Overflow}}</td>
+              <td>{{emp.Installation_No_ISDN}}</td>
+              <td hidden>{{emp.SupplementInstallNo_ISDN}}</td>
+              <td hidden>{{emp.Caller_ID_Secret}}</td>
+              <td hidden>{{emp.AdvOfCharg2_requests_AOC2}}</td>
+              <td hidden>{{emp.AdvOfCharg3_requests_A0C3}}</td>
+              <td hidden>{{emp.Auto_Locking}}</td>
+              <td hidden>{{emp.Voice_Mail_Box_Nofor_attendt}}</td>
+              <td>{{emp.Trunk_Group_ID}}</td>
+              <td hidden>{{emp.External_Callback_Table}}</td>
+              <td hidden>{{emp.Voice_Mail_DirNo}}</td>
+              <td hidden>{{emp.Password_for_A4630}}</td>
+              <td hidden>{{emp.Language_ID}}</td>
+              <td hidden>{{emp.Call_DistributionOverflow_Routing_No}}</td>
+              <td>{{emp.Call_DistributionForwarding_on_routing}}</td>
+              <td>{{emp.Call_Distribution1st_Night_Routing}}</td>
+              <td>{{emp.Call_Distribution2nd_Night_Routing}}</td>
+              <td hidden>{{emp.Call_Distribution3nd_Night_Routing}}</td>
+              <td>{{emp.Call_Distribution1st_Day_Routing}}</td>
+              <td>{{emp.Call_Distribution2nd_Day_Routing}}</td>
+              <td hidden>{{emp.Call_Distribution3nd_Day_Routing}}</td>
+              <td hidden>{{emp.Call_Distribution1st_MODE_1_Routing}}</td>
+              <td hidden>{{emp.Call_Distribution2nd_MODE_1_Routing}}</td>
+              <td hidden>{{emp.Call_Distribution3nd_MODE_1_Routing}}</td>
+              <td hidden>{{emp.Call_Distribution1st_MODE_2_Routing}}</td>
+              <td hidden>{{emp.Call_Distribution2nd_MODE_2_Routing}}</td>
+              <td hidden>{{emp.Call_Distribution3nd_MODE_2_Routing}}</td>
+              <td hidden>{{emp.Calls_PriorityNormal_Public_Trk_grp_Entity}}</td>
+              <td hidden>{{emp.Calls_PriorityUrgent_Public_Trk_grp_Entity}}</td>
+              <td hidden>{{emp.Calls_PriorityNormal_Private_trk_grp_Entity}}</td>
+              <td hidden>{{emp.Calls_PriorityUrgent_Private_Trk_grp_Entity}}</td>
+              <td hidden>{{emp.Calls_PriorityNormal_Public_DID_Entity}}</td>
+              <td hidden>{{emp.Calls_PriorityUrgent_Public_DID_Entity}}</td>
+              <td hidden>{{emp.Calls_PriorityNormal_Private_DID_Entity }}</td>
+              <td hidden>{{emp.Calls_PriorityUrgent_Private_DID_Entity}}</td>
+              <td hidden>{{emp.Calls_PriorityNormal_Int_Callee_DID_Entity}}</td>
+              <td hidden>{{emp.Calls_PriorityUrgent_Int_Callee_DID_Entity}}</td>
+              <td hidden>{{emp.Calls_PriorityNormal_Public_Non_Answer_DID}}</td>
+              <td hidden>{{emp.Calls_PriorityUrgent_Public_Non_Answer_DID}}</td>
+              <td hidden>{{emp.Calls_PriorityUrgent_Private_Non_Answer_DID}}</td>
+              <td>{{emp.Voice_GuidesWaiting_Guide}}</td>
+              <td>{{emp.Voice_GuidesAttendant_Waiting_Guide}}</td>
+              <td hidden>{{emp.Overflow_Timer}}</td>
+              <td hidden>{{emp.Company_Call_Number }}</td>
+              <td hidden>{{emp.Centralized_Centrex_Serv}}</td>
+              <td hidden>{{emp.Overflow_LDAP_Phone_Book }}</td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="EmployeeDetails?.length == 0">
+            <tr>
+              <td></td>
+              <td colspan="1000">
+                No records found.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="right-align">
+        <pagination-controls (pageChange)="page= $event" id="1" maxSize="5"
+          directionLinks="true" autoHide="true">
+        </pagination-controls>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="form-row">
+
+
+    <bs-modal #modalSendSMS id="modalSendSMS" dir="{{!isLangArabic
+      ?'ltr':'rtl'}}">
+      <bs-modal-header [showDismiss]="false">
+        <button type="button" class="close" [ngClass]="!isLangArabic?
+          'float-right':'float-left'" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+        <h4 class="modal-title">{{'Send Sms'| translate }}</h4>
+        <br />
+        <div class="modal-title" id="SendsmsModalLabel">
+          <label>{{'TO'| translate }}</label>
+          <span>
+            <input type="text" class="form-control" [(ngModel)]="txtToNumber"
+              id="ToMobileNo." placeholder="{{'Enter Contact No.'| translate
+              }}"
+              name="ToMobileNo" style="display: inline-block; width: 90%;" />
+          </span>
+        </div>
+      </bs-modal-header>
+      <bs-modal-body>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="SmsId">
+                <input type="checkbox" [(ngModel)]="checkId"
+                  (click)="filterData('id')" /> {{ 'MilitaryId' | translate }}</label>
+              <input type="text" class="form-control" [(ngModel)]="SmsId"
+                placeholder="{{ 'ID' | translate }}" name="SmsId" />
+            </div>
+            <div class="form-group">
+              <label for="SmsName">
+                <input type="checkbox" [(ngModel)]="checkName"
+                  (click)="filterData('name')" /> {{ 'NAME' | translate }}</label>
+              <input type="text" class="form-control" [(ngModel)]="SmsName"
+                placeholder="{{ 'NAME' | translate }}" name="SmsName" />
+            </div>
+            <div class="form-group">
+              <label for="SmsRank">
+                <input type="checkbox" [(ngModel)]="checkRank"
+                  (click)="filterData('rank')" /> {{ 'RANK' | translate }}</label>
+              <input type="email" class="form-control" [(ngModel)]="SmsRank"
+                placeholder="{{ 'RANK' | translate }}" name="SmsRank" />
+            </div>
+            <div class="form-group">
+              <label for="SmstelMobile">
+                <!-- <input type="checkbox" [(ngModel)]="checkOfficePhone" (click)="filterData('offPhone')"/> -->
+                {{ 'TEL-Office' | translate }}</label>
+              <div>
+                <input type="checkbox" [(ngModel)]="checkOfficePhone1"
+                  (click)="filterData('offPhone1')" />
+                <input type="text" class="form-control textbox-with-checkBox"
+                  [(ngModel)]="SmstelOffice" placeholder="{{ 'TEL-Office' |
+                  translate }}"
+                  name="SmstelMobile" />
+              </div>
+              <div>
+                <input type="checkbox" [(ngModel)]="checkOfficePhone2"
+                  (click)="filterData('offPhone2')" />
+                <input type="text" class="form-control textbox-with-checkBox"
+                  [(ngModel)]="SmstelOffice1" placeholder="{{ 'TEL-Office' |
+                  translate }}"
+                  name="SmstelOffice" style="margin-top: 5px; margin-bottom:
+                  5px;" />
+              </div>
+              <div>
+                <input type="checkbox" [(ngModel)]="checkOfficePhone3"
+                  (click)="filterData('offPhone3')" />
+                <input type="text" class="form-control textbox-with-checkBox"
+                  [(ngModel)]="SmstelOffice2" placeholder="{{ 'TEL-Office' |
+                  translate }}"
+                  name="SmstelOffice" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="SmsPosition">
+                <input type="checkbox" [(ngModel)]="checkPosition"
+                  (click)="filterData('pos')" /> {{ 'POSITION' |
+                translate }}</label>
+              <input type="text" class="form-control"
+                [(ngModel)]="SmsPosition"
+                placeholder="{{ 'POSITION' | translate }}"
+                name="SmsPosition" />
+            </div>
+            <div class="form-group">
+              <label for="SmsCompany">
+                <input type="checkbox" [(ngModel)]="checkDisList"
+                  (click)="filterData('disList')" /> {{
+                'DistributionUnit' | translate }}</label>
+              <input type="Text" class="form-control"
+                [(ngModel)]="SmsDistributionUnit" placeholder="{{
+                'DistributionUnit' | translate }}"
+                name="SmsCompany" />
+            </div>
+            <!-- <div class="form-group">
+                            <label for="SmsCompany">
+                                <input type="checkbox" [(ngModel)]="checkComapny" (click)="filterData('com')"/>
+                                {{ 'COMPANY' | translate }}</label>
+                            <input type="Text" class="form-control" [(ngModel)]="SmsCompany" placeholder="{{ 'POSITION' | translate }}" name="SmsCompany" />
+                        </div>
+                        <div class="form-group">
+                            <label for="SmsRegiment" class="no-word-wrap">
+                                <input type="checkbox" [(ngModel)]="checkForce_Unit" (click)="filterData('frc')"/>
+                                {{ 'Force/Corps/Units/Regiment/Directorate' | translate }}</label>
+                            <input type="text" class="form-control" [(ngModel)]="SmsRegiment" placeholder="{{ 'Force/Corps/Units/Regiment/Directorate' | translate }}" name="SmsRegiment" />
+                        </div> -->
+            <div class="form-group">
+              <label for="SmstelOffice">
+                <input type="checkbox" [(ngModel)]="checkMobile"
+                  (click)="filterData('mob')" /> {{ 'TEL-Mobile' |
+                translate }}</label>
+              <div>
+                <!-- <input type="checkbox" /> -->
+                <input type="text" class="form-control textbox-with-checkBox"
+                  [(ngModel)]="SmstelMobile" placeholder="{{ 'TEL-Mobile' |
+                  translate }}"
+                  name="SmstelOffice" />
+              </div>
+              <!-- <div>
+                                <input type="checkbox" />
+                                <input type="text" class="form-control  textbox-with-checkBox" [(ngModel)]="SmstelMobile1" placeholder="{{ 'TEL-Mobile' | translate }}"
+                                    name="SmstelOffice"  style="margin-top: 5px; margin-bottom: 5px;" />
+                            </div>
+                            <div>
+                                <input type="checkbox" />
+                                <input type="text" class="form-control  textbox-with-checkBox" [(ngModel)]="SmstelMobile2" placeholder="{{ 'TEL-Mobile' | translate }}"
+                                    name="SmstelOffice"/>
+                                </div> -->
+            </div>
+          </div>
+        </div>
+      </bs-modal-body>
+      <bs-modal-footer>
+        <button type="button" class="primary-button btn btn-default"
+          (click)='sendSMS()'>{{ 'Send' | translate }}</button>
+        <button type="button" class="btn btn-default"
+          (click)="hidePopUp('modalSendSMS')">{{ 'Cancel' | translate }}</button>
+      </bs-modal-footer>
+    </bs-modal>
+
+
+    <bs-modal #modalImport id="modalImport" dir="{{!isLangArabic
+      ?'ltr':'rtl'}}">
+      <bs-modal-header [showDismiss]="false">
+        <button type="button" class="close" data-dismiss="modal"
+          [ngClass]="!isLangArabic? 'float-right':'float-left'">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+        <h4 class="modal-title">{{ 'Import Csv' | translate }}</h4>
+      </bs-modal-header>
+      <bs-modal-body>
+        {{'Upload Csv file' | translate }}
+        <input type="file" #fileImportInput name="csv_data" id="txtFileUpload"
+          class="btn btn-primary" (change)="fileChangeListener($event)"
+          accept=".csv" />
+      </bs-modal-body>
+      <bs-modal-footer>
+        <button type="button" class="btn btn-primary" (click)="import()">{{
+          'Import' | translate }}</button>
+        <button type="button" class="btn btn-default"
+          (click)="hidePopUp('modalImport')">{{ 'Cancel' | translate }}</button>
+      </bs-modal-footer>
+    </bs-modal>
+  </div>
+
+</div>

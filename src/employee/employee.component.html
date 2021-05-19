@@ -1,0 +1,385 @@
+<div class="en current-lang" [ngClass]="!isLangArabic? 'activate':'not-active'">
+    <span (click)="toggleMenu()" class="menu-icon fa fa-bars" style="left:10px;right:auto; font-size:30px;">
+    </span>
+    <!-- <app-nav *ngIf="showMenu"></app-nav> --> 
+</div>
+<div class="main" [ngClass]="{'en-employee':!this.isLangArabic, 'ar-employee':this.isLangArabic,'col-md-12': showMenu, 'col-md-12': !showMenu}">
+        <!-- <div class="page-head " ><b class="page-head ">{{'Phone Directory' | translate}} </b></div> -->
+        <div class="page-container">
+            <div >
+                   <div class="head-margin" [ngClass]="!isLangArabic ? 'float-left':'float-right'"> <b class="page-head table-header-margin">{{'Phone Directory' | translate}} </b></div>
+                    <div class="table-header-margin" [ngClass]="!isLangArabic ? 'float-right':'float-left'">
+                            <button type="button" *ngIf="checkOperation('1','1')" class="btn qafbutton btn-color import" routerLink='/AddNewEmployee' >{{ 'Add' | translate }}</button>
+                        <button type="button" *ngIf="checkOperation('1','7')" class="btn qafbutton import" (click)='showUploaPopUp()'>{{ 'Import' | translate }}</button>
+                        <button type="button" *ngIf="checkOperation('1','8')" class="btn qafbutton import" (click)='exportToExcel()'>{{ 'Export' | translate }}</button>
+                        <input type="text" [(ngModel)]="queryString" id="search" placeholder="{{ 'Search' | translate }}" class="search-textbox form-control">
+                    </div>
+            </div>
+               
+                <!-- <div class="deafault-search" dir="{{!isLangArabic ?'ltr':'rtl'}}" [ngClass]="!isLangArabic ? 'en':'ar'">
+                    <label>{{ 'Search' | translate }}:</label>
+                    <input type="text" [(ngModel)]="queryString" id="search" placeholder="{{ 'Search' | translate }}" class="search-textbox form-control">
+                </div> -->
+                <table dir="{{!isLangArabic ?'ltr':'rtl'}}" class="tbl-employee table highLightTable" [ngClass]="!isLangArabic ? 'en':'ar'" style="margin-bottom: 0 !important;">
+                    <tr class="tr-fonts">
+                        <th class="cursor-pointer" (click)="toggleAdvanceSearch()">
+                            <span class="fa fa-search" title="show Advance Search"></span>
+                        </th>
+                        <th (click)="sort('MilitaryId')">{{ 'Military Id' | translate }}
+                            <i class="fa" [ngClass]="{'fa-sort': column != 'MilitaryId',
+                                              'fa-sort-asc': (column == 'MilitaryId' && !isDesc),
+                                              'fa-sort-desc': (column == 'MilitaryId' && isDesc) }" aria-hidden="true"> </i>
+                        </th>
+                        <th (click)="sort('RankIds')">{{ 'Rank' | translate }}
+                            <i class="fa" [ngClass]="{'fa-sort': column != 'RankIds',
+                                                'fa-sort-asc': (column == 'RankIds' && !isDesc),
+                                                'fa-sort-desc': (column == 'RankIds' && isDesc) }" aria-hidden="true"> </i>
+                        </th>
+                        <th (click)="sort('Name')">{{ 'Name' | translate }}
+                            <i class="fa" [ngClass]="{'fa-sort': column != 'UserName',
+                                              'fa-sort-asc': (column == 'Name' && !isDesc),
+                                              'fa-sort-desc': (column == 'Name' && isDesc) }" aria-hidden="true"> </i>
+                        </th>
+            
+                        <!-- <th (click)="sort('Force_Corps_Units_Regi_Dire')">{{ 'Force/Corps/Units/Regiment/Directorate' | translate }} <i class="fa"
+                          [ngClass]="{'fa-sort': column != 'Force_Corps_Units_Regi_Dire',
+                                              'fa-sort-asc': (column == 'Force_Corps_Units_Regi_Dire' && !isDesc),
+                                              'fa-sort-desc': (column == 'Force_Corps_Units_Regi_Dire' && isDesc) }"
+                          aria-hidden="true"> </i></th> -->
+                        <th (click)="sort('distributionList')">{{ 'Distribution list' | translate }}
+                            <i class="fa" [ngClass]="{'fa-sort': column != 'DistributionList',
+                                                'fa-sort-asc': (column == 'DistributionList' && !isDesc),
+                                                'fa-sort-desc': (column == 'DistributionList' && isDesc) }" aria-hidden="true"> </i>
+                        </th>
+                        <th (click)="sort('distributionUnit')">{{ 'DistributionUnit' | translate }}
+                            <i class="fa" [ngClass]="{'fa-sort': column != 'DistributionUnit',
+                                                    'fa-sort-asc': (column == 'DistributionUnit' && !isDesc),
+                                                    'fa-sort-desc': (column == 'DistributionUnit' && isDesc) }" aria-hidden="true">
+                            </i>
+                        </th>
+                        <th (click)="sort('Position')">{{ 'Position' | translate }}
+                            <i class="fa" [ngClass]="{'fa-sort': column != 'Position',
+                                              'fa-sort-asc': (column == 'Position' && !isDesc),
+                                              'fa-sort-desc': (column == 'Position' && isDesc) }" aria-hidden="true"> </i>
+                        </th>
+                        <!-- <th (click)="sort('Company')">{{ 'Company' | translate }} <i class="fa"
+                          [ngClass]="{'fa-sort': column != 'Company',
+                                              'fa-sort-asc': (column == 'Company' && !isDesc),
+                                              'fa-sort-desc': (column == 'Company' && isDesc) }"
+                          aria-hidden="true"> </i></th>  -->
+                        <th></th>
+                        <th *ngIf="!showHideAllRows">
+                            <span class="cursor-pointer fa-lg fa fa-expand" (click)="showAllHiddenEmpRow()"></span>
+                        </th>
+                        <th *ngIf="showHideAllRows">
+                            <span class="cursor-pointer fa-lg fa fa-compress" (click)="hideAllHiddenRows()"></span>
+                        </th>
+                    </tr>
+                    <tbody class="searchBox" *ngIf="showAdvanceSearch" [ngClass]="{'hidden-menu': !showMenu}">
+                        <tr style="background-color:#F6F6F7">
+                            <td>
+                            </td>
+                            <td>
+                                <input type="text" name="searchId" [(ngModel)]="idSearch"  class="searchId searchAlign textbox-height form-control" placeholder="{{ 'Military Id' | translate }}"
+                                />
+                            </td>
+            
+                            <td>
+                                <!-- <input type="text" name="SearchRank" class="textbox-height form-control"  [(ngModel)]="rankSearch"
+                                      placeholder="{{ 'RANK' | translate }} " /> -->
+                                <select class="searchRank searchAlign textbox-height form-control" ngControl="rnk" [(ngModel)]="rankSearch" style="width: 100%;">
+                                    <option class="searchAlign" value="">{{ 'Rank' | translate }} </option>
+                                    <option *ngFor="let rnk of rankList" [value]="rnk">{{rnk}}</option>
+                                </select>
+                                <!-- <angular2-multiselect [data]="rankList"
+                              [(ngModel)]="rankSearch"
+                              [settings]="settings"
+                              (onSelect)="onItemSelect($event)"
+                              (onDeSelect)="OnItemDeSelect($event)"
+                              (onSelectAll)="onSelectAll($event)"
+                              (onDeSelectAll)="onDeSelectAll($event)">
+                            </angular2-multiselect> -->
+                            </td>
+                            <td>
+                                <input type="text" name="searchName" class="searchName searchAlign textbox-height form-control" [(ngModel)]="nameSearch" placeholder="{{ 'Name' | translate }}"
+                                />
+                            </td>
+            
+            
+                            <td>
+                                <!-- <input type="text" name="SearchRank" class="textbox-height form-control"  [(ngModel)]="rankSearch"
+                                    placeholder="{{ 'RANK' | translate }} " /> -->
+                                <select class="search-distributionList searchAlign textbox-height form-control" ngControl="dstList" (change)="onChange($event.target.value)"
+                                    [(ngModel)]="distributionListSearch">
+                                    <option class="searchAlign" value="">{{ 'Distribution list' | translate }} </option>
+                                    <option *ngFor="let rnk of distributionList" [value]="rnk">{{rnk}}</option>
+                                </select>
+                            </td>
+                            <td>
+            
+                                <select class="search-distributionUnit searchAlign textbox-height form-control" ngControl="dstUnit" [(ngModel)]="distributionUnitSearch">
+                                    <option class="searchAlign" value="">{{ 'Unit' | translate }} </option>
+                                    <option *ngFor="let rnk of distributionUnit" [value]="rnk">{{rnk}}</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" name="SearchPosition" class="searchPosition searchAlign textbox-height form-control" [(ngModel)]="positionSearch"
+                                    placeholder="{{ 'Position' | translate }}" style="width: 100% !important;"/>
+                            </td>
+                            <!-- <td>
+                                  <input type="text" name="SearchComapny" class="searchCompany textbox-height form-control"  [(ngModel)]="companySearch"
+                                      placeholder="{{ 'COMPANY' | translate }}" />
+                              </td> -->
+                            <td>
+                            </td>
+                            <td class="vertically-align-middle" (click)="closeandClearAdvanceSearch()">
+                                <span class="glyphicon glyphicon-remove cursor-pointer primary-color"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <!--rankSearch -->
+                    <tbody *ngFor="let emp of this.EmployeeDetails | employeeSearch:idSearch: nameSearch:rankSearch: distributionListSearch: distributionUnitSearch : positionSearch | FilterPipe: queryString : searchableList|orderBy: {property: column, direction: direction} |paginate: {itemsPerPage: 15, currentPage:page, id: '1'}; let i = index"
+                        #someVar>
+                        <tr (click)="setClickedRow(emp)" [class.active]="emp.highLightRow" style="padding: 0 !important;">
+                            <td style="padding: 5px !important;"></td>
+                            <td style="padding: 5px !important; width: 2rem;">{{emp.MilitaryId}}</td>
+                            <td style="padding: 5px !important;">{{emp.Rank}} {{emp.subRank}}</td>
+                            <td style="padding: 5px !important; width: 17rem;" class="word-break">{{emp.Name}}</td>
+                            <td style="padding: 5px !important;">{{emp.distributionList}}</td>
+                            <td style="padding: 5px !important;">{{emp.distributionUnit}}</td>
+                            <td style="padding: 5px !important;">{{emp.Position}}</td>
+                            <!-- <td>{{emp.Company}}</td> -->
+                            <td style="padding: 5px !important;" class="no-word-wrap">
+                                <a class="primary-color pr-7 cursor-pointer table-action-icon fa fa-eye fa-lg" title="{{'View Employee Details'| translate}}"
+                                    [routerLink]="['/viewEmployee', emp.id]"></a>
+            
+                                <a *ngIf="checkOperation('1','5')" class="primary-color pr-7 cursor-pointer table-action-icon fa fa-envelope fa-lg" title="{{'Send Sms'| translate}}"
+                                    (click)="showSMSPopup(emp)"></a>
+                                <a *ngIf="checkOperation('1','2')" [routerLink]="['/updateEmployee', emp.id]" class="primary-color pr-7 table-action-icon fa fa-wrench fa-lg"
+                                    title="{{'View or Edit Employee Details'| translate}}"></a>
+                                <a *ngIf="checkOperation('1','3')" class="primary-color pr-7 cursor-pointer table-action-icon fa fa-trash-o fa-lg" (click)="showDeactivateEmployeePopup(emp)"
+                                    title="{{'Deactivate Employee'| translate}}"></a>
+                            </td>
+                            <td style="padding: 5px !important;">
+                                <span class="cursor-pointer  fa " [ngClass]="(!emp?.hideInnerEmpRow)?'fa-expand':'fa-compress'" (click)="toggleHiddenEmpRow(emp)"></span>
+                            </td>
+                        </tr>
+                        <ng-container *ngIf="emp?.hideInnerEmpRow">
+                            <tr rowspan="99" class="inner-tr" [ngClass]="emp.hideInnerEmpRow? 'display-block':'hidden-row'">
+                                <td class="bk-dark border-bottom" colspan="99" style="padding: 0 !important;">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="inner-table-th inline-display inline-th-align top-vertical-align">
+                                                {{ 'TEL-Office' | translate }}:
+                                            </div>
+                                            <div class="inline-display inline-content-margin">
+                                                <div>
+                                                    {{emp.OfficeTelephone1}}</div>
+                                                <div>
+                                                    {{emp.OfficeTelephone2}}</div>
+                                                <div>
+                                                    {{emp.OfficeTelephone3}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="inner-table-th inline-display inline-th-align top-vertical-align">
+                                                {{ 'TEL-Mobile' | translate }}:
+                                            </div>
+                                            <div class="inline-display inline-content-margin">
+                                                <div>
+                                                    {{emp.Mobile}}</div>
+            
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <!-- <td> <span>Office Telephone:</span> <span>{{emp.telephoneOffice}}</span></td>
+                      <td><span>Mobile Telephone:</span><span>{{emp.telephoneMobile}}</span></td> -->
+            
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+                <div class="right-align">
+                    <pagination-controls (pageChange)="page = $event" id="1" maxSize="5" directionLinks="true" autoHide="true">
+                    </pagination-controls>
+                </div>
+            </div>
+            <div class="ar current-lang" [ngClass]="isLangArabic? 'activate':'not-active'">
+                <span (click)="toggleMenu()" class="menu-icon fa fa-bars" style="font-size:30px;">
+            
+                </span>
+                <app-nav *ngIf="showMenu"></app-nav>
+                <!-- <app-nav ></app-nav> -->
+            </div>
+            
+            <div class="form-row">
+                <bs-modal #modalDeactivate id="modalDeactivate" dir="{{!isLangArabic ?'ltr':'rtl'}}">
+                    <bs-modal-header [showDismiss]="false">
+                        <button type="button" class="close" data-dismiss="modal" [ngClass]="!isLangArabic? 'float-right':'float-left'">
+                            <span aria-hidden="true">&times;</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                        <h4 class="modal-title">{{ 'Deactivate Employee' | translate }}</h4>
+                    </bs-modal-header>
+                    <bs-modal-body>
+                        {{'Are you sure you want to deactivate this employee' | translate }}
+                    </bs-modal-body>
+                    <bs-modal-footer>
+                        <button type="button" class="btn btn-danger" (click)='deactivateEmp()'>{{ 'Deactivate' | translate }}</button>
+                        <button type="button" class="btn btn-default" (click)="hidePopUp('modalDeactivate')">{{ 'Cancel' | translate }}</button>
+            
+                    </bs-modal-footer>
+                </bs-modal>
+            
+            
+                <bs-modal #modalSendSMS id="modalSendSMS" dir="{{!isLangArabic ?'ltr':'rtl'}}">
+                    <bs-modal-header [showDismiss]="false">
+                        <button type="button" class="close" [ngClass]="!isLangArabic? 'float-right':'float-left'" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                        <h4 class="page-headsendSms modal-title">{{'Send Sms'| translate }}</h4>
+                        <br>
+                        <div class="modal-title" id="SendsmsModalLabel">
+                            <label>{{'TO'| translate }}</label>
+                            <span>
+                                <input type="text" class="form-control" [(ngModel)]="txtToNumber" id="ToMobileNo." placeholder="{{'Enter Contact No.'| translate }}"
+                                    name="ToMobileNo" style="display: inline-block; width: 90%;" />
+                            </span>
+                        </div>
+                    </bs-modal-header>
+                    <bs-modal-body>
+                        <div class="row">
+                                <input type="checkbox" [ngClass]="!isLangArabic? 'ml-3' : 'mr-3'" (click)=checkAllCheckbox() id="checkAllIds"  /> {{ 'Select/UnSelect All' | translate }}
+                                <hr>
+                            <div class="col-md-6">
+                                
+                                <div class="form-group" aria-haspopup=false >
+                                    <label for="SmsId" >
+                                        <input type="checkbox" class="checkid"  [(ngModel)]="checkId"  aria-haspopup=false/> {{ 'Military Id' | translate }}</label>
+                                    <input type="text" class="form-control" [(ngModel)]="SmsId" placeholder="{{ 'Military Id' | translate }}" name="SmsId" readonly
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label for="SmsRank">
+                                        <input type="checkbox" class="checkRank"  [(ngModel)]="checkRank" /> {{ 'Rank' | translate }}</label>
+                                    <input type="text" class="form-control" [(ngModel)]="SmsRank" placeholder="{{ 'Rank' | translate }}" name="SmsRank" readonly/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="SmsName">
+                                        <input type="checkbox" class="checkName"  [(ngModel)]="checkName"  /> {{ 'Name' | translate }}</label>
+                                    <input type="text" class="form-control" [(ngModel)]="SmsName" placeholder="{{ 'Name' | translate }}" name="SmsName" readonly/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="SmsPosition">
+                                        <input type="checkbox" class="checkPosition"  [(ngModel)]="checkPosition"  /> {{ 'Position' | translate }}</label>
+                                    <input type="text" class="form-control" [(ngModel)]="SmsPosition" placeholder="{{ 'Position' | translate }}" name="SmsPosition"
+                                        readonly/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="SmsCompany">
+                                        <input type="checkbox" class="checkDisUnit" [(ngModel)]="checkDisUnit"  /> {{ 'DistributionUnit' | translate }}</label>
+                                    <input type="Text" class="form-control" [(ngModel)]="SmsDisUnit" placeholder="{{ 'DistributionUnit' | translate }}" readonly/>
+                                </div>
+            
+            
+                            </div>
+                            <div class="col-md-6">
+            
+                                <!-- <div class="form-group">
+                                            <label for="disList">
+            
+                                                <input type="checkbox" [(ngModel)]="checkDisList" (click)="filterData('disList')"/>
+                                                {{ 'DistributionUnit' | translate }}</label>
+                                            <input type="Text" class="form-control" [(ngModel)]="SmsDistributionUnit" placeholder="{{ 'DistributionUnit' | translate }}" name="disList" />
+                                        </div> -->
+                                <div class="form-group">
+                                    <label for="SmstelMobile">
+                                        <!-- <input type="checkbox" [(ngModel)]="checkOfficePhone" (click)="filterData('offPhone')"/> -->
+                                        {{ 'TEL-Office' | translate }}</label>
+                                    <div>
+                                        <input type="checkbox" class="checktelOffice"  [(ngModel)]="checkOfficePhone1"  />
+                                        <input type="text" class="form-control phoneAlign textbox-with-checkBox" [(ngModel)]="SmstelOffice" placeholder="{{ 'TEL-Office' | translate }}"
+                                            name="SmstelMobile" readonly/>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" class="checktelOffice1" [(ngModel)]="checkOfficePhone2" />
+                                        <input type="text" class="form-control phoneAlign textbox-with-checkBox" [(ngModel)]="SmstelOffice1" placeholder="{{ 'TEL-Office' | translate }}"
+                                            name="SmstelOffice" style="margin-top: 5px; margin-bottom: 5px;" readonly/>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" class="checktelOffice2"  [(ngModel)]="checkOfficePhone3" />
+                                        <input type="text" class="form-control phoneAlign textbox-with-checkBox" [(ngModel)]="SmstelOffice2" placeholder="{{ 'TEL-Office' | translate }}"
+                                            name="SmstelOffice" readonly/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="SmstelOffice">
+                                        <input type="checkbox" class="checktelMobile"  [(ngModel)]="checkMobile" /> {{ 'TEL-Mobile' | translate }}</label>
+                                    <div>
+            
+                                        <input type="text" class="form-control textbox-with-checkBox" [(ngModel)]="SmstelMobile" placeholder="{{ 'TEL-Mobile' | translate }}"
+                                            name="SmstelOffice" readonly/>
+                                    </div>
+                                    </div>
+                                    <div class="form-group">
+                                    <label for="txtResidentTelePhone">
+                                        <input type="checkbox" class="checkResTelPhone"  [(ngModel)]="checkResidentTelePhone" /> {{ 'ResidenceTeleNo' | translate }}</label>
+                                    <div>
+            
+                                        <input type="text" class="form-control textbox-with-checkBox" [(ngModel)]="SmsResTelPhone" placeholder="{{ 'ResidenceTeleNo' | translate }}"
+                                            name="SmsResTelPhone" readonly/>
+                                    </div>
+                                    </div>
+                                    <div class="form-group">
+                                    <label for="SmsDirectLine">
+                                        <input type="checkbox" class="checkDirectLine" [(ngModel)]="checkDirectLine" /> {{ 'Direct line' | translate }}</label>
+                                    <div>
+            
+                                        <input type="text" class="form-control textbox-with-checkBox" [(ngModel)]="SmsDirectLine" placeholder="{{ 'Direct line' | translate }}"
+                                            name="SmsDirectLine" readonly/>
+                                    </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="SmsFaxLine">
+                                            <input type="checkbox" class="checkFaxLine"  [(ngModel)]="checkFaxLine" /> {{ 'Fax Number' | translate }}</label>
+                                        <div>
+            
+                                            <input type="text" class="form-control textbox-with-checkBox" [(ngModel)]="SmsFaxLine" placeholder="{{ 'Fax Number' | translate }}"
+                                                name="SmsFaxLine" readonly/>
+                                        </div>
+                                    </div>
+                               
+                            </div>
+                        </div>
+                    </bs-modal-body>
+                    <bs-modal-footer>
+                        <button type="button" class="primary-button btn btn-default" (click)='sendSMS()'>{{ 'Send' | translate }}</button>
+                        <button type="button" class="btn btn-default" (click)="hidePopUp('modalSendSMS')">{{ 'Cancel' | translate }}</button>
+            
+                    </bs-modal-footer>
+                </bs-modal>
+        
+                <bs-modal #modalImport id="modalImport" dir="{{!isLangArabic ?'ltr':'rtl'}}">
+                    <bs-modal-header [showDismiss]="false">
+                        <button type="button" class="close" data-dismiss="modal" [ngClass]="!isLangArabic? 'float-right':'float-left'">
+                            <span aria-hidden="true">&times;</span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                        <h4 class="modal-title">{{ 'Import Csv' | translate }}</h4>
+                    </bs-modal-header>
+                    <bs-modal-body>
+                        {{'Upload Csv file' | translate }}
+                        <input type="file" #fileImportInput name="csv_data" id="txtFileUpload" class="btn btn-primary" (change)="fileChangeListener($event)"
+                            accept=".csv" />
+                    </bs-modal-body>
+                    <bs-modal-footer>
+                        <button type="button" class="btn btn-primary" (click)="import()">{{ 'Import' | translate }}</button>
+                        <button type="button" class="btn btn-default" (click)="hidePopUp('modalImport')">{{ 'Cancel' | translate }}</button>
+                    </bs-modal-footer>
+                </bs-modal>
+            </div>
+        </div>
+       

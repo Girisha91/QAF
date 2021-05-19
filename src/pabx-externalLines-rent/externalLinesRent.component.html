@@ -1,0 +1,195 @@
+<div class="exterrent">
+    <div class="container">
+        <div class="listgroup content-margin">
+            <!-- <div class="col-md-12 margin-bottom" [ngClass]="!isLangArabic? 'right-align':''">
+            <button type="button" (click)="AddEL(el)" class="btn btn-default primary" *ngIf="opr==0">
+                {{title}}</button>
+            <button type="button" (click)="UpdateEL(el)" class="btn btn-default primary" *ngIf="opr==1">
+                {{title}}</button>
+            <button type="button" (click)="closeAndRedirect()" class="btn btn-default">
+                الى الخلف </button>
+        </div> -->
+            <div class="row">
+                <div class="col-md-12" style="margin-top:0px;">
+                    <div class="col-md-12 plr-0">
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="col-md-12 whitebc right-align">
+                                    <div style="display: flex;">
+                                        <b class="page-head
+                                            table-header-margin">{{title}}</b>
+                                    </div>
+                                    <hr class="mtb-0 line" />
+                                    <button *ngIf="opr==2" type="button"
+                                        (click)="closeAndRedirect()" class="btn
+                                        btn-default">
+                                        الى الخلف </button>
+                                </div>
+                                <!-- <div class="panel-heading">
+                                <div class="inline-display">
+                                    <h3 class="panel-title">
+                                        {{title}}</h3>
+                                </div>
+
+                                <div style="float:right;" class="inline-display">(
+                                    <span class="error"> * </span>) إلزامي</div>
+                            </div> -->
+                                <div class="panel-body">
+                                    <div class="form-group col-md-12">
+
+                                        <div class="form-row">
+                                            <div class="form-group col-md-4">
+                                                <label for="telephone_no">
+                                                    رقم الهاتف
+                                                </label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="el.telephone_no"
+                                                    name="telephone_no"
+                                                    class="form-control"
+                                                    id="telephone_no"
+                                                    placeholder="رقم الهاتف"
+                                                    />
+                                                <div
+                                                    [hidden]="errorTelephone==''"
+                                                    class="error">{{errorTelephone}}</div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="rent_start_date">
+                                                    تاريخ بدء الايجار
+                                                </label>
+                                                <input type="text" bsDatepicker
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="el.rent_start_date"
+                                                    name="rent_start_date"
+                                                    class="form-control"
+                                                    id="rent_start_date"
+                                                    placeholder="تاريخ بدء الايجار"
+                                                     [bsConfig]="{
+                                                    dateInputFormat:
+                                                    'DD-MM-YYYY' }"
+                                                    />
+                                                <div
+                                                    [hidden]="errorRentStartDate==''"
+                                                    class="error">{{errorRentStartDate}}</div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="rent_end_date">
+                                                    تاريخ نهاية الايجار
+                                                </label>
+                                                <input type="text" bsDatepicker
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="el.rent_end_date"
+                                                    name="rent_end_date"
+                                                    class="form-control"
+                                                    id="rent_end_date"
+                                                    placeholder="تاريخ بدء الايجار"
+                                                    [bsConfig]="{
+                                                    dateInputFormat:
+                                                    'DD-MM-YYYY' }"
+                                                    />
+                                                <div
+                                                    [hidden]="errorRentEndDate==''"
+                                                    class="error">{{errorRentEndDate}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-4">
+                                                <label for="rent_amount">
+                                                    قيمة الايجار
+                                                </label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="el.rent_amount"
+                                                    name="rent_amount"
+                                                    class="form-control"
+                                                    id="rent_amount"
+                                                    placeholder="قيمة الايجار"
+                                                    />
+                                                <div
+                                                    [hidden]="errorRentAmount==''"
+                                                    class="error">{{errorRentAmount}}</div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="Bill_no">
+                                                    ملاحظات
+                                                </label>
+                                                <textarea
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="el.Bill_no"
+                                                    name="Bill_no"
+                                                    class="form-control"
+                                                    id="Bill_no"></textarea>
+                                                <div [hidden]="errorBill_no==''"
+                                                    class="error">{{errorBill_no}}</div>
+                                            </div>
+
+                                            <div class="form-group col-md-4">
+                                                <label for="remarks">
+                                                    رقم الرصيد
+
+                                                </label>
+                                                <textarea
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="el.remarks"
+                                                    name="remarks"
+                                                    class="form-control"
+                                                    id="remarks"></textarea>
+                                                <div [hidden]="errorRemarks==''"
+                                                    class="error">{{errorRemarks}}</div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="status">
+                                                    الحالة
+                                                </label>
+                                                <select class="form-control"
+                                                    ngControl="st"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="el.status"
+                                                    required>
+                                                    <option *ngFor="let st of
+                                                        StatusList"
+                                                        [value]="st.value">{{st.label}}</option>
+                                                </select>
+                                                <div [hidden]="errorStatus==''"
+                                                    class="error">{{errorStatus}}</div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-12 center-align">
+                                        <button type="button" *ngIf="opr==1"
+                                            (click)="UpdateEL(el)" class="btn
+                                            btn-default primary">
+                                            {{title}}</button>
+                                        <button type="button" *ngIf="opr==0"
+                                            (click)="AddEL(el)" class="btn
+                                            btn-default primary">
+                                            {{title}}</button>
+                                        <button type="button"
+                                            (click)="closeAndRedirect()"
+                                            class="btn btn-default">
+                                            إلغاء</button>
+                                        <br/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="col-md-12 center-align">
+                    <button type="button" *ngIf="opr==1" (click)="UpdateEL(el)" class="btn btn-default primary">
+                        {{title}}</button>
+                    <button type="button" *ngIf="opr==0" (click)="AddEL(el)" class="btn btn-default primary">
+                        {{title}}</button>
+                    <button type="button" (click)="closeAndRedirect()" class="btn btn-default">
+                        إلغاء</button>
+                    <br/>
+                </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="ar current-lang" [ngClass]="getArStyleClass()">
+        <app-nav ></app-nav>
+        </div> -->
+    </div>

@@ -1,0 +1,123 @@
+.supplier-container{
+    margin: 0%  2% 2% 2%;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26), 0 2px 10px 0 rgba(0,0,0,0.16);
+    background-color: #ffffff;
+    padding: 0;
+}
+
+.supplier-container th{
+    border-top: 0 !important;
+}
+
+.formPanelListhead{
+    background-color: #eee;
+    line-height: 40px;
+    font-size: 16px;
+    color: #635353 !important;
+    height: 50px;
+  }
+  .storeSupplierHead{
+    /* height: 26px; */
+    opacity: 0.87;
+    color: #700909;
+    font-family: Roboto;
+    font-size: 20px;
+    line-height: 30px;
+    float: left;
+    padding-right: 15px;
+    padding-top: 10px;
+  }
+.pr-7{
+    padding-right: 7px;
+}
+  .mbrpt-152{
+      margin-bottom: 15px;
+      margin-right: 15px;
+      padding-top: 3px;
+      text-align: right !important;
+  }
+
+  .storeSupplyList tbody tr .fixed-column-1 {
+    /* left: 10%; */
+    min-width: 1px !important;
+    text-align: left;
+    font-weight: bolder;
+    font-size: 12px;
+    padding: 0px !important;
+    padding-top: 7px !important;
+}
+
+.storeSupplyList .fixed-column-1, .storeSupplyList .fixed-column-2, .storeSupplyList .fixed-column-3 {
+    position: absolute;
+    border-top: none;
+    text-align: center;
+    background-color: #ffffff !important;
+}
+
+.storeSupplyList td, .storeSupplyList th {
+    white-space: unset !important;
+    padding: 5px 20px !important;
+    min-width: 195px !important;
+}
+
+.ml-8{
+    margin-left: 0%;
+    margin-right: 9%;
+}
+
+@media only screen  and (min-width : 1824px) {
+    .strsupdb .enfixcol{
+        left: 7.5% !important;
+    }
+    .strsupdb .ml-8{
+        margin-left: 0% !important;
+        margin-right: 6% !important
+    }
+    .strsupdb .arfixcol{
+        left: 3% !important;
+    }
+    .strsupdb .fullsize{
+        line-height: 1.2;
+        font-size: 14px ;
+    }
+}
+
+.strsupdb .enfixcol{
+    left: 8%;
+    min-width: 1px !important;
+}
+.arfixcol{
+    left: 6%;
+    min-width: 1px !important;
+}
+
+.strsupdb .fullsize{
+    line-height: 1.2 ;
+    font-size: 14px ;
+}
+.strsupdb .fixth {
+    padding: 5px 20px !important;
+    line-height: 1.42857143 !important;
+    margin-top: 1rem !important;
+    font-family: Roboto;
+    font-size: 14px;
+}
+
+.strsupdb .enrt{
+    right: 2%;
+    }
+    .strsupdb .arrt{
+    right: 7%;
+    }
+
+.strsupdb .fixed-1 {
+    /* right: 2% !important; */
+    min-width: 50px !important;
+    text-align: right;
+    font-weight: bolder;
+    padding: 5px 20px !important;
+    width: fit-content !important;
+    position: absolute;
+    border-bottom: none !important;
+    
+}

@@ -1,0 +1,788 @@
+<style>
+.ht {
+    min-height: 10vh;
+}
+</style>
+
+<header></header>
+<div class="extline">
+    <div class="card">
+            <div class="header">
+                    <div class="row Pagename">
+                      <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                        <b class="page-head">خطوط خارجية</b>
+                      </div>
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 ftrt" *ngIf="lastUpdatedDate">
+                        Date Last Updated: {{lastUpdatedDate}}
+                      </div>
+                    </div>
+                    <div class="row srcrow">
+                      <div class="col-lg-8 col-md-8 col-sm-8" [ngStyle]="{'visibility': checkOperation('13','6') ? 'visible' : 'hidden'}">
+                        <form [(formGroup)]="searchForm"
+                          (ngSubmit)="OnSubmit(searchForm.value)">
+                          <div class="search-form margin-bottom" formArrayName="items"
+                            *ngFor="let item of items.controls; let i= index;">
+                            <div class="position-relative form-id-{{i}}" [formGroupName]="i">
+                              <div class="row pos">
+                                <div class="col-lg-4 col-md-4
+                                  col-sm-4 pr-0">
+                                  <label class="text-center">بحث</label>
+                                  <select id="ddlselect{{i}}" class="drop-down
+                                    form-control text-center wd-80 mt-3
+                                    inline-display" (change)="onChange($event)"
+                                    formControlName="fieldName">
+                                    <option value="">تحديد</option>
+                                    <option *ngFor="let state of searchKeyArray"
+                                      [value]="state.item">{{state.label}}</option>
+                                  </select>
+                                </div>
+                                <div class="col-lg-4 col-sm-4
+                                  col-md-4 pl-0">
+                                  <input class="drop-down wd-100 form-control inline-display mt-3"
+                                    type="text" formControlName="fieldValue"
+                                    placeholder="القيمة" />                                  
+                                </div>
+                                <select class="hide drop-down form-control node-select"
+                                  formControlName="fieldValue">
+                                  <option value="">تحديد</option>
+                                  <option *ngFor="let state of nodeArray" [value]="state">{{state}}</option>
+                                </select>
+                                <div class="col-lg-3 col-md-3
+                                  col-sm-3" style="padding: 0;padding-top: 1px;">
+                                  <button type="submit" class="primary mt-3">بحث :</button>
+                                  <a class="inline-display add-anch"
+                                    (click)="addItem()">أضف المزيد</a>
+                                  <span class="vertical-line"></span>
+                                  <a class="inline-display clr-anch"
+                                    (click)="cancelSearch()">واضح</a>
+                                  <i class="fa fa-times custom primary-color cursor-pointer"
+                                    *ngIf="!(i===0)" (click)="deleteAction(i)"
+                                    aria-hidden="true"></i>
+                                </div>                                
+                              </div>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-4 h-6 ftrt pos">
+                        <!-- <a class="primary mt-3" *ngIf="checkOperation('13','1')" routerLink='/pabx/external-lines/add'>{{ 'إضافة' }}</a> -->
+                        <button type="button" class="primary" *ngIf="checkOperation('13','1')" style="width: auto !important;margin-top: 1%;"
+                        routerLink='/pabx/external-lines/add'>{{ 'إضافة' }}</button>
+                        <button type="button" class="primary" *ngIf="checkOperation('13','1')" style="width: auto !important;margin-top: 1%;"
+                          (click)='showUploaPopUp("modalImport")'>{{ 'استيراد خطوط خارجية' | translate }}</button>
+                        <button type="button" class="primary" *ngIf="checkOperation('13','1')" style="width: auto !important;margin-top: 1%;"
+                          (click)='showUploaPopUp("modalImportRent")'>{{ 'استيراد الايجارات' | translate }}</button>
+                      </div>
+                    </div>
+                  </div>
+<div class="main">
+    <div id="tableContainer">
+        <table class=" pabx-externalLines pabx-table tbl-employee table highLightTable">
+            <tr class="tr-fonts">
+                <th class="cursor-pointer fixed-1 fix-top" [ngClass]="!isLangArabic? 'enlt1':'arlt1'" (click)="toggleAdvanceSearch()">
+                    <span class="fa fa-search" title="show Advance Search"></span>
+                </th>
+                <th class="fixed-2 fix-top" [ngClass]="!isLangArabic? 'enlt2':'arlt2'">
+                    عمل
+                </th>
+                <th (click)="sort('category')"> الخاصية
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'category',
+                    'fa-sort-asc': (column == 'category' && !isDesc),
+                    'fa-sort-desc': (column == 'category' && isDesc) }" aria-hidden="true"></i>
+                </th>
+                <th (click)="sort('account_no')">رقم الحساب
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'account_no',
+                      'fa-sort-asc': (column == 'account_no' && !isDesc),
+                     'fa-sort-desc': (column == 'account_no' && isDesc) }" aria-hidden="true"></i>
+                </th>
+                <th (click)="sort('telephone_no')">رقم الهاتف
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Usertelephone_no',
+                  'fa-sort-asc': (column == 'telephone_no' && !isDesc),
+                  'fa-sort-desc': (column == 'telephone_no' && isDesc) }" aria-hidden="true"></i>
+                </th>                
+                <th (click)="sort('Ooredoo_Customer_no')">رقم هاتف عميل اوريدو
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Ooredoo_Customer_no	',
+                    'fa-sort-asc': (column == 'Ooredoo_Customer_no	' && !isDesc),
+                    'fa-sort-desc': (column == 'Ooredoo_Customer_no	' && isDesc) }" aria-hidden="true"></i>
+                </th>
+                <th (click)="sort('authority')">الصلاحية
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'authority',
+                      'fa-sort-asc': (column == 'authority' && !isDesc),
+                     'fa-sort-desc': (column == 'authority' && isDesc) }" aria-hidden="true"></i>
+                </th>
+                <th (click)="sort('date_installation')">تاريخ التركيب
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'date_installation',
+                      'fa-sort-asc': (column == 'date_installation' && !isDesc),
+                      'fa-sort-desc': (column == 'date_installation' && isDesc) }" aria-hidden="true"></i>
+                </th>
+                <th (click)="sort('Distribution_Menu')">قائمة التوزيع
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Distribution_Menu',
+                      'fa-sort-asc': (column == 'Distribution_Menu' && !isDesc),
+                      'fa-sort-desc': (column == 'Distribution_Menu' && isDesc) }" aria-hidden="true"></i>
+                </th>
+                <th (click)="sort('Distribution_Unit')">وحدة التوزيع
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'Distribution_Unit',
+                      'fa-sort-asc': (column == 'Distribution_Unit' && !isDesc),
+                      'fa-sort-desc': (column == 'Distribution_Unit' && isDesc) }" aria-hidden="true"></i>
+                </th>                
+                <th (click)="sort('location')">الموقع
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'location',
+                                    'fa-sort-asc': (column == 'location' && !isDesc),
+                                    'fa-sort-desc': (column == 'location' && isDesc) }" aria-hidden="true"></i>
+                </th>
+                <th (click)="sort('request_refe_no')">طلب رقم المرجع
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'request_refe_no',
+                                        'fa-sort-asc': (column == 'request_refe_no' && !isDesc),
+                                        'fa-sort-desc': (column == 'request_refe_no' && isDesc) }"
+                        aria-hidden="true"></i>
+                </th>
+                <th (click)="sort('username')">رقم المستخدم
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'username',
+                                            'fa-sort-asc': (column == 'username' && !isDesc),
+                                            'fa-sort-desc': (column == 'username' && isDesc) }" aria-hidden="true"></i>
+                </th>
+                <th (click)="sort('type_service')">نوع الخدمة
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'type_service',
+                                            'fa-sort-asc': (column == 'type_service' && !isDesc),
+                                            'fa-sort-desc': (column == 'type_service' && isDesc) }"
+                        aria-hidden="true"></i>
+                </th>
+                <th (click)="sort('customer_name')">اسم الزبون
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'customer_name',
+                                                        'fa-sort-asc': (column == 'customer_name' && !isDesc),
+                                                        'fa-sort-desc': (column == 'customer_name' && isDesc) }"
+                        aria-hidden="true"></i>
+                </th>
+                <th (click)="sort('did_number_range')">نطاق الأرقام 
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'did_number_range',
+                                                            'fa-sort-asc': (column == 'did_number_range' && !isDesc),
+                                                            'fa-sort-desc': (column == 'did_number_range' && isDesc) }"
+                        aria-hidden="true"></i>
+                </th>
+                <th (click)="sort('package')">حزمة
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'package',
+    'fa-sort-asc': (column == 'package' && !isDesc),
+    'fa-sort-desc': (column == 'package' && isDesc) }" aria-hidden="true"></i>
+                </th>
+                <th (click)="sort('mdf_info')">معلومات 
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'mdf_info',
+        'fa-sort-asc': (column == 'mdf_info' && !isDesc),
+        'fa-sort-desc': (column == 'mdf_info' && isDesc) }" aria-hidden="true"></i>
+                </th>
+                <th (click)="sort('dp_info')">معلومات 
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'dp_info',
+            'fa-sort-asc': (column == 'dp_info' && !isDesc),
+            'fa-sort-desc': (column == 'dp_info' && isDesc) }" aria-hidden="true"></i>
+                </th>
+                <th (click)="sort('connected_wall_socket_info')">معلومات مقبس الحائط
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'connected_wall_socket_info',
+                'fa-sort-asc': (column == 'connected_wall_socket_info' && !isDesc),
+                'fa-sort-desc': (column == 'connected_wall_socket_info' && isDesc) }" aria-hidden="true"></i>
+                </th>
+            </tr>
+            <tbody class="searchBox" *ngIf="showAdvanceSearch" [ngClass]="{'hidden-menu': !showMenu}">
+                <tr>
+                    <td class="external-line-fixed fixed-1" [ngClass]="!isLangArabic? 'enlt1':'arlt1'"></td>
+                    <td class="external-line-fixed fixed-2 vertically-align-middle" [ngClass]="!isLangArabic? 'enlt2':'arlt2'"
+                        (click)="closeandClearAdvanceSearch()">
+                        <span class="glyphicon glyphicon-remove cursor-pointer primary-color"></span>
+                    </td>                    
+                    <td>
+                        <input type="text" name="searchCategory" [(ngModel)]="searchCategory"
+                            class="searchCategory textbox-height form-control"
+                            placeholder="{{ 'الخاصية' | translate }}" />
+                    </td>
+                    <td>
+                        <input type="text" name="searchAccountNo" [(ngModel)]="searchAccountNo"
+                            class="searchAccountNo textbox-height form-control"
+                            placeholder="{{ 'رقم الحسا' | translate }}" />
+                    </td>
+                    <td>
+                        <input type="text" name="searchTelephoneNo" [(ngModel)]="searchTelephoneNo"
+                            class="searchTelephoneNo textbox-height form-control"
+                            placeholder="{{ 'رقم الهاتف' | translate }}" />
+                    </td>
+                    <td>
+                        <input type="text" name="searchOoredooCustomerNo" [(ngModel)]="SearchOoredooCustomerNo"
+                            class="searchOoredooCustomerNo textbox-height form-control"
+                            placeholder="{{ 'رقم هاتف عميل اوريدو' | translate }}" />
+                    </td>
+                    <td>
+                        <input type="text" name="searchAuthority" [(ngModel)]="searchAuthority"
+                            class="searchAuthority textbox-height form-control"
+                            placeholder="{{ 'الصلاحية' | translate }}" />
+                    </td>
+                    <td>
+                        <input type="text" name="searchDateInstallation" [(ngModel)]="searchDateInstallation"
+                            class="searchDateInstallation textbox-height form-control"
+                            placeholder="{{ 'تاريخ التركيب' | translate }}" />
+                    </td>
+                    <td>
+                        <input type="text" name="searchDistributionMenu" [(ngModel)]="searchDistributionMenu"
+                            class="searchDistributionMenu textbox-height form-control"
+                            placeholder="{{ 'قائمة التوزيع ' | translate }}" />
+                    </td>
+                    <td>
+                        <input type="text" name="searchDistributionUnit" [(ngModel)]="searchDistributionUnit"
+                            class="searchDistributionUnit textbox-height form-control"
+                            placeholder="{{ 'وحدة التوزيع' | translate }}" />
+                    </td>
+                    <td>
+                        <input type="text" name="searchLocation" class="searchLocation textbox-height form-control"
+                            [(ngModel)]="searchLocation" placeholder="{{ 'الموقع' | translate }}" />
+                    </td>
+                    <td>
+                        <input type="text" name="searchRequestRefNo"
+                            class="searchRequestRefNo textbox-height form-control" [(ngModel)]="searchRequestRefNo"
+                            placeholder="{{ 'طلب رقم المرجع' | translate }}" />
+                    </td>
+                    <td>
+                        <input type="text" name="searchUserName" class="searchUserName textbox-height form-control"
+                            [(ngModel)]="searchUserName" placeholder="{{ 'رقم المستخدم ' | translate }}" />
+                    </td>
+                    <td>
+                        <input type="text" name="searchTypeService" [(ngModel)]="searchTypeService"
+                            class="searchTypeService textbox-height form-control"
+                            placeholder="{{ 'نوع الخدمة' | translate }}" />
+                    </td>
+                    <td>
+                        <input type="text" name="searchCustomerName"
+                            class="searchCustomerName textbox-height form-control" [(ngModel)]="searchCustomerName"
+                            placeholder="{{ 'اسم الزبون' | translate }}" />
+                    </td>
+                    <td>
+                        <input type="text" name="searchDidNumberRange"
+                            class="searchDidNumberRange textbox-height form-control" [(ngModel)]="searchDidNumberRange"
+                            placeholder="{{ 'نطاق الأرقام DID' | translate }}" />
+                    </td>
+                    <td>
+                        <input type="text" name="searchPackage" class="searchPackage textbox-height form-control"
+                            [(ngModel)]="searchPackage" placeholder="{{ 'حزمة' | translate }}" />
+                    </td>
+                    <td>
+                        <input type="text" name="searchMdfInfo" class="searchMdfInfo textbox-height form-control"
+                            [(ngModel)]="searchMdfInfo" placeholder="{{ 'معلومات MDF' | translate }}" />
+                    </td>
+                    <td>
+                        <input type="text" name="searchDpInfo" class="searchDpInfo textbox-height form-control"
+                            [(ngModel)]="searchDpInfo" placeholder="{{ 'معلومات DP' | translate }}" />
+                    </td>
+                    <td>
+                        <input type="text" name="searchConnectedWallSocketInfo"
+                            class="searchConnectedWallSocketInfo textbox-height form-control"
+                            [(ngModel)]="searchConnectedWallSocketInfo"
+                            placeholder="{{ 'معلومات مقبس الحائط' | translate }}" />
+                    </td>
+
+                </tr>
+            </tbody>
+            <tbody
+                *ngFor="let emp of EmployeeDetails | externalLineSearch:searchCategory: searchAccountNo: searchTelephoneNo: searchOoredooCustomerNo: searchAuthority:searchDateInstallation:searchDistributionMenu:searchDistributionUnit:searchLocation:searchRequestRefNo:searchUserName:searchTypeService:searchCustomerName:searchDidNumberRange:searchPackage:searchMdfInfo:searchDpInfo:searchConnectedWallSocketInfo | orderBy: {property: column, direction: direction} | FilterPipe: queryString : searchableList |paginate: {itemsPerPage: 10, currentPage:page, id: '1'}; let i = index"
+                #someVar>
+                <tr *ngIf="EmployeeDetails?.length > 0" (click)="setClickedRow(emp)" [class.active]="emp.highLightRow">
+                    <td class="fixed-1" [ngClass]="!isLangArabic? 'enlt1':'arlt1'">
+                        <span class="cursor-pointer  fa " [ngClass]="(!emp?.hideInnerEmpRow)?'fa-expand':'fa-compress'"
+                            (click)="toggleHiddenEmpRow(emp)"></span>
+                    </td>
+                    <td class="fixed-2" [ngClass]="!isLangArabic? 'enlt2':'arlt2'">
+                        <a class="primary-color cursor-pointer table-action-icon fa fa-eye fa-lg pr-7"
+                            title="{{'View ExternalLines'| translate}}" 
+                            [routerLink]="['/pabx/external-lines/view/', emp.id]"
+                            ></a>
+                        <a class="primary-color table-action-icon fa fa-wrench fa-lg pr-7" *ngIf="checkOperation('13','2')"
+                            title="{{'View or Edit ExternalLines'| translate}}"
+                            [routerLink]="['/pabx/external-lines/edit/', emp.id]"></a>
+                        <a class="primary-color cursor-pointer table-action-icon fa fa-trash-o fa-lg pr-7" *ngIf="checkOperation('13','3')"
+                            (click)="showDeactivateExternalLinesPopup(emp)" title="Delete ExternalLines "></a>
+                        <a [routerLink]="['/pabx/external-lines-rent/add/', emp.telephone_no]"
+                            class="primary-color table-action-icon fa fa-plus fa-lg pr-7"
+                            title="{{'Add Rent'| translate}}"></a>
+                    </td>
+                    <td>{{emp.category}}</td>
+                    <td>{{emp.account_no}}</td>
+                    <td class="word-break">{{emp.telephone_no}}</td>
+                    <td>{{emp.Ooredoo_Customer_no}}</td>
+                    <td>{{emp.authority}}</td>
+                    <td>{{emp.date_installation}}</td>
+                    <td>{{emp.Distribution_Menu}}</td>
+                    <td>{{emp.Distribution_Unit}}</td>
+                    <td class="whtspc">{{emp.location}}</td>
+                    <td>{{emp.request_refe_no}}</td>
+                    <td>{{emp.username}}</td>
+                    <td>{{emp.type_service}}</td>
+                    <td>{{emp.customer_name}}</td>
+                    <td>{{emp.did_number_range}}</td>
+                    <td>{{emp.package}}</td>
+                    <td>{{emp.mdf_info}}</td>
+                    <td>{{emp.dp_info}}</td>
+                    <td>{{emp.connected_wall_socket_info}}</td>
+                </tr>
+                <ng-container *ngIf="emp?.hideInnerEmpRow">
+                    <tr rowspan="99" class="inner-tr" [ngClass]="emp.hideInnerEmpRow? 'display-block':'hidden-row'">
+                        <td class="bk-dark border-bottom" colspan="99">
+                            <table class="tbl-employee table" style="width: 999px;">
+                                <tr class="tr-fonts">
+                                    <th>عمل</th>
+                                    <th>تاريخ بدء الايجار
+                                    </th>
+                                    <th>تاريخ نهاية الايجار
+                                    </th>
+                                    <th>قيمة الايجار
+                                    </th>
+                                    <th> رقم الرصيد
+                                    </th>
+                                    <th>ملاحظات
+                                    </th>
+                                    <th>وأضاف في</th>
+                                    <th>تم التحديث في</th>
+                                </tr>
+                                <tbody *ngFor="let emp1 of emp.rent_item ; let i = index" #someVar>
+                                    <tr>
+                                        <td class="no-word-wrap">
+                                            <a class="primary-color cursor-pointer table-action-icon fa fa-eye fa-lg"
+                                                title="{{'View Rent Details'| translate}}"
+                                                [routerLink]="['/pabx/external-lines-rent/view/', emp1.id]"></a>
+                                            <a *ngIf="checkOperation('1','2')"
+                                                [routerLink]="['/pabx/external-lines-rent/edit', emp1.id]"
+                                                class="primary-color table-action-icon fa fa-wrench fa-lg"
+                                                title="{{'Edit Rent Details'| translate}}"></a>
+                                            <a class="primary-color cursor-pointer table-action-icon fa fa-trash-o fa-lg"
+                                                (click)="showDeactivateExternalLinesRentPopup(emp1)"
+                                                title="Delete Rent"></a>
+                                        </td>
+                                        <td>{{emp1.rent_start_date}}</td>
+                                        <td>{{emp1.rent_end_date}}</td>
+                                        <td>{{emp1.rent_amount}}</td>
+                                        <td>{{emp1.Bill_no}}</td>
+                                        <td>{{emp1.remarks}}</td>
+                                        <td>{{emp1.added_at}}</td>
+                                        <td>{{emp1.updated_at}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </ng-container>
+            </tbody>
+            <tbody *ngIf="EmployeeDetails?.length == 0">
+                <tr>
+                    <td></td>
+                    <td colspan="1000">
+                        No records found.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="right-align">
+        <pagination-controls (pageChange)="page = $event" id="1" maxSize="5" directionLinks="true" autoHide="true">
+        </pagination-controls>
+    </div>
+</div>
+</div>
+<div class="form-row">
+    <bs-modal #modalDeactivate id="modalDeactivate" dir="{{!isLangArabic ?'ltr':'rtl'}}">
+        <bs-modal-header [showDismiss]="false">
+            <button type="button" class="close" data-dismiss="modal"
+                [ngClass]="!isLangArabic? 'float-right':'float-left'">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <h4 class="modal-title">{{ 'Delete ExternalLine' | translate }}</h4>
+        </bs-modal-header>
+        <bs-modal-body>
+            {{'Are you sure you want to Delete this ExternalLine' | translate }}
+        </bs-modal-body>
+        <bs-modal-footer>
+            <button type="button" class="btn btn-danger"
+                (click)="deleteExternalLines()">{{ 'Delete' | translate }}</button>
+            <button type="button" class="btn btn-default"
+                (click)="hidePopUp('modalDeactivate')">{{ 'Cancel' | translate }}</button>
+        </bs-modal-footer>
+    </bs-modal>
+    <bs-modal #modalDeactivate1 id="modalDeactivate1" dir="{{!isLangArabic ?'ltr':'rtl'}}">
+        <bs-modal-header [showDismiss]="false">
+            <button type="button" class="close" data-dismiss="modal"
+                [ngClass]="!isLangArabic? 'float-right':'float-left'">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <h4 class="modal-title">{{ 'Delete ExternalLineRents' | translate }}</h4>
+        </bs-modal-header>
+        <bs-modal-body>
+            {{'Are you sure you want to Delete this ExternalLineRents' | translate }}
+        </bs-modal-body>
+        <bs-modal-footer>
+            <button type="button" class="btn btn-danger"
+                (click)="deleteExternalLinesRents()">{{ 'Delete' | translate }}</button>
+            <button type="button" class="btn btn-default"
+                (click)="hidePopUp('modalDeactivate1')">{{ 'Cancel' | translate }}</button>
+        </bs-modal-footer>
+    </bs-modal>
+    <bs-modal #modalSendSMS id="modalSendSMS" dir="{{!isLangArabic ?'ltr':'rtl'}}">
+        <bs-modal-header [showDismiss]="false">
+            <button type="button" class="close" [ngClass]="!isLangArabic? 'float-right':'float-left'"
+                data-dismiss="modal">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <h4 class="modal-title">{{'Send Sms'| translate }}</h4>
+            <br />
+            <div class="modal-title" id="SendsmsModalLabel">
+                <label>{{'TO'| translate }}</label>
+                <span>
+                    <input type="text" class="form-control" [(ngModel)]="txtToNumber" id="ToMobileNo."
+                        placeholder="{{'Enter Contact No.'| translate }}" name="ToMobileNo"
+                        style="display: inline-block; width: 90%;" />
+                </span>
+            </div>
+        </bs-modal-header>
+        <bs-modal-body>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group ht ht">
+                        <label for="SmsId">
+                            <input type="checkbox" [(ngModel)]="checkId" (click)="filterData('id')" />
+                            {{ 'MilitaryId' | translate }}
+                        </label>
+                        <input type="text" class="form-control" [(ngModel)]="SmsId" placeholder="{{ 'ID' | translate }}"
+                            name="SmsId" />
+                    </div>
+                    <div class="form-group ht ht">
+                        <label for="SmsName">
+                            <input type="checkbox" [(ngModel)]="checkName" (click)="filterData('name')" />
+                            {{ 'NAME' | translate }}
+                        </label>
+                        <input type="text" class="form-control" [(ngModel)]="SmsName"
+                            placeholder="{{ 'NAME' | translate }}" name="SmsName" />
+                    </div>
+                    <div class="form-group ht ht">
+                        <label for="SmsRank">
+                            <input type="checkbox" [(ngModel)]="checkRank" (click)="filterData('rank')" />
+                            {{ 'RANK' | translate }}
+                        </label>
+                        <input type="email" class="form-control" [(ngModel)]="SmsRank"
+                            placeholder="{{ 'RANK' | translate }}" name="SmsRank" />
+                    </div>
+                    <div class="form-group ht ht">
+                        <label for="SmstelMobile">
+                            {{ 'TEL-Office' | translate }}
+                        </label>
+                        <div>
+                            <input type="checkbox" [(ngModel)]="checkOfficePhone1" (click)="filterData('offPhone1')" />
+                            <input type="text" class="form-control textbox-with-checkBox" [(ngModel)]="SmstelOffice"
+                                placeholder="{{ 'TEL-Office' | translate }}" name="SmstelMobile" />
+                        </div>
+                        <div>
+                            <input type="checkbox" [(ngModel)]="checkOfficePhone2" (click)="filterData('offPhone2')" />
+                            <input type="text" class="form-control  textbox-with-checkBox" [(ngModel)]="SmstelOffice1"
+                                placeholder="{{ 'TEL-Office' | translate }}" name="SmstelOffice"
+                                style="margin-top: 5px; margin-bottom: 5px;" />
+                        </div>
+                        <div>
+                            <input type="checkbox" [(ngModel)]="checkOfficePhone3" (click)="filterData('offPhone3')" />
+                            <input type="text" class="form-control  textbox-with-checkBox" [(ngModel)]="SmstelOffice2"
+                                placeholder="{{ 'TEL-Office' | translate }}" name="SmstelOffice" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group ht">
+                        <label for="SmsPosition">
+                            <input type="checkbox" [(ngModel)]="checkPosition" (click)="filterData('pos')" />
+                            {{ 'POSITION' | translate }}
+                        </label>
+                        <input type="text" class="form-control" [(ngModel)]="SmsPosition"
+                            placeholder="{{ 'POSITION' | translate }}" name="SmsPosition" />
+                    </div>
+                    <div class="form-group ht">
+                        <label for="SmsCompany">
+                            <input type="checkbox" [(ngModel)]="checkDisList" (click)="filterData('disList')" />
+                            {{ 'DistributionUnit' | translate }}
+                        </label>
+                        <input type="Text" class="form-control" [(ngModel)]="SmsDistributionUnit"
+                            placeholder="{{ 'DistributionUnit' | translate }}" name="SmsCompany" />
+                    </div>
+                    <div class="form-group ht">
+                        <label for="SmstelOffice">
+                            <input type="checkbox" [(ngModel)]="checkMobile" (click)="filterData('mob')" />
+                            {{ 'TEL-Mobile' | translate }}
+                        </label>
+                        <div>
+                            <input type="text" class="form-control textbox-with-checkBox" [(ngModel)]="SmstelMobile"
+                                placeholder="{{ 'TEL-Mobile' | translate }}" name="SmstelOffice" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </bs-modal-body>
+        <bs-modal-footer>
+            <button type="button" class="primary-button btn btn-default"
+                (click)='sendSMS()'>{{ 'Send' | translate }}</button>
+            <button type="button" class="btn btn-default"
+                (click)="hidePopUp('modalSendSMS')">{{ 'Cancel' | translate }}</button>
+        </bs-modal-footer>
+    </bs-modal>
+    <bs-modal #modalImport id="modalImport" dir="{{!isLangArabic ?'ltr':'rtl'}}">
+        <bs-modal-header [showDismiss]="false">
+            <button type="button" class="close" data-dismiss="modal"
+                [ngClass]="!isLangArabic? 'float-right':'float-left'">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <h4 class="modal-title">{{ 'Import External Lines Csv' | translate }}</h4>
+        </bs-modal-header>
+        <bs-modal-body>
+            {{'Upload External Lines Csv file' | translate }}
+
+            <input type="file" #fileImportInput name="csv_data" id="txtFileUpload" class="btn btn-primary"
+                (change)="fileChangeListener($event,'external_lines')" accept=".csv" />
+        </bs-modal-body>
+        <bs-modal-footer>
+            <button type="button" class="btn btn-primary" (click)='import()'>{{ 'import' | translate }}</button>
+            <button type="button" class="btn btn-default"
+                (click)="hidePopUp('modalImport')">{{ 'Cancel' | translate }}</button>
+        </bs-modal-footer>
+    </bs-modal>
+    <bs-modal #modalImportRent id="modalImportRent" dir="{{!isLangArabic ?'ltr':'rtl'}}">
+        <bs-modal-header [showDismiss]="false">
+            <button type="button" class="close" data-dismiss="modal"
+                [ngClass]="!isLangArabic? 'float-right':'float-left'">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <h4 class="modal-title">{{ 'Import External Line Rent Csv' | translate }}</h4>
+        </bs-modal-header>
+        <bs-modal-body>
+            {{'Upload External Line Rent Csv file' | translate }}
+
+            <input type="file" #fileImportInput name="csv_data" id="txtFileUpload" class="btn btn-primary"
+                (change)="fileChangeListener($event,'external_lines_rent')" accept=".csv" />
+        </bs-modal-body>
+        <bs-modal-footer>
+            <button type="button" class="btn btn-primary" (click)='importRent()'>{{ 'importRent' | translate }}</button>
+            <button type="button" class="btn btn-default"
+                (click)="hidePopUp('modalImportRent')">{{ 'Cancel' | translate }}</button>
+        </bs-modal-footer>
+    </bs-modal>
+    <bs-modal #modalViewExternalLines id="modalViewExternalLines">
+        <!-- <div class="modal-dialog"> -->
+        <bs-modal-header [showDismiss]="false">
+            <div class="col-md-12 margin-bottom" [ngClass]="!isLangArabic? 'right-align':''">
+                <button type="button" (click)="AddEL(emp)" class="btn btn-default primary" *ngIf="opr==0">
+                    {{title}}</button>
+                <button type="button" (click)="UpdateEL(emp)" class="btn btn-default primary" *ngIf="opr==1">
+                    {{title}}</button>
+                <button type="button" (click)="hidePopUp('modalViewExternalLines')" class="btn btn-default">
+                    الى الخلف </button>
+            </div>
+
+        </bs-modal-header>
+        <bs-modal-body>
+            <div class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="inline-display">
+                            <h3 class="panel-title">
+                                    عرض الخطوط الخارجية</h3>
+                        </div>
+
+                        <!-- <div style="float:right;" class="panel-title">(
+                            <span class="error"> * </span>) إلزامي</div> -->
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group ht col-md-12">
+                            <div class="form-row">
+                                <div class="form-group ht col-md-4 col-sm-4 col-xs-4">
+                                    <label for="category">
+                                        الخاصية</label>
+                                    <select class="form-control" ngControl="st" [disabled]="isReadOnly"
+                                        [(ngModel)]="ExternalCategory" required>
+                                        <option *ngFor="let st of CatList" [value]="st.value">{{st.label}}</option>
+                                    </select>
+                                    <div [hidden]="errorCategory == ''" class="error">{{errorCategory}}</div>
+                                </div>
+                                <div class="form-group ht col-md-4 col-sm-4 col-xs-4">
+                                    <label for="account_no">
+                                        رقم الحساب</label>
+                                    <input type="text" [disabled]="isReadOnly" [(ngModel)]="ExternalAccountNo"
+                                        name="account_no" class="form-control" id="account_no"
+                                        placeholder="  رقم الحساب" />
+                                    <div [hidden]="errorAccountNo==''" class="error">{{errorAccountNo}}</div>
+
+                                </div>
+                                <div class="form-group ht col-md-4 col-sm-4 col-xs-4">
+                                    <label for="telephone_no">
+                                        رقم الهاتف
+                                    </label>
+                                    <input type="text" [disabled]="isReadOnly" [(ngModel)]="ExternalTelephoneNo"
+                                        name="telephone_no" class="form-control" id="telephone_no"
+                                        placeholder=" رقم الهاتف" />
+                                    <div [hidden]="errorTelephone==''" class="error">{{errorTelephone}}</div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group ht col-md-4 col-sm-4 col-xs-4">
+                                    <label for="Ooredoo_Customer_no">
+                                        رقم هاتف عميل اوريدو</label>
+                                    <input type="text" [disabled]="isReadOnly" [(ngModel)]="ExternalOoredooCustomerNo"
+                                        name="Ooredoo_Customer_no" class="form-control" id="Ooredoo_Customer_no"
+                                        placeholder=" رقم هاتف عميل اوريدو" />
+                                    <div [hidden]="errorOreCuscNo==''" class="error">{{errorOreCuscNo}}</div>
+                                </div>
+                                <div class="form-group ht col-md-4 col-sm-4 col-xs-4">
+                                    <label for="authority">
+                                        الصلاحية</label>
+                                    <input type="text" [disabled]="isReadOnly" [(ngModel)]="ExternalAuthority"
+                                        name="authority" class="form-control" id="authority" placeholder=" الصلاحية" />
+                                    <div [hidden]="errorAuthority==''" class="error">{{errorAuthority}}</div>
+                                </div>
+                                <div class="form-group ht col-md-4 col-sm-4 col-xs-4">
+                                    <label for="date_installation">
+                                        تاريخ التركيب</label>
+                                    <input type="text" [disabled]="isReadOnly" [(ngModel)]="ExternalDateInstallation"
+                                        name="date_installation" bsDatepicker class="form-control"
+                                        id="date_installation" placeholder=" تاريخ التركيب" />
+                                    <div [hidden]="errorDateIns==''" class="error">{{errorDateIns}}</div>
+
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-4 col-sm-4 col-xs-4">
+                                    <label for="Distribution_Menu">
+                                        قائمة التوزيع</label>
+                                    <input type="text" [disabled]="isReadOnly" [(ngModel)]="ExternalDistributionMenu"
+                                        name="Distribution_Menu" class="form-control" id="Distribution_Menu"
+                                        placeholder=" قائمة التوزيع" />
+                                    <!-- <select class="form-control" ngControl="rnk" (change)="onChange($event.target.value,'ar')" [disabled]="isReadOnly" [(ngModel)]="ExternalDistributionMenu">
+                                        <option value="">تحديد</option>
+                                        <option *ngFor="let rnk of distributionListArabic" [value]="rnk">{{rnk}}</option>
+                                    </select> -->
+                                    <!-- <div [hidden]="errorDistMenu==''" class="error">{{errorDistMenu}}</div> -->
+
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-4">
+                                    <label for="Distribution_Unit">
+                                        وحدة التوزيع</label>
+                                    <input type="text" [disabled]="isReadOnly" [(ngModel)]="ExternalDistributionUnit"
+                                        name="Distribution_Unit" class="form-control" id="Distribution_Unit"
+                                        placeholder=" وحدة التوزيع" />
+                                    <!-- <select class="form-control" ngControl="rnk" [disabled]="isReadOnly" [(ngModel)]="ExternalDistributionUnit">
+                                        <option value="">تحديد</option>
+                                        <option *ngFor="let rnk of distributionUnitArabic" [value]="rnk">{{rnk}}</option>
+                                    </select> -->
+                                    <!-- <div [hidden]="errorDistUnit==''" class="error">{{errorDistUnit}}</div> -->
+                                </div>
+                                <div class="form-group ht col-md-4 col-sm-4 col-xs-4">
+                                    <label for="location">موقعك
+                                    </label>
+                                    <input type="text" [disabled]="isReadOnly" [(ngModel)]="ExternalLocation"
+                                        name="location" class="form-control" id="location" placeholder="الموقع" />
+                                    <div [hidden]="errorLocation==''" class="error">{{errorLocation}}</div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group ht col-md-4 col-sm-4 col-xs-4">
+                                    <label for="request_refe_no">
+                                        طلب رقم المرجع</label>
+                                    <input type="text" [disabled]="isReadOnly" [(ngModel)]="ExternalRequestReferNo"
+                                        name="request_refe_no" class="form-control" id="request_refe_no"
+                                        placeholder="طلب رقم المرجع" />
+                                    <div [hidden]="errorRef==''" class="error">{{errorRef}}</div>
+
+                                </div>
+                                <div class="form-group ht col-md-4 col-sm-4 col-xs-4">
+                                    <label for="username">
+                                        رقم المستخدم</label>
+                                    <input type="text" [disabled]="isReadOnly" [(ngModel)]="ExternalUserName"
+                                        name="username" class="form-control" id="username" placeholder="رقم المستخدم" />
+                                    <div [hidden]="errorUsername==''" class="error">{{errorUsername}}</div>
+
+                                </div>
+                                <div class="form-group ht col-md-4 col-sm-4 col-xs-4">
+                                    <label for="type_service">
+                                        نوع الخدمة
+                                    </label>
+                                    <select class="form-control" ngControl="st" [disabled]="isReadOnly"
+                                        [(ngModel)]="ExternalTypeService" required>
+                                        <option *ngFor="let st of ServiceList" [value]="st.value">{{st.label}}</option>
+                                    </select>
+                                    <div [hidden]="errorTypeService==''" class="error">{{errorTypeService}}</div>
+
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group ht col-md-4 col-sm-4 col-xs-4">
+                                    <label for="customer_name">
+                                        اسم الزبون</label>
+                                    <input type="text" [disabled]="isReadOnly" [(ngModel)]="ExternalCustomerName"
+                                        name="customer_name" class="form-control" id="customer_name"
+                                        placeholder="اسم الزبون" />
+                                    <div [hidden]="errorCustomerName==''" class="error">{{errorCustomerName}}</div>
+
+                                </div>
+                                <div class="form-group ht col-md-4 col-sm-4 col-xs-4">
+                                    <label for="did_number_range">
+                                        نطاق الأرقام </label>
+                                    <input type="text" [disabled]="isReadOnly" [(ngModel)]="ExternalDidNumberRange"
+                                        name="did_number_range" class="form-control" id="did_number_range"
+                                        placeholder="نطاق الأرقام DID" />
+                                    <div [hidden]="errorDidNumberRange==''" class="error">{{errorDidNumberRange}}</div>
+
+                                </div>
+                                <div class="form-group ht col-md-4 col-sm-4 col-xs-4">
+                                    <label for="mdf_info">
+                                        معلومات </label>
+                                    <input type="text" [disabled]="isReadOnly" [(ngModel)]="ExternalMdfInfo"
+                                        name="mdf_info" class="form-control" id="mdf_info" placeholder="معلومات MDF" />
+                                    <div [hidden]="errorMdfInfo==''" class="error">{{errorMdfInfo}}</div>
+
+                                </div>
+                            </div>
+                            <div class="form-row">
+
+                                <div class="form-group ht col-md-4 col-sm-4 col-xs-4">
+                                    <label for="dp_info">
+                                        معلومات </label>
+                                    <input type="text" [disabled]="isReadOnly" [(ngModel)]="ExternalDpInfo"
+                                        name="dp_info" class="form-control" id="dp_info" placeholder=" معلومات DP" />
+                                    <div [hidden]="errorDpInfo==''" class="error">{{errorDpInfo}}</div>
+
+                                </div>
+                                <div class="form-group ht col-md-4 col-sm-4 col-xs-4">
+                                    <label for="connected_wall_socket_info">
+                                        معلومات مقبس الحائط</label>
+                                    <input type="text" [disabled]="isReadOnly"
+                                        [(ngModel)]="ExternalCConnectedWallSocketInfo" name="connected_wall_socket_info"
+                                        class="form-control" id="connected_wall_socket_info"
+                                        placeholder=" معلومات مقبس الحائط" />
+                                    <div [hidden]="errorConnectedWallSocketInfo==''" class="error">
+                                        {{errorConnectedWallSocketInfo}}</div>
+
+                                </div>
+
+
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 center-align">
+                <button type="button" *ngIf="opr==1" (click)="UpdateEL(emp)" class="btn btn-default primary">
+                    {{title}}</button>
+                <button type="button" *ngIf="opr==0" (click)="AddEL(emp)" class="btn btn-default primary">
+                    {{title}}</button>
+                <button type="button" (click)="hidePopUp('modalViewExternalLines')" class="btn btn-default">
+                    إلغاء</button>
+                <br />
+            </div>
+        </bs-modal-body>
+        <bs-modal-footer>
+        </bs-modal-footer>
+    <!-- </div> -->
+    </bs-modal>
+</div>
+</div>

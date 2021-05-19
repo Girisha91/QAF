@@ -1,0 +1,156 @@
+<div class="container">
+    <div class="listgroup content-margin">
+        <div class="col-md-12 margin-bottom" [ngClass]="!isLangArabic? 'right-align':''">
+            <button type="button" (click)="AddStoreItem(StoreItem)" class="btn btn-default primary" *ngIf="opr==0">
+                Add Store Item</button>
+            <button type="button" (click)="UpdateStoreItem(StoreItem)" class="btn btn-default primary" *ngIf="opr==1">
+                Update Store Item</button>
+            <button type="button" (click)="closeAndRedirect()" class="btn btn-default">
+                Back </button>
+        </div>
+        <div class="row">
+            <div class="col-md-12" style="margin-top:0px;">
+                <div class="col-md-12">
+                    <div class="panel-group">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <div class="inline-display">
+                                    <h3 class="panel-title">
+                                        Store Item</h3>
+                                </div>
+                                <div style="float:right;" class="inline-display">(
+                                    <span class="error"> * </span>) Mandatory </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-group col-md-12">
+                                    <div class="form-row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="txtId">
+                                                    Material
+                                                    <span class="error">*</span>
+                                                </label>
+                                                <select class="form-control" ngControl="mt" [disabled]="isReadOnly" [(ngModel)]="StoreItem.material_id">
+                                                    <option *ngFor="let mt of materialList" [value]="mt.value">{{mt.label}}</option>
+                                                </select>
+                                                <!-- <div *ngIf="errorCorrectedQty" class="error">{{errorCorrectedQty}}</div> -->
+                                                <div [hidden]="errorRequested_by == ''" class="error">{{errorRequested_by}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="SmsId">
+                                                    Status</label>
+                                                <select class="form-control" ngControl="st" [disabled]="isReadOnly" [(ngModel)]="StoreItem.status">
+                                                    <option *ngFor="let st of ItemStatusList" [value]="st.value">{{st.label}}</option>
+                                                </select>
+                                                <div [hidden]="errorStatus == ''" class="error">{{errorStatus}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="SmsPosition">Item No</label>
+                                                <input type="text" class="form-control" [(ngModel)]="StoreItem.item_no" placeholder="Item No" />
+                                                <div [hidden]="errorItemNo == ''" class="error">{{errorItemNo}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="SmsId">Part No</label>
+                                                <input type="text" class="form-control" [(ngModel)]="StoreItem.part_no" placeholder="Part No" />
+                                                <div [hidden]="errorPartNo == ''" class="error">{{errorPartNo}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="SmsId">Serial No</label>
+                                                <input type="text" class="form-control" [(ngModel)]="StoreItem.serial_no" placeholder="Serial No" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="SmsPosition">
+                                                    Location </label>
+                                                <input type="text" class="form-control" [(ngModel)]="StoreItem.location" placeholder="Location" />
+                                                <div [hidden]="errorLoc == ''" class="error">{{errorLoc}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="SmsId">
+                                                    Warranty</label>
+                                                <input type="text" class="form-control" [(ngModel)]="StoreItem.warranty" placeholder="Warranty" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="SmsPosition">
+                                                    Site Name</label>
+                                                <input type="text" class="form-control" [(ngModel)]="StoreItem.site_name" placeholder="Site Name" />
+                                                <div [hidden]="errorSiteName == ''" class="error">{{errorSiteName}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="SmsId">
+                                                    Loan Duration</label>
+                                                <input type="text" class="form-control" [(ngModel)]="StoreItem.loan_duration" placeholder="Loan Duration" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="SmsId">
+                                                    Problem Reported</label>
+                                                <input type="text" class="form-control" [(ngModel)]="StoreItem.problem_reported" placeholder="Problem Reported" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="SmsPosition">
+                                                    Date In</label>
+                                                <input type="text" bsDatepicker class="form-control" [(ngModel)]="StoreItem.date_in" placeholder="Date In" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="SmsPosition">
+                                                    Date Out </label>
+                                                <input type="text" bsDatepicker class="form-control" [(ngModel)]="StoreItem.date_out" placeholder="Date Out" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="SmsId">
+                                                    Descriptions</label>
+                                                <textarea name="Descriptions" class="form-control" [(ngModel)]="StoreItem.descriptions"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="SmsPosition">
+                                                    Remarks</label>
+                                                <textarea name="Remarks" class="form-control" [(ngModel)]="StoreItem.remarks"></textarea>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 center-align">
+                <button type="button" (click)="AddStoreItem(StoreItem)" class="btn btn-default primary" *ngIf="opr==0">
+                    Add Store Item</button>
+                <button type="button" (click)="UpdateStoreItem(StoreItem)" class="btn btn-default primary" *ngIf="opr==1">
+                    Update Store Item</button>
+                <button type="button" (click)="closeAndRedirect()" class="btn btn-default">
+                    Back </button>
+                <br/>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+.page-padding{
+    padding: 15px 10px 15px 10px;
+}
+.line {	box-sizing: border-box;
+        border: 1px solid #D1CECE;
+    }
+      
+.view-emp-page-container{
+    border-radius: 3px;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26), 0 2px 10px 0 rgba(0,0,0,0.16);
+    margin-bottom:2%;
+    background-color: white;
+  }
+  .view-emp-padding{
+    padding: 0% 0% 0% 0%;
+  }

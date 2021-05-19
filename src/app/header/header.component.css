@@ -1,0 +1,51 @@
+.ar-header,
+.eng-header {
+height: 50px;
+padding: 0px 15px;
+font-size: 18px;
+line-height: 20px;
+outline: none;
+cursor: pointer;
+}
+
+.ar-header{
+    padding: 10px;
+}
+
+.eng-header {
+float: left;
+}
+.qaf-logo {	height: 64px;
+    width: 77px;
+    float: right;
+}
+
+.lnht{
+    line-height: 1.4285;
+}
+.ar-header .headerStyle2, .navbar-header .headerStyle2,
+.eng-header .headerStyle2, .navbar-header .headerStyle2 {
+color:#76102B !important;;
+}
+
+.profile{
+    margin: 0px;
+       width: auto;
+       white-space: nowrap;
+   }
+   .navbar-inverse{
+       border-color: #eeeeee
+   }
+
+.user-profile, .user-profile-ar{ text-decoration: none; }
+.user-profile span, .user-profile-ar span{ color: #76102B !important; }
+
+.ar.logout-icon{
+    margin-left:30px;
+    margin-top: 8px; 
+}
+
+.home-icon {
+    font-size: 30px;
+    margin-top: -15px;
+}

@@ -1,0 +1,561 @@
+<div class="sfinfo">
+    <div class="pabxScreeen">
+        <app-pabx-nav>
+        </app-pabx-nav>
+    </div>
+    <div class="row exta-margin-nav mlr-0">
+        <ul class="pabx-nav nav nav-tabs secnav faq-cat-tabs">
+            <li routerLinkActive="active">
+                <a routerLink='/pabx/configuration-info'
+                    routerLinkActive="active">Software info</a>
+            </li>
+            <li routerLinkActive="active">
+                <a routerLink='/pabx/switch-info' routerLinkActive="active">Hardware
+                    Info</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card">
+        <div class="header">
+            <div class="row Pagename">
+                <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                    <b class="page-head">PABX - Software Info</b>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 ftrt"
+                    *ngIf="lastUpdatedDate">
+                    Date Last Updated: {{lastUpdatedDate}}
+                </div>
+            </div>
+            <div class="row srcrow">
+                <div class="col-lg-9 col-md-9 col-sm-9">
+                    <form [formGroup]="searchForm"
+                        (ngSubmit)="OnSubmit(searchForm.value)">
+                        <div class="search-form margin-bottom"
+                            formArrayName="items"
+                            *ngFor="let item of items.controls; let i= index;">
+                            <div class="position-relative form-id-{{i}}"
+                                [formGroupName]="i">
+                                <div class="row pos">
+                                    <div class="col-lg-4 col-md-4
+                                        col-sm-4">
+                                        <label class="text-center">Search:</label>
+                                        <select id="ddlselect{{i}}"
+                                            class="drop-down
+                                            form-control text-center wd-80
+                                            inline-display"
+                                            (change)="onChange($event)"
+                                            formControlName="fieldName">
+                                            <option value="">Select</option>
+                                            <option *ngFor="let state of
+                                                searchKeyArray"
+                                                [value]="state.item">{{state.label}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-4 col-sm-4
+                                        col-md-4" style="padding-left: 0;">
+                                        <input class="drop-down wd-100 form-control inline-display" type="text"
+                                            formControlName="fieldValue"
+                                            placeholder="value"
+                                            />
+                                    </div>
+                                    <select class="hide drop-down form-control node-select"
+                                        formControlName="fieldValue">
+                                        <option value="">Select</option>
+                                        <option *ngFor="let state of nodeArray"
+                                            [value]="state">{{state}}</option>
+                                    </select>
+                                    <div class="col-lg-3 col-md-3
+                                        col-sm-3" style="padding: 0;">
+                                        <button type="submit" class="primary mt-3">{{ 'Search' | translate}}</button>
+                                        <a class="inline-display add-anch"
+                                            (click)="addItem()">{{ 'Add More' | translate}}</a>
+                                        <span class="vertical-line"></span>
+                                        <a class="inline-display clr-anch"
+                                            (click)="cancelSearch()">{{ 'Clear' | translate}}</a>
+                                        <i class="fa fa-times custom
+                                            primary-color cursor-pointer"
+                                            *ngIf="!(i===0)"
+                                            (click)="deleteAction(i)"
+                                            aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-3 col-md-3 com-sm-3 h-6 ftrt pl-0"
+                    *ngIf="userRoleId == '1'">
+                    <!-- <a class="btn btn-primary import mt-3"
+                        routerLink='/pabx/configuration-info/add'>{{ 'Add' }}</a> -->
+                        <button type="button" class="btn btn-primary import mt-3"
+                        routerLink='/pabx/configuration-info/add'>{{ 'Add' | translate}}</button>
+                    <button type="button" class="btn btn-primary import mt-3"
+                        (click)='showUploaPopUp()'>{{ 'Import' | translate }}</button>
+                    <button type="button" class="btn btn-primary import mt-3"
+                        (click)='exportToExcel()'>{{ 'Export' | translate }}</button>
+                </div>
+            </div>
+        </div>
+            <!-- <div class="row pabx-header"> -->
+            <!-- <div class="configuration-info-links">
+                <a routerLink='/pabx/configuration-info' class="btn"
+                    routerLinkActive="active">Software info</a>
+                <a routerLink='/pabx/switch-info' class="btn"
+                    routerLinkActive="active">Hardware Info</a>
+            </div> -->
+            <!-- <div class="col-md-4 pabx-heading">PABX - Software Info</div> -->
+            <!-- <div class="col-md-4">
+                <label>Search:</label>
+                <form [formGroup]="searchForm"
+                    (ngSubmit)="OnSubmit(searchForm.value)">
+                    <div class="search-form margin-bottom" formArrayName="items"
+                        *ngFor="let item of items.controls; let i= index;">
+                        <div class="position-relative form-id-{{i}}"
+                            [formGroupName]="i">
+                            <select id="ddlselect{{i}}" class="textbox-height
+                                form-control inline-display"
+                                (change)="onChange($event)"
+                                formControlName="fieldName">
+                                <option value="">Select</option>
+                                <option *ngFor="let state of searchKeyArray"
+                                    [value]="state.item">{{state.label}}</option>
+                            </select>
+                            <input class="textbox-height form-control
+                                inline-display" type="text"
+                                formControlName="fieldValue" placeholder="value"
+                                />
+                            <select class="hide textbox-height form-control
+                                node-select" formControlName="fieldValue">
+                                <option value="">Select</option>
+                                <option *ngFor="let state of nodeArray"
+                                    [value]="state">{{state}}</option>
+                            </select>
+
+                            <span class="align-search-cross fa fa-remove
+                                cursor-pointer primary-color"
+                                (click)="deleteAction(i)"></span>
+
+                        </div>
+                    </div>
+                    <button type="submit" class="primary btn btn-default">Search</button>
+                    <button type="button" class="primary btn btn-default"
+                        (click)="addItem()">Add More</button>
+                    <button type="button" class="btn btn-default"
+                        (click)="cancelSearch()">Clear</button>
+
+                </form>
+            </div>
+            <div class="col-md-4 update-info">{{lastUpdatedDate}}</div> -->
+        
+        <!-- </div> -->
+        <div class="main">
+            <!-- <div class="margin-bottom">
+                <a class="btn btn-primary import"
+                    routerLink='/pabx/configuration-info/add'>{{ 'Add' }}</a>
+                <button type="button" class="btn btn-primary import"
+                    (click)='showUploaPopUp()'>{{ 'Import' | translate }}</button>
+                <button type="button" class="btn btn-primary import"
+                    (click)='exportToExcel()'>{{ 'Export' | translate }}</button>
+            </div> -->
+            <div id="pabxConfigInfo">
+                <table class="pabx-config-table tbl-employee table
+                    highLightTable">
+                    <tr>
+                       
+                        <th (click)="sort('site_name')"> Site name
+                            <i class="fa" [ngClass]="{'fa-sort': column !=
+                                'site_name',
+                                'fa-sort-asc': (column == 'site_name' &&
+                                !isDesc),
+                                'fa-sort-desc': (column == 'site_name' &&
+                                isDesc) }" aria-hidden="true">
+                            </i>
+                        </th>
+                        <th (click)="sort('location')">Location
+                            <i class="fa" [ngClass]="{'fa-sort': column !=
+                                'location',
+                                'fa-sort-asc': (column == 'location' &&
+                                !isDesc),
+                                'fa-sort-desc': (column == 'location' && isDesc)
+                                }" aria-hidden="true">
+                            </i>
+                        </th>
+                        <th (click)="sort('host_name')">Host name
+                            <i class="fa" [ngClass]="{'fa-sort': column !=
+                                'Userhost_name',
+                                'fa-sort-asc': (column == 'host_name' &&
+                                !isDesc),
+                                'fa-sort-desc': (column == 'host_name' &&
+                                isDesc) }" aria-hidden="true">
+                            </i>
+                        </th>
+
+                        <!-- <th (click)="sort('Force_Corps_Units_Regi_Dire')">{{ 'Force/Corps/Units/Regiment/Directorate' | translate }} <i class="fa"
+                                                              [ngClass]="{'fa-sort': column != 'Force_Corps_Units_Regi_Dire',
+                                                                                  'fa-sort-asc': (column == 'Force_Corps_Units_Regi_Dire' && !isDesc),
+                                                                                  'fa-sort-desc': (column == 'Force_Corps_Units_Regi_Dire' && isDesc) }"
+                                                              aria-hidden="true"> </i></th> -->
+                        <th (click)="sort('vlan_id')">Vlan id
+                            <i class="fa" [ngClass]="{'fa-sort': column !=
+                                'vlan_id ',
+                                'fa-sort-asc': (column == 'vlan_id ' &&
+                                !isDesc),
+                                'fa-sort-desc': (column == 'vlan_id ' && isDesc)
+                                }" aria-hidden="true">
+                            </i>
+                        </th>
+                        <th (click)="sort('vlan_name')">Vlan name
+                            <i class="fa" [ngClass]="{'fa-sort': column !=
+                                'vlan_name',
+                                'fa-sort-asc': (column == 'vlan_name' &&
+                                !isDesc),
+                                'fa-sort-desc': (column == 'vlan_name' &&
+                                isDesc) }" aria-hidden="true">
+                            </i>
+                        </th>
+                        <th (click)="sort('ip_address')">Ip address
+                            <i class="fa" [ngClass]="{'fa-sort': column !=
+                                'ip_address',
+                                'fa-sort-asc': (column == 'ip_address' &&
+                                !isDesc),
+                                'fa-sort-desc': (column == 'ip_address' &&
+                                isDesc) }" aria-hidden="true">
+                            </i>
+                        </th>
+                        <!-- <th (click)="sort('Company')">{{ 'COMPANY' | translate }} <i class="fa"
+                                                              [ngClass]="{'fa-sort': column != 'Company',
+                      'fa-sort-asc': (column == 'Company' && !isDesc),
+                      'fa-sort-desc': (column == 'Company' && isDesc) }"
+                                                              aria-hidden="true"> </i></th>  -->
+                        <th (click)="sort('subnet_mask')">Subnet mask
+                            <i class="fa" [ngClass]="{'fa-sort': column !=
+                                'subnet_mask',
+                                'fa-sort-asc': (column == 'subnet_mask' &&
+                                !isDesc),
+                                'fa-sort-desc': (column == 'subnet_mask' &&
+                                isDesc) }" aria-hidden="true">
+                            </i>
+                        </th>
+                        <th>
+                                Action
+                            </th>
+                        <th></th>
+                        <!-- <th (click)="sort('area_no')">Area no
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'area_no',
+                            'fa-sort-asc': (column == 'area_no' && !isDesc),
+                            'fa-sort-desc': (column == 'area_no' && isDesc) }" aria-hidden="true">
+                    </i>
+                </th>
+                <th (click)="sort('router_id')">Router id
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'router_id',
+                                'fa-sort-asc': (column == 'router_id' && !isDesc),
+                                'fa-sort-desc': (column == 'router_id' && isDesc) }" aria-hidden="true">
+                    </i>
+                </th>
+                <th (click)="sort('remarks')">Remarks
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'remarks',
+                                    'fa-sort-asc': (column == 'remarks' && !isDesc),
+                                    'fa-sort-desc': (column == 'remarks' && isDesc) }" aria-hidden="true">
+                    </i>
+                </th>
+                <th (click)="sort('status')">Status
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'status',
+                                        'fa-sort-asc': (column == 'status' && !isDesc),
+                                        'fa-sort-desc': (column == 'status' && isDesc) }" aria-hidden="true">
+                    </i>
+                </th>
+                <th (click)="sort('added_at')">Added at
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'added_at',
+                                            'fa-sort-asc': (column == 'added_at' && !isDesc),
+                                            'fa-sort-desc': (column == 'added_at' && isDesc) }" aria-hidden="true">
+                    </i>
+                </th>
+                <th (click)="sort('updated_at')">Updated at
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'updated_at',
+                                                'fa-sort-asc': (column == 'updated_at' && !isDesc),
+                                                'fa-sort-desc': (column == 'updated_at' && isDesc) }" aria-hidden="true">
+                    </i>
+                </th> -->
+                    </tr>
+
+
+                    <tbody *ngFor="let emp of EmployeeDetails | orderBy:
+                        {property: column, direction: direction} | paginate:
+                        {itemsPerPage: 10, currentPage:page, id: '1'} ; let i=
+                        index">
+                        <tr *ngIf="EmployeeDetails?.length> 0"
+                            (click)="setClickedRow(emp)"
+                            [class.active]="emp.highLightRow">                            
+                            <td>{{emp.site_name}}</td>
+                            <td class="word-break">{{emp.location}}</td>
+                            <td>{{emp.host_name}}</td>
+                            <td>{{emp.vlan_id}}</td>
+                            <td>{{emp.vlan_name}}</td>
+                            <td>{{emp.ip_address}}</td>
+                            <td>{{emp.subnet_mask}}</td>
+                            <td>
+                                    <a class="primary-color cursor-pointer
+                                        table-action-icon fa fa-eye fa-lg pr-7"
+                                        title="{{'View softwareInfo'| translate}}"
+                                        [routerLink]="['/pabx/configuration-info/view/',
+                                        emp.id]"></a>
+                                    <a class="primary-color table-action-icon fa pr-7
+                                        fa-wrench fa-lg" title="{{'View or Edit softwareInfo'| translate}}"
+                                        [routerLink]="['/pabx/configuration-info/edit/',
+                                        emp.id]"></a>
+                                    <a class="primary-color cursor-pointer pr-7
+                                        table-action-icon fa fa-trash-o fa-lg"
+                                        (click)="showDeactivateEmployeePopup(emp)"
+                                        title="Delete software Info"></a>
+                                </td>
+                                <td></td>
+                            <!-- <td>{{emp.area_no}}</td>
+                    <td>{{emp.router_id}}</td>
+                    <td>{{emp.remarks}}</td>
+                    <td>{{emp.status}}</td>
+                    <td>{{emp.added_at}}</td>
+                    <td>{{emp.updated_at}}</td> -->
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="EmployeeDetails?.length == 0">
+                        <tr>
+                            <td></td>
+                            <td colspan="1000">
+                                No records found.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="right-align">
+                <pagination-controls (pageChange)="page= $event" id="1"
+                    maxSize="5" directionLinks="true" autoHide="true">
+                </pagination-controls>
+            </div>
+        </div>
+
+    </div>
+    <div class="form-row">
+        <bs-modal #modalDeactivate id="modalDeactivate" dir="{{!isLangArabic
+            ?'ltr':'rtl'}}">
+            <bs-modal-header [showDismiss]="false">
+                <button type="button" class="close" data-dismiss="modal"
+                    [ngClass]="!isLangArabic? 'float-right':'float-left'">
+                    <span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title">{{ 'Delete Software Info' | translate }}</h4>
+            </bs-modal-header>
+            <bs-modal-body>
+                {{'Are you sure you want to Delete this Software Info' |
+                translate }}
+            </bs-modal-body>
+            <bs-modal-footer>
+                <button type="button" class="btn btn-danger"
+                    (click)="deleteConfigurationInfo()">{{ 'Delete' | translate
+                    }}</button>
+                <button type="button" class="btn btn-default"
+                    (click)="hidePopUp('modalDeactivate')">{{ 'Cancel' |
+                    translate }}</button>
+
+            </bs-modal-footer>
+        </bs-modal>
+
+        <bs-modal #modalSendSMS id="modalSendSMS" dir="{{!isLangArabic
+            ?'ltr':'rtl'}}">
+            <bs-modal-header [showDismiss]="false">
+                <button type="button" class="close" [ngClass]="!isLangArabic?
+                    'float-right':'float-left'" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title">{{'Send Sms'| translate }}</h4>
+                <br/>
+                    <div class="modal-title" id="SendsmsModalLabel">
+                        <label>{{'TO'| translate }}</label>
+                        <span>
+                            <input type="text" class="form-control"
+                                [(ngModel)]="txtToNumber" id="ToMobileNo."
+                                placeholder="{{'Enter Contact No.'| translate
+                                }}"
+                                name="ToMobileNo" style="display: inline-block;
+                                width: 90%;" />
+                        </span>
+                    </div>
+                </bs-modal-header>
+                <bs-modal-body>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="SmsId">
+                                    <input type="checkbox" [(ngModel)]="checkId"
+                                        (click)="filterData('id')" /> {{
+                                    'MilitaryId' | translate }}</label>
+                                <input type="text" class="form-control"
+                                    [(ngModel)]="SmsId" placeholder="{{ 'ID' |
+                                    translate }}" name="SmsId" />
+                            </div>
+                            <div class="form-group">
+                                <label for="SmsName">
+                                    <input type="checkbox"
+                                        [(ngModel)]="checkName"
+                                        (click)="filterData('name')" /> {{
+                                    'NAME' | translate }}</label>
+                                <input type="text" class="form-control"
+                                    [(ngModel)]="SmsName" placeholder="{{ 'NAME'
+                                    | translate }}" name="SmsName" />
+                            </div>
+                            <div class="form-group">
+                                <label for="SmsRank">
+                                    <input type="checkbox"
+                                        [(ngModel)]="checkRank"
+                                        (click)="filterData('rank')" /> {{
+                                    'RANK' | translate }}</label>
+                                <input type="email" class="form-control"
+                                    [(ngModel)]="SmsRank" placeholder="{{ 'RANK'
+                                    | translate }}" name="SmsRank" />
+                            </div>
+                            <div class="form-group">
+                                <label for="SmstelMobile">
+                                    <!-- <input type="checkbox" [(ngModel)]="checkOfficePhone" (click)="filterData('offPhone')"/> -->
+                                    {{ 'TEL-Office' | translate }}</label>
+                                <div>
+                                    <input type="checkbox"
+                                        [(ngModel)]="checkOfficePhone1"
+                                        (click)="filterData('offPhone1')" />
+                                    <input type="text" class="form-control
+                                        textbox-with-checkBox"
+                                        [(ngModel)]="SmstelOffice"
+                                        placeholder="{{ 'TEL-Office' | translate
+                                        }}"
+                                        name="SmstelMobile" />
+                                </div>
+                                <div>
+                                    <input type="checkbox"
+                                        [(ngModel)]="checkOfficePhone2"
+                                        (click)="filterData('offPhone2')" />
+                                    <input type="text" class="form-control
+                                        textbox-with-checkBox"
+                                        [(ngModel)]="SmstelOffice1"
+                                        placeholder="{{ 'TEL-Office' | translate
+                                        }}"
+                                        name="SmstelOffice" style="margin-top:
+                                        5px; margin-bottom: 5px;" />
+                                </div>
+                                <div>
+                                    <input type="checkbox"
+                                        [(ngModel)]="checkOfficePhone3"
+                                        (click)="filterData('offPhone3')" />
+                                    <input type="text" class="form-control
+                                        textbox-with-checkBox"
+                                        [(ngModel)]="SmstelOffice2"
+                                        placeholder="{{ 'TEL-Office' | translate
+                                        }}"
+                                        name="SmstelOffice" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="SmsPosition">
+                                    <input type="checkbox"
+                                        [(ngModel)]="checkPosition"
+                                        (click)="filterData('pos')" /> {{
+                                    'POSITION' | translate }}</label>
+                                <input type="text" class="form-control"
+                                    [(ngModel)]="SmsPosition" placeholder="{{
+                                    'POSITION' | translate }}"
+                                    name="SmsPosition"
+                                    />
+                            </div>
+                            <div class="form-group">
+                                <label for="SmsCompany">
+                                    <input type="checkbox"
+                                        [(ngModel)]="checkDisList"
+                                        (click)="filterData('disList')" /> {{
+                                    'DistributionUnit' | translate }}</label>
+                                <input type="Text" class="form-control"
+                                    [(ngModel)]="SmsDistributionUnit"
+                                    placeholder="{{ 'DistributionUnit' |
+                                    translate }}"
+                                    name="SmsCompany" />
+                            </div>
+                            <!-- <div class="form-group">
+                            <label for="SmsCompany">
+                                <input type="checkbox" [(ngModel)]="checkComapny" (click)="filterData('com')"/>
+                                {{ 'COMPANY' | translate }}</label>
+                            <input type="Text" class="form-control" [(ngModel)]="SmsCompany" placeholder="{{ 'POSITION' | translate }}" name="SmsCompany" />
+                        </div>
+                        <div class="form-group">
+                            <label for="SmsRegiment" class="no-word-wrap">
+                                <input type="checkbox" [(ngModel)]="checkForce_Unit" (click)="filterData('frc')"/>
+                                {{ 'Force/Corps/Units/Regiment/Directorate' | translate }}</label>
+                            <input type="text" class="form-control" [(ngModel)]="SmsRegiment" placeholder="{{ 'Force/Corps/Units/Regiment/Directorate' | translate }}" name="SmsRegiment" />
+                        </div> -->
+                            <div class="form-group">
+                                <label for="SmstelOffice">
+                                    <input type="checkbox"
+                                        [(ngModel)]="checkMobile"
+                                        (click)="filterData('mob')" /> {{
+                                    'TEL-Mobile' | translate }}</label>
+                                <div>
+                                    <!-- <input type="checkbox" /> -->
+                                    <input type="text" class="form-control
+                                        textbox-with-checkBox"
+                                        [(ngModel)]="SmstelMobile"
+                                        placeholder="{{ 'TEL-Mobile' | translate
+                                        }}"
+                                        name="SmstelOffice" />
+                                </div>
+                                <!-- <div>
+                                <input type="checkbox" />
+                                <input type="text" class="form-control  textbox-with-checkBox" [(ngModel)]="SmstelMobile1" placeholder="{{ 'TEL-Mobile' | translate }}"
+                                    name="SmstelOffice"  style="margin-top: 5px; margin-bottom: 5px;" />
+                            </div>
+                            <div>
+                                <input type="checkbox" />
+                                <input type="text" class="form-control  textbox-with-checkBox" [(ngModel)]="SmstelMobile2" placeholder="{{ 'TEL-Mobile' | translate }}"
+                                    name="SmstelOffice"/>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </bs-modal-body>
+                <bs-modal-footer>
+                    <button type="button" class="primary-button btn btn-default"
+                        (click)='sendSMS()'>{{ 'Send' | translate }}</button>
+                    <button type="button" class="btn btn-default"
+                        (click)="hidePopUp('modalSendSMS')">{{ 'Cancel' |
+                        translate }}</button>
+
+                </bs-modal-footer>
+            </bs-modal>
+
+
+            <bs-modal #modalImport id="modalImport" dir="{{!isLangArabic
+                ?'ltr':'rtl'}}">
+                <bs-modal-header [showDismiss]="false">
+                    <button type="button" class="close" data-dismiss="modal"
+                        [ngClass]="!isLangArabic? 'float-right':'float-left'">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title">{{ 'Import Csv' | translate }}</h4>
+                </bs-modal-header>
+                <bs-modal-body>
+                    {{'Upload Csv file' | translate }}
+                    <input type="file" #fileImportInput name="csv_data"
+                        id="txtFileUpload" class="btn btn-primary"
+                        (change)="fileChangeListener($event)"
+                        accept=".csv" />
+                </bs-modal-body>
+                <bs-modal-footer>
+                    <button type="button" class="btn btn-primary"
+                        (click)="import()">{{ 'Import' | translate }}</button>
+                    <button type="button" class="btn btn-default"
+                        (click)="hidePopUp('modalImport')">{{ 'Cancel' |
+                        translate }}</button>
+
+                </bs-modal-footer>
+            </bs-modal>
+        </div>
+    </div>

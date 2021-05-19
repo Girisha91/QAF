@@ -1,0 +1,336 @@
+<div class="strsupdb">
+<div class="supplier-container">
+    <div class="formPanelListhead">
+        <div class="col-md-4 pull-left ">
+            <strong class="storeSupplierHead">Store Supplier DB</strong>
+        </div>
+        <div class="mbrpt-152">
+            <a class="btn btn-color btn-sm import" routerLink="add">{{ 'Add' }}</a>
+            <a class="btn btn-color btn-sm import" (click)="showUploaPopUp()">{{ 'Import' }}</a>
+            <a class="btn btn-default btn-sm import" routerLink="/store-items">{{ 'Back' }}</a>
+        </div>
+    </div>
+    <div class="ml-8">
+        <div class="scroll-x ">
+            <table class="storeSupplyList tbl-employee table highLightTable">
+                <tr class="tr-fonts">
+                    <th class="fixed-1 fixth" [ngClass]="!isLangArabic? 'enrt':'arrt'">
+                        Action
+                    </th>
+                    <th (click)="sort('sup_bus_name')"> Supplier bussiness name
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'sup_bus_name',
+                    'fa-sort-asc': (column == 'sup_bus_name' && !isDesc),
+                    'fa-sort-desc': (column == 'sup_bus_name' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('sup_ref_name')">Supplier ref name
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'sup_ref_name',
+                      'fa-sort-asc': (column == 'sup_ref_name' && !isDesc),
+                     'fa-sort-desc': (column == 'sup_ref_name' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('contact_person_name1')">Contact person name 1
+
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'contact_person_name1',
+                  'fa-sort-asc': (column == 'contact_person_name1' && !isDesc),
+                  'fa-sort-desc': (column == 'contact_person_name1' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('address1')">Address 1
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'address1	',
+                    'fa-sort-asc': (column == 'address1	' && !isDesc),
+                    'fa-sort-desc': (column == 'address1	' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('country')">Country
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'country',
+                      'fa-sort-asc': (column == 'country' && !isDesc),
+                     'fa-sort-desc': (column == 'country' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('contact_person_name2')">Contact person name 2
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'contact_person_name2',
+                      'fa-sort-asc': (column == 'contact_person_name2' && !isDesc),
+                      'fa-sort-desc': (column == 'contact_person_name2' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('address2')">Address 2
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'address2',
+                      'fa-sort-asc': (column == 'address2' && !isDesc),
+                      'fa-sort-desc': (column == 'address2' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('po_box_no')">Po box no
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'po_box_no',
+                      'fa-sort-asc': (column == 'po_box_no' && !isDesc),
+                      'fa-sort-desc': (column == 'po_box_no' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('telephone1')">Telephone 1
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'telephone1',
+                                    'fa-sort-asc': (column == 'telephone1' && !isDesc),
+                                    'fa-sort-desc': (column == 'telephone1' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('telephone2')">Telephone 2
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'telephone2',
+                                        'fa-sort-asc': (column == 'telephone2' && !isDesc),
+                                        'fa-sort-desc': (column == 'telephone2' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('telephone3')">Telephone 3
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'telephone3',
+                                            'fa-sort-asc': (column == 'telephone3' && !isDesc),
+                                            'fa-sort-desc': (column == 'telephone3' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('fax_no_1')">Fax no 1
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'fax_no_1',
+                                            'fa-sort-asc': (column == 'fax_no_1' && !isDesc),
+                                            'fa-sort-desc': (column == 'fax_no_1' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('fax_no_2')">Fax no 2
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'fax_no_2',
+                                                        'fa-sort-asc': (column == 'fax_no_2' && !isDesc),
+                                                        'fa-sort-desc': (column == 'fax_no_2' && isDesc) }"
+                            aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('fax_no_3')">Fax no 3
+
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'fax_no_3',
+                                                            'fa-sort-asc': (column == 'fax_no_3' && !isDesc),
+                                                            'fa-sort-desc': (column == 'fax_no_3' && isDesc) }"
+                            aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('email1')">Email 1
+
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'email1',
+    'fa-sort-asc': (column == 'email1' && !isDesc),
+    'fa-sort-desc': (column == 'email1' && isDesc) }" aria-hidden="true"> </i>
+                    </th>
+                    <th (click)="sort('email2')">Email 2
+
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'email2',
+        'fa-sort-asc': (column == 'email2' && !isDesc),
+        'fa-sort-desc': (column == 'email2' && isDesc) }" aria-hidden="true"> </i>
+                    </th>
+                    <th (click)="sort('website')">Website
+
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'website',
+            'fa-sort-asc': (column == 'website' && !isDesc),
+            'fa-sort-desc': (column == 'website' && isDesc) }" aria-hidden="true"> </i>
+                    </th>
+                    <th (click)="sort('descriptions')">Descriptions
+
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'descriptions',
+                'fa-sort-asc': (column == 'descriptions' && !isDesc),
+                'fa-sort-desc': (column == 'descriptions' && isDesc) }" aria-hidden="true"> </i>
+                    </th>
+                </tr>
+                <tbody class="searchBox">
+                    <tr>
+                        <td class="fixed-column-1" style="padding: 0 !important;" >
+                            <strong></strong>
+                        </td>
+                        <td>
+                            <input type="text" name="searchsup_bus_name" [(ngModel)]="searchsup_bus_name"
+                                class="searchsup_bus_name textbox-height form-control"
+                                placeholder="{{ 'Sup bus name' | translate }}" />
+                        </td>
+
+                        <td>
+                            <input type="text" name="searchsup_ref_name" [(ngModel)]="searchsup_ref_name"
+                                class="searchsup_ref_name textbox-height form-control"
+                                placeholder="{{ 'Sup Ref Name' | translate }}" />
+                        </td>
+                        <td>
+                            <input type="text" name="searchcontact_person_name1"
+                                [(ngModel)]="searchcontact_person_name1"
+                                class="searchcontact_person_name1 textbox-height form-control"
+                                placeholder="{{ 'Cont person 1' | translate }}" />
+                        </td>
+                        <td>
+                            <input type="text" name="searchaddress1" [(ngModel)]="searchaddress1"
+                                class="searchaddress1 textbox-height form-control"
+                                placeholder="{{ 'Address 1' | translate }}" />
+                        </td>
+
+
+                        <td>
+                            <input type="text" name="searchcountry" [(ngModel)]="searchcountry"
+                                class="searchcountry textbox-height form-control"
+                                placeholder="{{ 'Country' | translate }}" />
+                        </td>
+                        <td>
+                            <input type="text" name="searchcontact_person_name2"
+                                [(ngModel)]="searchcontact_person_name2"
+                                class="searchcontact_person_name2 textbox-height form-control"
+                                placeholder="{{ 'Cont person 2' | translate }}" />
+                        </td>
+                        <td>
+                            <input type="text" name="searchaddress2" [(ngModel)]="searchaddress2"
+                                class="searchaddress2 textbox-height form-control"
+                                placeholder="{{ 'Address 2' | translate }}" />
+                        </td>
+
+                        <td>
+                            <input type="text" name="searchpo_box_no" [(ngModel)]="searchpo_box_no"
+                                class="searchpo_box_no textbox-height form-control"
+                                placeholder="{{ 'Po Box No' | translate }}" />
+                        </td>
+                        <td>
+                            <input type="text" name="searchtelephone1" [(ngModel)]="searchtelephone1"
+                                class="searchtelephone1 textbox-height form-control"
+                                placeholder="{{ 'Telephone 1' | translate }}" />
+                        </td>
+                        <td>
+                            <input type="text" name="searchtelephone2" [(ngModel)]="searchtelephone2"
+                                class="searchtelephone2 textbox-height form-control"
+                                placeholder="{{ 'Telephone 2' | translate }}" />
+                        </td>
+                        <td>
+                            <input type="text" name="searchtelephone3" [(ngModel)]="searchtelephone3"
+                                class="searchtelephone3 textbox-height form-control"
+                                placeholder="{{ 'Telephone 3' | translate }}" />
+                        </td>
+                        <td>
+                            <input type="text" name="searchfax_no_1" [(ngModel)]="searchfax_no_1"
+                                class="searchfax_no_1 textbox-height form-control"
+                                placeholder="{{ 'Fax No 1' | translate }}" />
+                        </td>
+                        <td>
+                            <input type="text" name="searchfax_no_2" [(ngModel)]="searchfax_no_2"
+                                class="searchfax_no_2 textbox-height form-control"
+                                placeholder="{{ 'Fax No 2' | translate }}" />
+                        </td>
+
+                        <td>
+                            <input type="text" name="searchfax_no_3" [(ngModel)]="searchfax_no_3"
+                                class="searchfax_no_3 textbox-height form-control"
+                                placeholder="{{ 'Fax No 3' | translate }}" />
+                        </td>
+                        <td>
+                            <input type="text" name="searchemail1" [(ngModel)]="searchemail1"
+                                class="searchemail1 textbox-height form-control"
+                                placeholder="{{ 'Email 1' | translate }}" />
+                        </td>
+                        <td>
+                            <input type="text" name="searchemail2" [(ngModel)]="searchemail2"
+                                class="searchemail2 textbox-height form-control"
+                                placeholder="{{ 'Email 2' | translate }}" />
+                        </td>
+                        <td>
+                            <input type="text" name="searchwebsite" [(ngModel)]="searchwebsite"
+                                class="searchwebsite textbox-height form-control"
+                                placeholder="{{ 'Website' | translate }}" />
+                        </td>
+                        <td>
+                            <input type="text" name="searchdescriptions" [(ngModel)]="searchdescriptions"
+                                class="searchdescriptions textbox-height form-control"
+                                placeholder="{{ 'Descriptions' | translate }}" />
+                        </td>
+                    </tr>
+                </tbody>
+
+
+                <tbody
+                    *ngFor="let emp of EmployeeDetails | storeSupplierSearch : searchsup_bus_name : searchsup_ref_name : searchcontact_person_name1 : searchaddress1 : searchcountry : searchcontact_person_name2 : searchaddress2 : searchpo_box_no : searchtelephone1 : searchtelephone2 : searchtelephone3 : searchfax_no_1 : searchfax_no_2 : searchfax_no_3 : searchemail1 : searchemail2 : searchwebsite : searchdescriptions | orderBy: {property: column, direction: direction} | paginate: {itemsPerPage: 10, currentPage:page, id: '1'}  ; let i = index"
+                    [ngClass]="{'hidden-menu': !showMenu}">
+                    <tr *ngIf="EmployeeDetails?.length > 0" (click)="setClickedRow(emp)"
+                        [class.active]="emp.highLightRow">
+
+                        <td class="fixed-1 fullsize" [ngClass]="!isLangArabic? 'enrt':'arrt'">
+                            <a class="primary-color cursor-pointer table-action-icon fa fa-eye fa-lg pr-7"
+                                title="{{'View Store Supplier'| translate}}"
+                                [routerLink]="['/store/supplier/view/', emp.id]"></a>
+                            <a class="primary-color table-action-icon fa fa-wrench fa-lg pr-7"
+                                title="{{'View or Edit Store Supplier'| translate}}"
+                                [routerLink]="['/store/supplier/edit/', emp.id]"></a>
+                            <a class="primary-color cursor-pointer table-action-icon fa fa-trash-o fa-lg"
+                                (click)="showDeactivateSupplierPopup(emp.id)" title="Delete Store Supplier "></a>
+                        </td>
+                        <td>{{emp.sup_bus_name}}</td>
+                        <td>{{emp.sup_ref_name}}</td>
+                        <td class="word-break">{{emp.contact_person_name1}}</td>
+                        <td>{{emp.address1}}</td>
+                        <td>{{emp.country}}</td>
+                        <td>{{emp.contact_person_name2}}</td>
+                        <td>{{emp.address2}}</td>
+                        <td>{{emp.po_box_no}}</td>
+                        <td>{{emp.telephone1}}</td>
+                        <td>{{emp.telephone2}}</td>
+                        <td>{{emp.telephone3}}</td>
+                        <td>{{emp.fax_no_1}}</td>
+                        <td>{{emp.fax_no_2}}</td>
+                        <td>{{emp.fax_no_3}}</td>
+                        <td>{{emp.email1}}</td>
+                        <td>{{emp.email2}}</td>
+                        <td>{{emp.website}}</td>
+                        <td>{{emp.descriptions}}</td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="EmployeeDetails?.length == 0">
+                    <tr>
+                        <td></td>
+                        <td colspan="1000">
+                            No records found.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div></div>
+    
+    <div class="right-align">
+        <pagination-controls (pageChange)="page = $event" id="1" maxSize="5" directionLinks="true" autoHide="true">
+        </pagination-controls>
+    </div>
+</div>
+
+<div class="form-row">
+    <bs-modal #modalDeactivate id="modalDeactivate" dir="{{!isLangArabic ?'ltr':'rtl'}}">
+        <bs-modal-header [showDismiss]="false">
+            <button type="button" class="close" data-dismiss="modal"
+                [ngClass]="!isLangArabic? 'float-right':'float-left'">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <h4 class="modal-title">{{ 'Deactivate Supplier' | translate }}</h4>
+        </bs-modal-header>
+        <bs-modal-body>
+            {{'Are you sure you want to deactivate this Supplier' | translate }}
+        </bs-modal-body>
+        <bs-modal-footer>
+            <button type="button" class="btn btn-danger"
+                (click)="deleteSupplier(emp)">{{ 'Deactivate' | translate }}</button>
+            <button type="button" class="btn btn-default"
+                (click)="hidePopUp('modalDeactivate')">{{ 'Cancel' | translate }}</button>
+
+        </bs-modal-footer>
+    </bs-modal>
+
+    <bs-modal #modalImport id="modalImport" dir="{{!isLangArabic ?'ltr':'rtl'}}">
+        <bs-modal-header [showDismiss]="false">
+            <button type="button" class="close" data-dismiss="modal"
+                [ngClass]="!isLangArabic? 'float-right':'float-left'">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <h4 class="modal-title">{{ 'Import Csv' | translate }}</h4>
+        </bs-modal-header>
+        <bs-modal-body>
+            {{'Upload Csv file' | translate }}
+            <input type="file" #fileImportInput name="csv_data" id="txtFileUpload" class="btn btn-primary"
+                (change)="fileChangeListener($event)" accept=".csv" />
+        </bs-modal-body>
+        <bs-modal-footer>
+            <button type="button" class="btn btn-primary" (click)='import()'>{{ 'Import' | translate }}</button>
+            <button type="button" class="btn btn-default"
+                (click)="hidePopUp('modalImport')">{{ 'Cancel' | translate }}</button>
+
+        </bs-modal-footer>
+    </bs-modal>
+</div>
+</div>

@@ -1,0 +1,205 @@
+.container-fluid {
+    min-height: 100vh;
+}
+
+.pcadd {
+    margin-left: 2% !important;
+    margin-right: 2%;
+}
+
+.pcadd .tbl-employee.table>tbody>tr>th {
+    border-top: none !important;
+}
+
+.pcadd .card {
+    background-color: #fff;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    margin-bottom: 2%;
+}
+
+.pcadd .clr-anch {
+    margin-left: 2%;
+    cursor: pointer;
+}
+
+.pcadd .header {
+    margin-top: 0 !important;
+    margin-left: 0 !important;
+    width: 100% !important;
+    background-color: #f1efef;
+    padding-top: 2%;
+}
+
+.pcadd .srcrow {
+    margin-right: 0;
+    margin-left: 0;
+    margin-top: 2%;
+}
+
+.pcadd .wd-80 {
+    width: 80%
+}
+
+.pcadd .wd-100 {
+    width: 100%;
+}
+
+.pcadd .drop-down {
+    border-radius: 5px;
+    height: 6vh;
+}
+
+.pcadd .custom {
+    margin-top: 3%;
+    font-size: 2rem;
+    float: right;
+}
+
+.pcadd .vertical-line {
+    width: 2px;
+    border: 1px solid black;
+}
+
+.pcadd .add-anch {
+    margin-left: 4%;
+    margin-right: 2%;
+    cursor: pointer;
+}
+
+.pcadd .pl-0{
+    padding-left: 0;
+}
+
+.pcadd .mt-3 {
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
+}
+
+.pcadd .primary {
+    color: #fff;
+    background-color: #76102B;
+    border: 0;
+    border-radius: 5px;
+    height: 5vh;
+    width: 35%;
+}
+
+.pcadd .Pagename {
+    background: transparent;
+    margin: 0;
+}
+
+.pcadd .ftrt {
+    text-align: right;
+}
+
+.pcadd .fixed-1 {
+    left: 7% !important;
+    min-width: 70px !important;
+    text-align: left;
+    font-weight: bolder;
+    padding: 5px 20px !important;
+    width: fit-content !important;
+    position: absolute;
+}
+
+.fix-top {
+    font-size: 1.2em !important;
+    height: 8vh;
+    line-height: 4.15em !important;
+}
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    .pcadd .fix-top {
+        font-size: 1.2em !important;
+        height: 8vh;
+        line-height: 2.8em !important;
+    }
+}
+
+.pcadd .ng2-pagination {
+    border-top: none !important;
+}
+
+.pcadd .fixed-2 {
+    position: absolute;
+    left: 12% !important;
+    min-width: 70px !important;
+    text-align: left;
+    font-weight: bolder;
+    padding: 5px 20px !important;
+    width: fit-content !important;
+}
+
+.pcadd #tableContainer {
+    margin-left: 18% !important;
+}
+
+.pcadd .h-6 {
+    height: 6vh;
+}
+
+@media only screen and (max-height: 700px) {
+    .pcadd .mt-6 {
+        margin-top: 3%;
+    }
+}
+
+@media only screen and (min-height: 850px) and (max-height: 700px) {
+    .pcadd .mt-6 {
+        margin-top: 3%;
+    }
+}
+
+@media only screen and (min-height: 950px) and (max-height: 850px) {
+    .pcadd .mt-6 {
+        margin-top: 4%;
+    }
+}
+
+@media only screen and (min-height: 1050px) and (max-height: 950px) {
+    .pcadd .mt-6 {
+        margin-top: 6%;
+    }
+}
+
+.pcadd .btn-primary {
+    color: #fff !important;
+    background-color: #76102B !important;
+    height: 5vh;
+}
+
+@media only screen and (min-width: 1824px) {
+    .pcadd .mt-6 {
+        margin-top: 6%;
+    }
+    .pcadd #tableContainer {
+        margin-left: 15% !important;
+    }
+    .pcadd .custom {
+        margin-top: 6%;
+    }
+    .pcadd .wd-80 {
+        width: 87%;
+    }
+}
+
+.pcadd .vbhd{
+    visibility: hidden !important;
+}
+
+@media only screen and (min-height: 1000px) and (max-height: 1200px){
+    .pcadd .drop-down {
+        height: 4vh;
+    }
+    .pcadd .primary {
+        height: 3.5vh;
+    }
+    .pcadd .mt-3 {
+        margin-top: 0.25vh;
+        margin-bottom: 0.25vh;
+    }
+    .pcadd .btn-primary {
+        height: 3.5vh;
+    }
+}

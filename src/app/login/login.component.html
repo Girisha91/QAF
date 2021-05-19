@@ -1,0 +1,181 @@
+<div class="logincomponent">
+    <nav class="navbar navbar-inverse navbar-fixed-top" *ngIf="router.url !=
+        '/login'" role="navigation">
+        <div class="container" hidden>
+            <div class="navbar-header" [ngClass]="!isLangArabic ?
+                'float-left':'float-right'">
+                <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="eng-header" routerLink='/login'>
+
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="container">
+        <!-- <div class="content-margin"> -->
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 text-center">
+                <img src="../../assets/qatar-armed-forces.jpg" class="img-responsive center-block" width="50%" height="50%" alt="Phone Directory Logo">
+            </div>
+            </div>
+            <div class="row">                
+                <div class="col-sm-12 col-md-12 col-lg-12 text-center">
+                    <h4 class="primary-color text-uppercase text-center">
+                        {{ 'Welcome to Phone Directory' | translate }}</h4>
+                    <br />
+                </div>                
+            </div>
+            <div class="row">                
+                <div class="login-form col-sm-12 col-md-12 col-lg-12 text-center">
+                    <div class="form-horizontal">
+                        <div class="error">{{errorMsg}}</div>
+                        <form (ngSubmit)="login()" class="text-center">
+                            <!-- English UserName -->
+                            <div class="form-group" *ngIf="!isLangArabic">                             
+                                <div class="txtbox col-sm-12 col-md-12 col-lg-12 text-center entxtbox">
+                                    <input type="text" (keyup.enter)="login()"
+                                        class="form-control textadj bgtp txtbox"[(ngModel)]="txtUserName"
+                                        id="UserName" placeholder="{{'Username'|translate}}" name="UserName"
+                                        >
+                                </div>
+                            </div>
+                            <!-- Arabic UserName -->
+                            <div class="form-group" *ngIf="isLangArabic">
+                                <div class="txtbox col-sm-12 col-md-12 col-lg-12 text-center entxtbox">
+                                    <input type="text" (keyup.enter)="login()"
+                                        class="form-control textadj bgtp txtbox" dir="rtl"
+                                        [(ngModel)]="txtUserName" id="UserName"
+                                        placeholder="{{'Username'|translate}}" name="UserName"
+                                        >
+                                </div>                                
+                            </div>
+                            <!--English Password-->
+                            <div class="form-group" *ngIf="!isLangArabic">                                
+                                <div class="txtbox col-sm-12 col-md-12 col-lg-12 text-center entxtbox">
+                                    <input type="password"
+                                        (keyup.enter)="login()"
+                                        class="form-control bgtp txtbox textadj" [(ngModel)]="txtPassword"
+                                        id="pwd" placeholder="{{'Password'|translate}}" name="pwd">
+                                </div>
+                            </div>
+                            <!-- Arabic Password -->
+                            <div class="form-group" *ngIf="isLangArabic">
+                                <div class="txtbox col-sm-12 col-md-12 col-lg-12 text-center entxtbox">
+                                    <input type="password"
+                                        (keyup.enter)="login()" dir="rtl"
+                                        class="form-control bgtp txtbox textadj"
+                                        [(ngModel)]="txtPassword" id="pwd"
+                                        placeholder="{{'Password'|translate}}" name="pwd">
+                                </div>                                
+                            </div>
+                            <!--English Button-->
+                            <div class="form-group" *ngIf="!isLangArabic">
+                                <!-- <label class="text-wrap control-label col-sm-4 col-sm-4 col-md-4 col-lg-4 col-lg-4
+                                    text-uppercase primary-color arlblshift"
+                                    for="lng">
+                                    {{ 'Language' | translate }}</label> -->
+                                <div class="">
+                                    <div class="btn-group">
+                                        <button type="button" *ngFor="let lang
+                                            of supportedLanguages"
+                                            (click)="selectLang(lang.value)"
+                                            class="btn btn-default pen"
+                                            [ngClass]="lang.value"
+                                            [class.btn-primary]="isCurrentLang(lang.value)">
+                                            {{ lang.display }}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Arabic Button -->
+                            <div class="form-group" *ngIf="isLangArabic">
+                                <div class="">
+                                    <div class="btn-group">
+                                        <button type="button" *ngFor="let lang
+                                            of supportedLanguages"
+                                            (click)="selectLang(lang.value)"
+                                            class="btn btn-default pen"
+                                            [ngClass]="lang.value"
+                                            [class.btn-primary]="isCurrentLang(lang.value)">
+                                            {{ lang.display }}
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- <label class="text-wrap control-label col-sm-4 col-sm-4 col-md-4 col-lg-4 col-lg-4
+                                    text-uppercase primary-color enlblshift"
+                                    for="lng">
+                                    {{ 'Language' | translate }}</label> -->
+                            </div>
+                            <!--English button-->
+                            <div class="form-group" *ngIf="!isLangArabic">
+                                <div class="text-center arlogshift">
+                                    <button type="submit" class="btn-submit btn
+                                        btn-default">
+                                        {{ 'Login' | translate }}</button>
+                                </div>
+                                <div class="col-sm-4" hidden>
+                                    <button type="button" (click)="reset()"
+                                        class="btn-reset btn btn-default">
+                                        {{ 'Reset' | translate }}</button>
+                                </div>
+                            </div>
+                            <!--Arabic Button-->
+                            <div class="form-group" *ngIf="isLangArabic">
+                                
+                                <div class="text-center arlogshift">
+                                    <button type="submit" (click)="login()"
+                                        class="btn-submit btn btn-default">
+                                        {{ 'Login' | translate }}</button>
+                                </div>
+                                <div class="col-sm-4" hidden>
+                                    <button type="button" (click)="reset()"
+                                        class="btn-reset btn btn-default">
+                                        {{ 'Reset' | translate }}</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- <div class="col-sm-4 col-sm-4 col-md-4 col-lg-4 col-lg-4">
+                </div> -->
+            </div>
+            <div class="row">
+                <br />
+                <!-- <div class="col-sm-4 col-sm-4 col-md-4 col-lg-4 col-lg-4">
+                </div> -->
+                <div class="col-sm-12 col-md-12 col-lg-12 text-center" style="text-align: center">
+                    <div>
+                            <!-- [routerLink]="['/user/register']" -->
+                        <a (click)="registercomponent()"
+                            class="primary-color cursor-pointer">{{ 'Sign Up?' | translate }}</a>
+                    </div>
+                    <div>
+                            <!-- routerLink="/user/requestpassword" -->
+                        <a (click)="passwordcomponent()"
+                            class="primary-color cursor-pointer">{{ 'Forgot Password?' | translate }}</a>
+                    </div>
+                    <br />
+                </div>
+                <!-- <div class="col-sm-4 col-md-4 col-lg-4">
+                </div> -->
+            </div>
+        <!-- </div> -->
+    </div>
+    <!-- /container -->
+
+    <div class="row footer">
+        <hr />
+        <div class="col-sm-12 col-md-12 col-lg-12 footer-text">
+            <div style="color: #000">
+                &copy; Company 2017</div>
+        </div>
+    </div>
+</div>

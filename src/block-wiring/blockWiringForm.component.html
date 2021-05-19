@@ -1,0 +1,504 @@
+<div class="blkfrm">
+    <div class="container">
+        <div class="listgroup content-margin">
+            <!-- <div class="col-md-12 whitebc" [ngClass]="!isLangArabic? 'right-align':''">
+                <b class="page-head table-header-margin"
+                [ngClass]="isLangArabic? 'right-align':'left-align'"
+                *ngIf="opr==0">Attach Block Wiring </b>
+            <b class="page-head table-header-margin"
+                [ngClass]="isLangArabic? 'right-align':'left-align'"
+                *ngIf="opr==1">Update Block Wiring </b>
+            <button type="button" (click)="AddEL(bw)" class="btn btn-default primary" *ngIf="opr==0">
+                Add Block Wiring</button>
+            <button type="button" (click)="UpdateEL(bw)" class="btn btn-default primary" *ngIf="opr==1">
+                Update Block Wiring</button>
+            <button type="button" (click)="closeAndRedirect()" class="btn btn-default">
+                Back </button>
+        </div> -->
+            <div class="row">
+                <div class="col-md-12" style="margin-top:0px;">
+                    <div class="col-md-12 plr-0">
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="col-md-12 whitebc"
+                                    [ngClass]="!isLangArabic?
+                                    'right-align':'left-align'">
+                                    <div style="display: flex;">
+                                    <b *ngIf="opr==1" [ngClass]="!isLangArabic?
+                                        'ftlt':'ftrt'" class="page-head
+                                        table-header-margin">Update
+                                        Block Wiring </b>
+                                    <b *ngIf="opr==0" [ngClass]="!isLangArabic?
+                                        'ftlt':'ftrt'" class="page-head
+                                        table-header-margin">Add
+                                        Block Wiring </b>
+                                        <b *ngIf="opr==2" [ngClass]="!isLangArabic?
+                                        'ftlt':'ftrt'" class="page-head
+                                        table-header-margin">View
+                                        Block Wiring </b>
+                                        <button *ngIf="opr==2" type="button"
+                                        (click)="closeAndRedirect()" class="btn
+                                        btn-default poabr0">
+                                        {{'Back' | translate}} </button>     
+                                    </div>
+                                    <hr class="mtb-0 line" />
+                                    <!-- <button type="button" *ngIf="opr==1"
+                                        (click)="UpdateEL(bw)"
+                                        class="btn btn-default primary">
+                                        Update Block Wiring</button>
+                                    <button type="button" (click)="AddBWA(bw)"
+                                        *ngIf="opr==0"
+                                        class="btn
+                                        btn-default primary">
+                                        Add Block Wiring</button> -->
+                                    <!-- <button *ngIf="opr==2" type="button"
+                                        (click)="closeAndRedirect()" class="btn
+                                        btn-default">
+                                        {{'Back' | translate}} </button>                                     -->
+                                </div>                                
+                                <!-- <div class="panel-heading"> -->
+                                <!-- <div class="inline-display"> -->
+                                <!-- <b class="page-head">ADD Block Wiring</b> -->
+                                <!-- <h3 class="panel-title">
+                                        ADD Block Wiring</h3> -->
+                                <!-- <button type="button" (click)="AddBWA(bw)"
+                                        class="btn
+                                        btn-default primary">Add
+                                        Block wire</button>
+                                    <button type="button"
+                                        (click)="closeAndRedirect()" class="btn
+                                        btn-default">Back </button> -->
+                                <!-- </div> -->
+
+                                <!-- <div style="float:right;" class="inline-display">(
+                                    <span class="error"> * </span>) Mandatory </div> -->
+                                <!-- </div> -->
+                                <div class="panel-body">
+                                    <div class="form-group col-md-12">
+                                        <!-- <div class="row">
+                                            <h4 class="ml-2 groups">Group A </h4>
+                                            <hr class="mb-1 ml-2" />
+                                        </div> -->
+                                        <div class="form-row">
+                                            <div class="form-group col-md-4">
+                                                <label for="type_enquiry">
+                                                    Type of enquiry
+                                                </label>
+                                                <select class="form-control"
+                                                    ngControl="st"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="bw.type_enquiry"
+                                                    required>
+                                                    <option *ngFor="let st of
+                                                        TypeEnquiryList"
+                                                        [value]="st.value">{{st.label}}</option>
+                                                </select>
+                                                <div [hidden]="errorType_enquiry
+                                                    == ''" class="error">
+                                                    {{errorType_enquiry}} </div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="enquiry_from">
+                                                    Enquiry form</label>
+                                                <select class="form-control"
+                                                    ngControl="st"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="bw.enquiry_from"
+                                                    required>
+                                                    <option *ngFor="let st of
+                                                        EnquiryFromList"
+                                                        [value]="st.value">{{st.label}}</option>
+                                                </select>
+                                                <div [hidden]="errorEnquiry_from
+                                                    ==''" class="error">
+                                                    {{errorEnquiry_from}} </div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="client_dev_name">
+                                                    Client / Developer name
+                                                </label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="bw.client_dev_name"
+                                                    name="client_dev_name"
+                                                    class="form-control"
+                                                    id="client_dev_name"
+                                                    placeholder="Client / Developer name" />
+                                                <div
+                                                    [hidden]="errorClient_dev_name==''"
+                                                    class="error">{{errorClient_dev_name}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <!-- <div class="form-group col-md-4">
+                                                <label for="client_dev_name">
+                                                    Client / Developer name
+                                                </label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="bw.client_dev_name"
+                                                    name="client_dev_name"
+                                                    class="form-control"
+                                                    id="client_dev_name"
+                                                    placeholder="Client /
+                                                    Developer name" />
+                                                <div
+                                                    [hidden]="errorClient_dev_name==''"
+                                                    class="error">{{errorClient_dev_name}}</div>
+                                            </div> -->
+                                            <div class="form-group col-md-4">
+                                                <label for="consultant_name">
+                                                    Consultant name
+                                                </label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="bw.consultant_name"
+                                                    name="consultant_name"
+                                                    class="form-control"
+                                                    id="consultant_name"
+                                                    placeholder="Consultant name" />
+                                                <div
+                                                    [hidden]="errorConsultant_name==''"
+                                                    class="error">{{errorConsultant_name}}</div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="contractor_name">
+                                                    Contractor name
+                                                </label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="bw.contractor_name"
+                                                    name="contractor_name"
+                                                    class="form-control"
+                                                    id="contractor_name"
+                                                    placeholder="Contractor name" />
+                                                <div
+                                                    [hidden]="errorContractor_name==''"
+                                                    class="error">{{errorContractor_name}}</div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="project_name">
+                                                    Project name
+                                                </label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="bw.project_name"
+                                                    name="project_name"
+                                                    class="form-control"
+                                                    id="project_name"
+                                                    placeholder="Project name" />
+                                                <div
+                                                    [hidden]="errorProject_name==''"
+                                                    class="error">{{errorProject_name}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <!-- <div class="form-group col-md-4">
+                                                <label for="project_name">
+                                                    Project name
+                                                </label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="bw.project_name"
+                                                    name="project_name"
+                                                    class="form-control"
+                                                    id="project_name"
+                                                    placeholder="Project name"
+                                                    />
+                                                <div
+                                                    [hidden]="errorProject_name==''"
+                                                    class="error">{{errorProject_name}}</div>
+                                            </div> -->
+                                            <div class="form-group col-md-4">
+                                                <label for="project_no">
+                                                    Project no
+
+                                                </label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="bw.project_no"
+                                                    name="project_no"
+                                                    class="form-control"
+                                                    id="project_no"
+                                                    placeholder="Project no" />
+                                                <div
+                                                    [hidden]="errorProject_no==''"
+                                                    class="error">{{errorProject_no}}</div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="Distribution_Menu">
+                                                    Distribution Menu
+
+                                                </label>
+
+                                                <select class="form-control"
+                                                    ngControl="rnk"
+                                                    (change)="onChange($event.target.value,'ar')"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="bw.distribution_menu">
+                                                    <option value="">Select</option>
+                                                    <option *ngFor="let rnk of
+                                                        distributionListArabic"
+                                                        [value]="rnk">{{rnk}}</option>
+                                                </select>
+                                                <div
+                                                    [hidden]="errorDistribution_menu==''"
+                                                    class="error">{{errorDistribution_menu}}</div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="Distribution_Unit">
+                                                    Distribution Unit
+
+                                                </label>
+                                                <select class="form-control"
+                                                    ngControl="rnk"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="bw.distribution_unit">
+                                                    <option value="">Select</option>
+                                                    <option *ngFor="let rnk of
+                                                        distributionUnitArabic"
+                                                        [value]="rnk">{{rnk}}</option>
+                                                </select>
+                                                <div
+                                                    [hidden]="errorDistribution_unit==''"
+                                                    class="error">{{errorDistribution_unit}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <!-- <div class="form-group col-md-4">
+                                                <label for="Distribution_Unit">
+                                                    Distribution Unit
+
+                                                </label>
+                                                <select class="form-control"
+                                                    ngControl="rnk"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="bw.distribution_unit">
+                                                    <option value="">Select</option>
+                                                    <option *ngFor="let rnk of
+                                                        distributionUnitArabic"
+                                                        [value]="rnk">{{rnk}}</option>
+                                                </select>
+                                                <div
+                                                    [hidden]="errorDistribution_unit==''"
+                                                    class="error">{{errorDistribution_unit}}</div>
+                                            </div> -->
+                                            <div class="form-group col-md-4">
+                                                <label for="location">
+                                                    Location
+                                                </label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="bw.location"
+                                                    name="location"
+                                                    class="form-control"
+                                                    id="location"
+                                                    placeholder="Location" />
+                                                <div
+                                                    [hidden]="errorLocation==''"
+                                                    class="error">{{errorLocation}}</div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="pin_no">
+                                                    Pin no
+                                                </label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="bw.pin_no"
+                                                    name="pin_no"
+                                                    class="form-control"
+                                                    id="pin_no" placeholder="Pin no" />
+                                                <div [hidden]="errorPin_no==''"
+                                                    class="error">{{errorPin_no}}</div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="drawing_name">
+                                                    Drawing name</label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="bw.drawing_name"
+                                                    name="drawing_name"
+                                                    class="form-control"
+                                                    id="drawing_name"
+                                                    placeholder="Drawing name" />
+                                                <div
+                                                    [hidden]="errorDrawing_name==''"
+                                                    class="error">{{errorDrawing_name}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <!-- <div class="form-group col-md-4">
+                                                <label for="drawing_name">
+                                                    Drawing name</label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="bw.drawing_name"
+                                                    name="drawing_name"
+                                                    class="form-control"
+                                                    id="drawing_name"
+                                                    placeholder="Drawing name"
+                                                    />
+                                                <div
+                                                    [hidden]="errorDrawing_name==''"
+                                                    class="error">{{errorDrawing_name}}</div>
+                                            </div> -->
+                                            <div class="form-group col-md-4">
+                                                <label for="drawing_no">
+                                                    Drawing no</label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="bw.drawing_no"
+                                                    name="drawing_no"
+                                                    class="form-control"
+                                                    id="drawing_no"
+                                                    placeholder="Drawing no" />
+                                                <div
+                                                    [hidden]="errorDrawing_no==''"
+                                                    class="error">{{errorDrawing_no}}</div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="originator">
+                                                    Originator
+                                                </label>
+                                                <input type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="bw.originator"
+                                                    name="originator"
+                                                    class="form-control"
+                                                    id="originator"
+                                                    placeholder="Originator" />
+                                                <div
+                                                    [hidden]="errorOriginator==''"
+                                                    class="error">{{errorOriginator}}</div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="Remarks">
+                                                    Remarks
+                                                </label>
+                                                <textarea type="text"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="bw.remarks"
+                                                    name="remarks"
+                                                    class="form-control"
+                                                    id="remarks"
+                                                    placeholder="Remarks"></textarea>
+                                                <div [hidden]="errorRemarks==''"
+                                                    class="error">{{errorRemarks}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-8">
+                                                <label for="description_work">
+                                                    Description of work
+                                                </label>
+                                                <textarea
+                                                    [readonly]="isReadOnly"
+                                                    [(ngModel)]="bw.description_work"
+                                                    name="txtid"
+                                                    class="form-control"
+                                                    placeholder="Description of work"></textarea>
+                                                <div
+                                                    [hidden]="errorDescription_work==''"
+                                                    class="error">{{errorDescription_work}}</div>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="status">
+                                                    Status
+                                                </label>
+                                                <select class="form-control"
+                                                    ngControl="st"
+                                                    [disabled]="isReadOnly"
+                                                    [(ngModel)]="bw.status"
+                                                    required>
+                                                    <option *ngFor="let st of
+                                                        StatusList"
+                                                        [value]="st.value">{{st.label}}</option>
+                                                </select>
+                                                <div [hidden]="errorStatus ==
+                                                    ''" class="error">
+                                                    {{errorStatus}} </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 center-align">
+                                        <button type="button" *ngIf="opr==1"
+                                            (click)="UpdateEL(bw)"
+                                            class="btn btn-default primary">
+                                            Update Block Wiring</button>
+                                        <button type="button" *ngIf="opr==0"
+                                            (click)="AddEL(bw)"
+                                            class="btn btn-default primary">
+                                            Add Block Wiring</button>
+                                        <button *ngIf="!(opr==2)" type="button"
+                                            (click)="closeAndRedirect()"
+                                            class="btn btn-default">
+                                            {{'Cancel'| translate}} </button>
+                                        <br/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div *ngIf="opr==2">
+                    <table>
+                        <tr rowspan="99" class="inner-tr">
+                            <td></td>
+                            <td class="bk-dark border-bottom" colspan="99">
+                                <table class="tbl-employee table" style="width: 999px;">
+                                    <tr>
+                                        <th></th>
+                                        <th>تاريخ بدء الايجار
+                                        </th>
+                                        <th>تاريخ نهاية الايجار
+                                        </th>
+                                        <th>قيمة الايجار
+                                        </th>
+                                        <th> رقم الرصيد
+                                        </th>
+                                        <th>ملاحظات
+                                        </th>
+                                        <th>وأضاف في</th>
+                                        <th>تم التحديث في</th>
+                                    </tr>
+                                    <tbody *ngFor="let emp1 of rent_items ; let i = index" #someVar>
+                                        <tr>
+                                            <td class="no-word-wrap">
+                                                <a class="primary-color cursor-pointer table-action-icon fa fa-eye fa-lg" title="{{'View Store item'| translate}}" [routerLink]="['/pabx/external-lines-rent/view/', emp1.id]"></a>
+                                                <a [routerLink]="['/pabx/external-lines-rent/edit', emp1.id]" class="primary-color table-action-icon fa fa-wrench fa-lg"
+                                                    title="{{'Edit Store Details'| translate}}"></a>
+                                            </td>
+                                            <td>{{emp1.rent_start_date}}</td>
+                                            <td>{{emp1.rent_end_date}}</td>
+                                            <td>{{emp1.rent_amount}}</td>
+                                            <td>{{emp1.Bill_no}}</td>
+                                            <td>{{emp1.remarks}}</td>
+                                            <td>{{emp1.added_at}}</td>
+                                            <td>{{emp1.updated_at}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div> -->
+                    </div>
+
+                    <!-- <div class="col-md-12 center-align">
+                    <button type="button" *ngIf="opr==1" (click)="UpdateEL(bw)"
+                        class="btn btn-default primary">
+                        Update Block Wiring</button>
+                    <button type="button" *ngIf="opr==0" (click)="AddEL(bw)"
+                        class="btn btn-default primary">
+                        Add Block Wiring</button>
+                    <button type="button" (click)="closeAndRedirect()"
+                        class="btn btn-default">
+                        {{'Cancel'| translate}} </button>
+                    <br/>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        <!-- <div class="ar current-lang" [ngClass]="getArStyleClass()">
+        <app-nav ></app-nav>
+        </div> -->
+    </div>

@@ -1,0 +1,392 @@
+<div class="faultjob-report-main">
+    <div class="col-md-12 faultjobReporthead">
+        <div class="row" style="margin-bottom: 2%;">
+            <div class="col-md-4">
+                <strong class="faultjobReportHead"> Fault Job Report - {{ PageType }} </strong>
+            </div>
+            <div class="col-md-4">
+                <div class="col-md-6 reportType" style="font-weight: 700"> Select Report Type: </div>
+                <!-- <div class="col-md-6">
+                    <div class="nav nav-bar" style="top: 6px;">
+                        <li class="dropdown btn btn-form" style="position: unset;">
+                            <a class="dropdown-toggle btn-form" data-toggle="dropdown"
+                                style="bottom: 4px;right: 13px;">Select View Type
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" style="left: 14px">
+                                <li>
+                                    <a class="btn-form" (click)="selectForm('1')">By Ticket Number </a>
+                                </li>
+                                <li>
+                                    <a class="btn-form" (click)="selectForm('2')">By Ticket History </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </div>
+                </div> -->
+
+                <div class="col-md-6">
+                        <div class="dropdown">
+                          <button style="width: 161px;" class="btn btn-color dropdown-toggle" type="button"
+                            data-toggle="dropdown">Select View Type
+                            <span class="caret"></span></button>
+                          <ul class="dropdown-menu pmt-0">
+                            <li><a class="btn-form" (click)="selectForm('1')">By Ticket Number</a></li>
+                            <li><a class="btn-form" (click)="selectForm('2')">By Ticket History</a></li>
+                          </ul>
+                        </div>
+                      </div>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <ul class="list-inline">
+                    <li class="paddingZero">
+                        <div class="nav nav-bar">
+                            <ng-select id="DepartmentList{{i}}" class="selectMaterialDD  form-control" style="padding: 0px;
+                                        width: 215px !important;" id="DepartmentList" [items]="this.DepartmentList"
+                                bindLabel="label" bindValue="label" [(ngModel)]="this.department"
+                                placeholder="Select by Department"
+                                (change)="selectedDepartment(this.department,PageType)">
+                            </ng-select>
+                        </div>
+                        <!-- <div class="nav nav-bar">
+                        <ng-select id="departmentList{{i}}" class="selectMaterialDD  form-control" style="padding: 0px;
+                                width: 215px !important;" id="departmentList" [items]="this.departmentList"
+                            bindLabel="label" bindValue="label" [(ngModel)]="this.department"
+                            placeholder="Select by Department"
+                            (change)="selectedItemsDepartment(this.department,PageType)">
+                        </ng-select>
+                    </div> -->
+                    </li>
+                    <li class="paddingZero">
+                        <div class="nav nav-bar">
+                            <ng-select id="statusList{{i}}" class="selectMaterialDD  form-control" style="padding: 0px;
+                                    width: 215px !important;" id="statusList" [items]="this.OpStatusList"
+                                bindLabel="name" bindValue="name" [(ngModel)]="this.status"
+                                placeholder="Select by Status" (change)="selectedStatus(this.status,PageType)">
+                            </ng-select>
+                        </div>
+                    </li>
+                    <li class="paddingZero">
+                        <div class="nav nav-bar">
+                            <ng-select id="OpTypeList{{i}}" class="selectMaterialDD  form-control" style="padding: 0px;
+                                        width: 215px !important;" id="OpTypeList" [items]="this.OpTypeList"
+                                bindLabel="name" bindValue="name" [(ngModel)]="this.OperationType"
+                                placeholder="Select by Operation Type"
+                                (change)="selectedOperationType(this.OperationType,PageType)">
+                            </ng-select>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <ul class="list-inline float-right">
+                    <li *ngIf="PageType == 'Ticket Number'" class="paddingZero">
+                        <div class="nav nav-bar">
+                            <button class="btn btn-color btn-sm"
+                                (click)="exportToExcelTicket(FaultIssueDetails)">Export</button>
+                        </div>
+                    </li>
+                    <li *ngIf="PageType == 'Ticket History'" class="paddingZero">
+                        <div class="nav nav-bar">
+                            <button class="btn btn-color btn-sm"
+                                (click)="exportToExcelHistory(TicketHistoryDetails)">Export</button>
+                        </div>
+                    </li>
+                    <li class="paddingZero">
+                        <div class="nav nav-bar">
+                            <button class="btn btn-color btn-sm" (click)="clearStoreItemDetails()">Clear</button>
+                        </div>
+                    </li>
+                    <li class="paddingZero">
+                        <div class="nav nav-bar">
+                            <button class="btn btn-default btn-sm" routerLink="/faultIssueManagement">Back</button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 plr-0" style="margin-bottom: 2%;">
+        <div *ngIf="showTicketList" class="table-responsive">
+            <table class=" table workOrder-table pabx-table  highLightTable">
+                <tr class="tr-fonts">
+                    <th (click)="sort('ticket_number')">Operation No
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'ticket_number',
+                          'fa-sort-asc': (column == 'ticket_number' && !isDesc),
+                          'fa-sort-desc': (column == 'ticket_number' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('ticket_status')">Operation Status
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'ticket_status',
+                          'fa-sort-asc': (column == 'ticket_status' && !isDesc),
+                          'fa-sort-desc': (column == 'ticket_status' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('created_date')">Operation Created Date
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'created_date',
+                          'fa-sort-asc': (column == 'created_date' && !isDesc),
+                          'fa-sort-desc': (column == 'created_date' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('assigned_date')">Operation Assign Date
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'assigned_date',
+                          'fa-sort-asc': (column == 'assigned_date' && !isDesc),
+                          'fa-sort-desc': (column == 'assigned_date' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('site_name')">Site Name
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'site_name',
+                          'fa-sort-asc': (column == 'site_name' && !isDesc),
+                          'fa-sort-desc': (column == 'site_name' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('department')">Department
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'department',
+                          'fa-sort-asc': (column == 'department' && !isDesc),
+                          'fa-sort-desc': (column == 'department' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('severity')">Severity
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'severity',
+                          'fa-sort-asc': (column == 'severity' && !isDesc),
+                          'fa-sort-desc': (column == 'severity' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('operation_type')">Operation Type
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'operation_type',
+                          'fa-sort-asc': (column == 'operation_type' && !isDesc),
+                          'fa-sort-desc': (column == 'operation_type' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('operation_sub_type')">Operation Sub Type
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'operation_sub_type',
+                          'fa-sort-asc': (column == 'operation_sub_type' && !isDesc),
+                          'fa-sort-desc': (column == 'operation_sub_type' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+
+                    <th (click)="sort('reported_by')">Reported By
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'reported_by',
+                          'fa-sort-asc': (column == 'reported_by' && !isDesc),
+                          'fa-sort-desc': (column == 'reported_by' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('operation_reported_to_names')">Reported To
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'operation_reported_to_names',
+                          'fa-sort-asc': (column == 'operation_reported_to_names' && !isDesc),
+                          'fa-sort-desc': (column == 'operation_reported_to_names' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('description')">Description
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'description',
+                          'fa-sort-asc': (column == 'description' && !isDesc),
+                          'fa-sort-desc': (column == 'description' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                </tr>
+
+                <tbody
+                    *ngFor=" let faultIssue of FaultIssueDetails | orderBy: {property: column, direction: direction} |paginate: {itemsPerPage: 10, currentPage:page, id: '1'}; let i = index">
+                    <tr *ngIf="FaultIssueDetails?.length> 0" (click)="setClickedRow(faultIssue)" [class.active]="faultIssue.highLightRow">
+                        <td>{{faultIssue.ticket_number}}</td>
+                        <td>{{faultIssue.ticket_status}}</td>
+                        <td>{{faultIssue.created_date}}</td>
+                        <td>{{faultIssue.assigned_date}}</td>
+                        <td>{{faultIssue.site_name}}</td>
+                        <td>{{faultIssue.department}}</td>
+                        <td>{{faultIssue.severity}}</td>
+                        <td>{{faultIssue.operation_type}}</td>
+                        <td>{{faultIssue.operation_sub_type}}</td>
+                        <td>{{faultIssue.operation_reported_by}}</td>
+                        <td>{{faultIssue.operation_reported_to_names}}</td>
+                        <td>{{faultIssue.description}}</td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="FaultIssueDetails?.length == 0">
+                    <tr>
+                        <td></td>
+                        <td colspan="1000">
+                            No records found.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="right-align">
+                <pagination-controls (pageChange)="page = $event" id="1" maxSize="5" directionLinks="true"
+                    autoHide="true">
+                </pagination-controls>
+            </div>
+        </div>
+        <div *ngIf="showHistoryList" class="table-responsive">
+
+            <table class=" table workOrder-table pabx-table  highLightTable">
+                <tr class="tr-fonts">
+                    <th (click)="sort('ticket_number')">Operation No
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'ticket_number',
+                              'fa-sort-asc': (column == 'ticket_number' && !isDesc),
+                              'fa-sort-desc': (column == 'ticket_number' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('ticket_status')">Operation Status
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'ticket_status',
+                              'fa-sort-asc': (column == 'ticket_status' && !isDesc),
+                              'fa-sort-desc': (column == 'ticket_status' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('created_date')">Operation Created Date
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'created_date',
+                              'fa-sort-asc': (column == 'created_date' && !isDesc),
+                              'fa-sort-desc': (column == 'created_date' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('assigned_date')">Operation Assign Date
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'assigned_date',
+                              'fa-sort-asc': (column == 'assigned_date' && !isDesc),
+                              'fa-sort-desc': (column == 'assigned_date' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('site_name')">Site Name
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'site_name',
+                              'fa-sort-asc': (column == 'site_name' && !isDesc),
+                              'fa-sort-desc': (column == 'site_name' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('department')">Department
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'department',
+                              'fa-sort-asc': (column == 'department' && !isDesc),
+                              'fa-sort-desc': (column == 'department' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('severity')">Severity
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'severity',
+                              'fa-sort-asc': (column == 'severity' && !isDesc),
+                              'fa-sort-desc': (column == 'severity' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('operation_type')">Operation Type
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'operation_type',
+                              'fa-sort-asc': (column == 'operation_type' && !isDesc),
+                              'fa-sort-desc': (column == 'operation_type' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('operation_sub_type')">Operation Sub Type
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'operation_sub_type',
+                              'fa-sort-asc': (column == 'operation_sub_type' && !isDesc),
+                              'fa-sort-desc': (column == 'operation_sub_type' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+
+                    <th (click)="sort('reported_by')">Reported By
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'reported_by',
+                              'fa-sort-asc': (column == 'reported_by' && !isDesc),
+                              'fa-sort-desc': (column == 'reported_by' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('operation_reported_to')">Reported To
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'operation_reported_to',
+                              'fa-sort-asc': (column == 'operation_reported_to' && !isDesc),
+                              'fa-sort-desc': (column == 'operation_reported_to' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('description')">Description
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'description',
+                              'fa-sort-asc': (column == 'description' && !isDesc),
+                              'fa-sort-desc': (column == 'description' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('current_status')">Current Status
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'current_status',
+                              'fa-sort-asc': (column == 'current_status' && !isDesc),
+                              'fa-sort-desc': (column == 'current_status' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('action_needed_from')">Action Needed From
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'action_needed_from',
+                              'fa-sort-asc': (column == 'action_needed_from' && !isDesc),
+                              'fa-sort-desc': (column == 'action_needed_from' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+
+                    <th (click)="sort('action_taken_by')">Action Taken By
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'action_taken_by',
+                              'fa-sort-asc': (column == 'action_taken_by' && !isDesc),
+                              'fa-sort-desc': (column == 'action_taken_by' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('recorded_by')">Recorded By
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'recorded_by',
+                          'fa-sort-asc': (column == 'recorded_by' && !isDesc),
+                          'fa-sort-desc': (column == 'recorded_by' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('description_action')">Description Action
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'description_action',
+                              'fa-sort-asc': (column == 'description_action' && !isDesc),
+                              'fa-sort-desc': (column == 'description_action' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('external_ticket_no')">External Ticket No
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'external_ticket_no',
+                              'fa-sort-asc': (column == 'external_ticket_no' && !isDesc),
+                              'fa-sort-desc': (column == 'external_ticket_no' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('recorded_date')">Recorded date
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'recorded_date',
+                              'fa-sort-asc': (column == 'recorded_date' && !isDesc),
+                              'fa-sort-desc': (column == 'recorded_date' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                    <th (click)="sort('remarks')">Remarks
+                        <i class="fa" [ngClass]="{'fa-sort': column != 'remarks',
+                              'fa-sort-asc': (column == 'remarks' && !isDesc),
+                              'fa-sort-desc': (column == 'remarks' && isDesc) }" aria-hidden="true">
+                        </i>
+                    </th>
+                </tr>
+                <tbody
+                    *ngFor=" let faultIssue of TicketHistoryDetails | orderBy: {property: column, direction: direction} |paginate: {itemsPerPage: 10, currentPage:page, id: '1'}; let i = index">
+                    <tr>
+                        <td>{{faultIssue.ticket_number}}</td>
+                        <td>{{faultIssue.ticket_status}}</td>
+                        <td>{{faultIssue.created_date}}</td>
+                        <td>{{faultIssue.assigned_date}}</td>
+                        <td>{{faultIssue.site_name}}</td>
+                        <td>{{faultIssue.department}}</td>
+                        <td>{{faultIssue.severity}}</td>
+                        <td>{{faultIssue.operation_type}}</td>
+                        <td>{{faultIssue.operation_sub_type}}</td>
+                        <td>{{faultIssue.operation_reported_by}}</td>
+                        <td>{{faultIssue.operation_reported_to}}</td>
+                        <td>{{faultIssue.description}}</td>
+                        <td>{{faultIssue.current_status}}</td>
+                        <td>{{faultIssue.action_needed_from}}</td>
+                        <td>{{faultIssue.action_taken_by}}</td>
+                        <td>{{faultIssue.recorded_by}}</td>
+                        <td>{{faultIssue.description_action}}</td>
+                        <td>{{faultIssue.external_ticket_no}}</td>
+                        <td>{{faultIssue.recorded_date}}</td>
+                        <td>{{faultIssue.remarks}}</td>
+                    </tr>
+                </tbody>
+                <tbody *ngIf="TicketHistoryDetails?.length == 0">
+                    <tr>
+                        <td></td>
+                        <td colspan="1000">
+                            No records found.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="right-align">
+                <pagination-controls (pageChange)="page = $event" id="1" maxSize="5" directionLinks="true"
+                    autoHide="true">
+                </pagination-controls>
+            </div>
+        </div>
+
+    </div>
+</div>

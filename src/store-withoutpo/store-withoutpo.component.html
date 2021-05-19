@@ -1,0 +1,206 @@
+<div class="storeWoPo-container">
+  <div class="listgroup content-margin">
+    <div class="col-md-12 hideContent" style="text-align: right;">
+      <button type="button" *ngIf="opr==2" (click)="closeAndRedirect()" class="btn btn-default mt-1"> Back </button>
+    </div>
+    <div class="row">
+      <div class="col-md-12" style="margin-top:1rem;">
+        <div class="col-md-12" id="printItemsWoPo">
+          <div class="panel-group">
+            <div class="panel panel-default">
+              <div class="panel-heading printHeading5" style="margin: -1px;">
+                <div class="inline-display">
+                  <h3 class="panel-title printddTitle">
+                    {{ PageTitle }}</h3>
+                </div> <span class="errortitledark">(<span class="error">*</span> Mandatory)</span>
+              </div>
+              <div class="panel-body" style="padding-bottom: 0;">
+                <div class="row">
+                  <div class="col-md-4 col-sm-4 col-xs-4">
+                    <div *ngIf="isGenereatedDemandNoOnly" class=" row form-group">
+                      <div class="col-md-4 col-sm-4 col-xs-4 printWithPoTxt">
+                        <div class="formBigTextValue" style="font-size: 11px">Generated Demand No</div>
+                      </div>
+                      <div class="col-md-8 col-sm-8 col-xs-8 printWithPoIp">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="storeItemsWoPo.material_demand_no"
+                          name="ReturnAuthority" class="form-control input-sm" id="ReturnAuthority"
+                          placeholder="Generated Demand No" />
+                      </div>
+                      <div [hidden]="errorIssueMonitoring == ''" class="error">{{errorIssueMonitoring}}</div>
+                    </div>
+                    <div *ngIf="isCurrentDateOnly" class="row row form-group ">
+                      <div class="col-md-4 col-sm-4 col-xs-4 printWithPoTxt">
+                        <div class="formNormalTextValue">Date</div>
+                      </div>
+                      <div class="col-md-8 col-sm-8 col-xs-8 printWithPoIp">
+                        <input type="text" [disabled]="true" [(ngModel)]="storeItemsWoPo.date_issued" name="date"
+                          class="form-control input-sm" id="date" placeholder="Date" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-sm-4 col-xs-4">
+                    <div class="row center-align">
+                      <h6> <strong> Qatar Armed forces </strong></h6>
+                    </div>
+                    <div class="row center-align">
+                      <h6>
+                        <strong> (Main Technical Store - Signal force)</strong>
+                      </h6>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-sm-4 col-xs-4">
+                    <div class=" row row form-group ">
+                      <div class="col-md-4 col-sm-4 col-xs-4 printWithPoTxt">
+                        <div class="formBigTextValue" style="font-size: 11px">Manual Demand No<span class="error">*</span> </div>
+                      </div>
+                      <div class="col-md-8 col-sm-8 col-xs-8 printWithPoIp">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="storeItemsWoPo.manual_demand_no"
+                          name="RequestReason" class="form-control input-sm" id="RequestReason"
+                          placeholder="Manual Demand No" />
+                      </div>
+                      <div [hidden]="errorStoreWithoutPoManualDemandNo == ''" class="error">
+                        {{errorStoreWithoutPoManualDemandNo}}</div>
+                    </div>
+                    <div class="row row form-group ">
+                      <div class="col-md-4 col-sm-4 col-xs-4 printWithPoTxt">
+                        <div class="formNormalTextValue">Department<span class="error">*</span> </div>
+                      </div>
+                      <div class="col-md-8 col-sm-8 col-xs-8 printWithPoIp">
+                        <select class="form-control input-sm" [disabled]="isReadOnly"
+                          [(ngModel)]="storeItemsWoPo.department" (change)="($event)">
+                          <option *ngFor="let dept of DepartmentList" [value]="dept.label">{{dept.label}}</option>
+                        </select>
+                      </div>
+                      <div [hidden]="errorStoreWithoutPoDepartment == ''" class="error">
+                        {{errorStoreWithoutPoDepartment}}</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row ">
+                  <div class="form-group" *ngIf="opr==0">
+                    <div class="col-md-9 col-sm-9 col-xs-9 form-inline iab" *ngIf="opr!=2">
+                      <label for="material_id">Enter Material:</label>
+                      <ng-select id="materialList{{i}}" class="selectMaterialDD form-control" style="padding: 0px;"
+                        id="material_id" [disabled]="isReadOnly" [items]="this.NcArrrayList" bindLabel="label"
+                        bindValue="material_id" [(ngModel)]="this.materialwoPo">
+                      </ng-select>
+                      <label for="Quant">Quantity:</label>
+                      <input type="text" [(ngModel)]="this.quantitywoPo" name="quantity" id="Quant" class="form-control"
+                        placeholder="Quantity" />
+                      <button type="submit" class="btn btn-default btn-color"
+                        (click)="addFieldsValue(this.materialwoPo,this.quantitywoPo,'oldLoanItem')">Submit</button>
+                      <button type="submit" class="btn btn-default btn-color"
+                        (click)="clearstoreItemsWoPoValue()">Clear</button>
+                    </div>
+                  </div>
+                  <table class="table table-striped table-bordered tableContainer">
+                    <thead>
+                      <tr>
+                        <th class="text-center printtablehead">Item Name</th>
+                        <th class="text-center printtablehead">Item Part No</th>
+                        <th class="text-center printtablehead">Warranty</th>
+                        <th class="text-center printtablehead">Serial No</th>
+                        <th class="text-center printtablehead statusWidth">Status</th>
+                        <th class="text-center printtablehead">Site Name</th>
+                        <th class="text-center printtablehead">Remarks</th>
+                        <th class="text-center hidePrint printtablehead" *ngIf="opr==0">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let ItemsWoPoField of ItemsWoPoArray; let i = index">
+                        <td class="zeroPaddingItemWOPO">
+                          <input id="materialList{{i}}" [disabled]="isItemNameOnly"
+                            [(ngModel)]="ItemsWoPoField.item_name" class="form-control printtabledata" type="text"
+                            name="{{ItemsWoPoField.label}}" />
+                        </td>
+                        <td class="zeroPaddingItemWOPO">
+                          <input id="part_no{{i}}" [disabled]="isItemPartNoOnly"
+                            [(ngModel)]="ItemsWoPoField.item_part_no" class="form-control printtabledata" type="text"
+                            name="{{ItemsWoPoField.part_no}}" />
+                        </td>
+                        <td class="zeroPaddingItemWOPO">
+                          <input id="expireDate{{i}}" [disabled]="isAddonly" [(ngModel)]="ItemsWoPoField.warranty"
+                            class="form-control printtabledata" type="text" name="{{ItemsWoPoField.expireDate}}" />
+                        </td>
+                        <td class="zeroPaddingItemWOPO">
+                          <input id="serial_no{{i}}" [disabled]="isItemSerialNo" [(ngModel)]="ItemsWoPoField.serial_no"
+                            class="form-control printtabledata" type="text" name="{{ItemsWoPoField.serial_no}}" />
+                        </td>
+                        <td class="zeroPaddingItemWOPO statusWidth"> <select class="form-control printtabledata"
+                            [disabled]="isAddonly" [(ngModel)]="ItemsWoPoField.status">
+                            <option *ngFor="let status of this.statusChange" [value]="status.value">{{status.label}}
+                            </option>
+                          </select></td>
+                        <td class="zeroPaddingItemWOPO">
+                          <input id="site_name{{i}}" [disabled]="isAddonly" [(ngModel)]="ItemsWoPoField.site_name"
+                            class="form-control printtabledata" type="text" name="{{ItemsWoPoField.site_name}}" />
+                        </td>
+                        <td class="zeroPaddingItemWOPO">
+                          <input id="remarks{{i}}" [disabled]="isAddonly" [(ngModel)]="ItemsWoPoField.remarks"
+                            class="form-control printtabledata" type="text" name="{{ItemsWoPoField.remarks}}" />
+                        </td>
+                        <td class="hidePrint" *ngIf="opr==0">
+                          <button class="btn btn-default " [disabled]="isReadOnly" type="button"
+                            (click)="deleteStoreItemsWoPoValue(i)">Delete</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="row itemWoPoBottom printbottomcontent">
+                  <div class="col-md-4 col-sm-4 col-xs-4 ">
+                    <div class=" row row form-group ">
+                      <div class="col-md-4 col-sm-4 col-xs-4 printWithPoTxt">
+                        <div class="formNormalTextValue">Recepient <span class="error">*</span></div>
+                      </div>
+                      <div class="col-md-8 col-sm-8 col-xs-8 printWithPoIp">
+                        <select class="form-control input-sm" [disabled]="isReadOnly"
+                          [(ngModel)]="storeItemsWoPo.issued_by" name="issued_by">
+                          <option *ngFor="let issuedUser of storeUsersList;let i = index" [value]="issuedUser.username">
+                            {{issuedUser.username}}</option>
+                        </select>
+                      </div>
+                      <div [hidden]="errorStoreWithoutPoRecipient == ''" class="error">
+                        {{errorStoreWithoutPoRecipient}}</div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-sm-4 col-xs-4">
+                    <div class="row center-align">
+                      <h6> <strong>General Command approval</strong></h6>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-sm-4 col-xs-4 ">
+                    <div class=" row row form-group ">
+                      <div class="col-md-4 col-sm-4 col-xs-4 printWithPoTxt">
+                        <div class="formNormalTextValue">Applicant <span class="error">*</span> </div>
+                      </div>
+                      <div class="col-md-8 col-sm-8 col-xs-8 printWithPoIp">
+                        <input type="text" [disabled]="isReadOnly" [(ngModel)]="storeItemsWoPo.applicant"
+                          name="applicant" class="form-control input-sm" id="applicant" placeholder="Applicant" />
+                      </div>
+                      <div [hidden]="errorStoreWithoutPoApplicant == ''" class="error">
+                        {{errorStoreWithoutPoApplicant}}</div>
+                    </div>
+                  </div>
+                </div>
+                <hr class="line" style="margin-top:0 ">
+                <div class="col-md-12 center-align hideContent mb-1">
+                  <button type="button" (click)="addItemsWoPo(storeItemsWoPo)" class="primary-button btn btn-default"
+                    *ngIf="opr==0">{{title}}</button>
+                  <button type="button" (click)="updateItemsWoPo(storeItemsWoPo)" class="btn btn-default primary"
+                    *ngIf="opr==1">{{title}}</button>
+                  <button type="button" class="primary-button btn btn-default" (click)="Print('printItemsWoPo')"
+                    *ngIf="opr==2">Print</button>
+                  <button type="button" (click)="closeAndRedirect()" class="btn btn-default">
+                    Cancel </button>
+                  <br />
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

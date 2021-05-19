@@ -1,0 +1,137 @@
+<div class="container">
+  <div class="listgroup content-margin">
+    <div class="row">
+      <div class="col-md-12" style="margin-top:0px;">
+        <div class="success-register">{{successMessage}}</div>
+        <div class="col-md-12">
+          <div class="panel-group">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <div class="inline-display">
+                  <h3 class="panel-title approveuserpage-head">Approval Form</h3>
+                </div>
+                <div style="float:right;" class="inline-display" style="visibility: hidden;">(<span style="color:red"> * </span>) Mandatory</div>
+              </div>
+              <div class="panel-body" *ngIf="user.request_type == 'REGISTER'">
+                  <hr class="line" style="margin-top:0 ">
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label for="username">
+                        User Name</label>
+                    <input type="text" readonly="true" [(ngModel)]="user.username" name="username" id="username" class="form-control"  placeholder="User Name" />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="firstname">
+                        First Name</label>
+                    <input type="text" readonly="true" [(ngModel)]="user.firstname" name="firstname" id="firstname" class="form-control"  placeholder="First Name" />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="lastname">
+                        Last Name</label>
+                    <input type="text" readonly="true" [(ngModel)]="user.lastname" name="lastname" id="lastname" class="form-control"  placeholder="Last Name" />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="MilitaryId">
+                        Military ID</label>
+                    <input type="text" readonly="true" [(ngModel)]="user.MilitaryId" name="MilitaryId" id="MilitaryId" class="form-control"  placeholder="Military ID" />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="mobile">
+                        Mobile</label>
+                    <input type="text" readonly="true" [(ngModel)]="user.mobile" name="mobile" id="mobile" class="form-control"  placeholder="Mobile" />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="description">
+                        Description</label>
+                    <textarea [(ngModel)]="user.description" readonly="true" name="description" id="description" class="form-control request-desc"  placeholder="Description" ></textarea>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="RoleId">
+                        Role <span style="color:red">*</span></label>
+                    <select [(ngModel)]="user.RoleId" [attr.disabled]="user.status == 1?'':null"  name="RoleId" id="RoleId" class="form-control">
+                      <option *ngFor="let RolesDetail of RolesDetails; let i = index;" value="{{RolesDetail.RoleId}}">
+                        {{ RolesDetail.RoleName }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="primary_language">
+                        Primary Language <span style="color:red">*</span></label>
+                    <select [(ngModel)]="user.primary_language" [attr.disabled]="user.status == 1?'':null"  name="primary_language" id="primary_language" class="form-control">
+                      <option *ngFor="let lprimary_language of primary_language; let i = index;" value="{{lprimary_language.id}}">
+                        {{ lprimary_language.label }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="reporting_to">
+                        Reporting To <span style="color:red">*</span></label>
+                    <select [(ngModel)]="user.reporting_to" [attr.disabled]="user.status == 1?'':null"   name="reporting_to" id="reporting_to" class="form-control">
+                      <option *ngFor="let UserDetail of UserDetails; let k = index;" value="{{UserDetail.id}}">
+                        {{ UserDetail.username }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="reason">
+                        Note</label>
+                    <textarea [(ngModel)]="user.reason" [attr.disabled]="user.status == 1?'':null" name="reason" id="reason" class="form-control"  placeholder="Reason" ></textarea>
+                  </div>
+                </div>
+                <div class="col-md-12 center-align">
+                    <hr class="line">
+                </div>
+                <div class="col-md-12 center-align">
+                    <button type="button" *ngIf="(user.status == 0 || user.status == 2) && user.request_type == 'REGISTER'" (click)="saveUser('1')" class="primary btn btn-default primary">
+                              {{'Approve'| translate}}</button>
+                    <button type="button" *ngIf="user.status == 0 && user.request_type == 'REGISTER'" (click)="saveUser('2')" class="primary btn btn-default primary">
+                       {{'Reject'| translate}}
+                    </button>
+                    <button type="button" *ngIf="user.status != 1 && user.request_type == 'PASSWORD'" (click)="saveUser('3')" class="primary btn btn-default primary">
+                              {{'Generate'| translate}}</button>
+                    <button type="button" (click)="closeAndRedirect()" class="btn btn-default">
+                              {{'Back'| translate}}</button>
+                    <br/>
+                  </div>
+              </div>
+              <div class="panel-body" *ngIf="user.request_type == 'PASSWORD'">
+                  <hr class="line" style="margin-top:0 ">
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label for="username">
+                        User Name</label>
+                    <input type="text" readonly="true" [(ngModel)]="user.username" name="username" id="username" class="form-control"  placeholder="User Name" />
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="username">
+                        {{ user.status != 1 ? 'New Generated Password': 'Password Generated was:'}}</label>
+                    <input type="text" readonly="true" value="{{'Secure_'+user.MilitaryId}}" name="username" id="username" class="form-control"  placeholder="Password" />
+                  </div>
+                </div>
+                <div class="col-md-12 center-align">
+                    <hr class="line">
+                </div>
+                <div class="col-md-12 center-align">
+                    <button type="button" *ngIf="(user.status == 0 || user.status == 2) && user.request_type == 'REGISTER'" (click)="saveUser('1')" class="primary btn btn-default primary">
+                              {{'Approve'| translate}}</button>
+                    <button type="button" *ngIf="user.status == 0 && user.request_type == 'REGISTER'" (click)="saveUser('2')" class="primary btn btn-default primary">
+                       {{'Reject'| translate}}
+                    </button>
+                    <button type="button" *ngIf="user.status != 1 && user.request_type == 'PASSWORD'" (click)="saveUser('3')" class="primary btn btn-default primary">
+                              {{'Generate'| translate}}</button>
+                    <button type="button" (click)="closeAndRedirect()" class="btn btn-default">
+                              {{'Back'| translate}}</button>
+                    <br/>
+                  </div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <!-- <div class="ar current-lang" [ngClass]="getArStyleClass()">
+        <app-nav ></app-nav>
+        </div> -->

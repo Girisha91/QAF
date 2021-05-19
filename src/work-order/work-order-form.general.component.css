@@ -1,0 +1,74 @@
+.workgeneral .card {
+    /* border-radius: 10px; */
+    background-color: #fff;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    margin-left: 2% !important;
+    margin-right: 2% !important;
+    margin-bottom: 5% !important;
+}
+
+.workgeneral .mtb-1{
+margin-top: 1% !important;
+margin-bottom: 1% !important;
+}
+.workgeneral .mb-2{
+    margin-bottom: 2%;
+}
+.workgeneral .distinctForm{
+    background-color: #ffffff;
+}
+.workgeneral .mt-1{
+    margin-top: 1% !important;
+    }
+.workgeneral .ml-0{
+    margin-left: 0;
+}
+.workgeneral .pull-right{
+    margin-right: 5px;
+    float: right !important;
+}
+.workgeneral .distinctForm{
+    background-color: none;
+}
+
+.workgeneral .header{
+    background-color: #ECECEC;
+    padding: 0 !important;
+}
+.workgeneral .container{
+    width: 100% !important;
+    padding: 0 !important;
+}
+
+.workgeneral .dpblk{
+    display: block;
+}
+
+.workgeneral .headcol {
+    /* border-top-left-radius: 10px;
+   border-top-right-radius: 10px; */
+    background: #ECECEC;
+    margin-left: 1.1%;
+    width: 97.7%;
+    max-width: 100%;
+}
+
+@media only screen and (min-width: 1500px) {
+    .workgeneral .headcol {
+        max-width: 98%;
+        min-width: 98.6%;
+        margin-left: 1%;
+    }
+}
+
+@media only screen and (min-width: 1920px) {
+    .workgeneral .headcol {
+        width: 98.6%;
+        margin-left: 0.7%;
+    }
+}
+
+
+.workgeneral .mb-1{
+    margin-bottom: 1%;
+}

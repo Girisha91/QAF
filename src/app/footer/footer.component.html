@@ -1,0 +1,17 @@
+<div class="row footer">
+  <div class="col-md-12 footer-text" *ngIf="!isLangArabic">
+      <div class="col-md-8 align-left">
+          {{'Copyright © 2018 ArmedForces. All rights reserved' | translate }}</div>
+          <div class="col-md-4 align-right">{{'Version'| translate}}</div>
+   </div>
+  
+
+   <div class="col-md-12 footer-text" *ngIf="isLangArabic">
+      <div class="col-md-8 align-left">
+        {{'Version'| translate}}
+         </div>
+          <div class="col-md-4 align-right">
+              {{'Copyright © 2018 ArmedForces. All rights reserved' | translate }}
+          </div>
+   </div>
+</div>

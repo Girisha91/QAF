@@ -1,0 +1,175 @@
+
+<div class="store-margin">
+        <div class="row store-trans-header-bg mlr-0">
+            <div class="col-md-5 pull-left">
+                    <strong class="storeHistoryHead"  style="margin-bottom: 10px">Store Transaction</strong>
+                <!-- <div class=" form-inline" >
+                    <strong class="storeHead">Store Items</strong>
+                    <input type="text" style="width: auto;" [(ngModel)]="serialNo" name="serial_no" class="form-control"
+                      id="serial_no" placeholder="Enter Serial Number :">
+                    <button type="submit" class="btn btn-sm btn-color" (click)="searchSerialNum(this.serialNo)">Submit</button>
+                    <button type="submit" class="btn btn-sm btn-color" (click)="clearSerialNoSearch()">Clear</button>
+                  </div> -->
+              </div>
+            <div class="col-md-7 pull-right storesmbtn">
+                <div class="btn-group">
+                    <button type="button" class="btn storesmbtn" routerLink="/storewithoutPo"><i class="fa fa-plus" ></i>Add items</button>
+                    <button type="button" class="btn storesmbtn" routerLink="/store/purchase-order/add"><i class="fa fa-plus" ></i>Add PO</button>
+                    <button type="button" class="btn storesmbtn" routerLink="/StoreItemList"><i class="fa fa-database" ></i>Material DB</button>
+                    <button type="button" class="btn storesmbtn" routerLink="/store/supplier"><i class="fa fa-database" ></i>Supplier DB</button>
+                    <button type="button" class="btn storesmbtn" routerLink="/store/demandBookList"><i class="fa fa-print" ></i>Demand Book</button>
+                    <button type="button" class="btn storesmbtn" routerLink="/storeReport"><i class="fa fa-file" ></i>Report</button>
+                  </div>
+                <!-- <ul class="nav nav-tabs">
+                  <li> <a class="storenav storesmbtn" routerLink="/storewithoutPo"><i class="fa fa-plus"></i>Add items</a></li>
+                  <li> <a class="storenav storesmbtn" routerLink="/store/purchase-order/add"><i class="fa fa-plus"></i>Add PO</a></li>
+                  <li> <a class="storenav storesmbtn" routerLink="/StoreItemList"><i class="fa fa-database"></i>Material DB</a></li>
+                  <li> <a class="storenav storesmbtn" routerLink="/store/supplier"><i class="fa fa-database"></i>Supplier DB</a></li>
+                  <li> <a class="storenav storesmbtn" routerLink="/store/demandBookList"><i class="fa fa-print"></i>Demand Book</a></li>
+                  <li> <a class="storenav storesmbtn" routerLink="/storeReport"><i class="fa fa-file"></i>Report</a></li>
+                  <li> <a class="storenav storesmbtn" routerLink="/employee">Back</a></li>
+                </ul> -->
+              </div>
+        </div>
+        <div class="row plr-0 mlr-0 mb-1">
+            <div class="col-md-6 pull-left">
+                <ul class="nav nav-tabs">
+                  <li> <a class="storenav" routerLink="/store-items">MATERIAL</a></li>
+                  <li> <a class="storenav" routerLink="/store">PURCHASE ORDER</a></li>
+                  <li> <a class="storenav active" routerLink="/store-transaction">HISTORY</a></li>
+                </ul>
+              </div>
+        </div>
+    <div id="tranHistoryContainer" >
+        <table class="blockWiring-table pabx-table tbl-employee table highLightTable" style="width: 100%">
+            <tr class="tr-fonts">
+                <th (click)="sort('date_added')">{{'Date'| translate | titlecase}}
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'date_added',
+                                                    'fa-sort-asc': (column == 'date_added' && !isDesc),
+                                                    'fa-sort-desc': (column == 'date_added' && isDesc) }" aria-hidden="true">
+                    </i>
+                </th>
+                <!-- <th (click)="sort('date_added')">{{'Time'| translate | titlecase}}
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'date_added',
+                                                        'fa-sort-asc': (column == 'date_added' && !isDesc),
+                                                        'fa-sort-desc': (column == 'date_added' && isDesc) }" aria-hidden="true">
+                    </i>
+                </th> -->
+                <th (click)="sort('event_id')">{{'Event Id'| translate | titlecase}}
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'event_id',
+                                                            'fa-sort-asc': (column == 'event_id' && !isDesc),
+                                                            'fa-sort-desc': (column == 'event_id' && isDesc) }" aria-hidden="true">
+                    </i>
+                </th>
+                <th (click)="sort('task_name')">{{'Task Name'| translate | titlecase}}
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'task_name',
+                                                                    'fa-sort-asc': (column == 'task_name' && !isDesc),
+                                                                    'fa-sort-desc': (column == 'task_name' && isDesc) }"
+                        aria-hidden="true">
+                    </i>
+                </th>
+                <th (click)="sort('user_name')">{{'User Name'| translate | titlecase}}
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'user_name',
+                                                                        'fa-sort-asc': (column == 'user_name' && !isDesc),
+                                                                        'fa-sort-desc': (column == 'user_name' && isDesc) }"
+                        aria-hidden="true">
+                    </i>
+                </th>
+                <th (click)="sort('issued_by')">{{'Issued By'| translate | titlecase}}
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'issued_by',
+                                                                            'fa-sort-asc': (column == 'issued_by' && !isDesc),
+                                                                            'fa-sort-desc': (column == 'issued_by' && isDesc) }"
+                        aria-hidden="true">
+                    </i>
+                </th>
+
+                <th (click)="sort('received_by')">{{'Received By'| translate | titlecase}}
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'received_by',
+                                                                'fa-sort-asc': (column == 'received_by' && !isDesc),
+                                                                'fa-sort-desc': (column == 'received_by' && isDesc) }" aria-hidden="true">
+                    </i>
+                </th>
+                <th (click)="sort('refernce_no')">{{'Reference No'| translate | titlecase}}
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'refernce_no',
+                                                                    'fa-sort-asc': (column == 'refernce_no' && !isDesc),
+                                                                    'fa-sort-desc': (column == 'refernce_no' && isDesc) }"
+                        aria-hidden="true">
+                    </i>
+                </th>
+                <th (click)="sort('remarks')">{{'Remarks'| translate | titlecase}}
+                    <i class="fa" [ngClass]="{'fa-sort': column != 'remarks',
+                                                'fa-sort-asc': (column == 'remarks' && !isDesc),
+                                                'fa-sort-desc': (column == 'remarks' && isDesc) }" aria-hidden="true">
+                    </i>
+                </th>
+            </tr>
+            <tbody class="searchBox" *ngIf="showAdvanceSearch" [ngClass]="{'hidden-menu': !showMenu}">
+                <tr>
+                    <td>
+                        <input type="text" name="searchDate" [(ngModel)]="searchDate" class="searchDate textbox-height form-control" placeholder="{{ 'Date' | translate }}"
+                        />
+                    </td>
+
+                    <!-- <td>
+                        <input type="text" name="searchTime" [(ngModel)]="searchTime" class="searchTime textbox-height form-control" placeholder="{{ 'Time' | translate }}"
+                        />
+                    </td> -->
+                    <td>
+                        <input type="text" name="searchEventId" [(ngModel)]="searchEventId" class="searchEventId textbox-height form-control" placeholder="{{ 'Event Id' | translate }}"
+                        />
+                    </td>
+                    <td>
+                        <input type="text" name="searchTaskName" [(ngModel)]="searchTaskName" class="searchTaskName textbox-height form-control"
+                            placeholder="{{ 'Task Name' | translate }}" />
+                    </td>
+                    <td>
+                        <input type="text" name="searchUserName" [(ngModel)]="searchUserName" class="searchUserName textbox-height form-control"
+                            placeholder="{{ 'User Name' | translate }}" />
+                    </td>
+                    <td>
+                        <input type="text" name="searchIssuedBy" [(ngModel)]="searchIssuedBy" class="searchIssuedBy textbox-height form-control"
+                            placeholder="{{ 'Issued By' | translate }}" />
+                    </td>
+
+                    <td>
+                        <input type="text" name="searchReceivedBy" [(ngModel)]="searchReceivedBy" class="searchReceivedBy textbox-height form-control"
+                            placeholder="{{ 'Received By' | translate }}" />
+                    </td>
+                    <td>
+                        <input type="text" name="searchReferenceNo" [(ngModel)]="searchReferenceNo" class="searchReferenceNo textbox-height form-control"
+                            placeholder="{{ 'Reference No' | translate }}" />
+                    </td>
+                    <td>
+                        <input type="text" name="searchRemarks" [(ngModel)]="searchRemarks" class="searchRemarks textbox-height form-control" placeholder="{{ 'Remarks' | translate }}"
+                        />
+                    </td>
+                </tr>
+            </tbody>
+            <tbody *ngFor="let emp of EmployeeDetails  | storeTransactionSearch : searchDate : searchTime : searchEventId : searchTaskName : searchUserName : searchIssuedBy : searchReceivedBy : searchReferenceNo : searchRemarks | FilterPipe: queryString : searchableList | orderBy: {property: column, direction: direction} | paginate: {itemsPerPage: 8, currentPage:page, id: '1'}  ; let i = index">
+                <tr *ngIf="EmployeeDetails?.length > 0" (click)="setClickedRow(emp)" [class.active]="emp.highLightRow">
+                    <td>{{emp.date_added}}</td>
+                    <!-- <td>{{emp.date_added}}</td> -->
+                    <td>{{emp.event_id}}</td>
+                    <td>{{emp.task_name}}</td>
+                    <td>{{emp.user_name}}</td>
+                    <td>{{emp.issued_by}}</td>
+                    <td>{{emp.received_by}}</td>
+                    <td>{{emp.refernce_no}}</td>
+                    <td>{{emp.remarks}}</td>
+                </tr>
+            </tbody>
+            <tbody *ngIf="EmployeeDetails?.length == 0">
+                <tr>
+                    <td></td>
+                    <td colspan="1000">
+                        No records found.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="right-align">
+        <pagination-controls (pageChange)="page = $event" id="1" maxSize="5" directionLinks="true" autoHide="true">
+        </pagination-controls>
+    </div>
+</div>

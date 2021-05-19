@@ -1,0 +1,268 @@
+<div class="storesupplierform-container">
+        <div class="col-md-12 formPanelhead">
+                <div class="row">
+                    <div class="col-md-8 pull-left"><Strong>Store Supplier DB</Strong></div>
+                    <div class="col-md-4 pull-left">
+                            <span class="errortitle" *ngIf="!(opr==2)" style="float: right;">(<span class="error">*</span> Mandatory)</span>
+                            <button type="button" style="float: right;margin: 5px;" (click)="closeAndRedirect()" class="btn btn-default" *ngIf="opr==2">
+                                    Back </button>
+                            <!-- <button type="button" style="float: right;margin: 5px;" (click)="AddSS(ss)" class="btn btn-default primary" *ngIf="opr==0">
+                                    {{title}}</button>
+                                <button type="button" style="float: right;margin: 5px;" (click)="UpdateSS(ss)" class="btn btn-default primary" *ngIf="opr==1">
+                                    {{title}}</button>
+                                <button type="button" style="float: right;margin: 5px;" (click)="AddSS(ss)" class="btn btn-default primary" *ngIf="redirectToMateraialAdd==0">
+                                    Add Supplier</button>
+                                <button type="button" style="float: right;margin: 5px;" (click)="AddSS(ss)" class="btn btn-default primary" *ngIf="backButton==0">
+                                    Add Supplier</button>
+                                <button type="button" style="float: right;margin: 5px;" (click)="closeAndRedirect()" class="btn btn-default" *ngIf="opr==0">
+                                    Back </button>
+                                <button type="button" style="float: right;margin: 5px;" (click)="closeAndRedirect()" class="btn btn-default" *ngIf="opr==1">
+                                    Back </button>
+                                <button type="button" style="float: right;margin: 5px;" (click)="closeAndRedirect()" class="btn btn-default" *ngIf="opr==2">
+                                    Back </button>
+                                <button type="button" style="float: right;margin: 5px;" (click)="closeAndRedirectToPo()" class="btn btn-default" *ngIf="backButton==0">
+                                    Back </button>
+                    
+                                <button type="button" style="float: right;margin: 5px;" *ngIf="redirectToMateraialAdd==0" class="btn btn-default" routerLink='/StoreMaterialForm/add'>
+                                    Back </button> -->
+                    </div>
+                </div>
+            </div>
+
+
+            <hr class="line" style="margin-top:0 ">
+
+        <div class="row">
+                    <div class="form-group col-md-12">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4 inputHeight">
+                                            <label for="sup_bus_name">
+                                                Supplier bussiness name {{errorsup_bus_name}} </label><span class="error"> * </span>
+                                            <input type="text" [disabled]="isReadOnly" [(ngModel)]="ss.sup_bus_name" name="sup_bus_name" class="form-control" id="sup_bus_name"
+                                                placeholder="supplier bussiness name" />
+                                            <div [hidden]="errorsup_bus_name == ''" class="error">{{errorSup_bus_name}}</div>
+                                        </div>
+
+                                        <div class="form-group col-md-4 inputHeight">
+                                            <label for="sup_ref_name">
+                                                Supplier reference name {{errorsup_ref_name}}
+                                            </label><span class="error"> * </span>
+                                            <input type="text" [disabled]="isReadOnly" [(ngModel)]="ss.sup_ref_name" name="sup_ref_name" class="form-control" id="sup_ref_name"
+                                                placeholder="supplier reference name" />
+                                            <div [hidden]="errorsup_ref_name==''" class="error">{{errorSup_ref_name}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4 inputHeight">
+                                            <label for="contact_person_name1">
+                                                Contact person name 1
+                                            </label><span class="error"> * </span>
+                                            <input type="text" [disabled]="isReadOnly" [(ngModel)]="ss.contact_person_name1" name="contact_person_name1" class="form-control"
+                                                id="contact_person_name1" placeholder=" Contact person name 1 " />
+                                            <div [hidden]="errorcontact_person_name1==''" class="error">{{errorContact_person_name1}}</div>
+                                        </div>
+                                        <div class="form-group col-md-4 inputHeight">
+                                            <label for="address1">
+                                                Address 1
+                                            </label><span class="error"> * </span>
+                                            <input type="text" [disabled]="isReadOnly" [(ngModel)]="ss.address1" name="address1" class="form-control" id="address1" placeholder=" Address 1"
+                                            />
+                                            <div [hidden]="erroraddress1==''" class="error">{{errorAddress1}}</div>
+                                        </div>
+                                        <div class="form-group col-md-4 inputHeight">
+                                            <label for="country">
+                                                Country
+                                            </label><span class="error"> * </span>
+                                            <input type="text" [disabled]="isReadOnly" [(ngModel)]="ss.country" name="country" class="form-control" id="country" placeholder=" country "
+                                            />
+                                            <div [hidden]="errorcountry==''" class="error">{{errorCountry}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4 inputHeight">
+                                            <label for="contact_person_name2">
+                                                Contact person name 2
+                                            </label>
+                                            <input type="text" [disabled]="isReadOnly" [(ngModel)]="ss.contact_person_name2" name="contact_person_name2" class="form-control"
+                                                id="contact_person_name2" placeholder=" Contact person name 2" />
+                                            <div [hidden]="errorcontact_person_name2==''" class="error">{{errorContact_person_name2}}</div>
+
+                                        </div>
+                                        <div class="form-group col-md-4 inputHeight">
+                                            <label for="address2">
+                                                Address 2
+                                            </label>
+                                            <input type="text" [disabled]="isReadOnly" [(ngModel)]="ss.address2" name="address2" class="form-control" id="address2" placeholder=" address 2 "
+                                            />
+                                            <div [hidden]="errorAddress2==''" class="error">{{errorAddress2}}</div>
+
+                                        </div>
+                                        <div class="form-group col-md-4 inputHeight">
+                                            <label for="po_box_no">
+                                                Po Box Number
+                                            </label><span class="error"> * </span>
+                                            <input type="text" [disabled]="isReadOnly" [(ngModel)]="ss.po_box_no" name="po_box_no" class="form-control" id="po_box_no"
+                                                placeholder=" po box no" />
+                                            <div [hidden]="errorPo_box_no==''" class="error">{{errorPo_box_no}}</div>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4 inputHeight">
+                                            <label for="telephone1">
+                                                Telephone Number 1
+                                            </label><span class="error"> * </span>
+                                            <input type="text" [disabled]="isReadOnly" [(ngModel)]="ss.telephone1" name="telephone1" class="form-control" id="telephone1"
+                                                placeholder="telephone 1" />
+                                            <div [hidden]="errorTelephone1==''" class="error">{{errorTelephone1}}</div>
+
+                                        </div>
+                                        <div class="form-group col-md-4 inputHeight">
+                                            <label for="telephone2">
+                                                Telephone Number 2
+                                            </label>
+                                            <input type="text" [disabled]="isReadOnly" [(ngModel)]="ss.telephone2" name="telephone2" class="form-control" id="telephone2"
+                                                placeholder="telephone 2" />
+                                            <div [hidden]="errorTelephone2==''" class="error">{{errorTelephone2}}</div>
+
+                                        </div>
+                                        <div class="form-group col-md-4 inputHeight">
+                                            <label for="telephone3">
+                                                Telephone Number 3
+                                            </label>
+                                            <input type="text" [disabled]="isReadOnly" [(ngModel)]="ss.telephone3" name="telephone3" class="form-control" id="telephone3"
+                                                placeholder="telephone 3" />
+                                            <div [hidden]="errorTelephone3==''" class="error">{{errorTelephone3}}</div>
+
+                                        </div>
+                                        <div class="form-group col-md-4 inputHeight">
+                                            <label for="fax_no_1">
+                                                Fax Number 1
+                                            </label><span class="error"> * </span>
+                                            <input type="text" [disabled]="isReadOnly" [(ngModel)]="ss.fax_no_1" name="fax_no_1" class="form-control" id="fax_no_1" placeholder="fax no 1"
+                                            />
+                                            <div [hidden]="errorFax_no_1==''" class="error">{{errorFax_no_1}}</div>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4 inputHeight">
+                                            <label for="fax_no_2">
+                                                Fax Number 2
+                                            </label>
+                                            <input type="text" [disabled]="isReadOnly" [(ngModel)]="ss.fax_no_2" name="fax_no_2" class="form-control" id="fax_no_2" placeholder=" fax no 2"
+                                            />
+                                            <div [hidden]="errorFax_no_2==''" class="error">{{errorFax_no_2}}</div>
+
+                                        </div>
+                                        <div class="form-group col-md-4 inputHeight">
+                                            <label for="fax_no_3">
+                                                Fax Number 3</label>
+                                            <input type="text" [disabled]="isReadOnly" [(ngModel)]="ss.fax_no_3" name="fax_no_3" class="form-control" id="fax_no_3" placeholder="fax no 3"
+                                            />
+                                            <div [hidden]="errorFax_no_3==''" class="error">{{errorFax_no_3}}</div>
+
+                                        </div>
+                                        <div class="form-group col-md-4 inputHeight">
+                                            <label for="email1">
+                                                Email 1
+                                            </label><span class="error"> * </span>
+                                            <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" [disabled]="isReadOnly" [(ngModel)]="ss.email1" name="email1" class="form-control" id="email1" placeholder="email 1"
+                                            />
+                                            <div [hidden]="errorEmail1==''" class="error">{{errorEmail1}}</div>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4 inputHeight">
+                                            <label for="email2">
+                                                Email 2
+                                            </label>
+                                            <input type="email" [disabled]="isReadOnly" [(ngModel)]="ss.email2" name="email2" class="form-control" id="email2" placeholder="email 2"
+                                            />
+                                            <div [hidden]="errorEmail2==''" class="error">{{errorEmail2}}</div>
+
+                                        </div>
+                                        <div class="form-group col-md-4 inputHeight">
+                                            <label for="website">
+                                                Website
+                                            </label><span class="error"> * </span>
+                                            <input type="text" [disabled]="isReadOnly" [(ngModel)]="ss.website" name="website" class="form-control" id="website" placeholder="website"
+                                            />
+                                            <div [hidden]="errorWebsite==''" class="error">{{errorWebsite}}</div>
+
+                                        </div>
+                                        <div class="form-group col-md-4 inputHeight">
+                                            <label for="descriptions">
+                                                Descriptions
+                                            </label><span class="error"> * </span>
+                                            <input type="text" [disabled]="isReadOnly" [(ngModel)]="ss.descriptions" name="descriptions" class="form-control" id="descriptions"
+                                                placeholder="descriptions" />
+                                            <div [hidden]="errorDescriptions==''" class="error">{{errorDescriptions}}</div>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+
+                                        <div class="form-group col-md-4 inputHeight">
+                                            <label for="status">
+                                                Status
+                                            </label><span class="error"> * </span>
+                                            <select class="form-control" ngControl="st" [disabled]="isReadOnly" [(ngModel)]="ss.status">
+                                                <option *ngFor="let st of statusList" [value]="st.value">{{st.label}}</option>
+                                            </select>
+
+                                            <div [hidden]="errorStatus==''" class="error">{{errorStatus}}</div>
+                                        </div>
+                                        <!-- <div class="form-group col-md-4 inputHeight">
+                                            <label for="added_at">
+                                                added at
+                                            </label>
+                                            <input type="date" [disabled]="isReadOnly" [(ngModel)]="ss.added_at" name="added_at" class="form-control" id="added_at" placeholder="added at"
+                                            />
+                                            <div [hidden]="errorDateIns==''" class="error">{{errorDateIns}}</div>
+
+                                        </div>
+                                        <div class="form-group col-md-4 inputHeight">
+                                            <label for="updated_at">
+                                                updated at
+                                            </label>
+                                            <input type="date" [disabled]="isReadOnly" [(ngModel)]="ss.updated_at" name="updated_at" class="form-control" id="updated_at"
+                                                placeholder="updated at" />
+                                            <div [hidden]="errorDateIns==''" class="error">{{errorDateIns}}</div>
+
+                                        </div> -->
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+
+                            <hr class="line" style="margin-top:0 ">
+                <div class="col-md-12 center-align">
+                    
+                    <button type="button" (click)="AddSS(ss)" class="btn btn-default primary" *ngIf="opr==0">
+                        {{title}}</button>
+                    <button type="button" (click)="UpdateSS(ss)" class="btn btn-default primary" *ngIf="opr==1">
+                        {{title}}</button>
+                    <button type="button" (click)="AddSS(ss)" class="btn btn-default primary" *ngIf="redirectToMateraialAdd==0">
+                        Add Supplier</button>
+                    <button type="button" (click)="AddSS(ss)" class="btn btn-default primary" *ngIf="backButton==0">
+                        Add Supplier</button>
+                    <button type="button" (click)="closeAndRedirect()" class="btn btn-default" *ngIf="opr==0">
+                        {{'Cancel'| translate}} </button>
+                    <button type="button" (click)="closeAndRedirect()" class="btn btn-default" *ngIf="opr==1">
+                        {{'Cancel'| translate}} </button>
+                    <!-- <button type="button" (click)="closeAndRedirect()" class="btn btn-default" *ngIf="opr==2">
+                        {{'Cancel'| translate}} </button> -->
+                    <button type="button" (click)="closeAndRedirectToPo()" class="btn btn-default" *ngIf="backButton==0">
+                        {{'Cancel'| translate}} </button>
+                    <button type="button" *ngIf="redirectToMateraialAdd==0" class="btn btn-default" routerLink='/StoreMaterialForm/add'>
+                        Back </button>
+                    <br/>
+                </div>
+            </div>
+<!-- <div class="ar current-lang" [ngClass]="getArStyleClass()">
+        <app-nav ></app-nav>
+        </div> -->

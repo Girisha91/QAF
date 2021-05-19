@@ -1,0 +1,289 @@
+<div class="blkattach">
+    <div class="container">
+        <div class="listgroup content-margin">
+            <div class="col-md-12 whitebc"
+                [ngClass]="!isLangArabic? 'right-align':'left-align'">
+                <!-- <b class="page-head table-header-margin"
+                    [ngClass]="isLangArabic? 'right-align':'left-align'"
+                    *ngIf="opr==0">Add Block Wiring Attachment</b>
+                <b class="page-head table-header-margin"
+                    [ngClass]="isLangArabic? 'right-align':'left-align'"
+                    *ngIf="opr==1">Update Block Wiring Attachment</b> -->
+                <b class="page-head table-header-margin ftlt"
+                    *ngIf="opr==0">Add Block Wiring Attachment</b>
+                <b class="page-head table-header-margin ftlt"
+                    *ngIf="opr==1">Update Block Wiring Attachment</b>
+                <b class="page-head table-header-margin ftlt"
+                    *ngIf="opr==2">View Block Wiring Attachment</b>
+                <!-- <button type="button" (click)="AddBWA(bw)" class="btn
+                    btn-default primary" *ngIf="opr==0">
+                    Add Block Wiring Attachment</button>
+                <button type="button" (click)="UpdateBWA(bw)" class="btn
+                    btn-default primary" *ngIf="opr==1">
+                    Update Block Wiring Attachment</button> -->
+                <button type="button" *ngIf="opr==2" (click)="closeAndRedirect()" class="btn
+                    btn-default">
+                    Back </button>
+            </div>
+            <div class="row">
+                <div class="col-md-12" style="margin-top:0px;">
+                    <div class="col-md-12 plr-0">
+                        <div class="panel-group">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <div class="inline-display">
+                                        <h3 *ngIf="opr==0" class="panel-title">
+                                            Add Attachment</h3>
+                                        <h3 *ngIf="opr==1" class="panel-title">
+                                            Update Attachment</h3>
+                                        <h3 *ngIf="opr==2" class="panel-title">
+                                            View Attachment</h3>
+                                    </div>
+                                    <!-- <div style="float:right;"
+                                        class="inline-display">(
+                                        <span class="error"> * </span>)
+                                        Mandatory</div> -->
+                                </div>
+                                <div class="panel-body">
+                                    <div class="form-group col-md-12">
+                                        <div class="form-row">
+                                            <div class="col-md-12 center-align">
+                                                <div class="form-group
+                                                    col-md-3"></div>
+                                                <div class="form-group col-md-6"
+                                                    style="padding-left:120px;">
+                                                    <!-- <label for="file_name">
+                                                Add Attachment
+                                            </label> -->
+                                                    <input type="file"
+                                                        class="attach"
+                                                        *ngIf="!(opr==2)"
+                                                        (change)="fileChangeListener($event)"
+                                                        [(ngModel)]="bw.file_name"
+                                                        #file>
+                                                    <div *ngIf="opr!=0"
+                                                        style="float:
+                                                        left;margin: 10px;">File
+                                                        :
+                                                        <a target="_blank"
+                                                            href="{{environment_apikey
+                                                            +
+                                                            '/imagetest/uploads/block_wiring/'
+                                                            + bw.id + '/' +
+                                                            bw.file_name}}">{{bw.file_name}}</a>
+                                                    </div>
+                                                    <div
+                                                        [hidden]="errorFile_name==''"
+                                                        class="error">{{errorFile_name}}</div>
+                                                </div>
+                                                <div class="form-group
+                                                    col-md-3"></div>
+                                            </div>
+                                            <br/>
+                                                <div class="form-group
+                                                    col-md-4">
+                                                    <label for="originator">
+                                                        Originator
+                                                    </label>
+                                                    <input type="text"
+                                                        [disabled]="isReadOnly"
+                                                        [(ngModel)]="bw.originator"
+                                                        name="originator"
+                                                        class="form-control"
+                                                        id="originator"
+                                                        placeholder="Originator" />
+                                                    <div
+                                                        [hidden]="errorOriginator==''"
+                                                        class="error">{{errorOriginator}}</div>
+                                                </div>
+                                                <div class="form-group
+                                                    col-md-4">
+                                                    <label for="no_sn_points">
+                                                        No Sn points
+                                                    </label>
+                                                    <input type="number"
+                                                        [disabled]="isReadOnly"
+                                                        (change)="showTotal(bw)"
+                                                        [(ngModel)]="bw.no_sn_points"
+                                                        name="no_sn_points"
+                                                        class="form-control"
+                                                        id="no_sn_points"
+                                                        placeholder="No Sn points" />
+                                                    <div
+                                                        [hidden]="errorNo_sn_points==''"
+                                                        class="error">{{errorNo_sn_points}}</div>
+                                                </div>
+                                                <div class="form-group
+                                                    col-md-4">
+                                                    <label for="no_vn_points">
+                                                        No Vn points
+                                                    </label>
+                                                    <input type="number"
+                                                        [disabled]="isReadOnly"
+                                                        (change)="showTotal(bw)"
+                                                        [(ngModel)]="bw.no_vn_points"
+                                                        name="no_vn_points"
+                                                        class="form-control"
+                                                        id="no_vn_points"
+                                                        placeholder="No Vn points" />
+                                                    <div
+                                                        [hidden]="errorNo_vn_points==''"
+                                                        class="error">{{errorNo_vn_points}}</div>
+                                                </div>
+                                                <div class="form-group
+                                                    col-md-4">
+                                                    <label for="no_gn_points">
+                                                        No Gn points
+                                                    </label>
+                                                    <input type="number"
+                                                        [disabled]="isReadOnly"
+                                                        (change)="showTotal(bw)"
+                                                        [(ngModel)]="bw.no_gn_points"
+                                                        name="no_gn_points"
+                                                        class="form-control"
+                                                        id="no_gn_points"
+                                                        placeholder="No Gn points" />
+                                                    <div
+                                                        [hidden]="errorNo_gn_points==''"
+                                                        class="error">{{errorNo_gn_points}}</div>
+                                                </div>
+                                                <div class="form-group
+                                                    col-md-4">
+                                                    <label for="no_ln_points">
+                                                        No Ln points
+                                                    </label>
+                                                    <input type="number"
+                                                        [disabled]="isReadOnly"
+                                                        (change)="showTotal(bw)"
+                                                        [(ngModel)]="bw.no_ln_points"
+                                                        name="no_ln_points"
+                                                        class="form-control"
+                                                        id="no_ln_points"
+                                                        placeholder="No Ln points" />
+                                                    <div
+                                                        [hidden]="errorNo_ln_points==''"
+                                                        class="error">{{errorNo_ln_points}}</div>
+                                                </div>
+                                                <div class="form-group
+                                                    col-md-4">
+                                                    <label for="no_wap_points">
+                                                        No Wap points
+                                                    </label>
+                                                    <input type="number"
+                                                        [disabled]="isReadOnly"
+                                                        (change)="showTotal(bw)"
+                                                        [(ngModel)]="bw.no_wap_points"
+                                                        name="no_wap_points"
+                                                        class="form-control"
+                                                        id="no_wap_points"
+                                                        placeholder="No Wap points" />
+                                                    <div
+                                                        [hidden]="errorNo_wap_points==''"
+                                                        class="error">{{errorNo_wap_points}}</div>
+                                                </div>
+                                                <div class="form-group
+                                                    col-md-4">
+                                                    <label for="no_dect_points">
+                                                        No Dect points
+                                                    </label>
+                                                    <input type="number"
+                                                        [disabled]="isReadOnly"
+                                                        (change)="showTotal(bw)"
+                                                        [(ngModel)]="bw.no_dect_points"
+                                                        name="no_dect_points"
+                                                        class="form-control"
+                                                        id="no_dect_points"
+                                                        placeholder="No Dect points" />
+                                                    <div
+                                                        [hidden]="errorNo_dect_points==''"
+                                                        class="error">{{errorNo_dect_points}}</div>
+                                                </div>
+                                                <div class="form-group
+                                                    col-md-4">
+                                                    <label for="no_lms_points">
+                                                        No Lms points
+                                                    </label>
+                                                    <input type="number"
+                                                        [disabled]="isReadOnly"
+                                                        (change)="showTotal(bw)"
+                                                        [(ngModel)]="bw.no_lms_points"
+                                                        name="no_lms_points"
+                                                        class="form-control"
+                                                        id="no_lms_points"
+                                                        placeholder="No Lms points" />
+                                                    <div
+                                                        [hidden]="errorNo_lms_points==''"
+                                                        class="error">{{errorNo_lms_points}}</div>
+                                                </div>
+                                                <div class="form-group
+                                                    col-md-4">
+                                                    <label
+                                                        for="total_no_points">
+                                                        Total no points
+                                                    </label>
+                                                    <input type="number"
+                                                        [readonly]="true"
+                                                        [(ngModel)]="bw.total_no_points"
+                                                        name="total_no_points"
+                                                        class="form-control"
+                                                        id="total_no_points"
+                                                        placeholder="Total no points" />
+                                                    <div
+                                                        [hidden]="errorTotal_no_points==''"
+                                                        class="error">{{errorTotal_no_points}}</div>
+                                                </div>
+                                                <div class="form-group
+                                                    col-md-8">
+                                                    <label for="description">
+                                                        Description
+                                                    </label>
+                                                    <textarea
+                                                        [disabled]="isReadOnly"
+                                                        [(ngModel)]="bw.description"
+                                                        name="description"
+                                                        class="form-control"
+                                                        placeholder="Description"
+                                                        id="description"></textarea>
+                                                    <div
+                                                        [hidden]="errorDescription==''"
+                                                        class="error">{{errorDescription}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 center-align">
+                                            <button type="button" *ngIf="opr==1"
+                                                (click)="UpdateBWA(bw)"
+                                                class="btn btn-default primary">
+                                                Update Block Wiring Attachment</button>
+                                            <button type="button" *ngIf="opr==0"
+                                                (click)="AddBWA(bw)" class="btn
+                                                btn-default primary">
+                                                Add Block Wiring Attachment</button>
+                                            <button *ngIf="!(opr==2)" type="button"
+                                                (click)="closeAndRedirect()"
+                                                class="btn btn-default">
+                                                Cancel </button>
+                                            <br/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- <div class="col-md-12 center-align">
+                    <button type="button" *ngIf="opr==1" (click)="UpdateBWA(bw)" class="btn btn-default primary">
+                        Update Block wire attach</button>
+                    <button type="button" *ngIf="opr==0" (click)="AddBWA(bw)" class="btn btn-default primary">
+                        Add Block wire attach</button>
+                    <button type="button" (click)="closeAndRedirect()" class="btn btn-default">
+                        Cancel </button>
+                    <br/>
+                </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="ar current-lang" [ngClass]="getArStyleClass()">
+        <app-nav ></app-nav>
+        </div> -->
+        </div>

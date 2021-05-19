@@ -1,0 +1,42 @@
+.faltform .purchaseorder-container {
+    margin: 0%  2% 2% 2%;
+    border-radius: 3px;
+    background-color: #FFFFFF;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26), 0 2px 10px 0 rgba(0,0,0,0.16);
+    padding-bottom: 3%;
+  }
+.faltform .formPanelhead{ 
+line-height: 40px;
+height: 50px;
+opacity: 0.87;
+color: #700909;
+font-size: 20px;
+font-family: Roboto;
+}
+
+.faltform .form-horizontal .form-group{
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.faltform .vbhd{
+  visibility: hidden;
+}
+.faltform .vbvb{
+  visibility: visible;
+}
+.faltform .whitebc{
+  background-color: transparent !important;
+}
+.faltform .panel-heading{
+  height: 9vh;
+}
+ .faltform .ftlt {
+  float: left;
+  margin-left: 2% !important;
+}
+
+ .faltform .ftrt {
+  float: right;
+  margin-right: 2% !important;
+}

@@ -1,0 +1,216 @@
+.hardwareinfo .tbl-employee.table>tbody>tr>th {
+    border-top: none !important;
+    /* border-bottom: 2px solid #76102B; */
+}
+
+.hardwareinfo {
+    margin-left: 2% !important;
+    margin-right: 2% !important;
+}
+
+.hardwareinfo .card {
+    background-color: #fff;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    margin-bottom: 2%;
+}
+
+.hardwareinfo .header {
+    margin-top: 0 !important;
+    margin-left: 0 !important;
+    width: 100% !important;
+    background-color: #f1efef;
+    padding-top: 2%;
+}
+
+.hardwareinfo .mlr-0 {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.hardwareinfo .pl-0
+{
+    padding-left: 0;
+}
+
+.hardwareinfo .nav-tabs>li.active>a:focus, .hardwareinfo .nav-tabs>li.active>a:hover {
+    border: 1px solid #818181;
+}
+
+.hardwareinfo .clr-anch {
+    margin-left: 2%;
+    cursor: pointer;
+}
+
+.hardwareinfo .Pagename {
+    background: transparent;
+    margin: 0;
+}
+
+.hardwareinfo .srcrow {
+    margin-right: 0;
+    margin-left: 0;
+    margin-top: 2%;
+}
+
+.hardwareinfo .wd-80 {
+    width: 80%
+}
+
+.hardwareinfo .wd-100 {
+    width: 100%;
+}
+
+.hardwareinfo .drop-down {
+    border-radius: 5px;
+    height: 6vh;
+}
+
+.hardwareinfo .custom {
+    margin-top: 3%;
+    font-size: 2rem;
+    float: right;
+}
+
+.hardwareinfo .vertical-line {
+    width: 2px;
+    border: 1px solid black;
+}
+
+.hardwareinfo .add-anch {
+    margin-left: 4%;
+    margin-right: 2%;
+    cursor: pointer;
+}
+
+.hardwareinfo .mt-3 {
+    margin-top: 0.5vh;
+    margin-bottom: 0.5vh;
+}
+
+.hardwareinfo .primary {
+    color: #fff;
+    background-color: #76102B;
+    border: 0;
+    border-radius: 5px;
+    height: 5vh;
+    width: 35%;
+}
+
+.hardwareinfo .ftrt {
+    text-align: right;
+}
+
+.hardwareinfo .fixed-1 {
+    left: 7% !important;
+    min-width: 70px !important;
+    text-align: left;
+    font-weight: bolder;
+    padding: 5px 20px !important;
+    width: fit-content !important;
+    position: absolute;
+}
+
+.fix-top {
+    font-size: 1.2em !important;
+    height: 8vh;
+    line-height: 4.15em !important;
+}
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    .hardwareinfo .fix-top {
+        font-size: 1.2em !important;
+        height: 8vh;
+        line-height: 2.8em !important;
+    }
+}
+
+.hardwareinfo .ng2-pagination {
+    border-top: none !important;
+}
+
+.hardwareinfo .fixed-2 {
+    position: absolute;
+    left: 12% !important;
+    min-width: 70px !important;
+    text-align: left;
+    font-weight: bolder;
+    padding: 5px 20px !important;
+    width: fit-content !important;
+}
+
+.hardwareinfo .btn-primary {
+    color: #fff !important;
+    background-color: #76102B !important;
+    height: 5vh;
+}
+
+.hardwareinfo #tableContainer {
+    margin-left: 18% !important;
+}
+
+.hardwareinfo .h-6 {
+    height: 6vh;
+}
+
+@media only screen and (max-height: 700px) {
+    .hardwareinfo .mt-6 {
+        margin-top: 0%;
+    }
+}
+
+@media only screen and (min-height: 850px) and (max-height: 700px) {
+    .hardwareinfo .mt-6 {
+        margin-top: 3%;
+    }
+}
+
+@media only screen and (min-height: 950px) and (max-height: 850px) {
+    .hardwareinfo .mt-6 {
+        margin-top: 4%;
+    }
+}
+
+@media only screen and (min-height: 1050px) and (max-height: 950px) {
+    .hardwareinfo .mt-6 {
+        margin-top: 4%;
+    }
+}
+
+.hardwareinfo #tableContainer_switch {
+    padding-bottom: 1px;
+}
+
+.hardwareinfo .pr-7 {
+    padding-right: 7px;
+}
+
+@media only screen and (min-width: 1824px) {
+    .hardwareinfo .mt-6 {
+        margin-top: 4%;
+    }
+    /* .hardwareinfo #tableContainer {
+        margin-left: 15% !important;
+    } */
+    .hardwareinfo .custom {
+        margin-top: 6%;
+    }
+    .hardwareinfo .wd-80 {
+        width: 87%;
+    }
+}
+
+@media only screen and (min-height: 1000px) and (max-height: 1200px){
+    .hardwareinfo .drop-down {
+        height: 4vh;
+    }
+    .hardwareinfo .primary {
+        height: 3.5vh;
+    }
+    .hardwareinfo .mt-3 {
+        margin-top: 0.25vh;
+        margin-bottom: 0.25vh;
+    }
+    .hardwareinfo .btn-primary {
+        height: 3.5vh;
+    }
+}
